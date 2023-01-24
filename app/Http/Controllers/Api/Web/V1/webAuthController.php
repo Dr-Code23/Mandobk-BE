@@ -53,7 +53,7 @@ class webAuthController extends Controller
                 'username' => $user->username,
                 'full_name' => $user->full_name,
                 'role' => $user->role,
-            ]);
+            ] , 'User Authenticated Successfully');
         } else
             return $this->unauthenticatedResponse('You are not authorized', Response::HTTP_UNAUTHORIZED);
     }
