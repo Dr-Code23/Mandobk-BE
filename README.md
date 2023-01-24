@@ -15,3 +15,5 @@ php artisan migrate:fresh --seed
 ```
 
 - Copy all data in `.env.example` in `.env`
+
+- Default Credetials
