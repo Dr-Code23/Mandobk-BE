@@ -1,13 +1,14 @@
 <?php
 namespace App\Traits;
 
+use Illuminate\Http\Client\Response as ClientResponse;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 trait HttpResponse{
     /**
      * Error Response
-     * @param array $data
+     * @param mixed $data
      * @param int $code
      * @param string $message
      * @return JsonResponse
@@ -24,7 +25,7 @@ trait HttpResponse{
 
     /**
      * Success Response
-     * @param array $data
+     * @param mixed $data
      * @param int $code
      * @param string $msg
      * @return JsonResponse
@@ -58,7 +59,7 @@ trait HttpResponse{
     }
     /**
      * Validation Errors Response
-     * @param array $data
+     * @param mixed $data
      * @param int $code
      * @param string $msg
      * @return JsonResponse
@@ -71,5 +72,15 @@ trait HttpResponse{
             'type' => 'error',
             'code' => $code
         ] , $code);
+    }
+
+    public function unauthenticatedResponse(string $msg = 'You Are not authenticated' , int $code = Response::HTTP_FORBIDDEN , $data = null){
+
+        return response()->json([
+            'data' => $data,
+            'msg' => $msg,
+            'type' => 'error',
+            'code' => $code,
+        ], $code);
     }
 }

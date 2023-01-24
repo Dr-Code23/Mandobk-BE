@@ -14,7 +14,6 @@ return new class() extends Migration {
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('email')->nullable();
             $table->string('username')->unique();
             $table->string('password');
             $table->enum('role', [1, 2, 3, 4, 5])->comment('1 => company , 2 => storehouse , 3=> pharmacy , 4=> Super Pharmacy ,  5=> doctor');
