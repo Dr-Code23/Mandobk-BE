@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Http\Requests\Api\Web\V1;
-
-use App\Traits\HttpResponse;
-use App\Http\Traits\HttpResponseTrait;
-use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Foundation\Http\FormRequest;
+namespace App\Http\Requests\Api\Web\V1\Auth;
 use Illuminate\Validation\Rule as ValidationRule;
-use Illuminate\Validation\Rules\Password as RulesPassword;
+use App\Traits\HttpResponse;
+use Illuminate\Contracts\Validation\Validator;
 
-class AuthRequest extends FormRequest
+use Illuminate\Validation\Rules\Password as RulesPassword;
+use Illuminate\Foundation\Http\FormRequest;
+
+class webSignUpRequest extends FormRequest
 {
     use HttpResponse;
     protected $stopOnFirstFailure = true;
