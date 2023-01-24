@@ -2,11 +2,13 @@
 
 namespace App\Exceptions;
 
+use App\Traits\HttpResponse;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
 class Handler extends ExceptionHandler
 {
+    use HttpResponse;
     /**
      * A list of exception types with their corresponding custom log levels.
      *
@@ -45,6 +47,17 @@ class Handler extends ExceptionHandler
     {
         $this->reportable(function (Throwable $e) {
             //
+        });
+
+        // Handle Unauthorized User
+        $this->renderable(function (\Illuminate\Auth\AuthenticationException $e, $req) {
+
+            // Check if the route in api
+            if($req->is('web/*') || $req->is('mobile/*')){
+
+                // Return aun
+                return $this->unauthenticatedResponse('You are not authenticated');
+            }
         });
     }
 }
