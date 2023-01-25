@@ -20,11 +20,12 @@ return new class() extends Migration {
             $table->double('pur_price'); // Purchasing price
             $table->double('sel_price'); // Selling Price
             $table->double('bonus'); // Bonus
-            $table->timestamp('created_at')->default(now()); // Created At
-            $table->timestamp('expire_in')->default(now()); // Expire In
             $table->double('con'); // Concentrate
             $table->string('patch_number'); // Patch Number
+            $table->string('qr_code'); // QR Code
             $table->string('provider'); // Provider Name
+            $table->timestamp('created_at')->default(now()); // Created At
+            $table->timestamp('expire_in')->default(now()); // Expire In
         });
     }
 
@@ -35,5 +36,6 @@ return new class() extends Migration {
      */
     public function down()
     {
+        Schema::dropIfExists('categories');
     }
 };

@@ -11,6 +11,7 @@ return [
 
     // Sign Up Form
     'role' => ['company' => 'company', 'store' => 'storehouse', 'pharmacy' => 'pharmacy', 'doctor' => 'doctor'],
+    'role_name' => 'Role',
     'username' => 'Username',
     'full_name' => 'Full Name',
     'phone_number' => 'Phone Number',

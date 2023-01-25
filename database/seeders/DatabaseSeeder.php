@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use Database\Seeders\Api\Web\V1\categoriesSeeder;
 use Database\Seeders\Api\Web\V1\UserSeeder;
 use Illuminate\Database\Seeder;
 
@@ -23,7 +24,8 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
         $this->call([
-            UserSeeder::class
+            UserSeeder::class,
+            categoriesSeeder::class,
         ]);
     }
 }

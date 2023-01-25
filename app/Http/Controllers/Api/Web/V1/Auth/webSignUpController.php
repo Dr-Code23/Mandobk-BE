@@ -6,15 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Web\V1\Auth\webSignUpRequest as AuthWebSignUpRequest;
 use App\Http\Resources\Api\Web\V1\Translation\translationResource;
 use App\Models\User;
-use App\Traits\fileOperationTrait;
 use App\Traits\HttpResponse;
+use App\Traits\translationTrait;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class webSignUpController extends Controller
 {
     use HttpResponse;
-    use fileOperationTrait;
+    use translationTrait;
 
     private string $lang_directory_name = 'Auth';
 
@@ -25,9 +25,7 @@ class webSignUpController extends Controller
      */
     public function index()
     {
-        $login_view = $this->getWebTranslationFile("{$this->lang_directory_name}/signupTranslationFile.php");
-
-        return new translationResource($login_view);
+        return $this->translateResource("{$this->lang_directory_name}/signupTranslationFile.php");
     }
 
     /**
