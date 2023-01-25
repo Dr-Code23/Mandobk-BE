@@ -21,7 +21,7 @@ return new class() extends Migration {
             $table->double('sel_price'); // Selling Price
             $table->double('bonus'); // Bonus
             $table->timestamp('created_at')->default(now()); // Created At
-            $table->timestamp('expire_in'); // Expire In
+            $table->timestamp('expire_in')->default(now()); // Expire In
             $table->double('con'); // Concentrate
             $table->string('patch_number'); // Patch Number
             $table->string('provider'); // Provider Name
