@@ -6,6 +6,8 @@
 
 ## How to install
 
+- Copy all data in `.env.example` in `.env`
+
 ```console
 php artisan key:gen
 ```
@@ -14,7 +16,9 @@ php artisan key:gen
 php artisan migrate:fresh --seed
 ```
 
-- Copy all data in `.env.example` in `.env`
+```console
+php artisan storage:link
+```
 
 - Default Credetials
 
