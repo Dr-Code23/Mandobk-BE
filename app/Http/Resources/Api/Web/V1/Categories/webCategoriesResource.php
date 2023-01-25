@@ -26,7 +26,7 @@ class webCategoriesResource extends JsonResource
             'concentrate' => $this->con,
             'patch_number' => $this->patch_number,
             'provider' => $this->provider,
-            'qr_code' => $this->qr_code,
+            'bar_code' => asset('/storage/categories/'.$this->bar_code).'.svg',
             'expire_date' => date('d / m / Y', strtotime($this->expire_in)),
         ];
     }

@@ -22,7 +22,7 @@ return new class() extends Migration {
             $table->double('bonus'); // Bonus
             $table->double('con'); // Concentrate
             $table->string('patch_number'); // Patch Number
-            $table->string('qr_code'); // QR Code
+            $table->string('bar_code'); // QR Code
             $table->string('provider'); // Provider Name
             $table->timestamp('created_at')->default(now()); // Created At
             $table->timestamp('expire_in')->default(now()); // Expire In

@@ -27,7 +27,7 @@ class categoriesSeeder extends Seeder
                 'expire_in' => fake()->dateTime(),
                 'con' => fake()->randomFloat(),
                 'patch_number' => fake()->numberBetween(1, 100),
-                'qr_code' => fake()->imageUrl(),
+                'bar_code' => fake()->imageUrl(),
                 'provider' => fake()->name(),
             ]);
         }

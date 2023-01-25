@@ -20,7 +20,7 @@ class Category extends Model
         'con',
         'patch_number',
         'provider',
-        'qr_code',
+        'bar_code',
         'created_at',
         'expire_in',
     ];
