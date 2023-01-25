@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use App\Traits\HttpResponse;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -49,10 +50,15 @@ class Handler extends ExceptionHandler
         $this->renderable(function (\Illuminate\Auth\AuthenticationException $e, $req) {
             // Check if the route in api
             if ($req->is('web/*') || $req->is('mobile/*')) {
-                // Return aun
+                // Return anauthenticated user response from HttpResponse Trait
                 return $this->unauthenticatedResponse('You are not authenticated');
+            }
+        });
 
-                // return $req->cookie('jwt_token');
+        // Handle Not Found Response
+        $this->renderable(function (NotFoundHttpException $e, $req) {
+            if ($req->is('web/*') || $req->is('mobile/*')) {
+                return $this->error(null, 404, 'Not Found');
             }
         });
     }

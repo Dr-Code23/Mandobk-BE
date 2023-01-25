@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources\Api\Web\V1\Auth\Login;
+namespace App\Http\Resources\Api\Web\V1\Translation;
 
 use App\Traits\HttpResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class webLoginResource extends JsonResource
+class translationResource extends JsonResource
 {
     use HttpResponse;
 
@@ -19,7 +19,5 @@ class webLoginResource extends JsonResource
     public function toArray($request)
     {
         return $this->resourceResponse(parent::toArray($request));
-
-        // return parent::toArray($request);
     }
 }

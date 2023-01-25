@@ -20,7 +20,7 @@ trait HttpResponse
             'msg' => $msg,
             'type' => 'error',
             'code' => $code,
-        ]);
+        ], $code);
     }
 
     /**
@@ -94,7 +94,7 @@ trait HttpResponse
     public function resourceResponse(array $data, string $msg = 'Data Fetched Successfully', int $code = 200)
     {
         return [
-            $data,
+            'data' => $data,
             'msg' => $msg,
             'code' => $code,
             'type' => 'success',
