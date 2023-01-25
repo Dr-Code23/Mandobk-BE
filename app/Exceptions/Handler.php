@@ -4,7 +4,6 @@ namespace App\Exceptions;
 
 use App\Traits\HttpResponse;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Throwable;
 
 class Handler extends ExceptionHandler
 {
@@ -15,7 +14,6 @@ class Handler extends ExceptionHandler
      * @var array<class-string<\Throwable>, \Psr\Log\LogLevel::*>
      */
     protected $levels = [
-        //
     ];
 
     /**
@@ -24,7 +22,6 @@ class Handler extends ExceptionHandler
      * @var array<int, class-string<\Throwable>>
      */
     protected $dontReport = [
-        //
     ];
 
     /**
@@ -45,18 +42,17 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
-        $this->reportable(function (Throwable $e) {
-            //
+        $this->reportable(function (\Throwable $e) {
         });
 
         // Handle Unauthorized User
         $this->renderable(function (\Illuminate\Auth\AuthenticationException $e, $req) {
-
             // Check if the route in api
-            if($req->is('web/*') || $req->is('mobile/*')){
-
+            if ($req->is('web/*') || $req->is('mobile/*')) {
                 // Return aun
                 return $this->unauthenticatedResponse('You are not authenticated');
+
+                // return $req->cookie('jwt_token');
             }
         });
     }

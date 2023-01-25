@@ -7,6 +7,7 @@ use App\Http\Requests\Api\Web\V1\Auth\webLoginRequest as AuthWebLoginRequest;
 use App\Http\Requests\Api\Web\V1\Auth\webSignUpRequest as AuthWebSignUpRequest;
 use App\Models\User;
 use App\Traits\HttpResponse;
+use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
@@ -62,7 +63,8 @@ class webAuthController extends Controller
     }
 
     /**
-     * Logout User
+     * Logout User.
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function logout()
@@ -70,5 +72,11 @@ class webAuthController extends Controller
         Auth::logout();
 
         return $this->success(msg: 'User Logged out successfully');
+    }
+
+    public function user(HttpRequest $req)
+    {
+        // return $req->header('jwt_token');
+        return Auth::user();
     }
 }
