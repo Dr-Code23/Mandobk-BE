@@ -30,6 +30,11 @@ class webCategoriesRequest extends FormRequest
      */
     public function rules()
     {
+        $com_name = config('validationRules.categories_commercial_name');
+        $com_name[] = 'unique:categories,com_name';
+        $sc_name = config('validationRules.categories_scientefic_name');
+        $sc_name[] = 'unique:categories,sc_name';
+
         return [
             'commercial_name' => config('validationRules.categories_commercial_name'),
             'scientefic_name' => config('validationRules.categories_scientefic_name'),

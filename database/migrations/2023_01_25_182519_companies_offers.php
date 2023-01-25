@@ -12,10 +12,10 @@ return new class() extends Migration {
      */
     public function up()
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('companies_offers', function (Blueprint $table) {
             $table->id();
-            $table->string('com_name')->unique(); // Commercial Name
-            $table->string('sc_name')->unique(); // Scientefic Name
+            $table->string('com_name'); // Commercial Name
+            $table->string('sc_name'); // Scientefic Name
             $table->integer('qty'); // Quantity
             $table->double('pur_price'); // Purchasing price
             $table->double('sel_price'); // Selling Price
@@ -36,6 +36,5 @@ return new class() extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('categories');
     }
 };

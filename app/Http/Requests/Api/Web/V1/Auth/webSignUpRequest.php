@@ -36,10 +36,10 @@ class webSignUpRequest extends FormRequest
         $en_regex = config('regex.en');
 
         return [
-            'full_name' => 'required|alpha_dash|max:50',
+            'full_name' => 'required|string|max:50',
             'username' => ['required', "regex:$en_regex", 'unique:users,username', 'min:6', 'max:50'],
             'phone' => 'required',
-            'role' => ['required', 'in_array:1,2,3,5'],
+            'role' => ['required', 'in:1,2,3,5'],
             'password' => [
                 'required',
                 RulesPassword::min(8)->
