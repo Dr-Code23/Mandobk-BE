@@ -17,3 +17,13 @@ php artisan migrate:fresh --seed
 - Copy all data in `.env.example` in `.env`
 
 - Default Credetials
+
+`doctor` `doctor`
+
+`company` `company`
+
+`storehouse` `storehouse`
+
+`super_pharmacy` `super_pharmacy`
+
+`pharmacy` `pharmacy`

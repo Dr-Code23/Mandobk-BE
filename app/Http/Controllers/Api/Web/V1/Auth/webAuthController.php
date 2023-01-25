@@ -33,7 +33,7 @@ class webAuthController extends Controller
         $token = Auth::attempt(['username' => $req->username, 'password' => $req->password]);
         $jwt_cookie = cookie('jwt_token', $token, 60);
 
-        return $this->responseWithCookie($jwt_cookie, null, 'Account Created Successfully , and user logged in');
+        return $this->responseWithCookie($jwt_cookie, ['token' => \Illuminate\Support\Str::random(50)], 'Account Created Successfully , and user logged in');
     }
 
     /**
@@ -56,6 +56,7 @@ class webAuthController extends Controller
                 'username' => $user->username,
                 'full_name' => $user->full_name,
                 'role' => $user->role,
+                'token' => \Illuminate\Support\Str::random(50),
             ], 'User Authenticated Successfully');
         } else {
             return $this->unauthenticatedResponse('You are not authorized', Response::HTTP_UNAUTHORIZED);
