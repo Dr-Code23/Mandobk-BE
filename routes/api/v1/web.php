@@ -28,7 +28,8 @@ Route::group(['namespace' => '\App\Http\Controllers\Api\Web\V1'], function () {
         // Categories
 
         Route::group(['prefix' => 'categories', 'namespace' => 'Categories'], function () {
-            Route::get('/', 'webCategoriesController@index')->name('show-categories');
+            Route::get('/view', 'webCategoriesController@index')->name('web-categories-view');
+            Route::get('/', 'webCategoriesController@all')->name('show-categories');
             Route::post('/', 'webCategoriesController@store')->name('store-category');
         });
     });

@@ -27,6 +27,7 @@ class webCategoriesResource extends JsonResource
             'patch_number' => $this->patch_number,
             'provider' => $this->provider,
             'bar_code' => asset('/storage/categories/'.$this->bar_code).'.svg',
+            'entry_date' => date('d / m / Y', strtotime($this->created_at)),
             'expire_date' => date('d / m / Y', strtotime($this->expire_in)),
         ];
     }

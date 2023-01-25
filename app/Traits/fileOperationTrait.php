@@ -17,12 +17,12 @@ trait fileOperationTrait
         return $file_content;
     }
 
-    public function storeBarCodeSVG(string $file_name): bool
+    public function storeBarCodeSVG(string $directory, string $file_name): bool
     {
-        if (!is_dir(__DIR__.'/../../storage/app/public/categories/')) {
-            mkdir(__DIR__.'/../../storage/app/public/categories/');
+        if (!is_dir(__DIR__.'/../../storage/app/public/'.$directory)) {
+            mkdir(__DIR__.'/../../storage/app/public/'.$directory);
         }
-        $handle = fopen(__DIR__.'/../../storage/app/public/categories/'.$file_name.'.svg', 'w');
+        $handle = fopen(__DIR__.'/../../storage/app/public/'.$directory.'/'.$file_name.'.svg', 'w');
         fwrite($handle, DNS1D::getBarcodeSVG("$file_name", 'CODABAR', showCode: false));
         fclose($handle);
 

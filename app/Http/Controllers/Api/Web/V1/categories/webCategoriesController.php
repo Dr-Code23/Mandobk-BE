@@ -16,8 +16,13 @@ class webCategoriesController extends Controller
     use HttpResponse;
     use fileOperationTrait;
 
+    public function index()
+    {
+        return $this->success($this->getWebTranslationFile('categories/categoriesTranslationFile.php'), 'Data Fetched Successfully');
+    }
+
     /**
-     * Display a listing of the resource.
+     * Retrieve All Categories.
      *
      * @return webCategoriesCollection
      */
@@ -49,13 +54,13 @@ class webCategoriesController extends Controller
 
         // Generate A Barcode for the product
 
-        $num = rand(1, 1000000000);
-        while (file_exists(asset('storage/categories/'.$num.'.svg'))) {
-            $num = rand(1, 1000000000);
+        $random_number = rand(1, 1000000000);
+        while (file_exists(asset('storage/categories/'.$random_number.'.svg'))) {
+            $random_number = rand(1, 1000000000);
         }
         // Store the barcode
-        if ($this->storeBarCodeSVG($num)) {
-            $cat['bar_code'] = $num;
+        if ($this->storeBarCodeSVG('categories', $random_number)) {
+            $cat['bar_code'] = $random_number;
 
             return $this->success(new webCategoriesResource(Category::create($cat)), 'Category Created Successfully');
         }

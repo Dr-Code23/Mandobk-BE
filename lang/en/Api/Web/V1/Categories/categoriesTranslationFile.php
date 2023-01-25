@@ -12,4 +12,6 @@ return [
     'provider' => 'Provider',
     'entry_date' => 'Enter Date',
     'expire_date' => 'Expire Date',
+    'add_category_btn' => 'Add Category',
+    'print' => 'Print Categories',
 ];
