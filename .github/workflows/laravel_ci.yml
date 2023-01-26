@@ -39,7 +39,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      # - run: mysql -e 'CREATE DATABASE IF NOT EXISTS mandobk;'
+      - run: mysql -h 172.18.0.1 -u root -ppassword -e 'CREATE DATABASE IF NOT EXISTS mandobk;'
 
       # Docs: https://github.com/shivammathur/setup-php
       - name: Setup PHP
