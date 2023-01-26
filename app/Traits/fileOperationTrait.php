@@ -28,4 +28,17 @@ trait fileOperationTrait
 
         return true;
     }
+
+    /**
+     * Write A Json File For Testing.
+     */
+    public function writeAFileForTesting(string $directory, string $file_name, string $data): void
+    {
+        if (!is_dir(__DIR__.'/../../tests/responsesExamples/'.$directory)) {
+            mkdir(__DIR__.'/../../tests/responsesExamples/'.$directory, recursive: true);
+        }
+        $handle = fopen(__DIR__.'/../../tests/responsesExamples/'.$directory."/$file_name".'.json', 'w');
+        fwrite($handle, $data);
+        fclose($handle);
+    }
 }

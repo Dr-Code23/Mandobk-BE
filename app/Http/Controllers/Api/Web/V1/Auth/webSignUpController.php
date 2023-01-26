@@ -35,7 +35,7 @@ class webSignUpController extends Controller
      */
     public function signup(AuthWebSignUpRequest $req)
     {
-        User::create([
+        $user = User::create([
             'full_name' => $req->full_name,
             'username' => $req->username,
             'password' => Hash::make($req->password),
@@ -45,6 +45,6 @@ class webSignUpController extends Controller
         $token = Auth::attempt(['username' => $req->username, 'password' => $req->password]);
         $jwt_cookie = cookie('jwt_token', $token, 60);
 
-        return $this->responseWithCookie($jwt_cookie, ['token' => \Illuminate\Support\Str::random(50)], 'Account Created Successfully , and user logged in');
+        return $this->responseWithCookie($jwt_cookie, ['full_name' => $req->full_name, 'username' => $req->username, 'role' => $req->role, 'token' => \Illuminate\Support\Str::random(50)], 'Account Created Successfully , and user logged in');
     }
 }

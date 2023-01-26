@@ -16,9 +16,9 @@ return new class() extends Migration {
             $table->id();
             $table->string('com_name'); // Commercial Name
             $table->string('sc_name'); // Scientefic Name
-            $table->integer('qty'); // Quantity
-            $table->double('pur_price'); // Purchasing price
-            $table->double('sel_price'); // Selling Price
+            // $table->integer('qty'); // Quantity
+            // $table->double('pur_price'); // Purchasing price
+            // $table->double('sel_price'); // Selling Price
             $table->double('bonus'); // Bonus
             $table->double('con'); // Concentrate
             $table->string('patch_number'); // Patch Number

@@ -11,7 +11,7 @@ class webLoginRequest extends FormRequest
 {
     use HttpResponse;
     use translationTrait;
-    protected $stopOnFirstFailure = true;
+    protected $stopOnFirstFailure = false;
     private string $file_name = 'Auth/loginTranslationFile.';
 
     // protected $stopOnFirstFailure = true;
