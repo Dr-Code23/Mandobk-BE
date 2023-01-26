@@ -12,7 +12,7 @@ on:
 
 jobs:
   laravel-testing:
-    name: PHP $(matrix.php-versions)
+    name: (PHP ${{ matrix.php-versions }})
     runs-on: ubuntu-latest
     env:
       DB_DATABASE: mandobk
@@ -26,7 +26,6 @@ jobs:
           MYSQL_ROOT_PASSWORD: root
           MYSQL_ALLOW_EMPTY_PASSWORD: no
           MYSQL_DATABASE: mandobk
-          MYSQL_HOST: 127.0.0.1
 
         ports:
           - 3306/tcp
@@ -39,7 +38,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - run: mysql -h 172.18.0.1 -u root -ppassword -e 'CREATE DATABASE IF NOT EXISTS mandobk;'
+
+      - name: Create The DATABASE
+        run: mysql -u root -ppassword -e 'CREATE DATABASE IF NOT EXISTS mandobk;'
 
       # Docs: https://github.com/shivammathur/setup-php
       - name: Setup PHP
