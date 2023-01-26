@@ -26,11 +26,11 @@ jobs:
           MYSQL_ROOT_PASSWORD: root
           MYSQL_ALLOW_EMPTY_PASSWORD: no
           MYSQL_DATABASE: mandobk
+          MYSQL_HOST: 127.0.0.1
 
         ports:
           - 3306/tcp
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-
 
     strategy:
       fail-fast: false
@@ -39,8 +39,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - run: mysql -h 127.0.0.1 --port 3306 -u root -ppassword -e 'CREATE DATABASE IF NOT EXISTS mandobk;'
 
-       # Docs: https://github.com/shivammathur/setup-php
+      # Docs: https://github.com/shivammathur/setup-php
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
