@@ -52,7 +52,7 @@ jobs:
       - name: Start mysql service
         run: sudo systemctl start mysql.service
       - name: Create The DATABASE
-        run: mysql -u root -ppassword -e 'CREATE DATABASE IF NOT EXISTS mandobk;'
+        run: mysql -h 127.0.0.1 -u root -ppassword -e 'CREATE DATABASE IF NOT EXISTS mandobk;'
 
       - name: Get composer cache directory
         id: composer-cache
