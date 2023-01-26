@@ -39,8 +39,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Create The DATABASE
-        run: mysql -u root -ppassword -e 'CREATE DATABASE IF NOT EXISTS mandobk;'
 
       # Docs: https://github.com/shivammathur/setup-php
       - name: Setup PHP
@@ -49,6 +47,12 @@ jobs:
           php-version: ${{ matrix.php-versions }}
           extensions: mbstring, dom, fileinfo, mysql
           coverage: xdebug
+      # Local MySQL service in GitHub hosted environments is disabled by default.
+      # If you are using it instead of service containers, make sure you start it.
+      - name: Start mysql service
+        run: sudo systemctl start mysql.service
+      - name: Create The DATABASE
+        run: mysql -u root -ppassword -e 'CREATE DATABASE IF NOT EXISTS mandobk;'
 
       - name: Get composer cache directory
         id: composer-cache
