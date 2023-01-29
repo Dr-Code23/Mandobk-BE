@@ -23,16 +23,22 @@ Route::group(['namespace' => '\App\Http\Controllers\Api\Web\V1'], function () {
     });
 
     Route::group(['middleware' => ['auth:api', 'isAuthenticated']], function () {
-        Route::post('/t', [webAuthController::class, 'user']);
-
-        // Categories
-
-        Route::group(['prefix' => 'categories', 'namespace' => 'Categories'], function () {
-            Route::get('/view', 'webCategoriesController@index')->name('web-v1-categories-view');
-            Route::get('/', 'webCategoriesController@all')->name('show-categories');
-            Route::post('/', 'webCategoriesController@store')->name('store-category');
-        });
+        // Route::post('/t', [webAuthController::class, 'user']);
+        Route::group(
+            ['prefix' => 'dashboard', 'namespace' => 'Dashboard'],
+            function () {
+                Route::group(
+                    ['prefix' => 'data_entry', 'middleware' => ['hasDataEntryPermissions']],
+                    function () {
+                            Route::get('view', 'dataEntryController@lang_content');
+                            Route::get('', 'dataEntryController@index');
+                            Route::get('/{dataEntry}', 'dataEntryController@show');
+                            Route::post('', 'dataEntryController@store');
+                            Route::put ( '/{dataEntry}', 'dataEntryController@update');
+                            Route::delete('/{dataEntry}', 'dataEntryController@destroy');
+                    }
+                );
+            }
+        );
     });
 });
-
-Route::get('/loginsasdf', function () { })->name('login');

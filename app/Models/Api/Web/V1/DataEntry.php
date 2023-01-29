@@ -5,11 +5,10 @@ namespace App\Models\Api\Web\V1;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Category extends Model
+class DataEntry extends Model
 {
     use HasFactory;
-    protected $table = 'categories';
-    public $timestamps = false;
+    protected $table = 'data_entry';
     protected $fillable = [
         'com_name',
         'sc_name',
@@ -19,14 +18,14 @@ class Category extends Model
         'bonus',
         'con',
         'patch_number',
+        'limited',
         'provider',
         'bar_code',
-        'created_at',
-        'expire_in',
+        'entry_date',
+        'expire_date',
     ];
-
     protected $casts = [
-        'created_at' => 'datetime',
-        'expire_in' => 'datetime',
+        'entry_date' => 'datetime',
+        'expire_date' => 'datetime',
     ];
 }

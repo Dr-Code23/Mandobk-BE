@@ -23,4 +23,8 @@ trait translationTrait
     {
         return __('Api/Web/V1/'.$file).' '.__('validation.'.$key);
     }
+
+    public function translateWord(string $word_path){
+        return __('Api/Web/V1/' . $word_path);
+    }
 }

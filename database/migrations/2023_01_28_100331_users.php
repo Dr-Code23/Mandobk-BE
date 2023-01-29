@@ -16,7 +16,8 @@ return new class() extends Migration {
             $table->id();
             $table->string('username')->unique();
             $table->string('password');
-            $table->enum('role', [1, 2, 3, 4, 5])->comment('1 => company , 2 => storehouse , 3=> pharmacy , 4=> Super Pharmacy ,  5=> doctor');
+            $table->unsignedBigInteger('role_id');
+            $table->foreign('role_id')->on('roles')->references('id')->onUpdate('cascade')->onDelete('cascade');
             $table->string('full_name');
             $table->string('phone');
             $table->timestamp('email_verified_at')->nullable();

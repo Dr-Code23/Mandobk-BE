@@ -18,7 +18,6 @@ class webLogoutController extends Controller
     public function logout()
     {
         Auth::logout();
-
-        return $this->success(msg: 'User Logged out successfully');
+        return $this->success(msg: __('standard.logged_out'));
     }
 }

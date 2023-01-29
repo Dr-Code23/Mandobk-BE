@@ -16,3 +16,22 @@ Companies
         - صافي الربح اليومي
         - صافي الربح الشهري
         * عرض الاصناف اللي الشركه عملتها
+
+
+
+
+
+
+Permissions => [
+
+    CEO => [
+        roles_management => [Create , Read , Update , Delete],
+        products_management => [Create , Read , Update , Delete],
+        storehouse_offers_Management => [Create , Read , Update , Delete],
+        companies_offers_Management => [Create , Read , Update , Delete],
+        sales_Management => [Create , Read , Update , Delete],
+        pharmacy_receipent_management => [Create , Read , Update , Delete],
+        user_management => [Create , Read , Update , Delete],
+        database_management => [Backup]
+    ]
+]

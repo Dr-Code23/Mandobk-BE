@@ -30,7 +30,7 @@ return [
         'numeric' => ' must be between :min and :max.',
         'string' => ' must be between :min and :max characters.',
     ],
-    'boolean' => ' field must be true or false.',
+    'boolean' => 'Can Be True , false , 0 or 1',
     'confirmed' => ' confirmation does not match.',
     'current_password' => 'The password is incorrect.',
     'date' => ' is not a valid date.',
@@ -49,7 +49,7 @@ return [
     'email' => ' must be a valid email address.',
     'ends_with' => ' must end with one of the following: :values.',
     'enum' => 'The selected :attribute is invalid.',
-    'exists' => 'The selected :attribute is invalid.',
+    'exists' => 'Is Already In Use',
     'file' => ' must be a file.',
     'filled' => ' field must have a value.',
     'gt' => [
@@ -89,8 +89,8 @@ return [
     'max' => [
         'array' => ' must not have more than :max items.',
         'file' => ' must not be greater than :max kilobytes.',
-        'numeric' => ' must not be greater than :max.',
-        'string' => ' must not be greater than :max characters',
+        'numeric' => 'Cannot Be Greater Than :max.',
+        'string' => 'Cannot Be Greater Than :max characters',
     ],
     'max_digits' => ' must not have more than :max digits.',
     'mimes' => ' must be a file of type: :values.',
@@ -145,6 +145,58 @@ return [
     'url' => ' must be a valid URL.',
     'ulid' => ' must be a valid ULID.',
     'uuid' => ' must be a valid UUID.',
+
+    // Custom Error Messages
+    'custom_string' => [
+        'invalid' => 'Can Only Contain arabic letters , english letters , numbers and symbols ',
+    ],
+    'username' => [
+        'regex' => 'Must Start With One Letter , Must Be Between 6 and 40 alpha_numeric characters',
+    ],
+    'commercial_name' => [
+        'max' => 'Cannot Be Greater Than :max Characters',
+    ],
+    'scientefic_name' => [
+        'max' => 'Cannot Be Greater Than :max Characters',
+    ],
+    'quantity' => [
+        'regex' => 'Must Be A Valid Number And Greater Than Zero',
+    ],
+    'purchase_price' => [
+        'regex' => 'Must Be A Valid Double Value And Greater Than Zero',
+    ],
+    'selling_price' => [
+        'regex' => 'Must Be A Valid Double Value And Greater Than Zero',
+    ],
+    'bonus' => [
+        'regex' => 'Must Be A Valid Double Value And Greater Than Zero',
+    ],
+    'patch_number' => [
+        'regex' => 'Is Invalid',
+    ],
+    'concentrate' => [
+        'number' => [
+            'between' => 'Must Be A Valid Double Value',
+        ],
+        'regex' => 'Must Be A Valid Double Value And Greater Than Zero',
+    ],
+    'provider' => [
+        'max' => 'Cannot Be Greater Than :max Characters',
+    ],
+    'limited' => [
+        'boolean' => 'Cannot be true , false , 0 or 1',
+    ],
+    'entry_date' => [
+        'date' => [
+            'date_format' => 'Must Be In :format Format',
+        ],
+    ],
+    'expire_date' => [
+        'date' => [
+            'date_format' => 'Must Be In :format Format',
+            'after' => 'Must Be After '.__('Api/Web/V1/Dashboard/dataEntryTranslationFile.entry_date'),
+        ],
+    ],
 
     /*
     |--------------------------------------------------------------------------

@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Symfony\Component\HttpFoundation\Response;
 
 trait HttpResponse
@@ -91,7 +92,7 @@ trait HttpResponse
         throw new \Illuminate\Auth\AuthenticationException();
     }
 
-    public function resourceResponse(array $data, string $msg = 'Data Fetched Successfully', int $code = 200)
+    public function resourceResponse(array|JsonResource $data, string $msg = 'Data Fetched Successfully', int $code = 200)
     {
         return [
             'data' => $data,
@@ -99,5 +100,9 @@ trait HttpResponse
             'code' => $code,
             'type' => 'success',
         ];
+    }
+
+    public function forbiddenResponse($msg = 'You do not have permissions to access this resource' , $data= null , $code = Response::HTTP_FORBIDDEN){
+        return $this->error($data, $code, $msg);
     }
 }

@@ -12,7 +12,7 @@ return new class() extends Migration {
      */
     public function up()
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('data_entry', function (Blueprint $table) {
             $table->id();
             $table->string('com_name')->unique(); // Commercial Name
             $table->string('sc_name')->unique(); // Scientefic Name
@@ -24,8 +24,10 @@ return new class() extends Migration {
             $table->string('patch_number'); // Patch Number
             $table->string('bar_code'); // QR Code
             $table->string('provider'); // Provider Name
-            $table->timestamp('created_at')->default(now()); // Created At
-            $table->timestamp('expire_in')->default(now()); // Expire In
+            $table->boolean('limited')->default(false); // Limited Exchange
+            $table->timestamp('entry_date')->default(now()); // Entry Date In
+            $table->timestamp('expire_date')->default(now()); // Expire Date In
+            $table->timestamps();
         });
     }
 
@@ -36,6 +38,6 @@ return new class() extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('data_entry');
     }
 };

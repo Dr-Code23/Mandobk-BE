@@ -2,11 +2,10 @@
 
 namespace Database\Seeders\Api\Web\V1;
 
-use App\Models\User;
+use App\Models\Api\Web\V1\Role;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 
-class UserSeeder extends Seeder
+class RolesSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -17,12 +16,8 @@ class UserSeeder extends Seeder
     {
         $roles = ['ceo','monitor_and_evaluation', 'human_resource', 'markting', 'order_management', 'data_entry', 'company', 'pharmacy', 'super_pharmacy', 'storehouse', 'doctor', 'visitor'];
         for ($i = 1; $i <= count($roles); ++$i) {
-            User::create([
-                'username' => $roles[$i - 1],
-                'password' => Hash::make($roles[$i - 1]),
-                'full_name' => $roles[$i - 1],
-                'phone' => '123',
-                'role_id' => $i,
+            Role::create([
+                'name' => $roles[$i - 1],
             ]);
         }
     }

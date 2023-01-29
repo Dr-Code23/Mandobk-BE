@@ -36,10 +36,10 @@ class webSignUpRequest extends FormRequest
         $en_regex = config('regex.en');
 
         return [
-            'full_name' => 'required|string|max:50',
-            'username' => ['required', "regex:$en_regex", 'unique:users,username', 'min:6', 'max:50'],
+            'full_name' => ['required'],
+            'username' => ['required', 'regex:'.config('regex.username'), 'unique:users,username'],
             'phone' => 'required',
-            'role' => ['required', 'in:1,2,3,5'],
+            'role' => ['required'],
             'password' => [
                 'required',
                 RulesPassword::min(8)->
@@ -59,10 +59,7 @@ class webSignUpRequest extends FormRequest
             'role.required' => $this->translateErrorMessage($this->file_name.'role_name', 'required'),
             'username.required' => $this->translateErrorMessage($this->file_name.'username', 'required'),
             'password.required' => $this->translateErrorMessage($this->file_name.'password', 'required'),
-            'full_name.alpha_dash' => $this->translateErrorMessage($this->file_name.'full_name', 'alpha_dash'),
             'full_name.max' => $this->translateErrorMessage($this->file_name.'full_name', 'max.string'),
-            'username.max' => $this->translateErrorMessage($this->file_name.'username', 'max.string'),
-            'username.min' => $this->translateErrorMessage($this->file_name.'username', 'min.string'),
             'username.regex' => $this->translateErrorMessage($this->file_name.'username', 'regex'),
             'username.unique' => $this->translateErrorMessage($this->file_name.'username', 'unique'),
         ];

@@ -12,7 +12,7 @@ trait fileOperationTrait
     public function getWebTranslationFile(string $file_name, string $locale = null): array
     {
         $locale = $locale ?? app()->getLocale();
-        $file_content = require_once __DIR__."/../../lang/$locale/Api/Web/V1/$file_name";
+        $file_content = require_once __DIR__."/../../lang/$locale/Api/Web/V1/$file_name.php";
 
         return $file_content;
     }
@@ -20,7 +20,7 @@ trait fileOperationTrait
     public function storeBarCodeSVG(string $directory, string $file_name): bool
     {
         if (!is_dir(__DIR__.'/../../storage/app/public/'.$directory)) {
-            mkdir(__DIR__.'/../../storage/app/public/'.$directory);
+            mkdir(__DIR__.'/../../storage/app/public/'.$directory , recursive:true);
         }
         $handle = fopen(__DIR__.'/../../storage/app/public/'.$directory.'/'.$file_name.'.svg', 'w');
         fwrite($handle, DNS1D::getBarcodeSVG("$file_name", 'CODABAR', showCode: false));
@@ -40,5 +40,20 @@ trait fileOperationTrait
         $handle = fopen(__DIR__.'/../../tests/responsesExamples/'.$directory."/$file_name".'.json', 'w');
         fwrite($handle, $data);
         fclose($handle);
+    }
+
+    /**
+     * Delete A Barcode
+     * @param string|null $file_name
+     * @param string $directory
+     * @return bool
+     */
+    public function deleteBarCode(string $file_name = null , string $directory = 'Dashboard'){
+
+        if(is_file(__DIR__.'/../../storage/app/public/'.$directory.'/'.$file_name)){
+            unlink(__DIR__ . '/../../storage/app/public/' . $directory . '/' . $file_name);
+            return true;
+        }
+        return false;
     }
 }
