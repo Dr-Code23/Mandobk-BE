@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Api\Web\V1\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Web\V1\Auth\webLoginRequest as AuthWebLoginRequest;
 use App\Http\Resources\Api\Web\V1\Translation\translationResource;
+use App\Models\Api\Web\V1\Role;
 use App\Traits\HttpResponse;
+use App\Traits\StringTrait;
 use App\Traits\translationTrait;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,6 +16,7 @@ class webLoginController extends Controller
 {
     use HttpResponse;
     use translationTrait;
+    use StringTrait;
     private string $lang_directory_name = 'Auth';
 
     /**
@@ -23,7 +26,7 @@ class webLoginController extends Controller
      */
     public function index()
     {
-        return $this->translateResource("{$this->lang_directory_name}/loginTranslationFile.php");
+        return $this->translateResource("{$this->lang_directory_name}/loginTranslationFile");
     }
 
     /**
@@ -34,8 +37,8 @@ class webLoginController extends Controller
     public function login(AuthWebLoginRequest $req)
     {
         // Get Credentials
-        $username = htmlspecialchars($req->username);
-        $password = htmlspecialchars($req->password);
+        $username = $this->sanitizeString($req->username);
+        $password = $req->password;
 
         // Check if the user exists
         if ($token = Auth::attempt(['username' => $username, 'password' => $password])) {
@@ -44,12 +47,12 @@ class webLoginController extends Controller
 
             return $this->responseWithCookie($jwt_cookie, [
                 'username' => $user->username,
-                'full_name' => $user->full_name,
-                'role' => $user->role,
+                'full_name' => $this->strLimit($user->full_name),
+                'role' => Role::where('id', $user->role_id)->first('name')->name,
                 'token' => \Illuminate\Support\Str::random(50),
-            ], 'User Authenticated Successfully');
+            ], __('standard.logged_in'));
         } else {
-            return $this->unauthenticatedResponse('You are not authorized', Response::HTTP_UNAUTHORIZED);
+            return $this->forbiddenResponse(__('standard.not_authorized'), null ,Response::HTTP_UNAUTHORIZED);
         }
     }
 }
