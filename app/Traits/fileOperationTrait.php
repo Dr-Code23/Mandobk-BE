@@ -12,7 +12,7 @@ trait fileOperationTrait
     public function getWebTranslationFile(string $file_name, string $locale = null): array
     {
         $locale = $locale ?? app()->getLocale();
-        $file_content = require_once __DIR__."/../../lang/$locale/Api/Web/V1/$file_name.php";
+        $file_content = require_once __DIR__."/../../lang/$locale/".config('app.web_v1')."/$file_name.php";
 
         return $file_content;
     }

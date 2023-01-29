@@ -20,4 +20,14 @@ trait userTrait
 
         return in_array($role_name, $permissions);
     }
+
+    public function getAuthenticatedUserInformation()
+    {
+        return Auth::user();
+    }
+
+    public function getAuthenticatedUserId()
+    {
+        return Auth::user()->id;
+    }
 }

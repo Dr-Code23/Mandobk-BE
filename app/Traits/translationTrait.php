@@ -21,10 +21,10 @@ trait translationTrait
 
     public function translateErrorMessage(string $file, string $key)
     {
-        return __('Api/Web/V1/'.$file).' '.__('validation.'.$key);
+        return __(config('app.web_v1').'/'.$file).' '.__('validation.'.$key);
     }
 
     public function translateWord(string $word_path){
-        return __('Api/Web/V1/' . $word_path);
+        return __(config('app.web_v1').'/' . $word_path);
     }
 }

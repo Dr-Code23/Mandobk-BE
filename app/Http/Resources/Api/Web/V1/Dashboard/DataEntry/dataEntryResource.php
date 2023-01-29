@@ -2,10 +2,12 @@
 
 namespace App\Http\Resources\Api\Web\V1\Dashboard\DataEntry;
 
+use App\Traits\dateTrait;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class dataEntryResource extends JsonResource
 {
+    use dateTrait;
     /**
      * Transform the resource into an array.
      *
@@ -27,10 +29,10 @@ class dataEntryResource extends JsonResource
             'patch_number' => $this->patch_number,
             'provider' => $this->provider,
             'bar_code' => asset('/storage/data_entry/'.$this->bar_code).'.svg',
-            'entry_date' => date('d / m / Y', strtotime($this->entry_date)),
-            'expire_date' => date('d / m / Y', strtotime($this->expire_date)),
-            'created_at' => date('d / m / Y', strtotime($this->created_at)),
-            'updated_at' => date('d / m / Y', strtotime($this->updated_at)),
+            'entry_date' => $this->changeDateFormat($this->entry_date),
+            'expire_date' => $this->changeDateFormat($this->expire_date),
+            'created_at' => $this->changeDateFormat($this->created_at),
+            'updated_at' => $this->changeDateFormat($this->updated_at),
         ];
     }
 }

@@ -14,7 +14,7 @@ class RolesSeeder extends Seeder
      */
     public function run()
     {
-        $roles = ['ceo','monitor_and_evaluation', 'human_resource', 'markting', 'order_management', 'data_entry', 'company', 'pharmacy', 'super_pharmacy', 'storehouse', 'doctor', 'visitor'];
+        $roles = config('roles.all_roles');
         for ($i = 1; $i <= count($roles); ++$i) {
             Role::create([
                 'name' => $roles[$i - 1],

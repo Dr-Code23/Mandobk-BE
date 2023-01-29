@@ -145,6 +145,7 @@ return [
     'url' => ' must be a valid URL.',
     'ulid' => ' must be a valid ULID.',
     'uuid' => ' must be a valid UUID.',
+    'not_found' => 'Not Found',
 
     // Custom Error Messages
     'custom_string' => [
@@ -194,7 +195,7 @@ return [
     'expire_date' => [
         'date' => [
             'date_format' => 'Must Be In :format Format',
-            'after' => 'Must Be After '.__('Api/Web/V1/Dashboard/dataEntryTranslationFile.entry_date'),
+            'after' => 'Must Be After '.__(config('app.web_v1').'/Dashboard/dataEntryTranslationFile.entry_date'),
         ],
     ],
 

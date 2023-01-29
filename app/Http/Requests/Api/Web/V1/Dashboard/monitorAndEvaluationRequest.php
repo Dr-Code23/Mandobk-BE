@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Api\Web\V1\Auth;
+namespace App\Http\Requests\Api\Web\V1\Dashboard;
 
 use App\Traits\HttpResponse;
 use App\Traits\translationTrait;
@@ -8,14 +8,12 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password as RulesPassword;
 
-class webSignUpRequest extends FormRequest
+
+class monitorAndEvaluationRequest extends FormRequest
 {
     use HttpResponse;
     use translationTrait;
-    private string $file_name = 'Auth/signupTranslationFile.';
-
-    protected $stopOnFirstFailure = true;
-
+    private string $file_name = 'Dashboard/monitorAndEvaluationTranslationFile.';
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -34,35 +32,30 @@ class webSignUpRequest extends FormRequest
     public function rules()
     {
         return [
-            'full_name' => ['required'],
-            'username' => ['required', 'regex:'.config('regex.username'), 'unique:users,username'],
-            'phone' => 'required',
+            "full_name" => ['required'],
+            'username' => ['bail','required', 'regex:'.config('regex.username'), 'unique:users,username'.($this->method() == 'put' ? (','.$this->route('id').",id") : '')],
             'role' => ['required'],
             'password' => [
-                'required',
-                RulesPassword::min(8)->
-                    mixedCase()
+                $this->method() == 'post' ? 'required' : 'sometimes',
+                RulesPassword::min(8)
+                    ->mixedCase()
                     ->numbers()
                     ->symbols()
                     ->uncompromised(3),
             ],
         ];
     }
-
     public function messages()
     {
         return [
             'full_name.required' => $this->translateErrorMessage($this->file_name.'full_name', 'required'),
-            'phone.required' => $this->translateErrorMessage($this->file_name.'phone_number', 'required'),
-            'role.required' => $this->translateErrorMessage($this->file_name.'role_name', 'required'),
+            'role.required' => $this->translateErrorMessage($this->file_name.'role', 'required'),
             'username.required' => $this->translateErrorMessage($this->file_name.'username', 'required'),
             'password.required' => $this->translateErrorMessage($this->file_name.'password', 'required'),
-            'full_name.max' => $this->translateErrorMessage($this->file_name.'full_name', 'max.string'),
-            'username.regex' => $this->translateErrorMessage($this->file_name.'username', 'regex'),
+            'username.regex' => $this->translateErrorMessage($this->file_name.'username', 'username.regex'),
             'username.unique' => $this->translateErrorMessage($this->file_name.'username', 'unique'),
         ];
     }
-
     protected function failedValidation(Validator $validator)
     {
         throw new \Illuminate\Validation\ValidationException($validator, $this->validation_errors([$validator->errors()]));

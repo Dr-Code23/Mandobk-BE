@@ -22,7 +22,6 @@ class isAuthenticated
         if (!Auth::check()) {
             $this->throwNotAuthenticated();
         }
-
         return $next($request);
     }
 }

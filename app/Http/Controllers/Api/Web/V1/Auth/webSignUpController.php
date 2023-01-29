@@ -40,9 +40,9 @@ class webSignUpController extends Controller
     {
         $full_name = $this->sanitizeString($req->full_name);
         $username = $this->sanitizeString($req->username);
-        $role_name = $this->sanitizeString($req->role);
-        $role = Role::where('name', $role_name)->first(['id' , 'name']);
-        if ($role && in_array($role->name, ['company', 'pharmacy', 'super_pharmacy', 'storehouse', 'doctor'])) {
+        $role_id = $this->sanitizeString($req->role);
+        $role = Role::where('id', $role_id)->first(['id' , 'name']);
+        if ($role && in_array($role->name, config('roles.signup_roles'))) {
             // Valid Data
             User::create([
                 'full_name' => $full_name,
@@ -52,7 +52,7 @@ class webSignUpController extends Controller
                 'role_id' => $role->id,
             ]);
             $token = Auth::attempt(['username' => $req->username, 'password' => $req->password]);
-            $jwt_cookie = cookie('jwt_token', $token, 60);
+            $jwt_cookie = cookie('jwt_token', $token, 50);
 
             return $this->responseWithCookie($jwt_cookie, ['full_name' => $this->strLimit($full_name), 'username' => $username, 'role' => $role->name, 'token' => \Illuminate\Support\Str::random(50)], __('standard.account_created'));
         }
