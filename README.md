@@ -20,14 +20,17 @@ php artisan migrate:fresh --seed
 php artisan storage:link
 ```
 
-- Default Credetials
+## Default Credetials
 
-`doctor` `doctor`
-
-`company` `company`
-
-`storehouse` `storehouse`
-
-`super_pharmacy` `super_pharmacy`
-
-`pharmacy` `pharmacy`
+- `ceo` `ceo`
+- `data_entry` `data_entry`
+- `human_resource` `human_resource`
+- `monitor_and_evaluation` `monitor_and_evaluation`
+- `order_management` `order_management`
+- `markting` `markting`
+- `doctor` `doctor`
+- `company` `company`
+- `storehouse` `storehouse`
+- `pharmacy_sub_user` `pharmacy_sub_user`
+- `pharmacy` `pharmacy`
+- `visitor` `visitor`
