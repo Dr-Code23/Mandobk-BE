@@ -15,8 +15,7 @@ return [
         'pharmacy',
         'storehouse',
         'visitor',
-        'employee',
-        'pharmacy_sub_user'
+        'pharmacy_sub_user',
     ],
     'monitor_roles' => [
         'data_entry',
@@ -24,5 +23,12 @@ return [
         'order_management',
         'human_resource',
         'markting',
-    ]
+    ],
+    'human_resources_roles' => [
+        'data_entry',
+        'monitor_and_evaluation',
+        'order_management',
+        'human_resource',
+        'markting',
+    ],
 ];

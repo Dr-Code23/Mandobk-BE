@@ -39,6 +39,7 @@ Route::group(['namespace' => '\App\Http\Controllers\Api\Web\V1'], function () {
             ['prefix' => 'dashboard', 'namespace' => 'Dashboard'],
             function () {
                 // Data Entry
+
                 Route::group(
                     ['prefix' => 'data_entry', 'middleware' => ['hasDataEntryPermissions']],
                     function () {
@@ -62,6 +63,17 @@ Route::group(['namespace' => '\App\Http\Controllers\Api\Web\V1'], function () {
                         Route::get('/{user}', 'monitorAndEvaluationController@show');
                         Route::put('/{user}', 'monitorAndEvaluationController@update');
                         Route::delete('/{user}', 'monitorAndEvaluationController@destroy');
+                    }
+                );
+
+                // Human Resources
+
+                Route::group(
+                    ['prefix' => 'human_resources', 'middleware' => ['hasHumanResourcePermissions']],
+                    function () {
+                        Route::get('', 'humanResourceController@index')->name('human_resource_all');
+                        Route::get('{user}', 'humanResourceController@show')->name('human_resource_one');
+                        Route::match(['POST', 'PUT'], '', 'humanResourceController@storeOrUpdate')->name('human_resource_store');
                     }
                 );
             }

@@ -35,7 +35,7 @@ return [
     'current_password' => 'The password is incorrect.',
     'date' => ' is not a valid date.',
     'date_equals' => ' must be a date equal to :date.',
-    'date_format' => ' does not match the format :format.',
+    'date_format' => 'does not match the format :format.',
     'decimal' => ' must have :decimal decimal places.',
     'declined' => ' must be declined.',
     'declined_if' => ' must be declined when :other is :value.',
@@ -122,7 +122,7 @@ return [
     'regex' => ' format is invalid.',
     'required' => 'Cannot Be Empty',
     'required_array_keys' => ' field must contain entries for: :values.',
-    'required_if' => ' field is required when :other is :value.',
+    'required_if' => 'field is required when :other is :value.',
     'required_if_accepted' => ' field is required when :other is accepted.',
     'required_unless' => ' field is required unless :other is in :values.',
     'required_with' => ' field is required when :values is present.',
@@ -197,6 +197,10 @@ return [
             'date_format' => 'Must Be In :format Format',
             'after' => 'Must Be After '.__(config('app.web_v1').'/Dashboard/dataEntryTranslationFile.entry_date'),
         ],
+    ],
+    'human_resource' => [
+        'requried_if' => 'Is required when user_status is attendance',
+        'after' => 'Must be after :date',
     ],
 
     /*

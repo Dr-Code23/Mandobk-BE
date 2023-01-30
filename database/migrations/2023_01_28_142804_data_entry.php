@@ -25,8 +25,8 @@ return new class() extends Migration {
             $table->string('bar_code'); // QR Code
             $table->string('provider'); // Provider Name
             $table->boolean('limited')->default(false); // Limited Exchange
-            $table->timestamp('entry_date')->default(now()); // Entry Date In
-            $table->timestamp('expire_date')->default(now()); // Expire Date In
+            $table->date('entry_date')->default(now()); // Entry Date In
+            $table->date('expire_date')->default(now()); // Expire Date In
             $table->timestamps();
         });
     }

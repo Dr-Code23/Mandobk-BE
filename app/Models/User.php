@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Api\Web\V1\HumanResource;
 use App\Models\Api\Web\V1\Role;
 use App\Traits\dateTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -100,5 +101,10 @@ class User extends Authenticatable implements JWTSubject
     protected function getUpdatedAtAttribute($value)
     {
         return $this->changeDateFormat($value);
+    }
+
+    public function humanResources()
+    {
+        return $this->hasMany(HumanResource::class, 'user_id', 'id');
     }
 }
