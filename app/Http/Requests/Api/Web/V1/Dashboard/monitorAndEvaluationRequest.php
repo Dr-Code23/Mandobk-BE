@@ -8,12 +8,12 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password as RulesPassword;
 
-
 class monitorAndEvaluationRequest extends FormRequest
 {
     use HttpResponse;
     use translationTrait;
     private string $file_name = 'Dashboard/monitorAndEvaluationTranslationFile.';
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -31,9 +31,15 @@ class monitorAndEvaluationRequest extends FormRequest
      */
     public function rules()
     {
+        // Check If The Process Is Update
+        $except = '';
+        if ($this->method() == 'PUT') {
+            $except = ','.$this->route('user')->id.',id';
+        }
+
         return [
-            "full_name" => ['required'],
-            'username' => ['bail','required', 'regex:'.config('regex.username'), 'unique:users,username'.($this->method() == 'put' ? (','.$this->route('id').",id") : '')],
+            'full_name' => ['required'],
+            'username' => ['bail', 'required', 'regex:'.config('regex.username'), 'unique:users,username'.$except],
             'role' => ['required'],
             'password' => [
                 $this->method() == 'post' ? 'required' : 'sometimes',
@@ -45,6 +51,7 @@ class monitorAndEvaluationRequest extends FormRequest
             ],
         ];
     }
+
     public function messages()
     {
         return [
@@ -56,6 +63,7 @@ class monitorAndEvaluationRequest extends FormRequest
             'username.unique' => $this->translateErrorMessage($this->file_name.'username', 'unique'),
         ];
     }
+
     protected function failedValidation(Validator $validator)
     {
         throw new \Illuminate\Validation\ValidationException($validator, $this->validation_errors([$validator->errors()]));

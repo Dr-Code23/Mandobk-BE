@@ -7,11 +7,11 @@ use App\Http\Requests\Api\Web\V1\Dashboard\dataEntryRequest;
 use App\Http\Resources\Api\Web\V1\Dashboard\DataEntry\dataEntryCollection;
 use App\Http\Resources\Api\Web\V1\Dashboard\DataEntry\dataEntryResource;
 use App\Models\Api\Web\V1\DataEntry;
+use App\Traits\dateTrait;
 use App\Traits\HttpResponse;
 use App\Traits\StringTrait;
 use App\Traits\translationTrait;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Request as FacadesRequest;
 
 class dataEntryController extends Controller
 {
@@ -19,12 +19,13 @@ class dataEntryController extends Controller
     use StringTrait;
     use HttpResponse;
     use translationTrait;
+    use dateTrait;
 
     private string $translationFileName = 'Dashboard/dataEntryTranslationFile.';
 
     public function index()
     {
-        return $this->resourceResponse( new dataEntryCollection(DataEntry::all()));
+        return $this->resourceResponse(new dataEntryCollection(DataEntry::all()));
     }
 
     /**
@@ -105,8 +106,8 @@ class dataEntryController extends Controller
     }
 
     /**
-     * Summary of show
-     * @param DataEntry $dataEntry
+     * Summary of show.
+     *
      * @return array
      */
     public function show(DataEntry $dataEntry)
@@ -121,7 +122,7 @@ class dataEntryController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(dataEntryRequest $request,DataEntry $dataEntry)
+    public function update(dataEntryRequest $request, DataEntry $dataEntry)
     {
         $commercial_name = $this->sanitizeString($request->commercial_name);
         $scientefic_name = $this->sanitizeString($request->scientefic_name);
@@ -139,6 +140,7 @@ class dataEntryController extends Controller
         if (!$com_exists && !$sc_exists) {
             $random_number = null;
             $barCodeStored = false;
+            $anyChangeOccured = false;
             // Check if $generate_another_bar_code Variable isset to generate another barcode
             if ($request->has('generate_another_bar_code')) {
                 // Delete The Old Barcode
@@ -151,30 +153,74 @@ class dataEntryController extends Controller
                 }
                 // Store the barcode
                 $barCodeStored = $this->storeBarCodeSVG('data_entry', $random_number);
+                $anyChangeOccured = true;
             }
 
-            // Begin Update Logic
-            $dataEntry->com_name = $commercial_name;
-            $dataEntry->sc_name = $scientefic_name;
-            $dataEntry->qty = $request->quantity;
-            $dataEntry->pur_price = $request->purchase_price;
-            $dataEntry->sel_price = $request->selling_price;
-            $dataEntry->bonus = $request->bonus;
-            $dataEntry->con = $request->concentrate;
-            $dataEntry->patch_number = $request->patch_number;
-            $dataEntry->provider = $provider;
-            $dataEntry->limited = $request->limited ? 1 : 0;
-            $dataEntry->entry_date = $request->entry_date;
-            $dataEntry->expire_date = $request->expire_date;
+            // Begin Update Logic If Any Change Occured
+            if ($dataEntry->com_name != $commercial_name) {
+                $dataEntry->com_name = $commercial_name;
+                $anyChangeOccured = true;
+            }
+            if ($dataEntry->sc_name != $scientefic_name) {
+                $dataEntry->sc_name = $scientefic_name;
+                $anyChangeOccured = true;
+            }
+            if ($dataEntry->qty != $request->quantity) {
+                $dataEntry->qty = $request->quantity;
+                $anyChangeOccured = true;
+            }
+            if ($dataEntry->pur_price != $request->purchase_price) {
+                $dataEntry->pur_price = $request->purchase_price;
+                $anyChangeOccured = true;
+            }
+            if ($dataEntry->sel_price != $request->selling_price) {
+                $dataEntry->sel_price = $request->selling_price;
+                $anyChangeOccured = true;
+            }
+            if ($dataEntry->bonus != $request->bonus) {
+                $dataEntry->bonus = $request->bonus;
+                $anyChangeOccured = true;
+            }
+            if ($dataEntry->con != $request->concentrate) {
+                $dataEntry->con = $request->concentrate;
+                $anyChangeOccured = true;
+            }
+            if ($dataEntry->patch_number != $request->patch_number) {
+                $dataEntry->patch_number = $request->patch_number;
+                $anyChangeOccured = true;
+            }
+            if ($dataEntry->provider != $provider) {
+                $dataEntry->provider = $provider;
+                $anyChangeOccured = true;
+            }
+            if ($dataEntry->limited != (int) $request->limited) {
+                $dataEntry->limited = $request->limited ? 1 : 0;
+                $anyChangeOccured = true;
+            }
+            if ($this->changeDateFormat($dataEntry->entry_date, 'Y-m-d') != $request->entry_date) {
+                $dataEntry->entry_date = $request->entry_date;
+                $anyChangeOccured = true;
+            }
+            if ($this->changeDateFormat($dataEntry->expire_date, 'Y-m-d') != $request->expire_date) {
+                $dataEntry->expire_date = $request->expire_date;
+                $anyChangeOccured = true;
+            }
             if (($random_number && $barCodeStored) || !$random_number) {
-                if($random_number)$dataEntry->bar_code = $random_number;
-                $dataEntry->update();
-                return $this->success(new dataEntryResource($dataEntry), 'Product Updated Successfully');
+                if ($random_number) {
+                    $dataEntry->bar_code = $random_number;
+                    $anyChangeOccured = true;
+                }
+                if ($anyChangeOccured) {
+                    $dataEntry->update();
+
+                    return $this->success(new dataEntryResource($dataEntry), 'Product Updated Successfully');
+                }
+
+                return $this->noContentResponse();
             }
             // Failed To Create Or Store the barcode
             return $this->error(null, 500, 'Failed To Create Barcode');
         }
-
 
         // Either commercial Name or scientefic_name exists
 
@@ -190,14 +236,15 @@ class dataEntryController extends Controller
     }
 
     /**
-     * Delete A Product
-     * @param DataEntry $dataEntry
+     * Delete A Product.
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(DataEntry $dataEntry)
     {
         $this->deleteBarCode($dataEntry->bar_code);
         $dataEntry->delete();
+
         return $this->success(null, 'Product Deleted Successfully');
     }
 }

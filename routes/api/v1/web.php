@@ -54,7 +54,7 @@ Route::group(['namespace' => '\App\Http\Controllers\Api\Web\V1'], function () {
                 // Monitor And Evaluation
 
                 Route::group(
-                    ['prefix' => 'monitor_and_evaluation'],
+                    ['prefix' => 'monitor_and_evaluation', 'middleware' => ['hasMonitorAndEvaluationPermissions']],
                     function () {
                         Route::get('view', 'monitorAndEvaluationController@lang_content');
                         Route::get('', 'monitorAndEvaluationController@index');

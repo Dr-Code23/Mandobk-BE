@@ -65,5 +65,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'isAuthenticated' => \App\Http\Middleware\isAuthenticated::class,
         'hasDataEntryPermissions' => \App\Http\Middleware\hasDataEntryAccess::class,
+        'hasMonitorAndEvaluationPermissions' => \App\Http\Middleware\hasMonitorAndEvaluationAccess::class,
     ];
 }

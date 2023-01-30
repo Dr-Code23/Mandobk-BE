@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Api\Web\V1\Role;
+use App\Traits\dateTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -14,6 +15,7 @@ class User extends Authenticatable implements JWTSubject
     use HasApiTokens;
     use HasFactory;
     use Notifiable;
+    use dateTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -47,6 +49,8 @@ class User extends Authenticatable implements JWTSubject
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'created_at' => 'date',
+        'updated_at' => 'date',
     ];
 
     /**
@@ -69,7 +73,32 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
-    public function role(){
-        return $this->hasOne(Role::class, 'id' , 'role_id');
+    public function role()
+    {
+        return $this->hasOne(Role::class, 'id', 'role_id');
+    }
+
+    /**
+     * Return An Accessor For Created At.
+     *
+     * @param mixed $value
+     *
+     * @return string
+     */
+    protected function getCreatedAtAttribute($value)
+    {
+        return $this->changeDateFormat($value);
+    }
+
+    /**
+     * Return An Accessor For Updated At.
+     *
+     * @param mixed $value
+     *
+     * @return string
+     */
+    protected function getUpdatedAtAttribute($value)
+    {
+        return $this->changeDateFormat($value);
     }
 }

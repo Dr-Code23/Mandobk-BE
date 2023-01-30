@@ -102,7 +102,13 @@ trait HttpResponse
         ];
     }
 
-    public function forbiddenResponse($msg = 'You do not have permissions to access this resource' , $data= null , $code = Response::HTTP_FORBIDDEN){
+    public function forbiddenResponse($msg = 'You do not have permissions to access this resource', $data = null, $code = Response::HTTP_FORBIDDEN)
+    {
         return $this->error($data, $code, $msg);
+    }
+
+    public function noContentResponse()
+    {
+        return response()->json(status: Response::HTTP_NO_CONTENT);
     }
 }
