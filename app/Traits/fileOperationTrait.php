@@ -6,6 +6,8 @@ use Milon\Barcode\DNS1D;
 
 trait fileOperationTrait
 {
+    use StringTrait;
+
     /**
      *  Get Translation Content From the Lang Directory.
      */
@@ -17,13 +19,13 @@ trait fileOperationTrait
         return $file_content;
     }
 
-    public function storeBarCodeSVG(string $directory, string $file_name): bool
+    public function storeBarCodeSVG(string $directory, string $code, string $file_name): bool
     {
         if (!is_dir(__DIR__.'/../../storage/app/public/'.$directory)) {
-            mkdir(__DIR__.'/../../storage/app/public/'.$directory , recursive:true);
+            mkdir(__DIR__.'/../../storage/app/public/'.$directory, recursive: true);
         }
         $handle = fopen(__DIR__.'/../../storage/app/public/'.$directory.'/'.$file_name.'.svg', 'w');
-        fwrite($handle, DNS1D::getBarcodeSVG("$file_name", 'CODABAR', showCode: false));
+        fwrite($handle, DNS1D::getBarcodeSVG("$code", 'CODABAR', showCode: false));
         fclose($handle);
 
         return true;
@@ -43,17 +45,29 @@ trait fileOperationTrait
     }
 
     /**
-     * Delete A Barcode
-     * @param string|null $file_name
-     * @param string $directory
+     * Delete A Barcode.
+     *
      * @return bool
      */
-    public function deleteBarCode(string $file_name = null , string $directory = 'Dashboard'){
+    public function deleteBarCode(string $file_name = null, string $directory = 'Dashboard')
+    {
+        if (is_file(__DIR__.'/../../storage/app/public/'.$directory.'/'.$file_name)) {
+            unlink(__DIR__.'/../../storage/app/public/'.$directory.'/'.$file_name);
 
-        if(is_file(__DIR__.'/../../storage/app/public/'.$directory.'/'.$file_name)){
-            unlink(__DIR__ . '/../../storage/app/public/' . $directory . '/' . $file_name);
             return true;
         }
+
+        return false;
+    }
+
+    public function deleteImage(string $path): bool
+    {
+        if (is_file(__DIR__.'/../../storage/app/public/'.$path)) {
+            unlink(__DIR__.'/../../storage/app/public/'.$path);
+
+            return true;
+        }
+
         return false;
     }
 }

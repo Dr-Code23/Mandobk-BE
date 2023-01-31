@@ -30,20 +30,22 @@ class dataEntryRequest extends FormRequest
      */
     public function rules()
     {
+        $double = ['required', 'numeric', 'min:0.1'];
+
         return [
             'commercial_name' => ['required', 'max:255'],
             'scientefic_name' => ['required', 'max:255'],
             'quantity' => ['required', 'regex:'.config('regex.integer')],
-            'purchase_price' => ['required', 'regex:'.config('regex.double')],
-            'selling_price' => ['required', 'regex:'.config('regex.double')],
-            'bonus' => ['required', 'regex:'.config('regex.double')],
-            'concentrate' => ['required', 'regex:'.config('regex.double')],
+            'purchase_price' => $double,
+            'selling_price' => $double,
+            'bonus' => $double,
+            'concentrate' => $double,
             'patch_number' => ['required', 'regex:'.config('regex.patch_number')],
             'provider' => ['required', 'max:255'],
             'limited' => ['required', 'boolean'],
-            'generate_another_bar_code' => ['sometimes' , 'boolean'],
-            'entry_date' => ['required','date_format:Y-m-d'],
-            'expire_date' => ['bail','required', 'date_format:Y-m-d', 'after:entry_date'],
+            'generate_another_bar_code' => ['sometimes', 'boolean'],
+            'entry_date' => ['required', 'date_format:Y-m-d'],
+            'expire_date' => ['bail', 'required', 'date_format:Y-m-d', 'after:entry_date'],
         ];
     }
 
@@ -53,12 +55,11 @@ class dataEntryRequest extends FormRequest
     public function messages(): array
     {
         $messages = [
-            // 'concentrate.between' => $this->translateErrorMessage($this->file_name, 'concentrate.number.between'),
             'limited.boolean' => $this->translateErrorMessage($this->file_name.'limited', 'limited.boolean'),
             'entry_date.date_format' => $this->translateErrorMessage($this->file_name.'entry_date', 'entry_date.date.date_format'),
             'expire_date.date_format' => $this->translateErrorMessage($this->file_name.'expire_date', 'expire_date.date.date_format'),
             'expire_date.after' => $this->translateErrorMessage($this->file_name.'expire_date', 'expire_date.date.after'),
-            'generate_another_bar_code' => $this->translateErrorMessage($this->file_name.'bar_code' , 'boolean')
+            'generate_another_bar_code' => $this->translateErrorMessage($this->file_name.'bar_code', 'boolean'),
         ];
 
         // get all fields names
@@ -69,10 +70,15 @@ class dataEntryRequest extends FormRequest
             $messages["$key.required"] = $this->translateErrorMessage($this->file_name.$key, 'required');
         }
 
-        // Regex Length Data
+        // Numeric , between and regex validation messages
         $regex_length_names = ['quantity', 'purchase_price', 'selling_price', 'bonus', 'patch_number', 'concentrate'];
         foreach ($regex_length_names as $key) {
-            $messages["$key.regex"] = $this->translateErrorMessage($this->file_name.$key, "$key.regex");
+            if (!in_array($key, ['patch_number', 'quantity'])) {
+                $messages["$key.numeric"] = $this->translateErrorMessage($this->file_name.$key, 'numeric');
+                $messages["$key.min"] = $this->translateErrorMessage($this->file_name.$key, 'min.numeric');
+            } else {
+                $messages["$key.regex"] = $this->translateErrorMessage($this->file_name.$key, $key.'.regex');
+            }
         }
 
         // Max Length Data

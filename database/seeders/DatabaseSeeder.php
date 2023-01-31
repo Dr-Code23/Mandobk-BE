@@ -6,6 +6,7 @@ namespace Database\Seeders;
 
 use Database\Seeders\Api\Web\V1\dataEntrySeeder;
 use Database\Seeders\Api\Web\V1\humanResourceSeeder;
+use Database\Seeders\Api\Web\V1\marktingSeeder;
 use Database\Seeders\Api\Web\V1\RolesSeeder;
 use Database\Seeders\Api\Web\V1\UserSeeder;
 use Illuminate\Database\Seeder;
@@ -30,6 +31,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             dataEntrySeeder::class,
             humanResourceSeeder::class,
+            // marktingSeeder::class,
         ]);
     }
 }

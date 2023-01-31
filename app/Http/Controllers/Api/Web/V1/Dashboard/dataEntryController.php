@@ -50,6 +50,10 @@ class dataEntryController extends Controller
         $commercial_name = $this->sanitizeString($request->commercial_name);
         $scientefic_name = $this->sanitizeString($request->scientefic_name);
         $provider = $this->sanitizeString($request->provider);
+        $purchase_price = $this->setPercisionForFloatString($request->purchase_price);
+        $selling_price = $this->setPercisionForFloatString($request->selling_price);
+        $bonus = $this->setPercisionForFloatString($request->bonus);
+        $concentrate = $this->setPercisionForFloatString($request->concentrate);
 
         // Check if either commercial name or scientefic_name exists
         $com_exists = false;
@@ -68,17 +72,18 @@ class dataEntryController extends Controller
                 $random_number = rand(1, 1000000000);
             }
             // Store the barcode
-            if ($this->storeBarCodeSVG('data_entry', $random_number)) {
+            $barcode_value = $this->encrptString($random_number);
+            if ($this->storeBarCodeSVG('data_entry', $random_number, $barcode_value)) {
                 $data_entry = DataEntry::create([
                     'com_name' => $commercial_name,
                     'sc_name' => $scientefic_name,
                     'qty' => $request->quantity,
-                    'pur_price' => $request->purchase_price,
-                    'sel_price' => $request->selling_price,
-                    'bonus' => $request->bonus,
-                    'con' => $request->concentrate,
+                    'pur_price' => $purchase_price,
+                    'sel_price' => $selling_price,
+                    'bonus' => $bonus,
+                    'con' => $concentrate,
                     'patch_number' => $request->patch_number,
-                    'bar_code' => $random_number,
+                    'bar_code' => $barcode_value,
                     'provider' => $provider,
                     'limited' => $request->limited ? 1 : 0,
                     'entry_date' => $request->entry_date,
@@ -127,6 +132,10 @@ class dataEntryController extends Controller
         $commercial_name = $this->sanitizeString($request->commercial_name);
         $scientefic_name = $this->sanitizeString($request->scientefic_name);
         $provider = $this->sanitizeString($request->provider);
+        $purchase_price = $this->setPercisionForFloatString($request->purchase_price);
+        $selling_price = $this->setPercisionForFloatString($request->selling_price);
+        $bonus = $this->setPercisionForFloatString($request->bonus);
+        $concentrate = $this->setPercisionForFloatString($request->concentrate);
 
         // Check if either commercial name or scientefic_name exists
         $com_exists = false;
@@ -140,9 +149,10 @@ class dataEntryController extends Controller
         if (!$com_exists && !$sc_exists) {
             $random_number = null;
             $barCodeStored = false;
+            $barCodeValue = null;
             $anyChangeOccured = false;
             // Check if $generate_another_bar_code Variable isset to generate another barcode
-            if ($request->has('generate_another_bar_code')) {
+            if ($request->has('generate_another_bar_code') && $request->input('generate_another_bar_code') == true) {
                 // Delete The Old Barcode
                 $this->deleteBarCode($dataEntry->bar_code);
 
@@ -152,7 +162,8 @@ class dataEntryController extends Controller
                     $random_number = rand(1, 1000000000);
                 }
                 // Store the barcode
-                $barCodeStored = $this->storeBarCodeSVG('data_entry', $random_number);
+                $barCodeValue = $this->encrptString($random_number);
+                $barCodeStored = $this->storeBarCodeSVG('data_entry', $random_number, $barCodeValue);
                 $anyChangeOccured = true;
             }
 
@@ -169,20 +180,20 @@ class dataEntryController extends Controller
                 $dataEntry->qty = $request->quantity;
                 $anyChangeOccured = true;
             }
-            if ($dataEntry->pur_price != $request->purchase_price) {
-                $dataEntry->pur_price = $request->purchase_price;
+            if ($dataEntry->pur_price != $purchase_price) {
+                $dataEntry->pur_price = $purchase_price;
                 $anyChangeOccured = true;
             }
-            if ($dataEntry->sel_price != $request->selling_price) {
-                $dataEntry->sel_price = $request->selling_price;
+            if ($dataEntry->sel_price != $selling_price) {
+                $dataEntry->sel_price = $selling_price;
                 $anyChangeOccured = true;
             }
-            if ($dataEntry->bonus != $request->bonus) {
-                $dataEntry->bonus = $request->bonus;
+            if ($dataEntry->bonus != $bonus) {
+                $dataEntry->bonus = $bonus;
                 $anyChangeOccured = true;
             }
-            if ($dataEntry->con != $request->concentrate) {
-                $dataEntry->con = $request->concentrate;
+            if ($dataEntry->con != $concentrate) {
+                $dataEntry->con = $concentrate;
                 $anyChangeOccured = true;
             }
             if ($dataEntry->patch_number != $request->patch_number) {
@@ -207,7 +218,7 @@ class dataEntryController extends Controller
             }
             if (($random_number && $barCodeStored) || !$random_number) {
                 if ($random_number) {
-                    $dataEntry->bar_code = $random_number;
+                    $dataEntry->bar_code = $barCodeValue;
                     $anyChangeOccured = true;
                 }
                 if ($anyChangeOccured) {
