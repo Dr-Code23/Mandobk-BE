@@ -80,7 +80,7 @@ Route::group(['namespace' => '\App\Http\Controllers\Api\Web\V1'], function () {
                 // Markting
 
                 Route::group(
-                    ['prefix' => 'markting'],
+                    ['prefix' => 'markting', 'middleware' => ['hasMarktingPermissions']],
                     function () {
                         Route::get('', 'marktingController@index');
                         Route::get('{ad}', 'marktingController@show');
