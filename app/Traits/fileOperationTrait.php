@@ -25,7 +25,7 @@ trait fileOperationTrait
             mkdir(__DIR__.'/../../storage/app/public/'.$directory, recursive: true);
         }
         $handle = fopen(__DIR__.'/../../storage/app/public/'.$directory.'/'.$file_name.'.svg', 'w');
-        fwrite($handle, DNS1D::getBarcodeSVG("$code", 'CODABAR', showCode: false));
+        fwrite($handle, DNS1D::getBarcodeSVG("$code", 'CODABAR', showCode: true));
         fclose($handle);
 
         return true;

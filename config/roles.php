@@ -31,4 +31,18 @@ return [
         'human_resource',
         'markting',
     ],
+    'patch_number_roles' => [
+        'ceo', 'data_entry', 'company', 'storehouse', 'pharmacy', 'pharmacy_sub_user',
+    ],
+    'admin_product_role' => [
+        'ceo', 'data_entry',
+    ],
+    'role_patch_number_symbol' => [
+        'ceo' => 'ad',
+        'data_entry' => 'ad',
+        'company' => 'M',
+        'storehouse' => 'MK',
+        'pharmacy' => 'IN',
+        'pharmacy_sub_user' => 'IN',
+    ],
 ];

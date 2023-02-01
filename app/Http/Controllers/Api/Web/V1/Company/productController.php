@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\Api\Web\V1\Dashboard;
+namespace App\Http\Controllers\Api\Web\V1\Company;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Web\V1\Product\productRequest;
 use App\Models\Api\Web\V1\Product;
 use App\Traits\productTrait;
+use App\Traits\userTrait;
 
-// use App\Traits\productTrait;
-
-class dataEntryController extends Controller
+class productController extends Controller
 {
     use productTrait;
+    use userTrait;
 
     /**
      * List All Products For Data Entry.
@@ -20,7 +20,7 @@ class dataEntryController extends Controller
      */
     public function index()
     {
-        return $this->showAllProducts(Product::all());
+        return $this->showAllProducts(Product::where('user_id', $this->getAuthenticatedUserId())->get());
     }
 
     /**
@@ -41,20 +41,5 @@ class dataEntryController extends Controller
     public function store(productRequest $request)
     {
         return $this->storeProduct($request);
-    }
-
-    public function show()
-    {
-        // Feature Update
-    }
-
-    public function update()
-    {
-        // Feature Update
-    }
-
-    public function destroy()
-    {
-        // Feature Update
     }
 }

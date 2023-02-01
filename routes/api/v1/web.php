@@ -89,6 +89,36 @@ Route::group(['namespace' => '\App\Http\Controllers\Api\Web\V1'], function () {
                         Route::delete('{ad}', 'marktingController@destroy');
                     }
                 );
+
+                Route::group(['prefix' => 'order_management'], function () {
+                }
+                );
+            }
+        );
+        // Start Working On Normal Users
+        Route::group(
+            ['prefix' => 'company', 'namespace' => 'Company'],
+            function () {
+                // Company Products
+                Route::group(
+                    ['prefix' => 'products'],
+                    function () {
+                        Route::get('', 'productController@index');
+                        Route::post('', 'productController@store');
+                    }
+                );
+
+                // Company Offers
+                Route::group(
+                    ['prefix' => 'company_offers'],
+                    function () {
+                        Route::get('', 'companyOffersController@index');
+                        Route::get('{offer}', 'companyOffersController@show');
+                        Route::post('', 'companyOffersController@store');
+                        Route::put('/{offer}', 'companyOffersController@update');
+                        Route::delete('/{offer}', 'companyOffersController@destroy');
+                    }
+                );
             }
         );
     });
