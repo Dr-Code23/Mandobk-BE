@@ -13,7 +13,11 @@ php artisan key:gen
 ```
 
 ```console
-php artisan migrate:fresh --seed
+php artisan migrate
+```
+
+```console
+php artisan db:seed
 ```
 
 ```console
