@@ -13,9 +13,9 @@ return [
         'doctor',
         'company',
         'pharmacy',
+        'pharmacy_sub_user',
         'storehouse',
         'visitor',
-        'pharmacy_sub_user',
     ],
     'monitor_roles' => [
         'data_entry',

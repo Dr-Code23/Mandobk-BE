@@ -10,6 +10,9 @@ use Database\Seeders\Api\Web\V1\marktingSeeder;
 use Database\Seeders\Api\Web\V1\payMethodsSeeder;
 use Database\Seeders\Api\Web\V1\productSeeder;
 use Database\Seeders\Api\Web\V1\RolesSeeder;
+use Database\Seeders\Api\Web\V1\saleDetaisSeeder;
+use Database\Seeders\Api\Web\V1\saleSeeder;
+use Database\Seeders\Api\Web\V1\subUserSeeder;
 use Database\Seeders\Api\Web\V1\UserSeeder;
 use Illuminate\Database\Seeder;
 
@@ -22,20 +25,17 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
         $this->call([
             RolesSeeder::class,
             UserSeeder::class,
+            subUserSeeder::class,
             productSeeder::class,
             humanResourceSeeder::class,
             payMethodsSeeder::class,
             companyOffersSeeder::class,
-            // marktingSeeder::class,
+            saleSeeder::class,
+            saleDetaisSeeder::class,
+            marktingSeeder::class,
         ]);
     }
 }

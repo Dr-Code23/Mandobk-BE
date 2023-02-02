@@ -42,4 +42,24 @@ class productController extends Controller
     {
         return $this->storeProduct($request);
     }
+
+    /**
+     * Update Product For Company.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(productRequest $request, Product $product)
+    {
+        return $this->updateProduct($request, $product);
+    }
+
+    /**
+     * Delete Product For Company.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy(Product $product)
+    {
+        return $this->deleteProduct($product);
+    }
 }

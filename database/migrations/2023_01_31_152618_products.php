@@ -15,16 +15,26 @@ return new class() extends Migration {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('role_id');
-            $table->foreign('role_id')->on('roles')->references('id')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreign('role_id')
+                ->on('roles')
+                ->references('id')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
+
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->on('users')->references('id')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreign('user_id')
+                ->on('users')
+                ->references('id')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
+
             $table->string('com_name')->unique(); // Commercial Name
             $table->string('sc_name')->unique(); // Scientefic Name
-            $table->integer('qty'); // Quantity
-            $table->double('pur_price'); // Purchasing price
-            $table->double('sel_price'); // Selling Price
-            $table->double('bonus'); // Bonus
-            $table->double('con'); // Concentrate
+            $table->unsignedBigInteger('qty'); // Quantity
+            $table->unsignedDouble('pur_price'); // Purchasing price
+            $table->unsignedDouble('sel_price'); // Selling Price
+            $table->unsignedDouble('bonus'); // Bonus
+            $table->unsignedDouble('con'); // Concentrate
             $table->string('patch_number'); // Patch Number
             $table->string('bar_code'); // QR Code
             $table->string('provider'); // Provider Name

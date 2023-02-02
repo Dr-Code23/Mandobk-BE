@@ -39,7 +39,7 @@ class Product extends Model
         return Attribute::make(
             get: function ($val) {
                 // Return The Original Path Number For All Users Except Admins
-                if (!in_array($this->get, ['ceo', 'data_entry'])) {
+                if (!in_array($this->role_id, [Role::where('name', 'ceo')->first(['id'])->id, Role::where('name', 'data_entry')->first(['id'])->id])) {
                     return $val;
                 }
                 // Check If role_name cached instead of fetch it again from DB

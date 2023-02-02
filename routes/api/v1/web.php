@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Api\Web\V1\Auth\webAuthController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['namespace' => '\App\Http\Controllers\Api\Web\V1'], function () {
@@ -117,6 +116,14 @@ Route::group(['namespace' => '\App\Http\Controllers\Api\Web\V1'], function () {
                         Route::post('', 'companyOffersController@store');
                         Route::put('/{offer}', 'companyOffersController@update');
                         Route::delete('/{offer}', 'companyOffersController@destroy');
+                    }
+                );
+
+                // Sales
+                Route::group(
+                    ['prefix' => 'sales'],
+                    function () {
+                        Route::get('', 'salesController@index');
                     }
                 );
             }

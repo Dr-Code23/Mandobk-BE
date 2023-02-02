@@ -16,7 +16,7 @@ return new class() extends Migration {
             $table->id();
             $table->string('medicine_name');
             $table->string('company_name');
-            $table->double('discount')->default(0);
+            $table->unsignedDouble('discount')->default(0);
             $table->string('img');
         });
     }

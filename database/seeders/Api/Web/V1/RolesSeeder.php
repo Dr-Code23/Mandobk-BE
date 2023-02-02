@@ -20,5 +20,11 @@ class RolesSeeder extends Seeder
                 'name' => $roles[$i - 1],
             ]);
         }
+
+        // Add Customer Role
+
+        Role::create([
+            'name' => 'customer',
+        ]);
     }
 }
