@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Resources\Api\Web\V1\Categories;
+namespace App\Http\Resources\Api\Web\V1\Product;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class webCategoriesResource extends JsonResource
+class productResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,7 +15,7 @@ class webCategoriesResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
+        $resource = [
             'id' => $this->id,
             'commercial_name' => $this->com_name,
             'scientefic_name' => $this->sc_name,
@@ -26,9 +26,16 @@ class webCategoriesResource extends JsonResource
             'concentrate' => $this->con,
             'patch_number' => $this->patch_number,
             'provider' => $this->provider,
-            'bar_code' => asset('/storage/categories/'.$this->bar_code).'.svg',
-            'entry_date' => date('d / m / Y', strtotime($this->created_at)),
-            'expire_date' => date('d / m / Y', strtotime($this->expire_in)),
+            'bar_code' => asset('storage/data_entry/'.$this->bar_code).'.svg',
+            'entry_date' => $this->entry_date,
+            'expire_date' => $this->expire_date,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ];
+        if ($request->is('data_entry/*') || $request->is('data_entry/')) {
+            $resource['limited'] = $this->limited ? true : false;
+        }
+
+        return $resource;
     }
 }

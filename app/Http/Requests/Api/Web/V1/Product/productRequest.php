@@ -1,17 +1,15 @@
 <?php
 
-namespace App\Http\Requests\Api\Web\V1\Dashboard;
+namespace App\Http\Requests\Api\Web\V1\Product;
 
 use App\Traits\HttpResponse;
 use App\Traits\translationTrait;
 use Illuminate\Foundation\Http\FormRequest;
 
-class dataEntryRequest extends FormRequest
+class productRequest extends FormRequest
 {
     use translationTrait;
     use HttpResponse;
-    private string $file_name = 'Dashboard/dataEntryTranslationFile.';
-    protected $stopOnFirstFailure = false;
 
     /**
      * Determine if the user is authorized to make this request.
@@ -42,7 +40,7 @@ class dataEntryRequest extends FormRequest
             'concentrate' => $double,
             'patch_number' => ['required', 'regex:'.config('regex.patch_number')],
             'provider' => ['required', 'max:255'],
-            'limited' => ['required', 'boolean'],
+            'limited' => [($this->is('data_entry/*') || $this->is('data_entry/')) ? 'required' : 'sometimes', 'boolean'],
             'generate_another_bar_code' => ['sometimes', 'boolean'],
             'entry_date' => ['required', 'date_format:Y-m-d'],
             'expire_date' => ['bail', 'required', 'date_format:Y-m-d', 'after:entry_date'],

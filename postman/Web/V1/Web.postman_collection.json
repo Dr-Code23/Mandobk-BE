@@ -962,7 +962,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"username\" : \"monitor_and_evaluation \",\r\n    \"password\" : \"monitor_and_evaluation\"\r\n}"
+											"raw": "{\r\n    \"username\" : \"company \",\r\n    \"password\" : \"company\"\r\n}"
 										},
 										"url": {
 											"raw": "{{v1}}/login",
@@ -1646,7 +1646,24 @@
 									"name": "Fetch One Product",
 									"request": {
 										"method": "GET",
-										"header": []
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/vnd.api+json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{v1}}/dashboard/data_entry/1",
+											"host": [
+												"{{v1}}"
+											],
+											"path": [
+												"dashboard",
+												"data_entry",
+												"1"
+											]
+										}
 									},
 									"response": [
 										{
@@ -1738,7 +1755,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"commercial_name\" : \"Mohassmssased\",\r\n    \"scientefic_name\" : \"Intserasssdfsanset\",\r\n    \"quantity\" : \"1\",\r\n    \"purchase_price\":\"1.0\",\r\n    \"selling_price\":\"1\",\r\n    \"bonus\" : \"1\",\r\n    \"concentrate\" : \"1\",\r\n    \"patch_number\" :\"1-1-1-1\",\r\n    \"provider\" :\"Google\",\r\n    \"limited\" : true,\r\n    \"entry_date\" : \"2020-12-11\",\r\n    \"expire_date\" : \"2020-12-12\"\r\n}",
+											"raw": "{\r\n    \"commercial_name\" : \"Moshassmssssssasssssed\",\r\n    \"scientefic_name\" : \"Intserassssdsfssssasnssset\",\r\n    \"quantity\" : \"1\",\r\n    \"purchase_price\":\"1.001023123\",\r\n    \"selling_price\":\"1\",\r\n    \"bonus\" : \"1\",\r\n    \"concentrate\" : \"1\",\r\n    \"patch_number\" :\"1-1-1-1\",\r\n    \"provider\" :\"Google\",\r\n    \"limited\" : true,\r\n    \"entry_date\" : \"2020-12-11\",\r\n    \"expire_date\" : \"2020-12-12\"\r\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -2978,7 +2995,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"commercial_name\" : \"Mohassmssasdfasdfssed\",\r\n    \"scientefic_name\" : \"Intseraasdfssdfsansset\",\r\n    \"quantity\" : \"123123\",\r\n    \"purchase_price\":\"1123123\",\r\n    \"selling_price\":\"9\",\r\n    \"bonus\" : \"113123\",\r\n    \"concentrate\" : \"1123\",\r\n    \"patch_number\" :\"1-1-1-1\",\r\n    \"provider\" :\"Goossgle\",\r\n    \"limited\" : false,\r\n    \"entry_date\" : \"2021-12-11\",\r\n    \"expire_date\" : \"2022-12-12\"\r\n}",
+											"raw": "{\r\n    \"commercial_name\" : \"Moshassmssssassssssed\",\r\n    \"scientefic_name\" : \"Intserasssdsfsssssasnssset\",\r\n    \"quantity\" : \"1\",\r\n    \"purchase_price\":\"1.1610223123\",\r\n    \"selling_price\":\"1.06009123\",\r\n    \"bonus\" : \"1.4\",\r\n    \"concentrate\" : \"1\",\r\n    \"patch_number\" :\"1-1-1-1\",\r\n    \"provider\" :\"Google\",\r\n    \"limited\" : true,\r\n    \"entry_date\" : \"2020-12-11\",\r\n    \"expire_date\" : \"2020-12-12\"\r\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -6124,6 +6141,1474 @@
 										"header": []
 									},
 									"response": []
+								},
+								{
+									"name": "Get All Ads",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/vnd.api+json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/vnd.api+json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{v1}}/dashboard/markting",
+											"host": [
+												"{{v1}}"
+											],
+											"path": [
+												"dashboard",
+												"markting"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Get All Ads",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													}
+												],
+												"url": {
+													"raw": "{{v1}}/dashboard/markting",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"dashboard",
+														"markting"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Mon, 30 Jan 2023 21:22:37 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "59"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=100"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"data\": [\n        {\n            \"id\": 1,\n            \"medicine_name\": \"Sally Aufderhar\",\n            \"company_name\": \"Anais Schiller\",\n            \"discount\": 65,\n            \"img\": \"https://via.placeholder.com/640x480.png/00cc44?text=eos\"\n        },\n        {\n            \"id\": 2,\n            \"medicine_name\": \"Giovani Gaylord\",\n            \"company_name\": \"Ernesto Lueilwitz\",\n            \"discount\": 69,\n            \"img\": \"https://via.placeholder.com/640x480.png/001100?text=consequatur\"\n        },\n        {\n            \"id\": 3,\n            \"medicine_name\": \"Monte King\",\n            \"company_name\": \"Montana Hyatt\",\n            \"discount\": 22,\n            \"img\": \"https://via.placeholder.com/640x480.png/00aa55?text=voluptatem\"\n        },\n        {\n            \"id\": 4,\n            \"medicine_name\": \"Dr. Brooks Hahn V\",\n            \"company_name\": \"Lucas Hessel V\",\n            \"discount\": 3,\n            \"img\": \"https://via.placeholder.com/640x480.png/00ccdd?text=nesciunt\"\n        },\n        {\n            \"id\": 5,\n            \"medicine_name\": \"Coleman Simonis III\",\n            \"company_name\": \"Kellie Tremblay\",\n            \"discount\": 26,\n            \"img\": \"https://via.placeholder.com/640x480.png/001111?text=qui\"\n        },\n        {\n            \"id\": 6,\n            \"medicine_name\": \"Marietta Hickle III\",\n            \"company_name\": \"Miss Cierra Hammes II\",\n            \"discount\": 31,\n            \"img\": \"https://via.placeholder.com/640x480.png/006600?text=voluptas\"\n        },\n        {\n            \"id\": 7,\n            \"medicine_name\": \"Astrid Mitchell\",\n            \"company_name\": \"Sanford Waelchi\",\n            \"discount\": 22,\n            \"img\": \"https://via.placeholder.com/640x480.png/0000bb?text=distinctio\"\n        },\n        {\n            \"id\": 8,\n            \"medicine_name\": \"Cordell Heaney I\",\n            \"company_name\": \"Prof. Elinor Dibbert\",\n            \"discount\": 83,\n            \"img\": \"https://via.placeholder.com/640x480.png/00ee00?text=ducimus\"\n        },\n        {\n            \"id\": 9,\n            \"medicine_name\": \"Sim Daniel\",\n            \"company_name\": \"Shaun Wyman\",\n            \"discount\": 88,\n            \"img\": \"https://via.placeholder.com/640x480.png/007766?text=aut\"\n        },\n        {\n            \"id\": 10,\n            \"medicine_name\": \"Ransom Lesch\",\n            \"company_name\": \"Burley Lubowitz\",\n            \"discount\": 99,\n            \"img\": \"https://via.placeholder.com/640x480.png/00dd88?text=consectetur\"\n        }\n    ],\n    \"msg\": \"Data Fetched Successfully\",\n    \"code\": 200,\n    \"type\": \"success\"\n}"
+										}
+									]
+								},
+								{
+									"name": "Fetch One Ad",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{v1}}/dashboard/markting/1",
+											"host": [
+												"{{v1}}"
+											],
+											"path": [
+												"dashboard",
+												"markting",
+												"1"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Fetch One Ad",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{v1}}/dashboard/markting/1",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"dashboard",
+														"markting",
+														"1"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Mon, 30 Jan 2023 21:38:53 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "59"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=100"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"data\": {\n        \"id\": 1,\n        \"medicine_name\": \"Sally Aufderhar\",\n        \"company_name\": \"Anais Schiller\",\n        \"discount\": 65,\n        \"img\": \"https://via.placeholder.com/640x480.png/00cc44?text=eos\"\n    },\n    \"msg\": \"Data Fetched Successfully\",\n    \"code\": 200,\n    \"type\": \"success\"\n}"
+										}
+									]
+								},
+								{
+									"name": "Store Ad",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/vnd.api+json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/vnd.api+json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "img",
+													"type": "file",
+													"src": "/D:/memes/4.jfif"
+												},
+												{
+													"key": "medicine_name",
+													"value": "Googles",
+													"type": "text"
+												},
+												{
+													"key": "company_name",
+													"value": "Googless",
+													"type": "text"
+												},
+												{
+													"key": "discount",
+													"value": "10.06231231",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{v1}}/dashboard/markting",
+											"host": [
+												"{{v1}}"
+											],
+											"path": [
+												"dashboard",
+												"markting"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "all values are required",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													}
+												],
+												"url": {
+													"raw": "{{v1}}/dashboard/markting",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"dashboard",
+														"markting"
+													]
+												}
+											},
+											"status": "Unprocessable Content",
+											"code": 422,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Mon, 30 Jan 2023 22:05:50 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "59"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=100"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"data\": {\n        \"medicine_name\": [\n            \"Medicine Name Cannot Be Empty\"\n        ],\n        \"company_name\": [\n            \"Company Name Cannot Be Empty\"\n        ],\n        \"discount\": [\n            \"Discount Cannot Be Empty\"\n        ],\n        \"img\": [\n            \"Image Cannot Be Empty\"\n        ]\n    },\n    \"msg\": \"validation errors\",\n    \"type\": \"error\",\n    \"code\": 422\n}"
+										},
+										{
+											"name": "Must be a valid name",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"medicine_name\":\"%^&123\",\r\n    \"company_name\":\"%^&123\"\r\n}"
+												},
+												"url": {
+													"raw": "{{v1}}/dashboard/markting",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"dashboard",
+														"markting"
+													]
+												}
+											},
+											"status": "Unprocessable Content",
+											"code": 422,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Mon, 30 Jan 2023 22:22:42 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "58"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=100"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"data\": {\n        \"medicine_name\": [\n            \"Medicine Name Cannot be fully numbers or symbols\"\n        ],\n        \"company_name\": [\n            \"Company Name Cannot be fully numbers or symbols\"\n        ]\n    },\n    \"msg\": \"validation errors\",\n    \"type\": \"error\",\n    \"code\": 422\n}"
+										},
+										{
+											"name": "Discount not valid",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"discount\":\".1\"\r\n}"
+												},
+												"url": {
+													"raw": "{{v1}}/dashboard/markting",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"dashboard",
+														"markting"
+													]
+												}
+											},
+											"status": "Unprocessable Content",
+											"code": 422,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Mon, 30 Jan 2023 22:30:21 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "59"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=100"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"data\": {\n        \"discount\": [\n            \"Discount must be a number.\"\n        ]\n    },\n    \"msg\": \"validation errors\",\n    \"type\": \"error\",\n    \"code\": 422\n}"
+										},
+										{
+											"name": "Dicount between 0 and 100",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"discount\":\"0\"\r\n}"
+												},
+												"url": {
+													"raw": "{{v1}}/dashboard/markting",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"dashboard",
+														"markting"
+													]
+												}
+											},
+											"status": "Unprocessable Content",
+											"code": 422,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Mon, 30 Jan 2023 22:32:48 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "58"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=100"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"data\": {\n        \"discount\": [\n            \"Discount must be between 0 and 100.\"\n        ]\n    },\n    \"msg\": \"validation errors\",\n    \"type\": \"error\",\n    \"code\": 422\n}"
+										},
+										{
+											"name": "file extensions not supported",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "formdata",
+													"formdata": [
+														{
+															"key": "img",
+															"type": "file",
+															"src": "/C:/xampp/htdocs/mandobk/postman/Web/V1/Web.postman_collection.json"
+														}
+													]
+												},
+												"url": {
+													"raw": "{{v1}}/dashboard/markting",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"dashboard",
+														"markting"
+													]
+												}
+											},
+											"status": "Unprocessable Content",
+											"code": 422,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Mon, 30 Jan 2023 22:42:24 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "56"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=100"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"data\": {\n        \"img\": [\n            \"Image must be a file of type: png, svg, jpg, jpeg.\"\n        ]\n    },\n    \"msg\": \"validation errors\",\n    \"type\": \"error\",\n    \"code\": 422\n}"
+										},
+										{
+											"name": "Ad created successfully",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "formdata",
+													"formdata": [
+														{
+															"key": "img",
+															"type": "file",
+															"src": "/D:/memes/5.jpg"
+														},
+														{
+															"key": "medicine_name",
+															"value": "Google",
+															"type": "text"
+														},
+														{
+															"key": "company_name",
+															"value": "Googles",
+															"type": "text"
+														},
+														{
+															"key": "discount",
+															"value": "100",
+															"type": "text"
+														}
+													]
+												},
+												"url": {
+													"raw": "{{v1}}/dashboard/markting",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"dashboard",
+														"markting"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Tue, 31 Jan 2023 08:08:00 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "57"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=99"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"data\": {\n        \"id\": 1,\n        \"medicine_name\": \"Google\",\n        \"company_name\": \"Googles\",\n        \"discount\": \"100\",\n        \"img\": \"http://localhost/mandobk/public/storage/public/markting/03hxVlvYztNWcNhdRa8BsBb5OUhlywZNPOFyqhjP.jpg\"\n    },\n    \"msg\": \"Ad Created Successfully\",\n    \"type\": \"success\",\n    \"code\": 200\n}"
+										}
+									]
+								},
+								{
+									"name": "Update Ad",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/vnd.api+json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/vnd.api+json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "img",
+													"type": "file",
+													"src": "/D:/memes/3.jfif"
+												},
+												{
+													"key": "medicine_name",
+													"value": "Google",
+													"type": "text"
+												},
+												{
+													"key": "company_name",
+													"value": "Googles",
+													"type": "text"
+												},
+												{
+													"key": "discount",
+													"value": "90.3",
+													"type": "text"
+												},
+												{
+													"key": "",
+													"value": "",
+													"type": "text",
+													"disabled": true
+												}
+											]
+										},
+										"url": {
+											"raw": "{{v1}}/dashboard/markting/1",
+											"host": [
+												"{{v1}}"
+											],
+											"path": [
+												"dashboard",
+												"markting",
+												"1"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "all values are required",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													}
+												],
+												"url": {
+													"raw": "{{v1}}/dashboard/markting",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"dashboard",
+														"markting"
+													]
+												}
+											},
+											"status": "Unprocessable Content",
+											"code": 422,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Mon, 30 Jan 2023 22:05:50 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "59"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=100"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"data\": {\n        \"medicine_name\": [\n            \"Medicine Name Cannot Be Empty\"\n        ],\n        \"company_name\": [\n            \"Company Name Cannot Be Empty\"\n        ],\n        \"discount\": [\n            \"Discount Cannot Be Empty\"\n        ],\n        \"img\": [\n            \"Image Cannot Be Empty\"\n        ]\n    },\n    \"msg\": \"validation errors\",\n    \"type\": \"error\",\n    \"code\": 422\n}"
+										},
+										{
+											"name": "Must be a valid name",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"medicine_name\":\"%^&123\",\r\n    \"company_name\":\"%^&123\"\r\n}"
+												},
+												"url": {
+													"raw": "{{v1}}/dashboard/markting",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"dashboard",
+														"markting"
+													]
+												}
+											},
+											"status": "Unprocessable Content",
+											"code": 422,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Mon, 30 Jan 2023 22:22:42 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "58"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=100"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"data\": {\n        \"medicine_name\": [\n            \"Medicine Name Cannot be fully numbers or symbols\"\n        ],\n        \"company_name\": [\n            \"Company Name Cannot be fully numbers or symbols\"\n        ]\n    },\n    \"msg\": \"validation errors\",\n    \"type\": \"error\",\n    \"code\": 422\n}"
+										},
+										{
+											"name": "Discount not valid",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"discount\":\".1\"\r\n}"
+												},
+												"url": {
+													"raw": "{{v1}}/dashboard/markting",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"dashboard",
+														"markting"
+													]
+												}
+											},
+											"status": "Unprocessable Content",
+											"code": 422,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Mon, 30 Jan 2023 22:30:21 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "59"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=100"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"data\": {\n        \"discount\": [\n            \"Discount must be a number.\"\n        ]\n    },\n    \"msg\": \"validation errors\",\n    \"type\": \"error\",\n    \"code\": 422\n}"
+										},
+										{
+											"name": "Dicount between 0 and 100",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"discount\":\"0\"\r\n}"
+												},
+												"url": {
+													"raw": "{{v1}}/dashboard/markting",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"dashboard",
+														"markting"
+													]
+												}
+											},
+											"status": "Unprocessable Content",
+											"code": 422,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Mon, 30 Jan 2023 22:32:48 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "58"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=100"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"data\": {\n        \"discount\": [\n            \"Discount must be between 0 and 100.\"\n        ]\n    },\n    \"msg\": \"validation errors\",\n    \"type\": \"error\",\n    \"code\": 422\n}"
+										},
+										{
+											"name": "file extensions not supported",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "formdata",
+													"formdata": [
+														{
+															"key": "img",
+															"type": "file",
+															"src": "/C:/xampp/htdocs/mandobk/postman/Web/V1/Web.postman_collection.json"
+														}
+													]
+												},
+												"url": {
+													"raw": "{{v1}}/dashboard/markting",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"dashboard",
+														"markting"
+													]
+												}
+											},
+											"status": "Unprocessable Content",
+											"code": 422,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Mon, 30 Jan 2023 22:42:24 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "56"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=100"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"data\": {\n        \"img\": [\n            \"Image must be a file of type: png, svg, jpg, jpeg.\"\n        ]\n    },\n    \"msg\": \"validation errors\",\n    \"type\": \"error\",\n    \"code\": 422\n}"
+										},
+										{
+											"name": "Ad created successfully",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "formdata",
+													"formdata": [
+														{
+															"key": "img",
+															"type": "file",
+															"src": "/D:/memes/5.jpg"
+														},
+														{
+															"key": "medicine_name",
+															"value": "Google",
+															"type": "text"
+														},
+														{
+															"key": "company_name",
+															"value": "Googles",
+															"type": "text"
+														},
+														{
+															"key": "discount",
+															"value": "100",
+															"type": "text"
+														}
+													]
+												},
+												"url": {
+													"raw": "{{v1}}/dashboard/markting",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"dashboard",
+														"markting"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Tue, 31 Jan 2023 08:08:00 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "57"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=99"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"data\": {\n        \"id\": 1,\n        \"medicine_name\": \"Google\",\n        \"company_name\": \"Googles\",\n        \"discount\": \"100\",\n        \"img\": \"http://localhost/mandobk/public/storage/public/markting/03hxVlvYztNWcNhdRa8BsBb5OUhlywZNPOFyqhjP.jpg\"\n    },\n    \"msg\": \"Ad Created Successfully\",\n    \"type\": \"success\",\n    \"code\": 200\n}"
+										}
+									]
+								},
+								{
+									"name": "Delete Ad",
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/vnd.api+json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/vnd.api+json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{v1}}/dashboard/markting/1",
+											"host": [
+												"{{v1}}"
+											],
+											"path": [
+												"dashboard",
+												"markting",
+												"1"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Delete Ad",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													}
+												],
+												"url": {
+													"raw": "{{v1}}/dashboard/markting/1",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"dashboard",
+														"markting",
+														"1"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Tue, 31 Jan 2023 09:02:47 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "59"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=99"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"data\": null,\n    \"msg\": \"Ad Deleted Successfully\",\n    \"type\": \"success\",\n    \"code\": 200\n}"
+										}
+									]
 								}
 							]
 						},
@@ -6448,7 +7933,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"user_id\" : \"2\",\r\n    \"status\" : \"0\",\r\n    \"attendance\":\"08:23\",\r\n    \"departure\":\"11:08\",\r\n    \"date\" : \"1992-04-29\"\r\n    \r\n}"
+											"raw": "{\r\n    \"user_id\" : \"2\",\r\n    \"status\" : \"0\",\r\n    \"attendance\":\"08:24\",\r\n    \"departure\":\"11:08\",\r\n    \"date\" : \"1992-01-26\"\r\n    \r\n}"
 										},
 										"url": {
 											"raw": "{{v1}}/dashboard/human_resources",
@@ -7138,7 +8623,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"user_id\" : \"2\",\r\n    \"status\" : \"0\",\r\n    \"attendance\":\"08:23\",\r\n    \"departure\":\"11:08\",\r\n    \"date\" : \"1992-04-29\"\r\n    \r\n}"
+											"raw": "{\r\n    \"user_id\" : \"2\",\r\n    \"status\" : \"0\",\r\n    \"attendance\":\"08:24\",\r\n    \"departure\":\"11:08\",\r\n    \"date\" : \"1992-04-29\"\r\n    \r\n}"
 										},
 										"url": {
 											"raw": "{{v1}}/dashboard/human_resources",
@@ -7845,6 +9330,3474 @@
 								}
 							},
 							"response": []
+						}
+					]
+				},
+				{
+					"name": "Company",
+					"item": [
+						{
+							"name": "Products",
+							"item": [
+								{
+									"name": "Get All Products For Company",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/vnd.api+json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/vnd.api+json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{v1}}/company/products",
+											"host": [
+												"{{v1}}"
+											],
+											"path": [
+												"company",
+												"products"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Fetch All Products",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													}
+												],
+												"url": {
+													"raw": "{{v1}}/company/products",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"company",
+														"products"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Sun, 29 Jan 2023 16:09:33 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "59"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=99"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"data\": [\n        {\n            \"id\": 1,\n            \"commercial_name\": \"Mohassmssasdfasdfssed\",\n            \"scientefic_name\": \"Intseraasdfssdfsansset\",\n            \"quantity\": 123123,\n            \"purchase_price\": 1123123,\n            \"selling_price\": 9,\n            \"bonus\": 113123,\n            \"concentrate\": 1123,\n            \"limited\": false,\n            \"patch_number\": \"1-1-1-1\",\n            \"provider\": \"Goosgle\",\n            \"bar_code\": \"http://localhost/mandobk/public/storage/data_entry/168704691.svg\",\n            \"entry_date\": \"11 / 12 / 2021\",\n            \"expire_date\": \"12 / 12 / 2022\",\n            \"created_at\": \"29 / 01 / 2023\",\n            \"updated_at\": \"29 / 01 / 2023\"\n        },\n        {\n            \"id\": 2,\n            \"commercial_name\": \"Mohassmssased\",\n            \"scientefic_name\": \"Intserasssdfsanset\",\n            \"quantity\": 1,\n            \"purchase_price\": 1,\n            \"selling_price\": 1,\n            \"bonus\": 1,\n            \"concentrate\": 1,\n            \"limited\": true,\n            \"patch_number\": \"1-1-1-1\",\n            \"provider\": \"Google\",\n            \"bar_code\": \"http://localhost/mandobk/public/storage/data_entry/672547844.svg\",\n            \"entry_date\": \"11 / 12 / 2020\",\n            \"expire_date\": \"12 / 12 / 2020\",\n            \"created_at\": \"29 / 01 / 2023\",\n            \"updated_at\": \"29 / 01 / 2023\"\n        }\n    ],\n    \"msg\": \"Data Fetched Successfully\",\n    \"code\": 200,\n    \"type\": \"success\"\n}"
+										}
+									]
+								},
+								{
+									"name": "Store Data",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/vnd.api+json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/vnd.api+json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"commercial_name\" : \"Moshassmsssssassssed\",\r\n    \"scientefic_name\" : \"Intserasssdsfsssassnssset\",\r\n    \"quantity\" : \"1\",\r\n    \"purchase_price\":\"1.001023123\",\r\n    \"selling_price\":\"1\",\r\n    \"bonus\" : \"1\",\r\n    \"concentrate\" : \"1\",\r\n    \"patch_number\" :\"1-1-1-1\",\r\n    \"provider\" :\"Google\",\r\n    \"limited\" : true,\r\n    \"entry_date\" : \"2020-12-11\",\r\n    \"expire_date\" : \"2020-12-12\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{v1}}/company/products",
+											"host": [
+												"{{v1}}"
+											],
+											"path": [
+												"company",
+												"products"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "All Values Are Required",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													}
+												],
+												"url": {
+													"raw": "{{v1}}/dashboard/data_entry",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"dashboard",
+														"data_entry"
+													]
+												}
+											},
+											"status": "Unprocessable Content",
+											"code": 422,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Sun, 29 Jan 2023 11:13:14 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "58"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=100"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"data\": {\n        \"commercial_name\": [\n            \"Commercial Name Cannot Be Empty\"\n        ],\n        \"scientefic_name\": [\n            \"Scientefic Name Cannot Be Empty\"\n        ],\n        \"quantity\": [\n            \"Quantity Cannot Be Empty\"\n        ],\n        \"purchase_price\": [\n            \"Purchase Price Cannot Be Empty\"\n        ],\n        \"selling_price\": [\n            \"Selling Price Cannot Be Empty\"\n        ],\n        \"bonus\": [\n            \"Bonus Cannot Be Empty\"\n        ],\n        \"concentrate\": [\n            \"Concentrate Cannot Be Empty\"\n        ],\n        \"patch_number\": [\n            \"Patch Number Cannot Be Empty\"\n        ],\n        \"provider\": [\n            \"Provider Cannot Be Empty\"\n        ],\n        \"limited\": [\n            \"Limited Exchange Cannot Be Empty\"\n        ],\n        \"entry_date\": [\n            \"Enter Date Cannot Be Empty\"\n        ],\n        \"expire_date\": [\n            \"Expire Date Cannot Be Empty\"\n        ]\n    },\n    \"msg\": \"validation errors\",\n    \"type\": \"error\",\n    \"code\": 422\n}"
+										},
+										{
+											"name": "Max Length Of Commercial_Name",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"commercial_name\" : \"111\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{v1}}/dashboard/data_entry",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"dashboard",
+														"data_entry"
+													]
+												}
+											},
+											"status": "Unprocessable Content",
+											"code": 422,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Sun, 29 Jan 2023 11:48:58 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "59"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=100"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"data\": {\n        \"commercial_name\": [\n            \"Commercial Name Cannot Be Greater Than 255 Characters\"\n        ]\n    },\n    \"msg\": \"validation errors\",\n    \"type\": \"error\",\n    \"code\": 422\n}"
+										},
+										{
+											"name": "Max Length Of Scientefic Name",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"scientefic_name\" : \"111\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{v1}}/dashboard/data_entry",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"dashboard",
+														"data_entry"
+													]
+												}
+											},
+											"status": "Unprocessable Content",
+											"code": 422,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Sun, 29 Jan 2023 11:51:08 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "59"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=100"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"data\": {\n        \"scientefic_name\": [\n            \"Scientefic Name Cannot Be Greater Than 255 Characters\"\n        ]\n    },\n    \"msg\": \"validation errors\",\n    \"type\": \"error\",\n    \"code\": 422\n}"
+										},
+										{
+											"name": "Quantity must be a valid number and greater than zero",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"quantity\" : \"Google\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{v1}}/dashboard/data_entry",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"dashboard",
+														"data_entry"
+													]
+												}
+											},
+											"status": "Unprocessable Content",
+											"code": 422,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Sun, 29 Jan 2023 11:54:41 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "57"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=100"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"data\": {\n        \"quantity\": [\n            \"Quantity Must Be A Valid Number And Greater Than Zero\"\n        ]\n    },\n    \"msg\": \"validation errors\",\n    \"type\": \"error\",\n    \"code\": 422\n}"
+										},
+										{
+											"name": "Purchasing Price Must Be A Valid Double And Greater Than Zero",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"purchase_price\" : \"Google\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{v1}}/dashboard/data_entry",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"dashboard",
+														"data_entry"
+													]
+												}
+											},
+											"status": "Unprocessable Content",
+											"code": 422,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Sun, 29 Jan 2023 11:59:44 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "59"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=100"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"data\": {\n        \"purchase_price\": [\n            \"Purchase Price Must Be A Valid Double Value And Greater Than Zero\"\n        ]\n    },\n    \"msg\": \"validation errors\",\n    \"type\": \"error\",\n    \"code\": 422\n}"
+										},
+										{
+											"name": "Selling Price Must Be A Valid Double And Greater Than Zero",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"purchase_price\" : \"Google\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{v1}}/dashboard/data_entry",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"dashboard",
+														"data_entry"
+													]
+												}
+											},
+											"status": "Unprocessable Content",
+											"code": 422,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Sun, 29 Jan 2023 11:59:44 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "59"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=100"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"data\": {\n        \"selling_price\": [\n            \"Selling Price Must Be A Valid Double Value And Greater Than Zero\"\n        ]\n    },\n    \"msg\": \"validation errors\",\n    \"type\": \"error\",\n    \"code\": 422\n}"
+										},
+										{
+											"name": "Bonus Price Must Be A Valid Double And Greater Than Zero",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"purchase_price\" : \"Google\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{v1}}/dashboard/data_entry",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"dashboard",
+														"data_entry"
+													]
+												}
+											},
+											"status": "Unprocessable Content",
+											"code": 422,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Sun, 29 Jan 2023 11:59:44 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "59"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=100"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"data\": {\n        \"bonus_price\": [\n            \"Bonus Price Must Be A Valid Double Value And Greater Than Zero\"\n        ]\n    },\n    \"msg\": \"validation errors\",\n    \"type\": \"error\",\n    \"code\": 422\n}"
+										},
+										{
+											"name": "Concentrate Must be a valid double and greater than zero",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"concentrate\" : \"Google\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{v1}}/dashboard/data_entry",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"dashboard",
+														"data_entry"
+													]
+												}
+											},
+											"status": "Unprocessable Content",
+											"code": 422,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Sun, 29 Jan 2023 12:36:44 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "56"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=100"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"data\": {\n        \"concentrate\": [\n            \"Concentrate Must Be A Valid Double Value And Greater Than Zero\"\n        ]\n    },\n    \"msg\": \"validation errors\",\n    \"type\": \"error\",\n    \"code\": 422\n}"
+										},
+										{
+											"name": "Provider Length",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"provider\" : \"Google\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{v1}}/dashboard/data_entry",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"dashboard",
+														"data_entry"
+													]
+												}
+											},
+											"status": "Unprocessable Content",
+											"code": 422,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Sun, 29 Jan 2023 12:38:54 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "58"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=100"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"data\": {\n        \"provider\": [\n            \"Provider Cannot Be Greater Than 255 Characters\"\n        ]\n    },\n    \"msg\": \"validation errors\",\n    \"type\": \"error\",\n    \"code\": 422\n}"
+										},
+										{
+											"name": "Entry Date Format",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"entry_date\" : \"2025-102-11\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{v1}}/dashboard/data_entry",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"dashboard",
+														"data_entry"
+													]
+												}
+											},
+											"status": "Unprocessable Content",
+											"code": 422,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Sun, 29 Jan 2023 13:02:22 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "57"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=100"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"data\": {\n        \"entry_date\": [\n            \"Enter Date Must Be In Y-m-d Format\"\n        ]\n    },\n    \"msg\": \"validation errors\",\n    \"type\": \"error\",\n    \"code\": 422\n}"
+										},
+										{
+											"name": "Expire Date Format",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"expire_date\" : \"2020-22-11\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{v1}}/dashboard/data_entry",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"dashboard",
+														"data_entry"
+													]
+												}
+											},
+											"status": "Unprocessable Content",
+											"code": 422,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Sun, 29 Jan 2023 13:04:16 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "55"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=100"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"data\": {\n        \"expire_date\": [\n            \"Expire Date Must Be In Y-m-d Format\"\n        ]\n    },\n    \"msg\": \"validation errors\",\n    \"type\": \"error\",\n    \"code\": 422\n}"
+										},
+										{
+											"name": "Expire Date Must Be After Entry Date",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"entry_date\" :\"2020-11-12\",\r\n    \"expire_date\" : \"2020-11-12\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{v1}}/dashboard/data_entry",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"dashboard",
+														"data_entry"
+													]
+												}
+											},
+											"status": "Unprocessable Content",
+											"code": 422,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Sun, 29 Jan 2023 13:10:47 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "57"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=100"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"data\": {\n        \"expire_date\": [\n            \"Expire Date Must Be After Enter Date\"\n        ]\n    },\n    \"msg\": \"validation errors\",\n    \"type\": \"error\",\n    \"code\": 422\n}"
+										},
+										{
+											"name": "Commercial Name and scientefic name must unique",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"commercial_name\" : \"Mohasmssed\",\r\n    \"scientefic_name\" : \"Intserasdfanset\",\r\n    \"quantity\" : \"1\",\r\n    \"purchase_price\":\"1.0\",\r\n    \"selling_price\":\"1\",\r\n    \"bonus\" : \"1\",\r\n    \"concentrate\" : \"1\",\r\n    \"patch_number\" :\"1-1-1-1\",\r\n    \"provider\" :\"Google\",\r\n    \"limited\" : true,\r\n    \"entry_date\" : \"2020-12-11\",\r\n    \"expire_date\" : \"2020-12-12\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{v1}}/dashboard/data_entry",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"dashboard",
+														"data_entry"
+													]
+												}
+											},
+											"status": "Unprocessable Content",
+											"code": 422,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Sun, 29 Jan 2023 13:49:14 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "58"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=100"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"data\": {\n        \"commercial_name\": [\n            \"Commercial Name  has already been taken.\"\n        ],\n        \"scientefic_name\": [\n            \"Scientefic Name  has already been taken.\"\n        ]\n    },\n    \"msg\": \"validation errors\",\n    \"type\": \"error\",\n    \"code\": 422\n}"
+										},
+										{
+											"name": "Product Created Successfully",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"commercial_name\" : \"Mohasmsssed\",\r\n    \"scientefic_name\" : \"Intserasdfsanset\",\r\n    \"quantity\" : \"1\",\r\n    \"purchase_price\":\"1.0\",\r\n    \"selling_price\":\"1\",\r\n    \"bonus\" : \"1\",\r\n    \"concentrate\" : \"1\",\r\n    \"patch_number\" :\"1-1-1-1\",\r\n    \"provider\" :\"Google\",\r\n    \"limited\" : true,\r\n    \"entry_date\" : \"2020-12-11\",\r\n    \"expire_date\" : \"2020-12-12\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{v1}}/dashboard/data_entry",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"dashboard",
+														"data_entry"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Sun, 29 Jan 2023 13:49:46 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "57"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=100"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"data\": {\n        \"id\": 55,\n        \"commercial_name\": \"Mohasmsssed\",\n        \"scientefic_name\": \"Intserasdfsanset\",\n        \"quantity\": \"1\",\n        \"purchase_price\": \"1.0\",\n        \"selling_price\": \"1\",\n        \"bonus\": \"1\",\n        \"concentrate\": \"1\",\n        \"limited\": true,\n        \"patch_number\": \"1-1-1-1\",\n        \"provider\": \"Google\",\n        \"bar_code\": \"http://localhost/mandobk/public/storage/data_entry/350011896.svg\",\n        \"entry_date\": \"29 / 01 / 2023\",\n        \"expire_date\": \"01 / 01 / 1970\"\n    },\n    \"msg\": \"Product Created Successfully\",\n    \"type\": \"success\",\n    \"code\": 200\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "Company Offers",
+							"item": [
+								{
+									"name": "Get All Offers",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/vnd.api+json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/vnd.api+json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{v1}}/company/company_offers",
+											"host": [
+												"{{v1}}"
+											],
+											"path": [
+												"company",
+												"company_offers"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Get all offers for a company",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													}
+												],
+												"url": {
+													"raw": "{{v1}}/company/company_offers",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"company",
+														"company_offers"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Wed, 01 Feb 2023 13:22:51 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "57"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=100"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"data\": [\n        {\n            \"scientefic_name\": \"Olin Shields\",\n            \"commercial_name\": \"Prof. Kitty Watsica IV\",\n            \"offer_duration_id\": \"2\",\n            \"offer_duration_name\": \"Cheek\",\n            \"pay_method\": \"cash\",\n            \"bonus\": 121.5,\n            \"created_at\": \"2023-02-01\",\n            \"updated_at\": \"2023-02-01\"\n        },\n        {\n            \"scientefic_name\": \"Russell Bernhard\",\n            \"commercial_name\": \"Chadd Kilback PhD\",\n            \"offer_duration_id\": \"1\",\n            \"offer_duration_name\": \"Weekly\",\n            \"pay_method\": \"cash\",\n            \"bonus\": 173.1,\n            \"created_at\": \"2023-02-01\",\n            \"updated_at\": \"2023-02-01\"\n        }\n    ],\n    \"msg\": \"Data Fetched Successfully\",\n    \"code\": 200,\n    \"type\": \"success\"\n}"
+										}
+									]
+								},
+								{
+									"name": "Fetch One Offer",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{v1}}/company/company_offers/3",
+											"host": [
+												"{{v1}}"
+											],
+											"path": [
+												"company",
+												"company_offers",
+												"3"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Get One Offer",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{v1}}/company/company_offers/1",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"company",
+														"company_offers",
+														"1"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Wed, 01 Feb 2023 13:28:12 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "59"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=100"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"data\": {\n        \"scientefic_name\": \"Brian Corkery IV\",\n        \"commercial_name\": \"Mr. Nels Cruickshank\",\n        \"offer_duration_id\": \"2\",\n        \"offer_duration_name\": \"Cheek\",\n        \"pay_method\": \"cash\",\n        \"bonus\": 105,\n        \"created_at\": \"2023-02-01\",\n        \"updated_at\": \"2023-02-01\"\n    },\n    \"msg\": \"Data Fetched Successfully\",\n    \"code\": 200,\n    \"type\": \"success\"\n}"
+										}
+									]
+								},
+								{
+									"name": "Store Offer",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/vnd.api+json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/vnd.api+json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"expire_date\" : \"2020-12-01\",\r\n    \"scientefic_name\":\"Googssssle\",\r\n    \"commercial_name\":\"Googsssle\",\r\n    \"bonus\":\"1.5\",\r\n    \"offer_duration\":\"2\",\r\n    \"pay_method\":\"1\"\r\n}"
+										},
+										"url": {
+											"raw": "{{v1}}/company/company_offers",
+											"host": [
+												"{{v1}}"
+											],
+											"path": [
+												"company",
+												"company_offers"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "all values are required",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													}
+												],
+												"url": {
+													"raw": "{{v1}}/company/company_offers",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"company",
+														"company_offers"
+													]
+												}
+											},
+											"status": "Unprocessable Content",
+											"code": 422,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Wed, 01 Feb 2023 14:19:11 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "58"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=100"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"data\": {\n        \"commercial_name\": [\n            \"Commercial Name Cannot Be Empty\"\n        ],\n        \"scientefic_name\": [\n            \"Scientefic Name Cannot Be Empty\"\n        ],\n        \"bonus\": [\n            \"Bonus Cannot Be Empty\"\n        ],\n        \"expire_date\": [\n            \"Expire Date Cannot Be Empty\"\n        ],\n        \"offer_duration\": [\n            \"Offer Duration Cannot Be Empty\"\n        ],\n        \"pay_method\": [\n            \"Pay Method Cannot Be Empty\"\n        ]\n    },\n    \"msg\": \"validation errors\",\n    \"type\": \"error\",\n    \"code\": 422\n}"
+										},
+										{
+											"name": "Names Length",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"commercial_name\" : \"asdf\",\r\n    \"scientefic_name\":\"112\"\r\n}"
+												},
+												"url": {
+													"raw": "{{v1}}/company/company_offers",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"company",
+														"company_offers"
+													]
+												}
+											},
+											"status": "Unprocessable Content",
+											"code": 422,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Wed, 01 Feb 2023 15:02:17 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "59"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=100"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"data\": {\n        \"commercial_name\": [\n            \"Commercial Name Cannot Be Greater Than 255 Characters\"\n        ],\n        \"scientefic_name\": [\n            \"Scientefic Name Cannot Be Greater Than 255 Characters\"\n        ]\n    },\n    \"msg\": \"validation errors\",\n    \"type\": \"error\",\n    \"code\": 422\n}"
+										},
+										{
+											"name": "Bonus must be a number",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"bonus\" : \"asdf\",\r\n    \"scientefic_name\":\"112\"\r\n}"
+												},
+												"url": {
+													"raw": "{{v1}}/company/company_offers",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"company",
+														"company_offers"
+													]
+												}
+											},
+											"status": "Unprocessable Content",
+											"code": 422,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Wed, 01 Feb 2023 15:04:41 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "59"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=100"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"data\": {\n        \"bonus\": [\n            \"Bonus must be a number.\"\n        ]\n    },\n    \"msg\": \"validation errors\",\n    \"type\": \"error\",\n    \"code\": 422\n}"
+										},
+										{
+											"name": "Bonus min value",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"bonus\" : \"0\",\r\n    \"scientefic_name\":\"112\"\r\n}"
+												},
+												"url": {
+													"raw": "{{v1}}/company/company_offers",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"company",
+														"company_offers"
+													]
+												}
+											},
+											"status": "Unprocessable Content",
+											"code": 422,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Wed, 01 Feb 2023 15:05:17 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "58"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=100"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"data\": {\n        \"bonus\": [\n            \"Bonus  must be at least 0.1.\"\n        ]\n    },\n    \"msg\": \"validation errors\",\n    \"type\": \"error\",\n    \"code\": 422\n}"
+										},
+										{
+											"name": "Store Offer",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"expire_date\" : \"0\",\r\n    \"scientefic_name\":\"112\"\r\n}"
+												},
+												"url": {
+													"raw": "{{v1}}/company/company_offers",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"company",
+														"company_offers"
+													]
+												}
+											},
+											"status": "Unprocessable Content",
+											"code": 422,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Wed, 01 Feb 2023 15:05:58 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "59"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=100"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"data\": {\n        \"expire_date\": [\n            \"Expire Date Must Be In Y-m-d Format\"\n        ]\n    },\n    \"msg\": \"validation errors\",\n    \"type\": \"error\",\n    \"code\": 422\n}"
+										},
+										{
+											"name": "Offer duration id not found",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"expire_date\" : \"2020-12-01\",\r\n    \"scientefic_name\":\"Google\",\r\n    \"commercial_name\":\"Google\",\r\n    \"bonus\":\"1.5\",\r\n    \"offer_duration\":\"3\",\r\n    \"pay_method\":\"0\"\r\n}"
+												},
+												"url": {
+													"raw": "{{v1}}/company/company_offers",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"company",
+														"company_offers"
+													]
+												}
+											},
+											"status": "Unprocessable Content",
+											"code": 422,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Wed, 01 Feb 2023 15:24:08 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "57"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=100"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"data\": {\n        \"offer_duration\": \"Offer Duration Not Found\"\n    },\n    \"msg\": \"validation errors\",\n    \"type\": \"error\",\n    \"code\": 422\n}"
+										},
+										{
+											"name": "Pay Method not found",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"expire_date\" : \"2020-12-01\",\r\n    \"scientefic_name\":\"Google\",\r\n    \"commercial_name\":\"Google\",\r\n    \"bonus\":\"1.5\",\r\n    \"offer_duration\":\"2\",\r\n    \"pay_method\":\"1\"\r\n}"
+												},
+												"url": {
+													"raw": "{{v1}}/company/company_offers",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"company",
+														"company_offers"
+													]
+												}
+											},
+											"status": "Unprocessable Content",
+											"code": 422,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Wed, 01 Feb 2023 15:24:42 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "58"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=100"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"data\": {\n        \"pay_method\": \"Pay Method Not Found\"\n    },\n    \"msg\": \"validation errors\",\n    \"type\": \"error\",\n    \"code\": 422\n}"
+										},
+										{
+											"name": "Offer stored successfully",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"expire_date\" : \"2020-12-01\",\r\n    \"scientefic_name\":\"Googssssle\",\r\n    \"commercial_name\":\"Googsssle\",\r\n    \"bonus\":\"1.5\",\r\n    \"offer_duration\":\"2\",\r\n    \"pay_method\":\"1\"\r\n}"
+												},
+												"url": {
+													"raw": "{{v1}}/company/company_offers",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"company",
+														"company_offers"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Wed, 01 Feb 2023 17:39:38 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "57"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=100"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"data\": {\n        \"scientefic_name\": \"Googssssle\",\n        \"commercial_name\": \"Googsssle\",\n        \"offer_duration_id\": \"2\",\n        \"offer_duration_name\": \"Cheek\",\n        \"pay_method\": \"cash\",\n        \"bonus\": \"1.5\",\n        \"created_at\": \"2023-02-01\",\n        \"updated_at\": \"2023-02-01\"\n    },\n    \"msg\": \"Offer Added Successfully\",\n    \"type\": \"success\",\n    \"code\": 200\n}"
+										},
+										{
+											"name": "Names are already in use",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"expire_date\" : \"2020-12-01\",\r\n    \"scientefic_name\":\"Googssssle\",\r\n    \"commercial_name\":\"Googsssle\",\r\n    \"bonus\":\"1.5\",\r\n    \"offer_duration\":\"2\",\r\n    \"pay_method\":\"1\"\r\n}"
+												},
+												"url": {
+													"raw": "{{v1}}/company/company_offers",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"company",
+														"company_offers"
+													]
+												}
+											},
+											"status": "Unprocessable Content",
+											"code": 422,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Wed, 01 Feb 2023 17:40:27 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "59"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=100"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"data\": {\n        \"commercial_name\": \"Commercial Name Is Already In Use\",\n        \"scientefic_name\": \"Scientefic Name Is Already In Use\"\n    },\n    \"msg\": \"validation errors\",\n    \"type\": \"error\",\n    \"code\": 422\n}"
+										}
+									]
+								},
+								{
+									"name": "Update Offer",
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/vnd.api+json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/vnd.api+json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"expire_date\" : \"2020-12-01\",\r\n    \"scientefic_name\":\"Googssssle\",\r\n    \"commercial_name\":\"Googsssle\",\r\n    \"bonus\":\"1.5\",\r\n    \"offer_duration\":\"2\",\r\n    \"pay_method\":\"1\"\r\n}"
+										},
+										"url": {
+											"raw": "{{v1}}/company/company_offers/40",
+											"host": [
+												"{{v1}}"
+											],
+											"path": [
+												"company",
+												"company_offers",
+												"40"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "all values are required",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													}
+												],
+												"url": {
+													"raw": "{{v1}}/company/company_offers",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"company",
+														"company_offers"
+													]
+												}
+											},
+											"status": "Unprocessable Content",
+											"code": 422,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Wed, 01 Feb 2023 14:19:11 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "58"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=100"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"data\": {\n        \"commercial_name\": [\n            \"Commercial Name Cannot Be Empty\"\n        ],\n        \"scientefic_name\": [\n            \"Scientefic Name Cannot Be Empty\"\n        ],\n        \"bonus\": [\n            \"Bonus Cannot Be Empty\"\n        ],\n        \"expire_date\": [\n            \"Expire Date Cannot Be Empty\"\n        ],\n        \"offer_duration\": [\n            \"Offer Duration Cannot Be Empty\"\n        ],\n        \"pay_method\": [\n            \"Pay Method Cannot Be Empty\"\n        ]\n    },\n    \"msg\": \"validation errors\",\n    \"type\": \"error\",\n    \"code\": 422\n}"
+										},
+										{
+											"name": "Names Length",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"commercial_name\" : \"asdf\",\r\n    \"scientefic_name\":\"112\"\r\n}"
+												},
+												"url": {
+													"raw": "{{v1}}/company/company_offers",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"company",
+														"company_offers"
+													]
+												}
+											},
+											"status": "Unprocessable Content",
+											"code": 422,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Wed, 01 Feb 2023 15:02:17 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "59"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=100"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"data\": {\n        \"commercial_name\": [\n            \"Commercial Name Cannot Be Greater Than 255 Characters\"\n        ],\n        \"scientefic_name\": [\n            \"Scientefic Name Cannot Be Greater Than 255 Characters\"\n        ]\n    },\n    \"msg\": \"validation errors\",\n    \"type\": \"error\",\n    \"code\": 422\n}"
+										},
+										{
+											"name": "Bonus must be a number",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"bonus\" : \"asdf\",\r\n    \"scientefic_name\":\"112\"\r\n}"
+												},
+												"url": {
+													"raw": "{{v1}}/company/company_offers",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"company",
+														"company_offers"
+													]
+												}
+											},
+											"status": "Unprocessable Content",
+											"code": 422,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Wed, 01 Feb 2023 15:04:41 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "59"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=100"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"data\": {\n        \"bonus\": [\n            \"Bonus must be a number.\"\n        ]\n    },\n    \"msg\": \"validation errors\",\n    \"type\": \"error\",\n    \"code\": 422\n}"
+										},
+										{
+											"name": "Bonus min value",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"bonus\" : \"0\",\r\n    \"scientefic_name\":\"112\"\r\n}"
+												},
+												"url": {
+													"raw": "{{v1}}/company/company_offers",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"company",
+														"company_offers"
+													]
+												}
+											},
+											"status": "Unprocessable Content",
+											"code": 422,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Wed, 01 Feb 2023 15:05:17 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "58"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=100"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"data\": {\n        \"bonus\": [\n            \"Bonus  must be at least 0.1.\"\n        ]\n    },\n    \"msg\": \"validation errors\",\n    \"type\": \"error\",\n    \"code\": 422\n}"
+										},
+										{
+											"name": "Store Offer",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"expire_date\" : \"0\",\r\n    \"scientefic_name\":\"112\"\r\n}"
+												},
+												"url": {
+													"raw": "{{v1}}/company/company_offers",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"company",
+														"company_offers"
+													]
+												}
+											},
+											"status": "Unprocessable Content",
+											"code": 422,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Wed, 01 Feb 2023 15:05:58 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "59"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=100"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"data\": {\n        \"expire_date\": [\n            \"Expire Date Must Be In Y-m-d Format\"\n        ]\n    },\n    \"msg\": \"validation errors\",\n    \"type\": \"error\",\n    \"code\": 422\n}"
+										},
+										{
+											"name": "Offer duration id not found",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"expire_date\" : \"2020-12-01\",\r\n    \"scientefic_name\":\"Google\",\r\n    \"commercial_name\":\"Google\",\r\n    \"bonus\":\"1.5\",\r\n    \"offer_duration\":\"3\",\r\n    \"pay_method\":\"0\"\r\n}"
+												},
+												"url": {
+													"raw": "{{v1}}/company/company_offers",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"company",
+														"company_offers"
+													]
+												}
+											},
+											"status": "Unprocessable Content",
+											"code": 422,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Wed, 01 Feb 2023 15:24:08 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "57"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=100"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"data\": {\n        \"offer_duration\": \"Offer Duration Not Found\"\n    },\n    \"msg\": \"validation errors\",\n    \"type\": \"error\",\n    \"code\": 422\n}"
+										},
+										{
+											"name": "Pay Method not found",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"expire_date\" : \"2020-12-01\",\r\n    \"scientefic_name\":\"Google\",\r\n    \"commercial_name\":\"Google\",\r\n    \"bonus\":\"1.5\",\r\n    \"offer_duration\":\"2\",\r\n    \"pay_method\":\"1\"\r\n}"
+												},
+												"url": {
+													"raw": "{{v1}}/company/company_offers",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"company",
+														"company_offers"
+													]
+												}
+											},
+											"status": "Unprocessable Content",
+											"code": 422,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Wed, 01 Feb 2023 15:24:42 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "58"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=100"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"data\": {\n        \"pay_method\": \"Pay Method Not Found\"\n    },\n    \"msg\": \"validation errors\",\n    \"type\": \"error\",\n    \"code\": 422\n}"
+										},
+										{
+											"name": "Offer stored successfully",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"expire_date\" : \"2020-12-01\",\r\n    \"scientefic_name\":\"Googssssle\",\r\n    \"commercial_name\":\"Googsssle\",\r\n    \"bonus\":\"1.5\",\r\n    \"offer_duration\":\"2\",\r\n    \"pay_method\":\"1\"\r\n}"
+												},
+												"url": {
+													"raw": "{{v1}}/company/company_offers",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"company",
+														"company_offers"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Wed, 01 Feb 2023 17:39:38 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "57"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=100"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"data\": {\n        \"scientefic_name\": \"Googssssle\",\n        \"commercial_name\": \"Googsssle\",\n        \"offer_duration_id\": \"2\",\n        \"offer_duration_name\": \"Cheek\",\n        \"pay_method\": \"cash\",\n        \"bonus\": \"1.5\",\n        \"created_at\": \"2023-02-01\",\n        \"updated_at\": \"2023-02-01\"\n    },\n    \"msg\": \"Offer Added Successfully\",\n    \"type\": \"success\",\n    \"code\": 200\n}"
+										},
+										{
+											"name": "Names are already in use",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"expire_date\" : \"2020-12-01\",\r\n    \"scientefic_name\":\"Googssssle\",\r\n    \"commercial_name\":\"Googsssle\",\r\n    \"bonus\":\"1.5\",\r\n    \"offer_duration\":\"2\",\r\n    \"pay_method\":\"1\"\r\n}"
+												},
+												"url": {
+													"raw": "{{v1}}/company/company_offers",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"company",
+														"company_offers"
+													]
+												}
+											},
+											"status": "Unprocessable Content",
+											"code": 422,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Wed, 01 Feb 2023 17:40:27 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "59"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=100"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"data\": {\n        \"commercial_name\": \"Commercial Name Is Already In Use\",\n        \"scientefic_name\": \"Scientefic Name Is Already In Use\"\n    },\n    \"msg\": \"validation errors\",\n    \"type\": \"error\",\n    \"code\": 422\n}"
+										},
+										{
+											"name": "Update Offer",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"expire_date\" : \"2020-12-01\",\r\n    \"scientefic_name\":\"Googssssle\",\r\n    \"commercial_name\":\"Googsssle\",\r\n    \"bonus\":\"1.5\",\r\n    \"offer_duration\":\"2\",\r\n    \"pay_method\":\"1\"\r\n}"
+												},
+												"url": {
+													"raw": "{{v1}}/company/company_offers/40",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"company",
+														"company_offers",
+														"40"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Wed, 01 Feb 2023 17:50:47 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "58"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=100"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"data\": {\n        \"id\": 40,\n        \"user_id\": 8,\n        \"sc_name\": \"Googssssle\",\n        \"com_name\": \"Googsssle\",\n        \"expire_date\": \"2020-12-01\",\n        \"offer_duration\": \"2\",\n        \"pay_method\": 1,\n        \"bonus\": 1.5,\n        \"created_at\": \"2023-02-01\",\n        \"updated_at\": \"2023-02-01\"\n    },\n    \"msg\": \"Offer Updated Successfully\",\n    \"type\": \"success\",\n    \"code\": 200\n}"
+										},
+										{
+											"name": "The Data are the same , so nothing to do",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"expire_date\" : \"2020-12-01\",\r\n    \"scientefic_name\":\"Googssssle\",\r\n    \"commercial_name\":\"Googsssle\",\r\n    \"bonus\":\"1.5\",\r\n    \"offer_duration\":\"2\",\r\n    \"pay_method\":\"1\"\r\n}"
+												},
+												"url": {
+													"raw": "{{v1}}/company/company_offers/40",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"company",
+														"company_offers",
+														"40"
+													]
+												}
+											},
+											"status": "No Content",
+											"code": 204,
+											"_postman_previewlanguage": "plain",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Wed, 01 Feb 2023 17:52:45 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "57"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=100"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												}
+											],
+											"cookie": [],
+											"body": null
+										}
+									]
+								},
+								{
+									"name": "Delete Offer",
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/vnd.api+json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/vnd.api+json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{v1}}/company/company_offers/40",
+											"host": [
+												"{{v1}}"
+											],
+											"path": [
+												"company",
+												"company_offers",
+												"40"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Offer deleted successfully",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													}
+												],
+												"url": {
+													"raw": "{{v1}}/company/company_offers/40",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"company",
+														"company_offers",
+														"40"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Wed, 01 Feb 2023 17:58:14 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "57"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=99"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"data\": null,\n    \"msg\": \"Offer Deleted Successfully\",\n    \"type\": \"success\",\n    \"code\": 200\n}"
+										},
+										{
+											"name": "Offer not found",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													}
+												],
+												"url": {
+													"raw": "{{v1}}/company/company_offers/40",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"company",
+														"company_offers",
+														"40"
+													]
+												}
+											},
+											"status": "Not Found",
+											"code": 404,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Wed, 01 Feb 2023 17:58:35 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "59"
+												},
+												{
+													"key": "Vary",
+													"value": "Origin"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=100"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"data\": null,\n    \"msg\": \"Not Found\",\n    \"type\": \"error\",\n    \"code\": 404\n}"
+										}
+									]
+								}
+							]
 						}
 					]
 				}

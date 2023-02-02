@@ -67,5 +67,6 @@ class Kernel extends HttpKernel
         'hasDataEntryPermissions' => \App\Http\Middleware\hasDataEntryAccess::class,
         'hasMonitorAndEvaluationPermissions' => \App\Http\Middleware\hasMonitorAndEvaluationAccess::class,
         'hasHumanResourcePermissions' => \App\Http\Middleware\hasHumanResourceAccess::class,
+        'hasMarktingPermissions' => \App\Http\Middleware\hasMarktingAccess::class,
     ];
 }

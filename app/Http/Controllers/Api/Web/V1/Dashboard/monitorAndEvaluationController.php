@@ -37,8 +37,8 @@ class monitorAndEvaluationController extends Controller
         // Monitor Collection Not Works Maybe because different models
         return $this->resourceResponse(
             new monitorAndEvaluationCollection(
-                User::join(config('roles.table_name'), config('roles.table_name').'.id', 'users.role_id')
-                    ->whereIn(config('roles.table_name').'.name', config('roles.monitor_roles'))
+                User::join('roles', 'roles.id', 'users.role_id')
+                    ->whereIn('roles.name', config('roles.monitor_roles'))
                     ->where('users.id', '!=', $this->getAuthenticatedUserId())
                     ->select(
                         [
@@ -46,7 +46,7 @@ class monitorAndEvaluationController extends Controller
                             'users.full_name',
                             'users.username',
                             'users.role_id',
-                            config('roles.table_name').'.name as role_name',
+                            'roles.name as role_name',
                             'users.created_at',
                             'users.updated_at',
                         ]

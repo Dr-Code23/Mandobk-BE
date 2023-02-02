@@ -4,8 +4,11 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-use Database\Seeders\Api\Web\V1\dataEntrySeeder;
+use Database\Seeders\Api\Web\V1\companyOffersSeeder;
 use Database\Seeders\Api\Web\V1\humanResourceSeeder;
+use Database\Seeders\Api\Web\V1\marktingSeeder;
+use Database\Seeders\Api\Web\V1\payMethodsSeeder;
+use Database\Seeders\Api\Web\V1\productSeeder;
 use Database\Seeders\Api\Web\V1\RolesSeeder;
 use Database\Seeders\Api\Web\V1\UserSeeder;
 use Illuminate\Database\Seeder;
@@ -28,8 +31,11 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RolesSeeder::class,
             UserSeeder::class,
-            dataEntrySeeder::class,
+            productSeeder::class,
             humanResourceSeeder::class,
+            payMethodsSeeder::class,
+            companyOffersSeeder::class,
+            // marktingSeeder::class,
         ]);
     }
 }

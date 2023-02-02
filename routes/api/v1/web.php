@@ -76,6 +76,49 @@ Route::group(['namespace' => '\App\Http\Controllers\Api\Web\V1'], function () {
                         Route::match(['POST', 'PUT'], '', 'humanResourceController@storeOrUpdate')->name('human_resource_store');
                     }
                 );
+
+                // Markting
+
+                Route::group(
+                    ['prefix' => 'markting', 'middleware' => ['hasMarktingPermissions']],
+                    function () {
+                        Route::get('', 'marktingController@index');
+                        Route::get('{ad}', 'marktingController@show');
+                        Route::post('', 'marktingController@store')->name('markting_store');
+                        Route::post('{ad}', 'marktingController@update')->name('markting_update');
+                        Route::delete('{ad}', 'marktingController@destroy');
+                    }
+                );
+
+                Route::group(['prefix' => 'order_management'], function () {
+                }
+                );
+            }
+        );
+        // Start Working On Normal Users
+        Route::group(
+            ['prefix' => 'company', 'namespace' => 'Company'],
+            function () {
+                // Company Products
+                Route::group(
+                    ['prefix' => 'products'],
+                    function () {
+                        Route::get('', 'productController@index');
+                        Route::post('', 'productController@store');
+                    }
+                );
+
+                // Company Offers
+                Route::group(
+                    ['prefix' => 'company_offers'],
+                    function () {
+                        Route::get('', 'companyOffersController@index');
+                        Route::get('{offer}', 'companyOffersController@show');
+                        Route::post('', 'companyOffersController@store');
+                        Route::put('/{offer}', 'companyOffersController@update');
+                        Route::delete('/{offer}', 'companyOffersController@destroy');
+                    }
+                );
             }
         );
     });

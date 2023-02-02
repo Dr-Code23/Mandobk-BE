@@ -27,7 +27,7 @@ return [
     'between' => [
         'array' => ' must have between :min and :max items.',
         'file' => ' must be between :min and :max kilobytes.',
-        'numeric' => ' must be between :min and :max.',
+        'numeric' => 'must be between :min and :max.',
         'string' => ' must be between :min and :max characters.',
     ],
     'boolean' => 'Can Be True , false , 0 or 1',
@@ -41,7 +41,7 @@ return [
     'declined_if' => ' must be declined when :other is :value.',
     'different' => ' and :other must be different.',
     'digits' => ' must be :digits digits.',
-    'digits_between' => ' must be between :min and :max digits.',
+    'digits_between' => 'must be between :min and :max digits.',
     'dimensions' => ' has invalid image dimensions.',
     'distinct' => ' field has a duplicate value.',
     'doesnt_end_with' => ' may not end with one of the following: :values.',
@@ -93,7 +93,7 @@ return [
         'string' => 'Cannot Be Greater Than :max characters',
     ],
     'max_digits' => ' must not have more than :max digits.',
-    'mimes' => ' must be a file of type: :values.',
+    'mimes' => 'must be a file of type: :values.',
     'mimetypes' => ' must be a file of type: :values.',
     'min' => [
         'array' => ' must have at least :min items.',
@@ -105,7 +105,7 @@ return [
     'multiple_of' => ' must be a multiple of :value.',
     'not_in' => 'The selected :attribute is invalid.',
     'not_regex' => ' format is invalid.',
-    'numeric' => ' must be a number.',
+    'numeric' => 'must be a number.',
     'password' => [
         'letters' => ' letter',
         'min' => ':attribute-short',
@@ -148,6 +148,7 @@ return [
     'not_found' => 'Not Found',
 
     // Custom Error Messages
+    'not_fully_numbers_symbols' => 'Cannot be fully numbers or symbols',
     'custom_string' => [
         'invalid' => 'Can Only Contain arabic letters , english letters , numbers and symbols ',
     ],
@@ -202,7 +203,9 @@ return [
         'requried_if' => 'Is required when user_status is attendance',
         'after' => 'Must be after :date',
     ],
-
+    'discount' => [
+        'regex' => 'format is invalid',
+    ],
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines

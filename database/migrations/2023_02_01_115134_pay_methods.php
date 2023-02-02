@@ -12,12 +12,9 @@ return new class() extends Migration {
      */
     public function up()
     {
-        Schema::create('markting', function (Blueprint $table) {
+        Schema::create('pay_methods', function (Blueprint $table) {
             $table->id();
-            $table->string('medicine_name');
-            $table->string('company_name');
-            $table->double('discount')->default(0);
-            $table->string('img');
+            $table->string('name');
         });
     }
 
@@ -28,6 +25,6 @@ return new class() extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('markting');
+        Schema::dropIfExists('pay_methods');
     }
 };
