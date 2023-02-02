@@ -25,7 +25,7 @@ class humanResourceController extends Controller
      */
     public function index()
     {
-        $users = User::join(config('roles.table_name'), config('roles.table_name').'.id', 'users.role_id')
+        $users = User::join('roles', 'roles.id', 'users.role_id')
             ->join('human_resources', 'human_resources.user_id', 'users.id')
             ->whereIn(config('roles_table_name').'name', config('roles.human_resources_roles'))
             ->orderBy('human_resources.date', 'DESC')
@@ -49,7 +49,7 @@ class humanResourceController extends Controller
 
     public function show(User $user)
     {
-        $user = User::join(config('roles.table_name'), config('roles.table_name').'.id', 'users.role_id')
+        $user = User::join('roles', 'roles.id', 'users.role_id')
             ->where('users.id', $user->id)
             ->join('human_resources', 'human_resources.user_id', 'users.id')
             ->whereIn(config('roles_table_name').'name', config('roles.human_resources_roles'))
@@ -74,12 +74,12 @@ class humanResourceController extends Controller
     public function storeOrUpdate(humanResourceRequest $request)
     {
         // Check if the user is not CEO
-        $user = User::find($request->user_id)->join(config('roles.table_name'), 'users.role_id', config('roles.table_name').'.id')
+        $user = User::find($request->user_id)->join('roles', 'users.role_id', 'roles.id')
             ->where('users.id', $request->user_id)
             ->select(['roles.name as role_name'])->first();
         if ($user && $user->role_name != 'ceo') {
-            $fullName_Role = User::where('users.id', $request->user_id)->join(config('roles.table_name'), config('roles.table_name').'.id', 'users.role_id')
-                ->select(['users.full_name', config('roles.table_name').'.name as role_name'])
+            $fullName_Role = User::where('users.id', $request->user_id)->join('roles', 'roles.id', 'users.role_id')
+                ->select(['users.full_name', 'roles.name as role_name'])
                 ->first();
             if ($human_resource = HumanResource::where('date', $request->date)->where('user_id', $request->user_id)->first()) {
                 $anyChangeOccrued = false;
