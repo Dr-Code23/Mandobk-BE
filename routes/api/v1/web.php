@@ -124,6 +124,7 @@ Route::group(['namespace' => '\App\Http\Controllers\Api\Web\V1'], function () {
                     ['prefix' => 'sales'],
                     function () {
                         Route::get('', 'salesController@index');
+                        Route::post('', 'salesController@store');
                     }
                 );
             }

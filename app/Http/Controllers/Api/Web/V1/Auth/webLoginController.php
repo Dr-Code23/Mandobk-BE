@@ -52,7 +52,7 @@ class webLoginController extends Controller
                 'token' => \Illuminate\Support\Str::random(50),
             ], __('standard.logged_in'));
         } else {
-            return $this->forbiddenResponse(__('standard.not_authorized'), null ,Response::HTTP_UNAUTHORIZED);
+            return $this->forbiddenResponse(__('standard.not_authorized'), null, Response::HTTP_UNAUTHORIZED);
         }
     }
 }

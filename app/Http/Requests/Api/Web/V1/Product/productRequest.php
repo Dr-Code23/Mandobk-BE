@@ -31,6 +31,7 @@ class productRequest extends FormRequest
         $double = ['required', 'numeric', 'min:0.1'];
 
         return [
+            'role_id' => $this->role_id,
             'commercial_name' => ['required', 'max:255'],
             'scientefic_name' => ['required', 'max:255'],
             'quantity' => ['required', 'regex:'.config('regex.integer')],

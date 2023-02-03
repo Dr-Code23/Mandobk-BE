@@ -24,7 +24,8 @@ trait translationTrait
         return __(config('app.web_v1').'/'.$file).' '.__('validation.'.$key);
     }
 
-    public function translateWord(string $word_path){
-        return __(config('app.web_v1').'/' . $word_path);
+    public function translateWord(string $word_path)
+    {
+        return __(config('app.web_v1').'/'.$word_path);
     }
 }

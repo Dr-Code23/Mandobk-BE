@@ -38,18 +38,29 @@ class Product extends Model
     {
         return Attribute::make(
             get: function ($val) {
+                // Cache All Roles Ids
+                if (!Cache::get('all_roles')) {
+                    $roles = [];
+                    foreach (Role::all(['id', 'name']) as $role) {
+                        $roles[$role->name] = $role->id;
+                    }
+                    Cache::set('all_roles', $roles);
+                }
+                $all_roles = Cache::get('all_roles');
+
                 // Return The Original Path Number For All Users Except Admins
-                if (!in_array($this->role_id, [Role::where('name', 'ceo')->first(['id'])->id, Role::where('name', 'data_entry')->first(['id'])->id])) {
+                $authenticated_user_role_id = $this->getAuthenticatedUserInformation()->role_id;
+                if (!in_array($authenticated_user_role_id, [
+                    $all_roles['ceo'],
+                    $all_roles['data_entry'],
+                ])) {
                     return $val;
                 }
-                // Check If role_name cached instead of fetch it again from DB
-                $role_name = Cache::get($this->role_id);
-                if (!$role_name) {
-                    $role_name = Role::where('id', $this->role_id)->first(['name'])->name;
-                    Cache::set($this->role_id, $role_name);
+                foreach ($all_roles as $role_name => $role_id) {
+                    if ($role_id == $this->role_id) {
+                        return config('roles.role_patch_number_symbol.'.$role_name).'-'.$val;
+                    }
                 }
-
-                return config('roles.role_patch_number_symbol.'.$role_name).'-'.$val;
             }
         );
     }

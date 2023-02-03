@@ -1,15 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Api\Web\V1\Company;
+namespace App\Http\Controllers\Api\V1\Site\Company;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\Web\V1\Sales\salesRequest;
+use App\Http\Requests\Api\V1\Site\Company\SalesRequest;
 use App\RepositoryInterface\SalesRepositoryInterface;
-use App\Traits\salesTrait;
 
-class salesController extends Controller
+class SalesController extends Controller
 {
-    use salesTrait;
     private $salesRepository;
 
     public function __construct(SalesRepositoryInterface $salesRepository)
@@ -22,7 +20,7 @@ class salesController extends Controller
         return $this->salesRepository->getAllSales(1);
     }
 
-    public function store(salesRequest $request)
+    public function store(SalesRequest $request)
     {
         return $this->salesRepository->storeSale($request);
     }

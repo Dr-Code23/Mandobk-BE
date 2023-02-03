@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Api\Web\V1\Company;
+namespace App\Http\Controllers\Api\V1\Site\Company;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Web\V1\Company\CompanyOffers\companyOfferRequest;
 use App\Models\Api\Web\V1\CompanyOffer;
 use App\RepositoryInterface\CompanyOffersRepositoryInterface;
 
-class companyOffersController extends Controller
+class CompanyOffersController extends Controller
 {
     private $companyOffers;
 

@@ -10,14 +10,8 @@ trait salesTrait
 {
     use userTrait;
 
-    public function getAllSales()
+    public function getAllSales(int $type)
     {
-        $type = 3;
-        if ($this->getAuthenticatedUserInformation()->role_id == Role::where('name', 'company')->first(['id'])->id) {
-            $type = 1;
-        } elseif ($this->getAuthenticatedUserInformation()->role_id == Role::where('name', 'storehouse')->first(['id'])->id) {
-            $type = 2;
-        }
         $sales = null;
         $from_role = Role::where('name', 'pharmacy')->first(['id'])->id;
         $to_id = Role::where('name', 'pharmacy_sub_user')->first(['id'])->id;

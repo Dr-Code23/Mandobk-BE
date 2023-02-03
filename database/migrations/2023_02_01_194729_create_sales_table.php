@@ -29,6 +29,7 @@ return new class() extends Migration {
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
 
+            $table->json('details');
             $table->enum('type', ['1', '2', '3'])->comment('1 => company_to_storehouse , 2=> storehouse_to_pharmacy , 3=> Pharmacy_to_visitor');
             $table->timestamps();
         });

@@ -193,6 +193,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\RepositoryServiceProvider::class,
     ],
 
     /*
@@ -212,7 +213,6 @@ return [
         'DNS2D' => Milon\Barcode\Facades\DNS2DFacade::class,
     ])->toArray(),
 
-
     // Custom Api Routes To Access
-    'web_v1' => 'Api/Web/V1'
+    'web_v1' => 'Api/Web/V1',
 ];
