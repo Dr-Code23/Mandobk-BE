@@ -34,14 +34,13 @@ class AuthController extends Controller
         // Check if the user exists
         if ($token = Auth::attempt(['username' => $username, 'password' => $password])) {
             $user = Auth::user();
-            $jwt_cookie = cookie('jwt_token', $token, 60);
 
-            return $this->responseWithCookie($jwt_cookie, [
+            return $this->success([
                 'username' => $user->username,
                 'full_name' => $this->strLimit($user->full_name),
                 'role' => Role::where('id', $user->role_id)->first('name')->name,
-                'token' => \Illuminate\Support\Str::random(50),
-            ], __('standard.logged_in'));
+                'token' => $token,
+            ]);
         } else {
             return $this->forbiddenResponse(__('standard.not_authorized'), null, Response::HTTP_UNAUTHORIZED);
         }
@@ -68,9 +67,16 @@ class AuthController extends Controller
                 'role_id' => $role->id,
             ]);
             $token = Auth::attempt(['username' => $req->username, 'password' => $req->password]);
-            $jwt_cookie = cookie('jwt_token', $token, 1e9);
+            // $jwt_cookie = cookie('jwt_token', $token, 1e9);
 
-            return $this->responseWithCookie($jwt_cookie, ['full_name' => $this->strLimit($full_name), 'username' => $username, 'role' => $role->name, 'token' => \Illuminate\Support\Str::random(50)], __('standard.account_created'));
+            return $this->success([
+                'full_name' => $this->strLimit($full_name),
+                'username' => $username,
+                'role' => $role->name,
+                'token' => $token,
+            ],
+                __('standard.account_created')
+            );
         }
 
         // Role Is not found
