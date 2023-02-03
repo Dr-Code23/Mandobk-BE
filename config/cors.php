@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'paths' => ['web/*', 'mobile/*',  'sanctum/csrf-cookie'],
+    'paths' => ['v1/*', 'sanctum/csrf-cookie'],
 
     'allowed_methods' => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
 
