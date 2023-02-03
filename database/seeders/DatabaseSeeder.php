@@ -10,7 +10,6 @@ use Database\Seeders\Api\Web\V1\marktingSeeder;
 use Database\Seeders\Api\Web\V1\payMethodsSeeder;
 use Database\Seeders\Api\Web\V1\productSeeder;
 use Database\Seeders\Api\Web\V1\RolesSeeder;
-use Database\Seeders\Api\Web\V1\saleDetaisSeeder;
 use Database\Seeders\Api\Web\V1\saleSeeder;
 use Database\Seeders\Api\Web\V1\subUserSeeder;
 use Database\Seeders\Api\Web\V1\UserSeeder;
@@ -34,7 +33,6 @@ class DatabaseSeeder extends Seeder
             payMethodsSeeder::class,
             companyOffersSeeder::class,
             saleSeeder::class,
-            saleDetaisSeeder::class,
             marktingSeeder::class,
         ]);
     }

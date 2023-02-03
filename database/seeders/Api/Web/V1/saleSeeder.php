@@ -20,6 +20,7 @@ class saleSeeder extends Seeder
         Sale::create([
             'from_id' => User::where('role_id', Role::where('name', 'company')->first(['id'])->id)->first(['id'])->id,
             'to_id' => User::where('role_id', Role::where('name', 'storehouse')->first(['id'])->id)->first(['id'])->id,
+            'details' => json_encode([]),
             'type' => '1',
         ]);
 
@@ -27,6 +28,7 @@ class saleSeeder extends Seeder
         Sale::create([
             'from_id' => User::where('role_id', Role::where('name', 'storehouse')->first(['id'])->id)->first(['id'])->id,
             'to_id' => User::where('role_id', Role::where('name', 'pharmacy')->first(['id'])->id)->first(['id'])->id,
+            'details' => json_encode([]),
             'type' => '2',
         ]);
 
@@ -34,6 +36,7 @@ class saleSeeder extends Seeder
         Sale::create([
             'from_id' => User::where('role_id', Role::where('name', 'storehouse')->first(['id'])->id)->first(['id'])->id,
             'to_id' => User::where('role_id', Role::where('name', 'pharmacy_sub_user')->first(['id'])->id)->first(['id'])->id,
+            'details' => json_encode([]),
             'type' => '2',
         ]);
 
@@ -41,6 +44,7 @@ class saleSeeder extends Seeder
         Sale::create([
             'from_id' => User::where('role_id', Role::where('name', 'pharmacy')->first(['id'])->id)->first(['id'])->id,
             'to_id' => User::where('username', 'customer')->first(['id'])->id,
+            'details' => json_encode([]),
             'type' => '3',
         ]);
 
@@ -48,6 +52,7 @@ class saleSeeder extends Seeder
         Sale::create([
             'from_id' => User::where('role_id', Role::where('name', 'pharmacy_sub_user')->first(['id'])->id)->first(['id'])->id,
             'to_id' => User::where('username', 'customer')->first(['id'])->id,
+            'details' => json_encode([]),
             'type' => '3',
         ]);
     }

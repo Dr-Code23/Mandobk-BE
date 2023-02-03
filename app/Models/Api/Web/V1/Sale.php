@@ -12,5 +12,6 @@ class Sale extends Model
         'from_id',
         'to_id',
         'type',
+        'details',
     ];
 }
