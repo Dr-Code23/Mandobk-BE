@@ -1,0 +1,1286 @@
+{
+	"info": {
+		"_postman_id": "de282542-8325-49ba-a39f-4fc9553286b0",
+		"name": "v1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19177587"
+	},
+	"item": [
+		{
+			"name": "Site",
+			"item": []
+		},
+		{
+			"name": "Dashboard",
+			"item": []
+		},
+		{
+			"name": "Mobile",
+			"item": []
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "SignUp",
+					"item": [
+						{
+							"name": "SignUp",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/vnd.api+json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/vnd.api+json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"full_name\" : \"a\",\r\n    \"username\" : \"n3asdfassssdfs02a\",\r\n    \"phone\" : \"23021977Aa@\",\r\n    \"role\" : 8,\r\n    \"password\" : \"2302197$7Aa\"\r\n}"
+								},
+								"url": {
+									"raw": "{{v1}}/auth/signup",
+									"host": [
+										"{{v1}}"
+									],
+									"path": [
+										"auth",
+										"signup"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "All Values Are Required",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/vnd.api+json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/vnd.api+json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \r\n}"
+										},
+										"url": {
+											"raw": "{{v1}}/signup",
+											"host": [
+												"{{v1}}"
+											],
+											"path": [
+												"signup"
+											]
+										}
+									},
+									"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+									"code": 422,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Tue, 24 Jan 2023 13:47:35 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.1.5"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "59"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": [\n        {\n            \"full_name\": [\n                \"name-required\"\n            ],\n            \"username\": [\n                \"username-required\"\n            ],\n            \"phone\": [\n                \"phone-required\"\n            ],\n            \"role\": [\n                \"role-required\"\n            ],\n            \"password\": [\n                \"password-required\"\n            ]\n        }\n    ],\n    \"msg\": \"validation errors\",\n    \"type\": \"error\",\n    \"code\": 422\n}"
+								},
+								{
+									"name": "Name must have alphapetical characters only",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/vnd.api+json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/vnd.api+json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"full_name\" : \"1\"\r\n}"
+										},
+										"url": {
+											"raw": "{{v1}}/signup",
+											"host": [
+												"{{v1}}"
+											],
+											"path": [
+												"signup"
+											]
+										}
+									},
+									"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+									"code": 422,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Tue, 24 Jan 2023 13:49:50 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.1.5"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "55"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": [\n        {\n            \"full_name\": [\n                \"name-invalid\"\n            ]\n        }\n    ],\n    \"msg\": \"validation errors\",\n    \"type\": \"error\",\n    \"code\": 422\n}"
+								},
+								{
+									"name": "Name Cannot Be More Than 50 characters",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/vnd.api+json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/vnd.api+json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"full_name\" : \"GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG\"\r\n}"
+										},
+										"url": {
+											"raw": "{{v1}}/signup",
+											"host": [
+												"{{v1}}"
+											],
+											"path": [
+												"signup"
+											]
+										}
+									},
+									"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+									"code": 422,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Tue, 24 Jan 2023 13:51:16 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.1.5"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "58"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": [\n        {\n            \"full_name\": [\n                \"name-long\"\n            ]\n        }\n    ],\n    \"msg\": \"validation errors\",\n    \"type\": \"error\",\n    \"code\": 422\n}"
+								},
+								{
+									"name": "Username Cannot Be Less Than 6 characters",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/vnd.api+json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/vnd.api+json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"full_name\" : \"GGGGG\",\r\n    \"username\" : \"1\"\r\n}"
+										},
+										"url": {
+											"raw": "{{v1}}/signup",
+											"host": [
+												"{{v1}}"
+											],
+											"path": [
+												"signup"
+											]
+										}
+									},
+									"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+									"code": 422,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Tue, 24 Jan 2023 13:52:55 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.1.5"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "58"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": [\n        {\n            \"username\": [\n                \"username-short\"\n            ]\n        }\n    ],\n    \"msg\": \"validation errors\",\n    \"type\": \"error\",\n    \"code\": 422\n}"
+								},
+								{
+									"name": "Username Cannot be More than 50 characters",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/vnd.api+json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/vnd.api+json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"full_name\" : \"GGGGG\",\r\n    \"username\" : \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa1\"\r\n}"
+										},
+										"url": {
+											"raw": "{{v1}}/signup",
+											"host": [
+												"{{v1}}"
+											],
+											"path": [
+												"signup"
+											]
+										}
+									},
+									"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+									"code": 422,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Tue, 24 Jan 2023 13:53:36 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.1.5"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "59"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": [\n        {\n            \"username\": [\n                \"username-long\"\n            ]\n        }\n    ],\n    \"msg\": \"validation errors\",\n    \"type\": \"error\",\n    \"code\": 422\n}"
+								},
+								{
+									"name": "Username Is Already Exists",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/vnd.api+json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/vnd.api+json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"full_name\" : \"GGGGG\",\r\n    \"username\" : \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa1\"\r\n}"
+										},
+										"url": {
+											"raw": "{{v1}}/signup",
+											"host": [
+												"{{v1}}"
+											],
+											"path": [
+												"signup"
+											]
+										}
+									},
+									"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+									"code": 422,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Tue, 24 Jan 2023 13:53:36 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.1.5"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "59"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": [\n        {\n            \"username\": [\n                \"username-exists\"\n            ]\n        }\n    ],\n    \"msg\": \"validation errors\",\n    \"type\": \"error\",\n    \"code\": 422\n}"
+								},
+								{
+									"name": "The Password Must Be More than 8 characters and contain at least one lower , upper , number and symbol",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/vnd.api+json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/vnd.api+json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"full_name\" : \"GGGGG\",\r\n    \"username\" : \"Google\",\r\n    \"phone\" : \"1234556777\",\r\n    \"role\" : \"5\",\r\n    \"password\" : \"23\"\r\n}"
+										},
+										"url": {
+											"raw": "{{v1}}/signup",
+											"host": [
+												"{{v1}}"
+											],
+											"path": [
+												"signup"
+											]
+										}
+									},
+									"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+									"code": 422,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Tue, 24 Jan 2023 14:01:43 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.1.5"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "58"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": [\n        {\n            \"password\": [\n                \"password-short\",\n                \"password-upper-lower\",\n                \"password-symbol\"\n            ]\n        }\n    ],\n    \"msg\": \"validation errors\",\n    \"type\": \"error\",\n    \"code\": 422\n}"
+								},
+								{
+									"name": "Password Is Found in leaked data on the internet Choose another one",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/vnd.api+json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/vnd.api+json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"full_name\" : \"GGGGG\",\r\n    \"username\" : \"Google\",\r\n    \"phone\" : \"1234556777\",\r\n    \"role\" : \"5\",\r\n    \"password\" : \"Google2302@\"\r\n}"
+										},
+										"url": {
+											"raw": "{{v1}}/signup",
+											"host": [
+												"{{v1}}"
+											],
+											"path": [
+												"signup"
+											]
+										}
+									},
+									"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+									"code": 422,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Tue, 24 Jan 2023 14:05:49 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.1.5"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "59"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"name": "Content-Type",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "{\r\n    \"password\" :[\"password-hacked\"]\r\n}"
+								},
+								{
+									"name": "Account Created Successfully , and user logged in",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/vnd.api+json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/vnd.api+json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"full_name\" : \"GGGGG\",\r\n    \"username\" : \"admin2302\",\r\n    \"phone\" : \"23021977Aa@\",\r\n    \"role\" : \"5\",\r\n    \"password\" : \"Google2302@\"\r\n}"
+										},
+										"url": {
+											"raw": "{{v1}}/signup",
+											"host": [
+												"{{v1}}"
+											],
+											"path": [
+												"signup"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Wed, 25 Jan 2023 08:51:01 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.1.5"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "59"
+										},
+										{
+											"key": "Vary",
+											"value": "Origin"
+										},
+										{
+											"key": "Set-Cookie",
+											"value": "jwt_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0L21hbmRvYmsvcHVibGljL3dlYi92MS9zaWdudXAiLCJpYXQiOjE2NzQ2MzY2NjMsImV4cCI6MTY3NDY0MDI2MywibmJmIjoxNjc0NjM2NjYzLCJqdGkiOiIzUnlLWkROOFB6bEh5UFo4Iiwic3ViIjoiNiIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.gMqtoj6dS2kQb1AQ6rlgxu0dNZFIb3bjUFvhdqawi4Y; expires=Wed, 25 Jan 2023 09:51:03 GMT; Max-Age=3600; path=/; domain=localhost; httponly; samesite=lax"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"token\": \"uCTMrbQJq1nJgdTwa8ytkb6IOnO1BRvWDtDFSxCvPmMInomSeu\"\n    },\n    \"msg\": \"Account Created Successfully , and user logged in\",\n    \"type\": \"success\",\n    \"code\": 200\n}"
+								},
+								{
+									"name": "Role not found",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/vnd.api+json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/vnd.api+json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"full_name\" : \"a\",\r\n    \"username\" : \"n3asdfassssdfs02a\",\r\n    \"phone\" : \"23021977Aa@\",\r\n    \"role\" : 1,\r\n    \"password\" : \"2302197$7Aa\"\r\n}"
+										},
+										"url": {
+											"raw": "{{v1}}/signup",
+											"host": [
+												"{{v1}}"
+											],
+											"path": [
+												"signup"
+											]
+										}
+									},
+									"status": "Unprocessable Content",
+									"code": 422,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Sun, 29 Jan 2023 20:14:40 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.1.5"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "58"
+										},
+										{
+											"key": "Vary",
+											"value": "Origin"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=99"
+										},
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"role\": \"Role Not Found\"\n    },\n    \"msg\": \"validation errors\",\n    \"type\": \"error\",\n    \"code\": 422\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Login",
+					"item": [
+						{
+							"name": "Login",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/vnd.api+json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/vnd.api+json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\" : \"company\",\r\n    \"password\" : \"ceo\"\r\n}"
+								},
+								"url": {
+									"raw": "{{v1}}/auth/login",
+									"host": [
+										"{{v1}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "All Values are required",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/vnd.api+json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/vnd.api+json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{v1}}/login",
+											"host": [
+												"{{v1}}"
+											],
+											"path": [
+												"login"
+											]
+										}
+									},
+									"status": "Unprocessable Content",
+									"code": 422,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Tue, 24 Jan 2023 17:29:39 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.1.5"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "58"
+										},
+										{
+											"key": "Vary",
+											"value": "Origin"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"username\": [\n            \"username-required\"\n        ],\n        \"password\": [\n            \"password-required\"\n        ]\n    },\n    \"msg\": \"validation errors\",\n    \"type\": \"error\",\n    \"code\": 422\n}"
+								},
+								{
+									"name": "Wrong Credentials",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/vnd.api+json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/vnd.api+json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"username\" : \"admin2302\",\r\n    \"password\" : \"23021977\"\r\n}"
+										},
+										"url": {
+											"raw": "{{v1}}/login",
+											"host": [
+												"{{v1}}"
+											],
+											"path": [
+												"login"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Tue, 24 Jan 2023 18:00:05 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.1.5"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "59"
+										},
+										{
+											"key": "Vary",
+											"value": "Origin"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": null,\n    \"msg\": \"You are not authorized\",\n    \"type\": \"error\",\n    \"code\": 401\n}"
+								},
+								{
+									"name": "User Logged In Successfully",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/vnd.api+json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/vnd.api+json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"username\" : \"doctor \",\r\n    \"password\" : \"doctor\"\r\n}"
+										},
+										"url": {
+											"raw": "{{v1}}/login",
+											"host": [
+												"{{v1}}"
+											],
+											"path": [
+												"login"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Sat, 28 Jan 2023 13:41:10 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.1.5"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "59"
+										},
+										{
+											"key": "Vary",
+											"value": "Origin"
+										},
+										{
+											"key": "Set-Cookie",
+											"value": "jwt_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0L21hbmRvYmsvcHVibGljL3dlYi92MS9sb2dpbiIsImlhdCI6MTY3NDkxMzI3MSwiZXhwIjoxNjc0OTE2ODcxLCJuYmYiOjE2NzQ5MTMyNzEsImp0aSI6IktSQ3FlZm1kYVdubE1SUG8iLCJzdWIiOiIxMCIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.ktETCjMSZZd3e4zmU5VQ5tLlRnJXp0wCIhpg0MjFjD0; expires=Sat, 28 Jan 2023 14:41:11 GMT; Max-Age=3600; path=/; domain=localhost; httponly; samesite=lax"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"username\": \"doctor\",\n        \"full_name\": \"doctor\",\n        \"role\": \"doctor\",\n        \"token\": \"QtvNxkPDney7jf0hvqs2XHgOlBeJ5gvyRmEhfRCKzQqPraz9Kk\"\n    },\n    \"msg\": \"User Logged In Successfully\",\n    \"type\": \"success\",\n    \"code\": 200\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Logout",
+					"item": [
+						{
+							"name": "Logout",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/vnd.api+json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/vnd.api+json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{v1}}/auth/logout",
+									"host": [
+										"{{v1}}"
+									],
+									"path": [
+										"auth",
+										"logout"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "User Logged Out Successfully",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/vnd.api+json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/vnd.api+json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{v1}}/logout",
+											"host": [
+												"{{v1}}"
+											],
+											"path": [
+												"logout"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Wed, 25 Jan 2023 09:53:05 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.1.5"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "57"
+										},
+										{
+											"key": "Vary",
+											"value": "Origin"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": null,\n    \"msg\": \"User Logged out successfully\",\n    \"type\": \"success\",\n    \"code\": 200\n}"
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "v1",
+			"value": "http://localhost/mandobk/public/v1",
+			"type": "string"
+		}
+	]
+}
