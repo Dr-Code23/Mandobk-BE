@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "a06d340d-8fb7-4d7d-8d3f-f3099e261df1",
+		"_postman_id": "e6933981-8473-4a19-b9c4-76273a2c36c4",
 		"name": "v1",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "19177587"
@@ -2008,7 +2008,7 @@
 									},
 									"response": [
 										{
-											"name": "Get all offers for a company",
+											"name": "All Offers",
 											"originalRequest": {
 												"method": "GET",
 												"header": [
@@ -2024,11 +2024,12 @@
 													}
 												],
 												"url": {
-													"raw": "{{v1}}/company/company_offers",
+													"raw": "{{v1}}/site/company/company_offers",
 													"host": [
 														"{{v1}}"
 													],
 													"path": [
+														"site",
 														"company",
 														"company_offers"
 													]
@@ -2040,11 +2041,15 @@
 											"header": [
 												{
 													"key": "Date",
-													"value": "Wed, 01 Feb 2023 13:22:51 GMT"
+													"value": "Sat, 04 Feb 2023 16:07:33 GMT"
 												},
 												{
 													"key": "Server",
 													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "Vary",
+													"value": "Authorization,Origin"
 												},
 												{
 													"key": "X-Powered-By",
@@ -2060,11 +2065,7 @@
 												},
 												{
 													"key": "X-RateLimit-Remaining",
-													"value": "57"
-												},
-												{
-													"key": "Vary",
-													"value": "Origin"
+													"value": "59"
 												},
 												{
 													"key": "Keep-Alive",
@@ -2083,8 +2084,12 @@
 													"value": "application/json"
 												}
 											],
-											"cookie": [],
-											"body": "{\n    \"data\": [\n        {\n            \"scientefic_name\": \"Olin Shields\",\n            \"commercial_name\": \"Prof. Kitty Watsica IV\",\n            \"offer_duration_id\": \"2\",\n            \"offer_duration_name\": \"Cheek\",\n            \"pay_method\": \"cash\",\n            \"bonus\": 121.5,\n            \"created_at\": \"2023-02-01\",\n            \"updated_at\": \"2023-02-01\"\n        },\n        {\n            \"scientefic_name\": \"Russell Bernhard\",\n            \"commercial_name\": \"Chadd Kilback PhD\",\n            \"offer_duration_id\": \"1\",\n            \"offer_duration_name\": \"Weekly\",\n            \"pay_method\": \"cash\",\n            \"bonus\": 173.1,\n            \"created_at\": \"2023-02-01\",\n            \"updated_at\": \"2023-02-01\"\n        }\n    ],\n    \"msg\": \"Data Fetched Successfully\",\n    \"code\": 200,\n    \"type\": \"success\"\n}"
+											"cookie": [
+												{
+													"expires": "Invalid Date"
+												}
+											],
+											"body": "{\n    \"data\": [\n        {\n            \"id\": 25,\n            \"scientefic_name\": \"Leonie Mante\",\n            \"commercial_name\": \"Jammie Morissette\",\n            \"product_id\": 39,\n            \"expire_date\": \"2003-06-28\",\n            \"offer_duration\": \"Weekly\",\n            \"pay_method\": \"Cash\",\n            \"bonus\": 183.4,\n            \"created_at\": \"2023-02-04\",\n            \"updated_at\": \"2023-02-04\"\n        }\n    ],\n    \"msg\": \"Data Fetched Successfully\",\n    \"code\": 200,\n    \"type\": \"success\"\n}"
 										}
 									]
 								},
@@ -2114,19 +2119,26 @@
 									},
 									"response": [
 										{
-											"name": "Get One Offer",
+											"name": "One offer",
 											"originalRequest": {
 												"method": "GET",
-												"header": [],
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													}
+												],
 												"url": {
-													"raw": "{{v1}}/company/company_offers/1",
+													"raw": "{{v1}}/site/company/company_offers/25",
 													"host": [
 														"{{v1}}"
 													],
 													"path": [
+														"site",
 														"company",
 														"company_offers",
-														"1"
+														"25"
 													]
 												}
 											},
@@ -2136,11 +2148,15 @@
 											"header": [
 												{
 													"key": "Date",
-													"value": "Wed, 01 Feb 2023 13:28:12 GMT"
+													"value": "Sat, 04 Feb 2023 16:08:06 GMT"
 												},
 												{
 													"key": "Server",
 													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "Vary",
+													"value": "Authorization,Origin"
 												},
 												{
 													"key": "X-Powered-By",
@@ -2156,11 +2172,7 @@
 												},
 												{
 													"key": "X-RateLimit-Remaining",
-													"value": "59"
-												},
-												{
-													"key": "Vary",
-													"value": "Origin"
+													"value": "58"
 												},
 												{
 													"key": "Keep-Alive",
@@ -2179,8 +2191,12 @@
 													"value": "application/json"
 												}
 											],
-											"cookie": [],
-											"body": "{\n    \"data\": {\n        \"scientefic_name\": \"Brian Corkery IV\",\n        \"commercial_name\": \"Mr. Nels Cruickshank\",\n        \"offer_duration_id\": \"2\",\n        \"offer_duration_name\": \"Cheek\",\n        \"pay_method\": \"cash\",\n        \"bonus\": 105,\n        \"created_at\": \"2023-02-01\",\n        \"updated_at\": \"2023-02-01\"\n    },\n    \"msg\": \"Data Fetched Successfully\",\n    \"code\": 200,\n    \"type\": \"success\"\n}"
+											"cookie": [
+												{
+													"expires": "Invalid Date"
+												}
+											],
+											"body": "{\n    \"data\": {\n        \"id\": 25,\n        \"scientefic_name\": \"Leonie Mante\",\n        \"commercial_name\": \"Jammie Morissette\",\n        \"product_id\": 39,\n        \"expire_date\": \"2003-06-28\",\n        \"offer_duration\": \"Weekly\",\n        \"pay_method\": \"Cash\",\n        \"bonus\": 183.4,\n        \"created_at\": \"2023-02-04\",\n        \"updated_at\": \"2023-02-04\"\n    },\n    \"msg\": \"Data Fetched Successfully\",\n    \"code\": 200,\n    \"type\": \"success\"\n}"
 										}
 									]
 								},
@@ -2202,7 +2218,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"expire_date\" : \"2020-12-01\",\r\n    \"scientefic_name\":\"Googssssle\",\r\n    \"commercial_name\":\"Googsssle\",\r\n    \"bonus\":\"1.5\",\r\n    \"offer_duration\":\"2\",\r\n    \"pay_method\":\"1\"\r\n}"
+											"raw": "{\r\n    \"product_id\":1,\r\n    \"bonus\":\"123\",\r\n    \"offer_duration\":\"2\",\r\n    \"pay_method\":\"1\"\r\n}"
 										},
 										"url": {
 											"raw": "{{v1}}/site/company/company_offers",
@@ -2980,10 +2996,10 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"expire_date\" : \"2020-12-01\",\r\n    \"scientefic_name\":\"Googsssssle\",\r\n    \"commercial_name\":\"Googssssle\",\r\n    \"bonus\":\"1.5\",\r\n    \"offer_duration\":\"2\",\r\n    \"pay_method\":\"1\"\r\n}"
+											"raw": "{\r\n    \"product_id\":1,\r\n    \"bonus\":\"2\",\r\n    \"offer_duration\":\"2\",\r\n    \"pay_method\":\"1\"\r\n}"
 										},
 										"url": {
-											"raw": "{{v1}}/site/company/company_offers/25",
+											"raw": "{{v1}}/site/company/company_offers/33",
 											"host": [
 												"{{v1}}"
 											],
@@ -2991,7 +3007,7 @@
 												"site",
 												"company",
 												"company_offers",
-												"25"
+												"33"
 											]
 										}
 									},
@@ -3898,6 +3914,95 @@
 											],
 											"cookie": [],
 											"body": null
+										},
+										{
+											"name": "Update Order",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/vnd.api+json",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"product_id\":1,\r\n    \"bonus\":\"2\",\r\n    \"offer_duration\":\"2\",\r\n    \"pay_method\":\"1\"\r\n}"
+												},
+												"url": {
+													"raw": "{{v1}}/site/company/company_offers/33",
+													"host": [
+														"{{v1}}"
+													],
+													"path": [
+														"site",
+														"company",
+														"company_offers",
+														"33"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Sat, 04 Feb 2023 16:17:49 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+												},
+												{
+													"key": "Vary",
+													"value": "Authorization,Origin"
+												},
+												{
+													"key": "X-Powered-By",
+													"value": "PHP/8.1.5"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, private"
+												},
+												{
+													"key": "X-RateLimit-Limit",
+													"value": "60"
+												},
+												{
+													"key": "X-RateLimit-Remaining",
+													"value": "57"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=5, max=100"
+												},
+												{
+													"key": "Connection",
+													"value": "Keep-Alive"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [
+												{
+													"expires": "Invalid Date"
+												}
+											],
+											"body": "{\n    \"data\": {\n        \"id\": 33,\n        \"product_id\": 1,\n        \"scientefic_name\": \"Chelsey Erdman Sr.\",\n        \"commercial_name\": \"Buster Ebert\",\n        \"expire_date\": \"1973-09-22\",\n        \"pay_method\": 1,\n        \"offer_duration\": \"2\",\n        \"bonus\": 2,\n        \"created_at\": \"2023-02-04\",\n        \"updated_at\": \"2023-02-04\"\n    },\n    \"msg\": \"Offer Updated Successfully\",\n    \"type\": \"success\",\n    \"code\": 200\n}"
 										}
 									]
 								},
@@ -3918,14 +4023,15 @@
 											}
 										],
 										"url": {
-											"raw": "{{v1}}/company/company_offers/25",
+											"raw": "{{v1}}/site/company/company_offers/15",
 											"host": [
 												"{{v1}}"
 											],
 											"path": [
+												"site",
 												"company",
 												"company_offers",
-												"25"
+												"15"
 											]
 										}
 									},
@@ -4102,7 +4208,7 @@
 				"bearer": [
 					{
 						"key": "token",
-						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0L21hbmRvYmsvcHVibGljL3YxL2F1dGgvbG9naW4iLCJpYXQiOjE2NzU1MTE4MDEsImV4cCI6MTY3NTUxNTQwMSwibmJmIjoxNjc1NTExODAxLCJqdGkiOiJ3NTZpOFloV2t4SVNMQmRvIiwic3ViIjoiOCIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.h07hIGNAGBTEHzN8BcqgYnf3JhU4Xl46IbRC8eZ5CmM",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0L21hbmRvYmsvcHVibGljL3YxL2F1dGgvbG9naW4iLCJpYXQiOjE2NzU1MzUwNzQsImV4cCI6MTY3NTUzODY3NCwibmJmIjoxNjc1NTM1MDc0LCJqdGkiOiJoYTF0OWcxaXBPb1ExVFdJIiwic3ViIjoiOCIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.JeLXmFRzHITFPmFwv8gzhzNIQE4W-jBQq4yVPsMYYbk",
 						"type": "string"
 					}
 				]
@@ -4156,7 +4262,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"full_name\" : \"a\",\r\n    \"username\" : \"n3asdfassssdfs02a\",\r\n    \"phone\" : \"23021977Aa@\",\r\n    \"role\" : 8,\r\n    \"password\" : \"2302197$7Aa\"\r\n}"
+									"raw": "{\r\n    \"full_name\" : \"a\",\r\n    \"username\" : \"n3asdfassssdfss02a\",\r\n    \"phone\" : \"23021977Aa@\",\r\n    \"role\" : 8,\r\n    \"password\" : \"2302197$7Aa\"\r\n}"
 								},
 								"url": {
 									"raw": "{{v1}}/auth/signup",
@@ -4990,7 +5096,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"username\" : \"data_entry\",\r\n    \"password\" : \"data_entry\"\r\n}"
+									"raw": "{\r\n    \"username\" : \"company\",\r\n    \"password\" : \"company\"\r\n}"
 								},
 								"url": {
 									"raw": "{{v1}}/auth/login",
