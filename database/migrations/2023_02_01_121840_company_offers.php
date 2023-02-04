@@ -21,9 +21,15 @@ return new class() extends Migration {
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
 
-            $table->string('sc_name'); // Scientefic Name
-            $table->string('com_name'); // Commericial Name
-            $table->date('expire_date');
+            $table->unsignedBigInteger('product_id');
+            $table->foreign('product_id')
+                ->on('products')
+                ->references('id')
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
+            // $table->string('sc_name'); // Scientefic Name
+            // $table->string('com_name'); // Commericial Name
+            // $table->date('expire_date');
             $table->enum('offer_duration', [0, 1, 2])->comment('0 => day , 1 => week , 2=>cheek');
             $table->unsignedBigInteger('pay_method');
             $table->foreign('pay_method')->on('pay_methods')->references('id');

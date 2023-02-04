@@ -40,7 +40,7 @@ class productRequest extends FormRequest
             'concentrate' => $double,
             'patch_number' => ['required', 'regex:'.config('regex.patch_number')],
             'provider' => ['required', 'max:255'],
-            'limited' => [($this->is('data_entry/*') || $this->is('data_entry/')) ? 'required' : 'sometimes', 'boolean'],
+            'limited' => [($this->is('data_entry/*') || $this->is('data_entry/') || $this->is('ceo/*') || $this->is('ceo/')) ? 'required' : 'sometimes', 'boolean'],
             'generate_another_bar_code' => ['sometimes', 'boolean'],
             'entry_date' => ['required', 'date_format:Y-m-d'],
             'expire_date' => ['bail', 'required', 'date_format:Y-m-d', 'after:entry_date'],

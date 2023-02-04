@@ -10,10 +10,13 @@ trait userTrait
     /**
      * Check If The User Has A Specefic Permission.
      */
-    public function hasPermission(string $permissionName = null): bool
+    public function hasPermission(string $permissionName = null, bool $ExcludeCEO = false): bool
     {
         $role_name = Role::where('id', $this->getAuthenticatedUserInformation()->role_id)->first(['name'])->name;
-        $permissions = ['ceo', 'data_entry'];
+        $permissions = [];
+        if (!$ExcludeCEO) {
+            $permissionName[] = 'ceo';
+        }
         if ($permissionName) {
             $permissions[] = $permissionName;
         }

@@ -52,4 +52,8 @@ return [
     'product' => 'Product',
     'role_id' => 'Role id',
     'cheek' => 'Cheek',
+    'day' => 'Daily',
+    'week' => 'Weekly',
+    'cash' => 'Cash',
+    'offer' => 'Offer',
 ];

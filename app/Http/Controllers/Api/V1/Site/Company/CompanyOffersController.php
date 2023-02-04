@@ -6,14 +6,17 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\Company\CompanyOffers\companyOfferRequest;
 use App\Models\Api\V1\CompanyOffer;
 use App\RepositoryInterface\CompanyOffersRepositoryInterface;
+use App\RepositoryInterface\ProductRepositoryInterface;
 
 class CompanyOffersController extends Controller
 {
     private $companyOffers;
+    private $productRepository;
 
-    public function __construct(CompanyOffersRepositoryInterface $companyOffers)
+    public function __construct(CompanyOffersRepositoryInterface $companyOffers, ProductRepositoryInterface $productRepository)
     {
         $this->companyOffers = $companyOffers;
+        $this->productRepository = $productRepository;
     }
 
     public function index()
@@ -39,5 +42,10 @@ class CompanyOffersController extends Controller
     public function destroy(CompanyOffer $offer)
     {
         return $this->companyOffers->destroyCompanyOffer($offer);
+    }
+
+    public function ScienteficNames()
+    {
+        return $this->productRepository->getAllScienteficNamesInSelect();
     }
 }

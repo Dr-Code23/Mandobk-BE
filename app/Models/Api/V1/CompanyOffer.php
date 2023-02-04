@@ -12,10 +12,11 @@ class CompanyOffer extends Model
     use HasFactory;
     use dateTrait;
     protected $fillable = [
-        'sc_name',
-        'com_name',
+        // 'sc_name',
+        // 'com_name',
         'bonus',
-        'expire_date',
+        // 'expire_date',
+        'product_id',
         'pay_method',
         'offer_duration',
         'created_at',

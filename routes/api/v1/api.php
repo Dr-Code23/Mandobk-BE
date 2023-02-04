@@ -18,8 +18,9 @@ Route::group(['namespace' => 'App\Http\Controllers\Api\V1'], function () {
     Route::group(['middleware' => ['auth:api']], function () {
         // Public Site Routes
         Route::group(['prefix' => 'site', 'namespace' => 'Site'], function () {
+            // Company
             Route::group(
-                ['prefix' => 'company', 'namespace' => 'Company'],
+                ['prefix' => 'company', 'namespace' => 'Company', 'middleware' => 'hasCompanyPermissions'],
                 function () {
                     // Products
                     Route::group(['prefix' => 'products'], function () {
@@ -49,6 +50,17 @@ Route::group(['namespace' => 'App\Http\Controllers\Api\V1'], function () {
                     );
                 }
             );
+
+            // Storehouse
+            Route::group(['prefix' => 'storehouse', 'namespace' => 'Storehouse'], function () {
+                Route::group(
+                    ['prefix' => 'products'],
+                    function () {
+                        Route::get('', 'ProductController@index');
+                        Route::post('', 'ProductController@store');
+                    }
+                );
+            });
         });
 
         Route::group(['prefix' => 'mobile'], function () {});

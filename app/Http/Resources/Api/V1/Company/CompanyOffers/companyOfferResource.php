@@ -23,11 +23,12 @@ class companyOfferResource extends JsonResource
 
         return [
             'id' => $this->id,
-            'scientefic_name' => $this->sc_name,
-            'commercial_name' => $this->com_name,
-            'offer_duration_id' => $this->offer_duration,
-            'offer_duration_name' => $this->translateWord($duration == '0' ? 'day' : ($duration == '1' ? 'week' : 'cheek')),
-            'pay_method' => PayMethod::where('id', $this->pay_method)->first(['name'])->name,
+            'scientefic_name' => $this->scientefic_name,
+            'commercial_name' => $this->commercial_name,
+            'product_id' => $this->product_id,
+            'expire_date' => $this->expire_date,
+            'offer_duration' => $this->translateWord($duration == '0' ? 'day' : ($duration == '1' ? 'week' : 'cheek')),
+            'pay_method' => $this->translateWord(PayMethod::where('id', $this->pay_method)->first(['name'])->name),
             'bonus' => $this->bonus,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

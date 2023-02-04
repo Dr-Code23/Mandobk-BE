@@ -21,7 +21,8 @@ class Sale extends Model
     protected function details(): Attribute
     {
         return Attribute::make(
-            get: fn ($val) => json_decode($val)
+            get: fn ($val) => json_decode($val),
+            set: fn ($val) => json_encode($val)
         );
     }
 

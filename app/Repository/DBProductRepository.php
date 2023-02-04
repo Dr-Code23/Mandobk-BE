@@ -269,7 +269,11 @@ class DBProductRepository implements ProductRepositoryInterface
     }
 
     /**
-     * @return mixed
+     * Summary of deleteProduct.
+     *
+     * @param mixed $product
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function deleteProduct($product)
     {
@@ -277,5 +281,15 @@ class DBProductRepository implements ProductRepositoryInterface
         $product->delete();
 
         return $this->success(null, 'Product Deleted Successfully');
+    }
+
+    public function getAllCommercialNamesInSelect()
+    {
+        return Product::where('user_id', $this->getAuthenticatedUserId())->get(['com_name as commercial_name', 'id']);
+    }
+
+    public function getAllScienteficNamesInSelect()
+    {
+        return Product::where('user_id', $this->getAuthenticatedUserId())->get(['sc_name as scientefic_name', 'id']);
     }
 }

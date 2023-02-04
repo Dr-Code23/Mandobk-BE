@@ -137,7 +137,6 @@ class DBSalesRepository implements SalesRepositoryInterface
 
         for ($i = 0; $i < $data_count; ++$i) {
             $data[$i]['product_exists'] = Product::where('id', $data[$i]['product_id'])
-                    ->where('user_id', $this->getAuthenticatedUserId())
                     ->first(['id'])
                     ? true : false;
         }
@@ -152,6 +151,7 @@ class DBSalesRepository implements SalesRepositoryInterface
                 unset($data[$i]);
                 --$data_length;
             }
+            unset($data[$i]['product_exists']);
         }
 
         // Validate Quantity
@@ -167,9 +167,10 @@ class DBSalesRepository implements SalesRepositoryInterface
             if ($data[$i]['quantity'] > $product_info->qty) {
                 $errors['product_id_'.$data[$i]['product_id']] = 'Quantity is bigger than existing quantity which is '.$product_info->qty;
             } else {
-                $data[$i]['com_name'] = $product_info->com_name; // Commercial Name
-                $data[$i]['sc_name'] = $product_info->sc_name;
-                $data[$i]['pur_price'] = $product_info->pur_price;
+                $data[$i]['commercial_name'] = $product_info->com_name; // Commercial Name
+                $data[$i]['scientefic_name'] = $product_info->sc_name;
+                $data[$i]['purchase_price'] = $product_info->pur_price;
+                $data[$i]['original_qty'] = $product_info->qty;
             }
         }
 
@@ -200,15 +201,24 @@ class DBSalesRepository implements SalesRepositoryInterface
         } elseif ($request->routeIs('pharmacy-sales-add')) {
             $send_to_id = User::where('username', 'customer')->first(['id'])->id;
         }
+        if (!$data) {
+            $errors['product'] = 'Choose at least one existing product';
+        }
         if ($errors) {
             return $this->validation_errors($errors);
         }
         if ($send_to_id) {
+            for ($i = 0; $i < count($data); ++$i) {
+                Product::where('id', $data[$i]['product_id'])->update([
+                    'qty' => (int) $data[$i]['original_qty'] - (int) $data[$i]['quantity'],
+                ]);
+                unset($data[$i]['original_qty']);
+            }
             // Start To Store Sale
             $sale = Sale::create([
                 'from_id' => $this->getAuthenticatedUserId(),
                 'to_id' => $send_to_id,
-                'details' => json_encode($data),
+                'details' => $data,
             ]);
 
             return $this->success($sale, 'Sale Created Successfully');

@@ -16,9 +16,10 @@ class companyOffersSeeder extends Seeder
     {
         for ($i = 0; $i < 30; ++$i) {
             CompanyOffer::create([
-                'sc_name' => fake()->name(),
-                'com_name' => fake()->name(),
-                'expire_date' => fake()->date(),
+                // 'sc_name' => fake()->name(),
+                // 'com_name' => fake()->name(),
+                // 'expire_date' => fake()->date(),
+                'product_id' => fake()->numberBetween(1, 40),
                 'offer_duration' => fake()->numberBetween(0, 2).'',
                 'pay_method' => 1,
                 'bonus' => fake()->randomFloat(1, 100, 200),

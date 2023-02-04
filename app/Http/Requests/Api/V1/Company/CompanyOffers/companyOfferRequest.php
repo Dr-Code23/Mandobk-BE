@@ -30,10 +30,11 @@ class companyOfferRequest extends FormRequest
     public function rules()
     {
         return [
-            'commercial_name' => ['required', 'max:255'],
-            'scientefic_name' => ['required', 'max:255'],
+            // 'commercial_name' => ['required', 'max:255'],
+            // 'scientefic_name' => ['required', 'max:255'],
+            'product_id' => ['required', 'numeric'],
             'bonus' => ['required', 'numeric', 'min:0.1'],
-            'expire_date' => ['bail', 'required', 'date_format:Y-m-d'],
+            // 'expire_date' => ['bail', 'required', 'date_format:Y-m-d'],
             'offer_duration' => ['required'],
             'pay_method' => ['required'],
         ];
@@ -42,19 +43,21 @@ class companyOfferRequest extends FormRequest
     public function messages()
     {
         $messages = [
+            'product_id.required' => $this->translateErrorMessage('product', 'required'),
+            'product_id.numeric' => $this->translateErrorMessage('product', 'numeric'),
             'bonus.numeric' => $this->translateErrorMessage('bonus', 'numeric'),
             'bonus.min' => $this->translateErrorMessage('bonus', 'min.numeric'),
-            'expire_date.date_format' => $this->translateErrorMessage('expire_date', 'expire_date.date.date_format'),
+            // 'expire_date.date_format' => $this->translateErrorMessage('expire_date', 'expire_date.date.date_format'),
         ];
         foreach (array_keys($this->rules()) as $key) {
             $messages[$key.'.required'] = $this->translateErrorMessage($key, 'required');
         }
 
         // Max Length Data
-        $max_length_names = ['commercial_name', 'scientefic_name'];
-        foreach ($max_length_names as $key) {
-            $messages["$key.max"] = $this->translateErrorMessage($key, "$key.max");
-        }
+        // $max_length_names = ['commercial_name', 'scientefic_name'];
+        // foreach ($max_length_names as $key) {
+        //     $messages["$key.max"] = $this->translateErrorMessage($key, "$key.max");
+        // }
 
         return $messages;
     }
