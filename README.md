@@ -2,7 +2,7 @@
 
 ## Web
 
-- [V1](https://documenter.getpostman.com/view/19177587/2s8ZDbXLjr)
+- [V1](https://www.postman.com/grey-shadow-532084/workspace/mandobk/api/8cad226f-7f79-49cd-885c-98e42c284be2)
 
 ## How to install
 
