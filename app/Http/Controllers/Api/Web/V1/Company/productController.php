@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Api\Web\V1\Company;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\Web\V1\Product\productRequest;
+use App\Http\Requests\Api\V1\Product\productRequest;
 use App\Models\Api\V1\Product;
 use App\Traits\productTrait;
 use App\Traits\userTrait;
 
-class productController extends Controller
+class ProductController extends Controller
 {
     use productTrait;
     use userTrait;
@@ -30,8 +30,6 @@ class productController extends Controller
      */
     public function store(productRequest $request)
     {
-        return 'Good';
-
         return $this->storeProduct($request);
     }
 

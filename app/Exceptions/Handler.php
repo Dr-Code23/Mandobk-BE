@@ -49,7 +49,7 @@ class Handler extends ExceptionHandler
         // Handle Unauthorized User
         $this->renderable(function (\Illuminate\Auth\AuthenticationException $e, $req) {
             // Check if the route in api
-            if ($req->is('web/*') || $req->is('mobile/*')) {
+            if ($req->is('v1/*')) {
                 // Return anauthenticated user response from HttpResponse Trait
                 return $this->unauthenticatedResponse('You are not authenticated');
             }
@@ -57,7 +57,7 @@ class Handler extends ExceptionHandler
 
         // Handle Not Found Response
         $this->renderable(function (NotFoundHttpException $e, $req) {
-            if ($req->is('web/*') || $req->is('mobile/*')) {
+            if ($req->is('v1/*')) {
                 return $this->error(null, 404, 'Not Found');
             }
         });

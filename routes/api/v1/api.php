@@ -15,44 +15,106 @@ Route::group(['namespace' => 'App\Http\Controllers\Api\V1'], function () {
             ->middleware(['auth:api', 'isAuthenticated']);
     });
 
-    // Public Site Routes
-    Route::group(['prefix' => 'site', 'namespace' => 'Site'], function () {
-        Route::group(
-            ['prefix' => 'company', 'namespace' => 'Company'],
-            function () {
-                Route::group(['prefix' => 'products'], function () {
-                    Route::get('', 'ProductController@index');
-                    Route::post('', 'ProductController@store');
+    Route::group(['middleware' => ['auth:api']], function () {
+        // Public Site Routes
+        Route::group(['prefix' => 'site', 'namespace' => 'Site'], function () {
+            Route::group(
+                ['prefix' => 'company', 'namespace' => 'Company'],
+                function () {
+                    // Products
+                    Route::group(['prefix' => 'products'], function () {
+                        Route::get('', 'ProductController@index');
+                        Route::post('', 'ProductController@store');
+                    }
+                    );
+                    // Sales
+                    Route::group(
+                        ['prefix' => 'sales'],
+                        function () {
+                            Route::get('', 'SalesController@index')->name('company-sales-all');
+                            Route::post('', 'SalesController@store')->name('company-sales-add');
+                        }
+                    );
+
+                    // Company Offers
+                    Route::group(
+                        ['prefix' => 'company_offers'],
+                        function () {
+                            Route::get('', 'CompanyOffersController@index');
+                            Route::get('{offer}', 'CompanyOffersController@show');
+                            Route::post('', 'CompanyOffersController@store');
+                            Route::put('/{offer}', 'CompanyOffersController@update');
+                            Route::delete('/{offer}', 'CompanyOffersController@destroy');
+                        }
+                    );
                 }
-                );
+            );
+        });
+
+        Route::group(['prefix' => 'mobile'], function () {});
+
+        Route::group(
+            ['prefix' => 'dashboard', 'namespace' => 'Dashboard'],
+            function () {
+                // Data Entry
+
                 Route::group(
-                    ['prefix' => 'sales'],
+                    ['prefix' => 'data_entry', 'middleware' => ['hasDataEntryPermissions']],
                     function () {
-                        Route::get('', 'SalesController@index')->name('company-sales-all');
-                        Route::post('', 'SalesController@store')->name('company-sales-add');
+                        Route::get('', 'DataEntryController@index');
+                        Route::get('/{dataEntry}', 'DataEntryController@show');
+                        Route::post('', 'DataEntryController@store');
+                        Route::put('/{dataEntry}', 'DataEntryController@update');
+                        Route::delete('/{dataEntry}', 'DataEntryController@destroy');
                     }
                 );
 
-                // Company Offers
+                // Monitor And Evaluation
+
                 Route::group(
-                    ['prefix' => 'company_offers'],
+                    ['prefix' => 'monitor_and_evaluation', 'middleware' => ['hasMonitorAndEvaluationPermissions']],
                     function () {
-                        Route::get('', 'CompanyOffersController@index');
-                        Route::get('{offer}', 'CompanyOffersController@show');
-                        Route::post('', 'CompanyOffersController@store');
-                        Route::put('/{offer}', 'CompanyOffersController@update');
-                        Route::delete('/{offer}', 'CompanyOffersController@destroy');
+                        Route::get('view', 'monitorAndEvaluationController@lang_content');
+                        Route::get('', 'monitorAndEvaluationController@index');
+                        Route::post('', 'monitorAndEvaluationController@store');
+                        Route::get('/{user}', 'monitorAndEvaluationController@show');
+                        Route::put('/{user}', 'monitorAndEvaluationController@update');
+                        Route::delete('/{user}', 'monitorAndEvaluationController@destroy');
                     }
+                );
+
+                // Human Resources
+
+                Route::group(
+                    ['prefix' => 'human_resources', 'middleware' => ['hasHumanResourcePermissions']],
+                    function () {
+                        Route::get('', 'humanResourceController@index')->name('human_resource_all');
+                        Route::get('{user}', 'humanResourceController@show')->name('human_resource_one');
+                        Route::match(['POST', 'PUT'], '', 'humanResourceController@storeOrUpdate')->name('human_resource_store');
+                    }
+                );
+
+                // Markting
+
+                Route::group(
+                    ['prefix' => 'markting', 'middleware' => ['hasMarktingPermissions']],
+                    function () {
+                        Route::get('', 'marktingController@index');
+                        Route::get('{ad}', 'marktingController@show');
+                        Route::post('', 'marktingController@store')->name('markting_store');
+                        Route::post('{ad}', 'marktingController@update')->name('markting_update');
+                        Route::delete('{ad}', 'marktingController@destroy');
+                    }
+                );
+
+                Route::group(['prefix' => 'order_management'], function () {
+                }
                 );
             }
         );
     });
-
-    Route::group(['prefix' => 'mobile'], function () {});
-
-    Route::group(['prefix' => 'dashboard'], function () {
-    });
-});
+}
+);
 Route::get('/', function () {
     return Auth::user();
 })->middleware(['auth:api']);

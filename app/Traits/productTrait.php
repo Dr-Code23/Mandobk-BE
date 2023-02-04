@@ -2,8 +2,8 @@
 
 namespace App\Traits;
 
-use App\Http\Resources\Api\Web\V1\Product\productCollection;
-use App\Http\Resources\Api\Web\V1\Product\productResource;
+use App\Http\Resources\Api\V1\Product\productCollection;
+use App\Http\Resources\Api\V1\Product\productResource;
 use App\Models\Api\V1\Product;
 use App\Models\Api\V1\Role;
 
@@ -15,7 +15,6 @@ trait productTrait
     use translationTrait;
     use dateTrait;
     use userTrait;
-    private string $translationFileName = 'Products/productTranslationFile.';
 
     public function showAllProducts($products)
     {
@@ -102,10 +101,10 @@ trait productTrait
 
         $payload = [];
         if ($com_exists) {
-            $payload['commercial_name'] = [$this->translateErrorMessage($this->translationFileName.'commercial_name', 'unique')];
+            $payload['commercial_name'] = [$this->translateErrorMessage('commercial_name', 'unique')];
         }
         if ($sc_exists) {
-            $payload['scientefic_name'] = [$this->translateErrorMessage($this->translationFileName.'scientefic_name', 'unique')];
+            $payload['scientefic_name'] = [$this->translateErrorMessage('scientefic_name', 'unique')];
         }
 
         return $this->validation_errors($payload);
@@ -241,10 +240,10 @@ trait productTrait
 
         $payload = [];
         if ($com_exists) {
-            $payload['commercial_name'] = [$this->translateErrorMessage($this->translationFileName.'commercial_name', 'unique')];
+            $payload['commercial_name'] = [$this->translateErrorMessage('commercial_name', 'unique')];
         }
         if ($sc_exists) {
-            $payload['scientefic_name'] = [$this->translateErrorMessage($this->translationFileName.'scientefic_name', 'unique')];
+            $payload['scientefic_name'] = [$this->translateErrorMessage('scientefic_name', 'unique')];
         }
 
         return $this->validation_errors($payload);

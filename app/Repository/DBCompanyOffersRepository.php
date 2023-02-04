@@ -2,8 +2,8 @@
 
 namespace App\Repository;
 
-use App\Http\Resources\Api\Web\V1\Company\CompanyOffers\companyOfferCollection;
-use App\Http\Resources\Api\Web\V1\Company\CompanyOffers\companyOfferResource;
+use App\Http\Resources\Api\V1\Company\CompanyOffers\companyOfferCollection;
+use App\Http\Resources\Api\V1\Company\CompanyOffers\companyOfferResource;
 use App\Models\Api\V1\CompanyOffer;
 use App\RepositoryInterface\CompanyOffersRepositoryInterface;
 use App\Traits\HttpResponse;
@@ -17,7 +17,6 @@ class DBCompanyOffersRepository implements CompanyOffersRepositoryInterface
     use HttpResponse;
     use StringTrait;
     use translationTrait;
-    private string $file_name = 'Company/CompanyOffers/companyOffersTranslationFile.';
 
     /**
      * @return mixed

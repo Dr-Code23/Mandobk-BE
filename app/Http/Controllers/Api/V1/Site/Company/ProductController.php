@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Api\V1\Site\Company;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\Web\V1\Product\productRequest;
+use App\Http\Requests\Api\V1\Product\productRequest;
 use App\Models\Api\V1\Product;
 use App\RepositoryInterface\ProductRepositoryInterface;
+use App\Traits\userTrait;
 
 class ProductController extends Controller
 {
+    use userTrait;
     /**
      * List All Products For Data Entry.
      *
@@ -23,7 +25,7 @@ class ProductController extends Controller
 
     public function index()
     {
-        return $this->productRepository->showAllProducts(Product::all());
+        return $this->productRepository->showAllProducts(Product::where('user_id', $this->getAuthenticatedUserId())->get());
     }
 
     /**

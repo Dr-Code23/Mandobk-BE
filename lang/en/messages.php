@@ -51,4 +51,5 @@ return [
     'employee' => 'Employee',
     'product' => 'Product',
     'role_id' => 'Role id',
+    'cheek' => 'Cheek',
 ];

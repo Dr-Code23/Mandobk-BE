@@ -12,8 +12,8 @@ trait userTrait
      */
     public function hasPermission(string $permissionName = null): bool
     {
-        $role_name = Role::where('id', Auth::user()->role_id)->first(['name'])->name;
-        $permissions = ['ceo'];
+        $role_name = Role::where('id', $this->getAuthenticatedUserInformation()->role_id)->first(['name'])->name;
+        $permissions = ['ceo', 'data_entry'];
         if ($permissionName) {
             $permissions[] = $permissionName;
         }

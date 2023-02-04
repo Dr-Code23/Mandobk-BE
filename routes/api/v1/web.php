@@ -32,7 +32,7 @@ Route::group(['namespace' => '\App\Http\Controllers\Api\Web\V1'], function () {
             Route::get('/signup_roles', 'rolesController@getSignUpRoles');
         }
     );
-    Route::group(['middleware' => ['auth:api', 'isAuthenticated']], function () {
+    Route::group(['middleware' => ['auth:api']], function () {
         // Route::post('/t', [webAuthController::class, 'user']);
         Route::group(
             ['prefix' => 'dashboard', 'namespace' => 'Dashboard'],
@@ -42,12 +42,12 @@ Route::group(['namespace' => '\App\Http\Controllers\Api\Web\V1'], function () {
                 Route::group(
                     ['prefix' => 'data_entry', 'middleware' => ['hasDataEntryPermissions']],
                     function () {
-                        Route::get('view', 'dataEntryController@lang_content');
-                        Route::get('', 'dataEntryController@index');
-                        Route::get('/{dataEntry}', 'dataEntryController@show');
-                        Route::post('', 'dataEntryController@store');
-                        Route::put('/{dataEntry}', 'dataEntryController@update');
-                        Route::delete('/{dataEntry}', 'dataEntryController@destroy');
+                        Route::get('view', 'DataEntryController@lang_content');
+                        Route::get('', 'DataEntryController@index');
+                        Route::get('/{dataEntry}', 'DataEntryController@show');
+                        Route::post('', 'DataEntryController@store');
+                        Route::put('/{dataEntry}', 'DataEntryController@update');
+                        Route::delete('/{dataEntry}', 'DataEntryController@destroy');
                     }
                 );
 
@@ -102,8 +102,8 @@ Route::group(['namespace' => '\App\Http\Controllers\Api\Web\V1'], function () {
                 Route::group(
                     ['prefix' => 'products'],
                     function () {
-                        Route::get('', 'productController@index');
-                        Route::post('', 'productController@store');
+                        Route::get('', 'ProductController@index');
+                        Route::post('', 'ProductController@store');
                     }
                 );
 
@@ -111,11 +111,11 @@ Route::group(['namespace' => '\App\Http\Controllers\Api\Web\V1'], function () {
                 Route::group(
                     ['prefix' => 'company_offers'],
                     function () {
-                        Route::get('', 'companyOffersController@index');
-                        Route::get('{offer}', 'companyOffersController@show');
-                        Route::post('', 'companyOffersController@store');
-                        Route::put('/{offer}', 'companyOffersController@update');
-                        Route::delete('/{offer}', 'companyOffersController@destroy');
+                        Route::get('', 'CompanyOffersController@index');
+                        Route::get('{offer}', 'CompanyOffersController@show');
+                        Route::post('', 'CompanyOffersController@store');
+                        Route::put('/{offer}', 'CompanyOffersController@update');
+                        Route::delete('/{offer}', 'CompanyOffersController@destroy');
                     }
                 );
 
@@ -123,8 +123,8 @@ Route::group(['namespace' => '\App\Http\Controllers\Api\Web\V1'], function () {
                 Route::group(
                     ['prefix' => 'sales'],
                     function () {
-                        Route::get('', 'salesController@index');
-                        Route::post('', 'salesController@store');
+                        Route::get('', 'SalesController@index');
+                        Route::post('', 'SalesController@store');
                     }
                 );
             }

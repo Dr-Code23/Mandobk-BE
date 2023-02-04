@@ -2,7 +2,7 @@
 
 namespace App\Traits;
 
-use App\Http\Resources\Api\Web\V1\Translation\translationResource;
+use App\Http\Resources\Api\V1\Translation\translationResource;
 
 trait translationTrait
 {
@@ -24,8 +24,8 @@ trait translationTrait
         return __('messages.'.$name).' '.__('validation.'.$key);
     }
 
-    public function translateWord(string $word_path)
+    public function translateWord(string $word)
     {
-        return __(config('app.web_v1').'/'.$word_path);
+        return __('messages.'.$word);
     }
 }

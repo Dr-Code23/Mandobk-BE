@@ -15,7 +15,12 @@ return new class() extends Migration {
         Schema::create('company_offers', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->on('users')->references('id')->cascadeOnUpdate()->cascadeOnUpdate();
+            $table->foreign('user_id')
+                ->on('users')
+                ->references('id')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
+
             $table->string('sc_name'); // Scientefic Name
             $table->string('com_name'); // Commericial Name
             $table->date('expire_date');

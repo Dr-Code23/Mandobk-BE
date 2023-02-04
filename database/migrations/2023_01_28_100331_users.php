@@ -17,7 +17,11 @@ return new class() extends Migration {
             $table->string('username')->unique();
             $table->string('password');
             $table->unsignedBigInteger('role_id');
-            $table->foreign('role_id')->on('roles')->references('id')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('role_id')
+                ->on('roles')
+                ->references('id')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->string('full_name');
             $table->string('phone')->nullable();
             $table->timestamp('email_verified_at')->nullable();

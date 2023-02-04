@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\Api\Web\V1\Dashboard;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\Web\V1\Product\productRequest;
+use App\Http\Requests\Api\V1\Product\productRequest;
 use App\Models\Api\V1\Product;
 use App\RepositoryInterface\ProductRepositoryInterface;
 use App\Traits\productTrait;
 
 // use App\Traits\productTrait;
 
-class dataEntryController extends Controller
+class DataEntryController extends Controller
 {
     use productTrait;
 

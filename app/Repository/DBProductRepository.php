@@ -2,8 +2,8 @@
 
 namespace App\Repository;
 
-use App\Http\Resources\Api\Web\V1\Product\productCollection;
-use App\Http\Resources\Api\Web\V1\Product\productResource;
+use App\Http\Resources\Api\V1\Product\productCollection;
+use App\Http\Resources\Api\V1\Product\productResource;
 use App\Models\Api\V1\Product;
 use App\Models\Api\V1\Role;
 use App\RepositoryInterface\ProductRepositoryInterface;
@@ -18,7 +18,6 @@ class DBProductRepository implements ProductRepositoryInterface
     use userTrait;
     use translationTrait;
     use dateTrait;
-    private string $translationFileName = 'Products/productTranslationFile.';
 
     /**
      * @return mixed
