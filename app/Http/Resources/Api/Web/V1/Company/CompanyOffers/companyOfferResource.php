@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources\Api\Web\V1\Company\CompanyOffers;
 
-use App\Models\Api\Web\V1\PayMethod;
+use App\Models\Api\V1\PayMethod;
 use App\Traits\translationTrait;
 use Illuminate\Http\Resources\Json\JsonResource;
 

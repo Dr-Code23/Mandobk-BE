@@ -1,8 +1,8 @@
 <?php
 
-namespace Database\Seeders\Api\Web\V1;
+namespace Database\Seeders\Api\V1;
 
-use App\Models\Api\Web\V1\Product;
+use App\Models\Api\V1\Product;
 use Illuminate\Database\Seeder;
 
 class productSeeder extends Seeder

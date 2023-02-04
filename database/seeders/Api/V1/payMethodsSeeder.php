@@ -1,8 +1,8 @@
 <?php
 
-namespace Database\Seeders\Api\Web\V1;
+namespace Database\Seeders\Api\V1;
 
-use App\Models\Api\Web\V1\PayMethod;
+use App\Models\Api\V1\PayMethod;
 use Illuminate\Database\Seeder;
 
 class payMethodsSeeder extends Seeder

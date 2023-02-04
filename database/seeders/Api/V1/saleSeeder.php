@@ -1,9 +1,9 @@
 <?php
 
-namespace Database\Seeders\Api\Web\V1;
+namespace Database\Seeders\Api\V1;
 
-use App\Models\Api\Web\V1\Role;
-use App\Models\Api\Web\V1\Sale;
+use App\Models\Api\V1\Role;
+use App\Models\Api\V1\Sale;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 

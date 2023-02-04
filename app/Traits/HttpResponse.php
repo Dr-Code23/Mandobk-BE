@@ -5,7 +5,6 @@ namespace App\Traits;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 trait HttpResponse
 {
@@ -115,6 +114,6 @@ trait HttpResponse
 
     public function notFoundResponse(string $msg = 'Not Found', array $data = null, int $code = Response::HTTP_NOT_FOUND)
     {
-        throw new NotFoundHttpException();
+        return $this->error(null, 404, 'Not Found');
     }
 }

@@ -2,10 +2,10 @@
 
 namespace App\Repository;
 
-use App\Models\Api\Web\V1\Product;
-use App\Models\Api\Web\V1\Role;
-use App\Models\Api\Web\V1\Sale;
-use App\Models\Api\Web\V1\SubUser;
+use App\Models\Api\V1\Product;
+use App\Models\Api\V1\Role;
+use App\Models\Api\V1\Sale;
+use App\Models\Api\V1\SubUser;
 use App\Models\User;
 use App\RepositoryInterface\SalesRepositoryInterface;
 use App\Traits\HttpResponse;

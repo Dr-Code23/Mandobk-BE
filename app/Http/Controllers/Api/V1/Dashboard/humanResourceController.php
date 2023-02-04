@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Api\Web\V1\Dashboard;
+namespace App\Http\Controllers\Api\V1\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Web\V1\Dashboard\humanResourceRequest;
 use App\Http\Resources\Api\Web\V1\Dashboard\HumanResource\humanResourceCollection;
 use App\Http\Resources\Api\Web\V1\Dashboard\HumanResource\humanResourceResource;
-use App\Models\Api\Web\V1\HumanResource;
+use App\Models\Api\V1\HumanResource;
 use App\Models\User;
 use App\Traits\dateTrait;
 use App\Traits\HttpResponse;

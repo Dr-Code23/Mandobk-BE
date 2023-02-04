@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Api\Web\V1;
+namespace App\Models\Api\V1;
 
 use App\Traits\dateTrait;
 use App\Traits\roleTrait;

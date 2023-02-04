@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\Web\V1\Company;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Web\V1\Company\CompanyOffers\companyOfferRequest;
-use App\Models\Api\Web\V1\CompanyOffer;
+use App\Models\Api\V1\CompanyOffer;
 use App\RepositoryInterface\CompanyOffersRepositoryInterface;
 
 class companyOffersController extends Controller

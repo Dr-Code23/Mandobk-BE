@@ -4,9 +4,8 @@ namespace App\Traits;
 
 use App\Http\Resources\Api\Web\V1\Product\productCollection;
 use App\Http\Resources\Api\Web\V1\Product\productResource;
-use App\Models\Api\Web\V1\Product;
-use App\Models\Api\Web\V1\Role;
-use App\Models\User;
+use App\Models\Api\V1\Product;
+use App\Models\Api\V1\Role;
 
 trait productTrait
 {

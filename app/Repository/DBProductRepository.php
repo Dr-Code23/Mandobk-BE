@@ -4,8 +4,8 @@ namespace App\Repository;
 
 use App\Http\Resources\Api\Web\V1\Product\productCollection;
 use App\Http\Resources\Api\Web\V1\Product\productResource;
-use App\Models\Api\Web\V1\Product;
-use App\Models\Api\Web\V1\Role;
+use App\Models\Api\V1\Product;
+use App\Models\Api\V1\Role;
 use App\RepositoryInterface\ProductRepositoryInterface;
 use App\Traits\dateTrait;
 use App\Traits\HttpResponse;
@@ -116,10 +116,10 @@ class DBProductRepository implements ProductRepositoryInterface
 
         $payload = [];
         if ($com_exists) {
-            $payload['commercial_name'] = [$this->translateErrorMessage($this->translationFileName.'commercial_name', 'unique')];
+            $payload['commercial_name'] = [$this->translateErrorMessage('commercial_name', 'unique')];
         }
         if ($sc_exists) {
-            $payload['scientefic_name'] = [$this->translateErrorMessage($this->translationFileName.'scientefic_name', 'unique')];
+            $payload['scientefic_name'] = [$this->translateErrorMessage('scientefic_name', 'unique')];
         }
 
         return $this->validation_errors($payload);
@@ -260,10 +260,10 @@ class DBProductRepository implements ProductRepositoryInterface
 
         $payload = [];
         if ($com_exists) {
-            $payload['commercial_name'] = [$this->translateErrorMessage($this->translationFileName.'commercial_name', 'unique')];
+            $payload['commercial_name'] = [$this->translateErrorMessage('commercial_name', 'unique')];
         }
         if ($sc_exists) {
-            $payload['scientefic_name'] = [$this->translateErrorMessage($this->translationFileName.'scientefic_name', 'unique')];
+            $payload['scientefic_name'] = [$this->translateErrorMessage('scientefic_name', 'unique')];
         }
 
         return $this->validation_errors($payload);

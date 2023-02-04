@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Api\Web\V1\Dashboard;
+namespace App\Http\Controllers\Api\V1\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Web\V1\Dashboard\monitorAndEvaluationRequest;
 use App\Http\Resources\Api\Web\V1\Dashboard\MonitorAndEvaluation\monitorAndEvaluationCollection;
 use App\Http\Resources\Api\Web\V1\Dashboard\MonitorAndEvaluation\monitorAndEvaluationResrouce;
-use App\Models\Api\Web\V1\Role;
+use App\Models\Api\V1\Role;
 use App\Models\User;
 use App\Traits\HttpResponse;
 use App\Traits\StringTrait;

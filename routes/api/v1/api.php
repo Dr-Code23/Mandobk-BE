@@ -20,11 +20,28 @@ Route::group(['namespace' => 'App\Http\Controllers\Api\V1'], function () {
         Route::group(
             ['prefix' => 'company', 'namespace' => 'Company'],
             function () {
+                Route::group(['prefix' => 'products'], function () {
+                    Route::get('', 'ProductController@index');
+                    Route::post('', 'ProductController@store');
+                }
+                );
                 Route::group(
                     ['prefix' => 'sales'],
                     function () {
                         Route::get('', 'SalesController@index')->name('company-sales-all');
                         Route::post('', 'SalesController@store')->name('company-sales-add');
+                    }
+                );
+
+                // Company Offers
+                Route::group(
+                    ['prefix' => 'company_offers'],
+                    function () {
+                        Route::get('', 'CompanyOffersController@index');
+                        Route::get('{offer}', 'CompanyOffersController@show');
+                        Route::post('', 'CompanyOffersController@store');
+                        Route::put('/{offer}', 'CompanyOffersController@update');
+                        Route::delete('/{offer}', 'CompanyOffersController@destroy');
                     }
                 );
             }

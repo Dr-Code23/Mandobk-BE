@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Api\Web\V1\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Web\V1\Product\productRequest;
-use App\Models\Api\Web\V1\Product;
+use App\Models\Api\V1\Product;
+use App\RepositoryInterface\ProductRepositoryInterface;
 use App\Traits\productTrait;
 
 // use App\Traits\productTrait;
@@ -18,19 +19,16 @@ class dataEntryController extends Controller
      *
      * @return array
      */
-    public function index()
+    private $productRepository;
+
+    public function __construct(ProductRepositoryInterface $productRepository)
     {
-        return $this->showAllProducts(Product::all());
+        $this->productRepository = $productRepository;
     }
 
-    /**
-     * Summary of lang_content.
-     *
-     * @return \App\Http\Resources\Api\Web\V1\Translation\translationResource
-     */
-    public function lang_content()
+    public function index()
     {
-        return $this->translateResource('Dashboard/dataEntryTranslationFile');
+        return $this->productRepository->showAllProducts(Product::all());
     }
 
     /**
@@ -40,7 +38,7 @@ class dataEntryController extends Controller
      */
     public function store(productRequest $request)
     {
-        return $this->storeProduct($request);
+        return $this->productRepository->storeProduct($request);
     }
 
     public function show()

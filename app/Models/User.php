@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Models\Api\Web\V1\HumanResource;
-use App\Models\Api\Web\V1\Role;
+use App\Models\Api\V1\HumanResource;
+use App\Models\Api\V1\Role;
 use App\Traits\dateTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;

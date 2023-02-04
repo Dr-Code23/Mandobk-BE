@@ -31,7 +31,6 @@ class productRequest extends FormRequest
         $double = ['required', 'numeric', 'min:0.1'];
 
         return [
-            'role_id' => $this->role_id,
             'commercial_name' => ['required', 'max:255'],
             'scientefic_name' => ['required', 'max:255'],
             'quantity' => ['required', 'regex:'.config('regex.integer')],
@@ -54,11 +53,11 @@ class productRequest extends FormRequest
     public function messages(): array
     {
         $messages = [
-            'limited.boolean' => $this->translateErrorMessage($this->file_name.'limited', 'limited.boolean'),
-            'entry_date.date_format' => $this->translateErrorMessage($this->file_name.'entry_date', 'entry_date.date.date_format'),
-            'expire_date.date_format' => $this->translateErrorMessage($this->file_name.'expire_date', 'expire_date.date.date_format'),
-            'expire_date.after' => $this->translateErrorMessage($this->file_name.'expire_date', 'expire_date.date.after'),
-            'generate_another_bar_code' => $this->translateErrorMessage($this->file_name.'bar_code', 'boolean'),
+            'limited.boolean' => $this->translateErrorMessage('limited', 'limited.boolean'),
+            'entry_date.date_format' => $this->translateErrorMessage('entry_date', 'entry_date.date.date_format'),
+            'expire_date.date_format' => $this->translateErrorMessage('expire_date', 'expire_date.date.date_format'),
+            'expire_date.after' => $this->translateErrorMessage('expire_date', 'expire_date.date.after'),
+            'generate_another_bar_code' => $this->translateErrorMessage('bar_code', 'boolean'),
         ];
 
         // get all fields names
@@ -66,24 +65,24 @@ class productRequest extends FormRequest
 
         // All Values Are Required
         foreach ($required_keys as $key) {
-            $messages["$key.required"] = $this->translateErrorMessage($this->file_name.$key, 'required');
+            $messages["$key.required"] = $this->translateErrorMessage($key, 'required');
         }
 
         // Numeric , between and regex validation messages
         $regex_length_names = ['quantity', 'purchase_price', 'selling_price', 'bonus', 'patch_number', 'concentrate'];
         foreach ($regex_length_names as $key) {
             if (!in_array($key, ['patch_number', 'quantity'])) {
-                $messages["$key.numeric"] = $this->translateErrorMessage($this->file_name.$key, 'numeric');
-                $messages["$key.min"] = $this->translateErrorMessage($this->file_name.$key, 'min.numeric');
+                $messages["$key.numeric"] = $this->translateErrorMessage($key, 'numeric');
+                $messages["$key.min"] = $this->translateErrorMessage($key, 'min.numeric');
             } else {
-                $messages["$key.regex"] = $this->translateErrorMessage($this->file_name.$key, $key.'.regex');
+                $messages["$key.regex"] = $this->translateErrorMessage($key, $key.'.regex');
             }
         }
 
         // Max Length Data
         $max_length_names = ['commercial_name', 'scientefic_name', 'provider'];
         foreach ($max_length_names as $key) {
-            $messages["$key.max"] = $this->translateErrorMessage($this->file_name.$key, "$key.max");
+            $messages["$key.max"] = $this->translateErrorMessage($key, "$key.max");
         }
 
         return $messages;

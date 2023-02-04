@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Web\V1\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Web\V1\Auth\webSignUpRequest as AuthWebSignUpRequest;
 use App\Http\Resources\Api\Web\V1\Translation\translationResource;
-use App\Models\Api\Web\V1\Role;
+use App\Models\Api\V1\Role;
 use App\Models\User;
 use App\Traits\HttpResponse;
 use App\Traits\StringTrait;

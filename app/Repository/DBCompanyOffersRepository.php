@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Http\Resources\Api\Web\V1\Company\CompanyOffers\companyOfferCollection;
 use App\Http\Resources\Api\Web\V1\Company\CompanyOffers\companyOfferResource;
-use App\Models\Api\Web\V1\CompanyOffer;
+use App\Models\Api\V1\CompanyOffer;
 use App\RepositoryInterface\CompanyOffersRepositoryInterface;
 use App\Traits\HttpResponse;
 use App\Traits\StringTrait;
@@ -76,18 +76,18 @@ class DBCompanyOffersRepository implements CompanyOffersRepositoryInterface
 
                     return $this->success(new companyOfferResource($offer), 'Offer Added Successfully');
                 } else {
-                    $errors['pay_method'] = $this->translateErrorMessage($this->file_name.'pay_method', 'not_found');
+                    $errors['pay_method'] = $this->translateErrorMessage('pay_method', 'not_found');
                 }
             } else {
-                $errors['offer_duration'] = $this->translateErrorMessage($this->file_name.'offer_duration', 'not_found');
+                $errors['offer_duration'] = $this->translateErrorMessage('offer_duration', 'not_found');
             }
         }
 
         if ($com_exists) {
-            $errors['commercial_name'] = $this->translateErrorMessage($this->file_name.'commercial_name', 'exists');
+            $errors['commercial_name'] = $this->translateErrorMessage('commercial_name', 'exists');
         }
         if ($com_exists) {
-            $errors['scientefic_name'] = $this->translateErrorMessage($this->file_name.'scientefic_name', 'exists');
+            $errors['scientefic_name'] = $this->translateErrorMessage('scientefic_name', 'exists');
         }
 
         return $this->validation_errors($errors);
@@ -150,18 +150,18 @@ class DBCompanyOffersRepository implements CompanyOffersRepositoryInterface
 
                         return $this->noContentResponse();
                     } else {
-                        $errors['pay_method'] = $this->translateErrorMessage($this->file_name.'pay_method', 'not_found');
+                        $errors['pay_method'] = $this->translateErrorMessage('pay_method', 'not_found');
                     }
                 } else {
-                    $errors['offer_duration'] = $this->translateErrorMessage($this->file_name.'offer_duration', 'not_found');
+                    $errors['offer_duration'] = $this->translateErrorMessage('offer_duration', 'not_found');
                 }
             }
 
             if ($com_exists) {
-                $errors['commercial_name'] = $this->translateErrorMessage($this->file_name.'commercial_name', 'exists');
+                $errors['commercial_name'] = $this->translateErrorMessage('commercial_name', 'exists');
             }
             if ($com_exists) {
-                $errors['scientefic_name'] = $this->translateErrorMessage($this->file_name.'scientefic_name', 'exists');
+                $errors['scientefic_name'] = $this->translateErrorMessage('scientefic_name', 'exists');
             }
 
             return $this->validation_errors($errors);

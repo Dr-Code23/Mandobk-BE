@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Api\Web\V1\Dashboard;
+namespace App\Http\Controllers\Api\V1\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Web\V1\Dashboard\marktingRequest;
 use App\Http\Resources\Api\Web\V1\Dashboard\Markting\marktingCollection;
 use App\Http\Resources\Api\Web\V1\Dashboard\Markting\marktingResource;
-use App\Models\Api\Web\V1\Markting;
+use App\Models\Api\V1\Markting;
 use App\Traits\fileOperationTrait;
 use App\Traits\HttpResponse;
 use App\Traits\StringTrait;
