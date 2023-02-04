@@ -15,10 +15,20 @@ Route::group(['namespace' => 'App\Http\Controllers\Api\V1'], function () {
             ->middleware(['auth:api', 'isAuthenticated']);
     });
 
-    Route::group(['namespace' => 'Auth'], function () {
-    });
     // Public Site Routes
-    Route::group(['prefix' => 'site'], function () {
+    Route::group(['prefix' => 'site', 'namespace' => 'Site'], function () {
+        Route::group(
+            ['prefix' => 'company', 'namespace' => 'Company'],
+            function () {
+                Route::group(
+                    ['prefix' => 'sales'],
+                    function () {
+                        Route::get('', 'SalesController@index')->name('company-sales-all');
+                        Route::post('', 'SalesController@store')->name('company-sales-add');
+                    }
+                );
+            }
+        );
     });
 
     Route::group(['prefix' => 'mobile'], function () {});

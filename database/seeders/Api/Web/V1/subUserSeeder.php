@@ -3,6 +3,7 @@
 namespace Database\Seeders\Api\Web\V1;
 
 use App\Models\Api\Web\V1\Role;
+use App\Models\Api\Web\V1\SubUser;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -22,6 +23,11 @@ class subUserSeeder extends Seeder
                 'password' => Hash::make('sub_user'.$i),
                 'full_name' => 'sub_user_'.$i,
                 'role_id' => Role::where('name', 'pharmacy_sub_user')->first(['id'])->id,
+            ]);
+
+            SubUser::create([
+                'parent_id' => 9,
+                'sub_user_id' => $i,
             ]);
         }
     }

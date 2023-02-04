@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api\V1\Site\Company;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\V1\Site\Company\SalesRequest;
 use App\RepositoryInterface\SalesRepositoryInterface;
+use Illuminate\Http\Request as HttpRequest;
 
 class SalesController extends Controller
 {
@@ -20,7 +20,7 @@ class SalesController extends Controller
         return $this->salesRepository->getAllSales(1);
     }
 
-    public function store(SalesRequest $request)
+    public function store(HttpRequest $request)
     {
         return $this->salesRepository->storeSale($request);
     }

@@ -19,9 +19,9 @@ trait translationTrait
         return new translationResource($login_view);
     }
 
-    public function translateErrorMessage(string $file, string $key)
+    public function translateErrorMessage(string $name, string $key)
     {
-        return __(config('app.web_v1').'/'.$file).' '.__('validation.'.$key);
+        return __('messages.'.$name).' '.__('validation.'.$key);
     }
 
     public function translateWord(string $word_path)

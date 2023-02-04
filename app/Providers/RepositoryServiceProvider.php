@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Repository\DBCompanyOffersRepository;
 use App\Repository\DBProductRepository;
+use App\Repository\DBSalesRepository;
 use App\RepositoryInterface\CompanyOffersRepositoryInterface;
 use App\RepositoryInterface\ProductRepositoryInterface;
 use App\RepositoryInterface\SalesRepositoryInterface;
