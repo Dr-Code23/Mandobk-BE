@@ -80,12 +80,12 @@ class DBProductRepository implements ProductRepositoryInterface
             /* Make the barcode for the product */
             // Generate A Barcode for the product
             $random_number = rand(1, 1000000000);
-            while (file_exists(asset('storage/data_entry/'.$random_number.'.svg'))) {
+            while (file_exists(asset('storage/products/'.$random_number.'.svg'))) {
                 $random_number = rand(1, 1000000000);
             }
             // Store the barcode
             $barcode_value = $random_number;
-            if ($this->storeBarCodeSVG('data_entry', $random_number, $barcode_value)) {
+            if ($this->storeBarCodeSVG('products', $random_number, $barcode_value)) {
                 $data_entry = Product::create([
                     'com_name' => $commercial_name,
                     'sc_name' => $scientefic_name,
@@ -290,6 +290,14 @@ class DBProductRepository implements ProductRepositoryInterface
 
     public function getAllScienteficNamesInSelect()
     {
-        return Product::where('user_id', $this->getAuthenticatedUserId())->get(['sc_name as scientefic_name', 'id']);
+        return $this->resourceResponse(Product::where('user_id', $this->getAuthenticatedUserId())->get(['sc_name as scientefic_name', 'id']));
+    }
+
+    /**
+     * @return mixed
+     */
+    public function CommercialNames()
+    {
+        return $this->resourceResponse(Product::where('user_id', $this->getAuthenticatedUserId())->get(['id', 'name']));
     }
 }

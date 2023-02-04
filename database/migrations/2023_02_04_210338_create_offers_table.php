@@ -12,11 +12,11 @@ return new class() extends Migration {
      */
     public function up()
     {
-        Schema::create('sale_details', function (Blueprint $table) {
+        Schema::create('offers', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('sale_id');
-            $table->foreign('sale_id')
-                ->on('sales')
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')
+                ->on('users')
                 ->references('id')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
@@ -25,14 +25,13 @@ return new class() extends Migration {
             $table->foreign('product_id')
                 ->on('products')
                 ->references('id')
-                ->cascadeOnUpdate()
-                ->cascadeOnDelete();
-
-            $table->date('expire_date');
-            $table->unsignedDouble('sel_price');
-            $table->unsignedBigInteger('qty');
-            $table->unsignedDouble('pur_price');
-            $table->unsignedDouble('con');
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
+            $table->enum('offer_duration', [0, 1, 2])->comment('0 => day , 1 => week , 2=>cheek');
+            $table->unsignedBigInteger('pay_method');
+            $table->foreign('pay_method')->on('pay_methods')->references('id');
+            $table->double('bonus')->default('0');
+            $table->enum('type', ['1', '2'])->comment('1=>Company Offer , 2=> Storehouse Offer');
             $table->timestamps();
         });
     }
@@ -44,6 +43,6 @@ return new class() extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('sale_details');
+        Schema::dropIfExists('offers');
     }
 };

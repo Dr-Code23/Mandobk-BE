@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources\Api\V1\Roles;
+namespace App\Http\Resources\Api\V1\PayMethod;
 
 use App\Traits\translationTrait;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class rolesResource extends JsonResource
+class PayMethodResource extends JsonResource
 {
     use translationTrait;
 

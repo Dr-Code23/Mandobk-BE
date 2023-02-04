@@ -50,6 +50,7 @@ return [
     'ends_with' => ' must end with one of the following: :values.',
     'enum' => 'The selected :attribute is invalid.',
     'exists' => 'Is Already In Use',
+    'not_exists' => 'Is not exists',
     'file' => ' must be a file.',
     'filled' => ' field must have a value.',
     'gt' => [

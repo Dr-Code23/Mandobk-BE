@@ -3,7 +3,6 @@
 namespace App\Traits;
 
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Resources\Json\JsonResource;
 use Symfony\Component\HttpFoundation\Response;
 
 trait HttpResponse
@@ -92,7 +91,7 @@ trait HttpResponse
         throw new \Illuminate\Auth\AuthenticationException();
     }
 
-    public function resourceResponse(array|JsonResource $data, string $msg = 'Data Fetched Successfully', int $code = 200)
+    public function resourceResponse($data, string $msg = 'Data Fetched Successfully', int $code = 200)
     {
         return [
             'data' => $data,

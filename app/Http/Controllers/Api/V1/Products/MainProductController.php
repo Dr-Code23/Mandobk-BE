@@ -18,4 +18,9 @@ class MainProductController extends Controller
     {
         return $this->productRepository->getAllScienteficNamesInSelect();
     }
+
+    public function CommercialNames()
+    {
+        return $this->productRepository->CommercialNames();
+    }
 }

@@ -13,4 +13,6 @@ interface UserRepositoryInterface
     public function update($request, $user);
 
     public function delete($user);
+
+    public function getUserSelect($role_name);
 }

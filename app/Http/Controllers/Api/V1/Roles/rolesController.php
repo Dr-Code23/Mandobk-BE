@@ -12,7 +12,7 @@ class rolesController extends Controller
     use HttpResponse;
 
     /**
-     * SignUp Roles For Normal Users.
+     * Summary of getSignUpRoles.
      *
      * @return array
      */
@@ -21,8 +21,13 @@ class rolesController extends Controller
         return $this->resourceResponse(new rolesCollection(Role::whereIn('name', config('roles.signup_roles'))->get(['id', 'name'])));
     }
 
+    /**
+     * Summary of getHumanResourceRoles.
+     *
+     * @return array
+     */
     public function getHumanResourceRoles()
     {
-        return $this->resourceResponse(new rolesCollection(Role::whereIn('name', config('roles.human_resource_roles'))->get(['name'])));
+        return $this->resourceResponse(new rolesCollection(Role::whereIn('name', config('roles.human_resource_roles'))->get(['id', 'name'])));
     }
 }

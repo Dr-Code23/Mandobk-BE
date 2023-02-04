@@ -15,4 +15,6 @@ interface ProductRepositoryInterface
     public function deleteProduct($product);
 
     public function getAllScienteficNamesInSelect();
+
+    public function CommercialNames();
 }

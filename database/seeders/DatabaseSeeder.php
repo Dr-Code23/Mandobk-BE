@@ -4,9 +4,9 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-use Database\Seeders\Api\V1\companyOffersSeeder;
 use Database\Seeders\Api\V1\humanResourceSeeder;
 use Database\Seeders\Api\V1\marktingSeeder;
+use Database\Seeders\Api\V1\OfferSeeder;
 use Database\Seeders\Api\V1\payMethodsSeeder;
 use Database\Seeders\Api\V1\productSeeder;
 use Database\Seeders\Api\V1\RolesSeeder;
@@ -31,9 +31,9 @@ class DatabaseSeeder extends Seeder
             productSeeder::class,
             humanResourceSeeder::class,
             payMethodsSeeder::class,
-            companyOffersSeeder::class,
             saleSeeder::class,
             marktingSeeder::class,
+            OfferSeeder::class,
         ]);
     }
 }

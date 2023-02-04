@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
-use App\Repository\DBCompanyOffersRepository;
+use App\Repository\DBOfferRepository;
 use App\Repository\DBProductRepository;
 use App\Repository\DBSalesRepository;
-use App\RepositoryInterface\CompanyOffersRepositoryInterface;
+use App\RepositoryInterface\OfferRepositoryInterface;
 use App\RepositoryInterface\ProductRepositoryInterface;
 use App\RepositoryInterface\SalesRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
@@ -21,7 +21,7 @@ class RepositoryServiceProvider extends ServiceProvider
     {
         // Define All Interfaces binded to repositories
         $this->app->bind(ProductRepositoryInterface::class, DBProductRepository::class);
-        $this->app->bind(CompanyOffersRepositoryInterface::class, DBCompanyOffersRepository::class);
+        $this->app->bind(OfferRepositoryInterface::class, DBOfferRepository::class);
         $this->app->bind(SalesRepositoryInterface::class, DBSalesRepository::class);
     }
 
