@@ -21,11 +21,23 @@ class DBOfferRepository implements OfferRepositoryInterface
     /**
      * @return mixed
      */
-    public function allOffers()
+    public function allOffers($request)
     {
         $offers = Offer::where('offers.user_id', $this->getAuthenticatedUserId())
         ->join('products', 'products.id', 'offers.product_id')
         ->where('type', Role::where('id', $this->getAuthenticatedUserInformation()->role_id)->first(['name'])->name == 'company' ? '1' : '2')
+        ->where(function ($query) use ($request) {
+            if ($request->has('type')) {
+                $type = $request->input('type');
+                if ($type == 'day') {
+                    $query->where('offers.offer_duration', '0');
+                } elseif ($type == 'week') {
+                    $query->where('offers.offer_duration', '1');
+                } elseif ($type == 'cheek') {
+                    $query->where('offers.offer_duration', '2');
+                }
+            }
+        })
         ->get([
             'offers.id as id',
             'products.id as product_id',
@@ -38,8 +50,11 @@ class DBOfferRepository implements OfferRepositoryInterface
             'offers.created_at as created_at',
             'offers.updated_at as updated_at',
         ]);
+        if ($offers) {
+            return $this->resourceResponse(new OfferCollection($offers));
+        }
 
-        return $this->resourceResponse(new OfferCollection($offers));
+        return $this->resourceResponse(['data' => []]);
     }
 
     /**
@@ -53,6 +68,7 @@ class DBOfferRepository implements OfferRepositoryInterface
             $offer = Offer::where('offers.id', $offer->id)
             ->join('products', 'products.id', 'offers.product_id')
             ->where('type', Role::where('id', $this->getAuthenticatedUserInformation()->role_id)->first(['name'])->name == 'company' ? '1' : '2')
+            ->where('products.user_id', $this->getAuthenticatedUserId())
             ->first([
                 'offers.id as id',
                 'products.id as product_id',
@@ -66,7 +82,9 @@ class DBOfferRepository implements OfferRepositoryInterface
                 'offers.updated_at as updated_at',
             ]);
 
-            return $this->resourceResponse(new OfferResource($offer));
+            if ($offer) {
+                return $this->resourceResponse(new OfferResource($offer));
+            }
         }
 
         return $this->notFoundResponse();
@@ -81,6 +99,7 @@ class DBOfferRepository implements OfferRepositoryInterface
     {
         $bonus = $this->setPercisionForFloatString($request->bonus);
         $product_id_exists = false;
+        $offer_exists = false;
         if (
             Product::where('id', $request->product_id)
             ->where('user_id', $this->getAuthenticatedUserId())
@@ -88,7 +107,6 @@ class DBOfferRepository implements OfferRepositoryInterface
         ) {
             $product_id_exists = true;
         }
-        $offer_exists = false;
         if (
             Offer::where('product_id', $request->product_id)
                 ->where('user_id', $this->getAuthenticatedUserId())

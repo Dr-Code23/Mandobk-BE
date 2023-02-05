@@ -87,12 +87,24 @@ Route::group(
                 );
 
                 // Storehouse
-                Route::group(['prefix' => 'storehouse', 'namespace' => 'Storehouse'], function () {
+                Route::group(['prefix' => 'storehouse', 'namespace' => 'Storehouse',  'middleware' => ['hasStorehousePermissions']], function () {
                     Route::group(
                         ['prefix' => 'products'],
                         function () {
                             Route::get('', 'ProductController@index');
                             Route::post('', 'ProductController@store');
+                        }
+                    );
+
+                    // Storehouse Offers
+                    Route::group(
+                        ['prefix' => 'offers'],
+                        function () {
+                            Route::get('', 'StorehouseOffersController@index');
+                            Route::get('{offer}', 'StorehouseOffersController@show');
+                            Route::post('', 'StorehouseOffersController@store');
+                            Route::put('/{offer}', 'StorehouseOffersController@update');
+                            Route::delete('/{offer}', 'StorehouseOffersController@destroy');
                         }
                     );
                 });

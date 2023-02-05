@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1\Site\Company;
+namespace App\Http\Controllers\Api\V1\Site\Storehouse;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\Offers\OffersRequest;
 use App\Models\Api\V1\Offer;
 use App\RepositoryInterface\OfferRepositoryInterface;
 use App\Traits\userTrait;
-use Illuminate\Http\Request as HttpRequest;
+use Illuminate\Http\Client\Request;
 
-class CompanyOffersController extends Controller
+class StorehouseOffersController extends Controller
 {
     use userTrait;
     private $companyOffers;
@@ -19,7 +19,7 @@ class CompanyOffersController extends Controller
         $this->companyOffers = $companyOffers;
     }
 
-    public function index(HttpRequest $request)
+    public function index(Request $request)
     {
         return $this->companyOffers->allOffers($request);
     }

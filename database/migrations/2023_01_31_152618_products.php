@@ -28,8 +28,8 @@ return new class() extends Migration {
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
 
-            $table->string('com_name')->unique(); // Commercial Name
-            $table->string('sc_name')->unique(); // Scientefic Name
+            $table->string('com_name'); // Commercial Name
+            $table->string('sc_name'); // Scientefic Name
             $table->unsignedBigInteger('qty'); // Quantity
             $table->unsignedDouble('pur_price'); // Purchasing price
             $table->unsignedDouble('sel_price'); // Selling Price

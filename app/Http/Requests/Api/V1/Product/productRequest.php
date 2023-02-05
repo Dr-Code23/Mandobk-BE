@@ -38,7 +38,7 @@ class productRequest extends FormRequest
             'selling_price' => $double,
             'bonus' => $double,
             'concentrate' => $double,
-            'patch_number' => ['required'],
+            'patch_number' => ['required', 'regex:'.config('regex.patch_number')],
             'provider' => ['required', 'max:255'],
             'limited' => [($this->is('data_entry/*') || $this->is('data_entry/') || $this->is('ceo/*') || $this->is('ceo/')) ? 'required' : 'sometimes', 'boolean'],
             'generate_another_bar_code' => ['sometimes', 'boolean'],

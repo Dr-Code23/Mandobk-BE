@@ -282,22 +282,4 @@ class DBProductRepository implements ProductRepositoryInterface
 
         return $this->success(null, 'Product Deleted Successfully');
     }
-
-    public function getAllCommercialNamesInSelect()
-    {
-        return Product::where('user_id', $this->getAuthenticatedUserId())->get(['com_name as commercial_name', 'id']);
-    }
-
-    public function getAllScienteficNamesInSelect()
-    {
-        return $this->resourceResponse(Product::where('user_id', $this->getAuthenticatedUserId())->get(['sc_name as scientefic_name', 'id']));
-    }
-
-    /**
-     * @return mixed
-     */
-    public function CommercialNames()
-    {
-        return $this->resourceResponse(Product::where('user_id', $this->getAuthenticatedUserId())->get(['id', 'name']));
-    }
 }

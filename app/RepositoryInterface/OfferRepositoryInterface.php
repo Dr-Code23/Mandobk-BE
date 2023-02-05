@@ -4,7 +4,7 @@ namespace App\RepositoryInterface;
 
 interface OfferRepositoryInterface
 {
-    public function allOffers();
+    public function allOffers($request);
 
     public function showOneOffer($offer);
 
