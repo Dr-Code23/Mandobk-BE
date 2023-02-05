@@ -42,6 +42,11 @@ class DBProductRepository implements ProductRepositoryInterface
      */
     public function storeProduct($request)
     {
+        $admin_roles = [
+            Role::where('name', 'ceo')->first(['id'])->id,
+            Role::where('name', 'data_entry')->first(['id'])->id,
+        ];
+        $authenticated_user_role_id = $this->getAuthenticatedUserInformation()->role_id;
         // Get Authenticated user information
         $authenticatedUserInformation = $this->getAuthenticatedUserInformation();
         $commercial_name = $this->sanitizeString($request->commercial_name);
@@ -53,8 +58,7 @@ class DBProductRepository implements ProductRepositoryInterface
         $concentrate = $this->setPercisionForFloatString($request->concentrate);
 
         // Check if either commercial name or scientefic_name exists
-        $com_exists = false;
-        $sc_exists = false;
+        $product_exists = false;
         $role_name_for_user = Role::where('id', $authenticatedUserInformation->role_id)->first(['name'])->name;
         if (
             Product::where(function ($bind) use ($commercial_name, $role_name_for_user) {

@@ -2,14 +2,17 @@
 
 namespace App\Http\Requests\Api\V1\Product;
 
+use App\Models\Api\V1\Role;
 use App\Traits\HttpResponse;
 use App\Traits\translationTrait;
+use App\Traits\userTrait;
 use Illuminate\Foundation\Http\FormRequest;
 
 class productRequest extends FormRequest
 {
     use translationTrait;
     use HttpResponse;
+    use userTrait;
 
     /**
      * Determine if the user is authorized to make this request.
@@ -28,23 +31,50 @@ class productRequest extends FormRequest
      */
     public function rules()
     {
+        $admin_roles = [
+            Role::where('name', 'ceo')->first(['id'])->id,
+            Role::where('name', 'data_entry')->first(['id'])->id,
+        ];
+        $authenticated_user_role_id = $this->getAuthenticatedUserInformation()->role_id;
         $double = ['required', 'numeric', 'min:0.1'];
-
-        return [
+        $rules = [
             'commercial_name' => ['required', 'max:255'],
             'scientefic_name' => ['required', 'max:255'],
-            'quantity' => ['required', 'regex:'.config('regex.integer')],
-            'purchase_price' => $double,
-            'selling_price' => $double,
-            'bonus' => $double,
             'concentrate' => $double,
-            'patch_number' => ['required', 'regex:'.config('regex.patch_number')],
-            'provider' => ['required', 'max:255'],
-            'limited' => [($this->is('data_entry/*') || $this->is('data_entry/') || $this->is('ceo/*') || $this->is('ceo/')) ? 'required' : 'sometimes', 'boolean'],
-            'generate_another_bar_code' => ['sometimes', 'boolean'],
-            'entry_date' => ['required', 'date_format:Y-m-d'],
-            'expire_date' => ['bail', 'required', 'date_format:Y-m-d', 'after:entry_date'],
         ];
+
+        if (in_array($authenticated_user_role_id, $admin_roles)) {
+            $rules['limited'] = ['required', 'boolean'];
+        } else {
+            $rules['quantity'] = ['required', 'regex:'.config('regex.integer')];
+            $rules['bonus'] = $double;
+            $rules['selling_price'] = $double;
+            $rules['purchase_price'] = $double;
+            $rules['patch_number'] = ['required'];
+            $rules['expire_date'] = ['bail', 'required', 'date_format:Y-m-d', 'after:today'];
+            $rules['provider'] = ['required', 'max:255'];
+        }
+
+        if ($this->method() == 'PUT') {
+            $rules['generate_another_bar_code'] = ['sometimes', 'boolean'];
+        }
+
+        // return [
+        //     'commercial_name' => ['required', 'max:255'],
+        //     'scientefic_name' => ['required', 'max:255'],
+        //     'quantity' => ['required', 'regex:'.config('regex.integer')],
+        //     'purchase_price' => $double,
+        //     'selling_price' => $double,
+        //     'bonus' => $double,
+        //     'concentrate' => $double,
+        //     'patch_number' => ['required'],
+        //     'provider' => ['required', 'max:255'],
+        //     'limited' => [($this->is('data_entry/*') || $this->is('data_entry/') || $this->is('ceo/*') || $this->is('ceo/')) ? 'required' : 'sometimes', 'boolean'],
+        //     'generate_another_bar_code' => ['sometimes', 'boolean'],
+        //     'entry_date' => ['required', 'date_format:Y-m-d'],
+        //     'expire_date' => ['bail', 'required', 'date_format:Y-m-d', 'after:entry_date'],
+        // ];
+        return $rules;
     }
 
     /**
