@@ -6,7 +6,39 @@ use Illuminate\Support\Facades\Route;
 Route::group(
     ['namespace' => 'App\Http\Controllers\Api\V1'],
     function () {
-        Route::get('auth/roles', 'Roles\rolesController@getSignUpRoles');
+        // Roles
+        Route::group(['prefix' => 'roles', 'namespace' => 'Roles'], function () {
+            Route::get('signup_roles', 'rolesController@getSignUpRoles');
+        }
+        );
+
+        // Pay Methods
+        Route::group(['prefix' => 'pay_methods', 'namespace' => 'PayMethod'], function () {
+            Route::get('', 'PayMethodController@getAllPayMethods');
+        }
+        );
+
+        // Users For Select
+
+        Route::group(['prefix' => 'users', 'namespace' => 'Users', 'middleware' => ['auth:api']], function () {
+            Route::get('/storehouse', 'UsersController@getUsersForSelectBox')
+                ->middleware(['hasCompanyPermissions'])
+                ->name('roles-storehouse-all');
+            Route::get('/pharmacy', 'UsersController@getUsersForSelectBox')
+                ->middleware(['hasStorehousePermissions'])
+                ->name('roles-pharmacy-all');
+        }
+        );
+
+        // Products
+
+        Route::group(
+            ['prefix' => 'products', 'namespace' => 'Products', 'middleware' => ['auth:api']],
+            function () {
+                Route::get('scientefic_name', 'mainProductController@ScienteficNamesSelect');
+                Route::get('commercial_name', 'mainProductController@CommercialNamesSelect');
+            }
+        );
         Route::group(['prefix' => 'auth', 'namespace' => 'Auth'], function () {
             // Login
             Route::post('/login', 'AuthController@login')->name('web-v1-login-user');

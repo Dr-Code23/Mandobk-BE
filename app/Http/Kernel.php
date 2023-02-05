@@ -69,5 +69,6 @@ class Kernel extends HttpKernel
         'hasHumanResourcePermissions' => \App\Http\Middleware\hasHumanResourceAccess::class,
         'hasMarktingPermissions' => \App\Http\Middleware\hasMarktingAccess::class,
         'hasCompanyPermissions' => \App\Http\Middleware\hasCompanyAccess::class,
+        'hasStorehousePermissions' => \App\Http\Middleware\hasStorehouseAccess::class,
     ];
 }

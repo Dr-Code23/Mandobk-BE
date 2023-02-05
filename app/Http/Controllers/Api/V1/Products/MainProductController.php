@@ -3,24 +3,20 @@
 namespace App\Http\Controllers\Api\V1\Products;
 
 use App\Http\Controllers\Controller;
-use App\RepositoryInterface\ProductRepositoryInterface;
+use App\Models\Api\V1\Product;
+use App\Traits\userTrait;
 
 class MainProductController extends Controller
 {
-    private $productRepository;
-
-    public function __construct(ProductRepositoryInterface $productRepository)
-    {
-        $this->productRepository = $productRepository;
-    }
+    use userTrait;
 
     public function ScienteficNamesSelect()
     {
-        return $this->productRepository->getAllScienteficNamesInSelect();
+        return Product::where('user_id', $this->getAuthenticatedUserId())->get(['id', 'sc_name as scientefic_name']);
     }
 
-    public function CommercialNames()
+    public function CommercialNamesSelect()
     {
-        return $this->productRepository->CommercialNames();
+        return Product::where('user_id', $this->getAuthenticatedUserId())->get(['id', 'com_name as commercial_names']);
     }
 }

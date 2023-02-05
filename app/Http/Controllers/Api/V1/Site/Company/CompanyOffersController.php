@@ -7,9 +7,11 @@ use App\Http\Requests\Api\V1\Company\CompanyOffers\companyOfferRequest;
 use App\Models\Api\V1\Offer;
 use App\RepositoryInterface\OfferRepositoryInterface;
 use App\RepositoryInterface\ProductRepositoryInterface;
+use App\Traits\userTrait;
 
 class CompanyOffersController extends Controller
 {
+    use userTrait;
     private $companyOffers;
     private $productRepository;
 
