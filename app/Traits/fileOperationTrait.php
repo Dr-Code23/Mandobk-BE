@@ -21,6 +21,9 @@ trait fileOperationTrait
 
     public function storeBarCodeSVG(string $directory, string $code, string $file_name): bool
     {
+        if (is_file(__DIR__.'/../../storage/app/public/'.$directory.'/'.$file_name.'.svg')) {
+            return true;
+        }
         if (!is_dir(__DIR__.'/../../storage/app/public/'.$directory)) {
             mkdir(__DIR__.'/../../storage/app/public/'.$directory, recursive: true);
         }

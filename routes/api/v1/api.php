@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Api\V1\Site\OfferOrder\OfferOrderController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(
@@ -107,6 +107,23 @@ Route::group(
                             Route::delete('/{offer}', 'StorehouseOffersController@destroy');
                         }
                     );
+
+                    // Company Offers
+                    Route::group(
+                        ['prefix' => 'company_offers'],
+                        function () {
+                            Route::get('', [OfferOrderController::class, 'index'])->name('order-company-show');
+                            Route::post('', [OfferOrderController::class, 'order'])->name('order-company-make');
+                        }
+                    );
+                    // Sales
+                    Route::group(
+                        ['prefix' => 'sales'],
+                        function () {
+                            Route::get('', 'SalesController@index')->name('storehouse-sales-all');
+                            Route::post('', 'SalesController@store')->name('storehouse-sales-add');
+                        }
+                    );
                 });
             });
 
@@ -175,5 +192,5 @@ Route::group(
     }
 );
 Route::get('/', function () {
-    return Auth::user();
-})->middleware(['auth:api']);
+    return 'This directory is working';
+});

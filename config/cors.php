@@ -18,7 +18,7 @@ return [
 
     'allowed_methods' => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
 
-    'allowed_origins' => explode(',', env('ACCESS_CONTROL_ALLOW_ORIGIN')),
+    'allowed_origins' => ['*'],
 
     'allowed_origins_patterns' => [],
 

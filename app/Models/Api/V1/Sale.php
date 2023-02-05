@@ -32,4 +32,11 @@ class Sale extends Model
             get: fn ($val) => $this->changeDateFormat($val, 'Y-m-d H:i')
         );
     }
+
+    protected function updatedAt(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($val) => $this->changeDateFormat($val, 'Y-m-d H:i')
+        );
+    }
 }

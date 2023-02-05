@@ -41,6 +41,7 @@ class productRequest extends FormRequest
             'commercial_name' => ['required', 'max:255'],
             'scientefic_name' => ['required', 'max:255'],
             'concentrate' => $double,
+            'barcode' => ['required', 'numeric'],
         ];
 
         if (in_array($authenticated_user_role_id, $admin_roles)) {
@@ -59,21 +60,6 @@ class productRequest extends FormRequest
             $rules['generate_another_bar_code'] = ['sometimes', 'boolean'];
         }
 
-        // return [
-        //     'commercial_name' => ['required', 'max:255'],
-        //     'scientefic_name' => ['required', 'max:255'],
-        //     'quantity' => ['required', 'regex:'.config('regex.integer')],
-        //     'purchase_price' => $double,
-        //     'selling_price' => $double,
-        //     'bonus' => $double,
-        //     'concentrate' => $double,
-        //     'patch_number' => ['required'],
-        //     'provider' => ['required', 'max:255'],
-        //     'limited' => [($this->is('data_entry/*') || $this->is('data_entry/') || $this->is('ceo/*') || $this->is('ceo/')) ? 'required' : 'sometimes', 'boolean'],
-        //     'generate_another_bar_code' => ['sometimes', 'boolean'],
-        //     'entry_date' => ['required', 'date_format:Y-m-d'],
-        //     'expire_date' => ['bail', 'required', 'date_format:Y-m-d', 'after:entry_date'],
-        // ];
         return $rules;
     }
 
@@ -86,7 +72,7 @@ class productRequest extends FormRequest
             'limited.boolean' => $this->translateErrorMessage('limited', 'limited.boolean'),
             'entry_date.date_format' => $this->translateErrorMessage('entry_date', 'entry_date.date.date_format'),
             'expire_date.date_format' => $this->translateErrorMessage('expire_date', 'expire_date.date.date_format'),
-            'expire_date.after' => $this->translateErrorMessage('expire_date', 'expire_date.date.after'),
+            'expire_date.after' => $this->translateErrorMessage('expire_date', 'after'),
             'generate_another_bar_code' => $this->translateErrorMessage('bar_code', 'boolean'),
         ];
 

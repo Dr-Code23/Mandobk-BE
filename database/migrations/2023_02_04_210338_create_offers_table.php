@@ -32,6 +32,7 @@ return new class() extends Migration {
             $table->foreign('pay_method')->on('pay_methods')->references('id');
             $table->double('bonus')->default('0');
             $table->enum('type', ['1', '2'])->comment('1=>Company Offer , 2=> Storehouse Offer');
+            $table->timestamp('works_untill');
             $table->timestamps();
         });
     }

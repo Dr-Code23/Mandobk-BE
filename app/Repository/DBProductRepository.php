@@ -59,37 +59,34 @@ class DBProductRepository implements ProductRepositoryInterface
 
         // Check if either commercial name or scientefic_name exists
         $product_exists = false;
+        $product_info = null;
         $role_name_for_user = Role::where('id', $authenticatedUserInformation->role_id)->first(['name'])->name;
         if (
-            Product::where(function ($bind) use ($commercial_name, $role_name_for_user) {
+            Product::where(function ($bind) use ($commercial_name, $scientefic_name, $concentrate, $admin_roles) {
                 $bind->where('com_name', $commercial_name);
-                $bind->where('role_id', $this->getAuthenticatedUserInformation()->role_id);
-                if (!in_array($role_name_for_user, config('roles.admin_product_role'))) {
-                    $bind->where('user_id', $this->getAuthenticatedUserId());
-                }
-            })->first(['id'])) {
-            $com_exists = true;
-        }
-        if (
-            Product::where(function ($bind) use ($scientefic_name, $role_name_for_user) {
                 $bind->where('sc_name', $scientefic_name);
-                $bind->where('role_id', $this->getAuthenticatedUserInformation()->role_id);
-                if (!in_array($role_name_for_user, config('roles.admin_product_role'))) {
-                    $bind->where('user_id', $this->getAuthenticatedUserId());
+                $bind->where('con', $concentrate);
+                if (in_array($this->getAuthenticatedUserInformation()->role_id, $admin_roles)) {
+                    // Then it's data entry or ceo
+                    // * if the product role_id in admin roles or added by an admin , then it's exists
+                    $bind->whereIn('role_id', $admin_roles);
+                } else {
+                    $bind->where('user_id', '=', $this->getAuthenticatedUserId());
                 }
             })->first(['id'])) {
-            $sc_exists = true;
+            $product_exists = true;
         }
-        if (!$com_exists && !$sc_exists) {
+        if (!$product_exists) {
+            // Check if the admin has already added the product
+
             /* Make the barcode for the product */
             // Generate A Barcode for the product
-            $random_number = rand(1, 1000000000);
-            while (file_exists(asset('storage/products/'.$random_number.'.svg'))) {
-                $random_number = rand(1, 1000000000);
-            }
+            $barcode = $request->input('barcode');
+
             // Store the barcode
-            $barcode_value = $random_number;
-            if ($this->storeBarCodeSVG('products', $random_number, $barcode_value)) {
+            $barcode_value = $barcode;
+
+            if ($this->storeBarCodeSVG('products', $barcode, $barcode_value)) {
                 $data_entry = Product::create([
                     'com_name' => $commercial_name,
                     'sc_name' => $scientefic_name,
@@ -118,11 +115,8 @@ class DBProductRepository implements ProductRepositoryInterface
         // Either commercial Name or scientefic_name exists
 
         $payload = [];
-        if ($com_exists) {
-            $payload['commercial_name'] = [$this->translateErrorMessage('commercial_name', 'unique')];
-        }
-        if ($sc_exists) {
-            $payload['scientefic_name'] = [$this->translateErrorMessage('scientefic_name', 'unique')];
+        if ($product_exists) {
+            $payload['product'] = $this->translateErrorMessage('product', 'exists');
         }
 
         return $this->validation_errors($payload);
@@ -144,54 +138,45 @@ class DBProductRepository implements ProductRepositoryInterface
         $bonus = $this->setPercisionForFloatString($request->bonus);
         $concentrate = $this->setPercisionForFloatString($request->concentrate);
 
+        $admin_roles = [
+            Role::where('name', 'ceo')->first(['id'])->id,
+            Role::where('name', 'data_entry')->first(['id'])->id,
+        ];
         // Check if either commercial name or scientefic_name exists
-        $com_exists = false;
-        $sc_exists = false;
-
-        $role_name_for_user = Role::where('id', $authenticatedUserInformation->role_id)->first(['name'])->name;
+        $product_exists = false;
         if (
-            Product::where(function ($bind) use ($commercial_name, $role_name_for_user, $product) {
+            Product::where(function ($bind) use ($commercial_name, $scientefic_name, $concentrate, $admin_roles, $product) {
                 $bind->where('com_name', $commercial_name);
-                $bind->where('role_id', $this->getAuthenticatedUserInformation()->role_id);
-                if (!in_array($role_name_for_user, config('roles.admin_product_role'))) {
-                    $bind->where('user_id', $this->getAuthenticatedUserId());
-                }
-                $bind->where('id', '!=', $product->id);
-            })->first(['id'])) {
-            $com_exists = true;
-        }
-        // New
-        if (
-            Product::where(function ($bind) use ($scientefic_name, $role_name_for_user, $product) {
                 $bind->where('sc_name', $scientefic_name);
-                $bind->where('role_id', $this->getAuthenticatedUserInformation()->role_id);
-                if (!in_array($role_name_for_user, config('roles.admin_product_role'))) {
-                    $bind->where('user_id', $this->getAuthenticatedUserId());
+                $bind->where('con', $concentrate);
+                if (in_array($this->getAuthenticatedUserInformation()->role_id, $admin_roles)) {
+                    // Then it's data entry or ceo
+                    // * if the product role_id in admin roles or added by an admin , then it's exists
+                    $bind->whereIn('role_id', $admin_roles);
+                } else {
+                    $bind->where('user_id', '=', $this->getAuthenticatedUserId());
                 }
                 $bind->where('id', '!=', $product->id);
             })->first(['id'])) {
-            $sc_exists = true;
+            $product_exists = true;
         }
-        if (!$com_exists && !$sc_exists) {
+        if (!$product_exists) {
             $random_number = null;
             $barCodeStored = false;
             $barCodeValue = null;
             $anyChangeOccured = false;
             // Check if $generate_another_bar_code Variable isset to generate another barcode
-            if ($request->has('generate_another_bar_code') && $request->input('generate_another_bar_code') == true) {
-                // Delete The Old Barcode
-                $this->deleteBarCode($product->bar_code);
+            // if ($request->has('generate_another_bar_code') && $request->input('generate_another_bar_code') == true) {
+            //     // Delete The Old Barcode
+            //     $this->deleteBarCode($product->bar_code);
 
-                // Generate A Barcode for the product
-                $random_number = rand(1, 1000000000);
-                while (file_exists(asset('storage/data_entry/'.$random_number.'.svg'))) {
-                    $random_number = rand(1, 1000000000);
-                }
-                // Store the barcode
-                $barCodeValue = $random_number;
-                $barCodeStored = $this->storeBarCodeSVG('data_entry', $random_number, $barCodeValue);
-                $anyChangeOccured = true;
-            }
+            //     // Generate A Barcode for the product
+            //     $barcode = $request->input('barcode');
+            //     // Store the barcode
+            //     $barCodeValue = $barcode;
+            //     $barCodeStored = $this->storeBarCodeSVG('data_entry', $barcode, $barCodeValue);
+            //     $anyChangeOccured = true;
+            // }
 
             // Begin Update Logic If Any Change Occured
             if ($product->com_name != $commercial_name) {
@@ -262,11 +247,8 @@ class DBProductRepository implements ProductRepositoryInterface
         // Either commercial Name or scientefic_name exists
 
         $payload = [];
-        if ($com_exists) {
-            $payload['commercial_name'] = [$this->translateErrorMessage('commercial_name', 'unique')];
-        }
-        if ($sc_exists) {
-            $payload['scientefic_name'] = [$this->translateErrorMessage('scientefic_name', 'unique')];
+        if ($product_exists) {
+            $payload['product_exists'] = [$this->translateErrorMessage('product', 'exists')];
         }
 
         return $this->validation_errors($payload);

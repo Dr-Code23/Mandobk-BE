@@ -56,4 +56,5 @@ return [
     'week' => 'Weekly',
     'cash' => 'Cash',
     'offer' => 'Offer',
+    'barcode' => 'Bar Code',
 ];

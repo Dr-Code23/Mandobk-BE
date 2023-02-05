@@ -137,6 +137,19 @@ class DBSalesRepository implements SalesRepositoryInterface
 
         for ($i = 0; $i < $data_count; ++$i) {
             $data[$i]['product_exists'] = Product::where('id', $data[$i]['product_id'])
+                ->where(function ($query) use ($request) {
+                    $query->where('user_id', $this->getAuthenticatedUserId());
+                    if ($request->routeIs('pharmacy-sales-add')) {
+                        $parent = $this->getAuthenticatedUserId();
+                        $sub_users = SubUser::where('parent_id', $parent)->get(['sub_user_id']);
+                        $subusers = [];
+                        foreach ($sub_users as $subuser) {
+                            $subusers[] = $subuser->sub_user_id;
+                        } if ($subusers) {
+                            $query->whereIn('user_id', $subusers);
+                        }
+                    }
+                })
                     ->first(['id'])
                     ? true : false;
         }
@@ -179,7 +192,8 @@ class DBSalesRepository implements SalesRepositoryInterface
         if ($request->routeIs('company-sales-add')) {
             $storehouse_id = $request->input('storehouse_id');
             if ($storehouse_id && is_numeric($storehouse_id)) {
-                if ($storehouse_id = User::where('id', $storehouse_id)->where('role_id', Role::where('name', 'storehouse')->first(['id'])->id)->first(['id'])) {
+                if ($storehouse_id = User::where('id', $storehouse_id)
+                    ->where('role_id', Role::where('name', 'storehouse')->first(['id'])->id)->first(['id'])) {
                     $send_to_id = $storehouse_id->id;
                 } else {
                     $errors['storehouse_id'] = 'Storehouse Not Exists';
@@ -190,7 +204,9 @@ class DBSalesRepository implements SalesRepositoryInterface
         } elseif ($request->routeIs('storehouse-sales-add')) {
             $pharmacy_id = $request->input('pharmacy_id');
             if ($pharmacy_id && is_numeric($pharmacy_id)) {
-                if ($pharmacy_id = User::where('id', $pharmacy_id)->first(['id'])) {
+                if ($pharmacy_id = User::where('id', $pharmacy_id)
+                    ->where('role_id', Role::where('name', 'pharmacy')->first(['id'])->id)
+                    ->first(['id'])) {
                     $send_to_id = $pharmacy_id->id;
                 } else {
                     $errors['pharmacy_id'] = 'Pharmacy id do not exists';

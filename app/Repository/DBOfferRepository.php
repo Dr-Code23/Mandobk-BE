@@ -8,6 +8,7 @@ use App\Models\Api\V1\Offer;
 use App\Models\Api\V1\Product;
 use App\Models\Api\V1\Role;
 use App\RepositoryInterface\OfferRepositoryInterface;
+use App\Traits\dateTrait;
 use App\Traits\HttpResponse;
 use App\Traits\translationTrait;
 use App\Traits\userTrait;
@@ -17,6 +18,7 @@ class DBOfferRepository implements OfferRepositoryInterface
     use userTrait;
     use HttpResponse;
     use translationTrait;
+    use dateTrait;
 
     /**
      * @return mixed
@@ -44,6 +46,7 @@ class DBOfferRepository implements OfferRepositoryInterface
             'products.sc_name as scientefic_name',
             'products.com_name as commercial_name',
             'products.expire_date as expire_date',
+            'offers.works_untill as works_untill',
             'offers.pay_method as pay_method',
             'offers.offer_duration as offer_duration',
             'offers.bonus as bonus',
@@ -75,6 +78,7 @@ class DBOfferRepository implements OfferRepositoryInterface
                 'products.sc_name as scientefic_name',
                 'products.com_name as commercial_name',
                 'products.expire_date as expire_date',
+                'offers.works_untill as works_untill',
                 'offers.pay_method as pay_method',
                 'offers.offer_duration as offer_duration',
                 'offers.bonus as bonus',
@@ -100,6 +104,8 @@ class DBOfferRepository implements OfferRepositoryInterface
         $bonus = $this->setPercisionForFloatString($request->bonus);
         $product_id_exists = false;
         $offer_exists = false;
+
+        // return 'Good';
         if (
             Product::where('id', $request->product_id)
             ->where('user_id', $this->getAuthenticatedUserId())
@@ -107,6 +113,9 @@ class DBOfferRepository implements OfferRepositoryInterface
         ) {
             $product_id_exists = true;
         }
+        // var_dump($product_id_exists);
+
+        // return;
         if (
             Offer::where('product_id', $request->product_id)
                 ->where('user_id', $this->getAuthenticatedUserId())
@@ -127,11 +136,13 @@ class DBOfferRepository implements OfferRepositoryInterface
                     $pay_method = $request->pay_method;
                     if (in_array($pay_method, ['1'])) {
                         // Check if the offer exists
+                        // return $this->addDaysToDate($offer_duration == '0' ? 1 : ($offer_duration == '1' ? 7 : 1000));
                         $offer = Offer::create([
                             'product_id' => $request->product_id,
                             'bonus' => $bonus,
                             'offer_duration' => $offer_duration,
                             'pay_method' => $pay_method,
+                            'works_untill' => $this->addDaysToDate($offer_duration == '0' ? 1 : ($offer_duration == '1' ? 7 : 1000)),
                             'type' => Role::where('id', $this->getAuthenticatedUserInformation()->role_id)->first(['name'])->name == 'company' ? '1' : '2',
                             'user_id' => $this->getAuthenticatedUserId(),
                         ]);
@@ -145,6 +156,7 @@ class DBOfferRepository implements OfferRepositoryInterface
                                 'products.sc_name as scientefic_name',
                                 'products.com_name as commercial_name',
                                 'products.expire_date as expire_date',
+                                'offers.works_untill',
                                 'offers.pay_method as pay_method',
                                 'offers.offer_duration as offer_duration',
                                 'offers.bonus as bonus',
@@ -184,7 +196,6 @@ class DBOfferRepository implements OfferRepositoryInterface
             if (
                 Product::where('id', $request->product_id)
                     ->where('user_id', $this->getAuthenticatedUserId())
-                    ->where('id', '!=', $offer->id)
                     ->first(['id'])
             ) {
                 $product_id_exists = true;
@@ -197,6 +208,7 @@ class DBOfferRepository implements OfferRepositoryInterface
                     ->where('offer_duration', $request->offer_duration)
                     ->where('bonus', $bonus)
                     ->where('type', Role::where('id', $this->getAuthenticatedUserInformation()->role_id)->first(['name'])->name == 'company' ? '1' : '2')
+                    ->where('id', '!=', $offer->id)
                     ->first(['id'])
             ) {
                 $offer_exists = true;
@@ -219,6 +231,9 @@ class DBOfferRepository implements OfferRepositoryInterface
                             }
                             if ($offer->offer_duration != $request->offer_duration) {
                                 $offer->offer_duration = $request->offer_duration;
+                                $duration = $offer->offer_duration;
+                                // Add To the Order Created at date
+                                $offer->works_untill = $this->addDaysToDate($duration == '0' ? 1 : ($duration == '1' ? 7 : 1000), $offer->created_at);
                                 $anyChangeOccured = true;
                             }
                             if ($offer->pay_method != $request->pay_method) {
@@ -235,6 +250,7 @@ class DBOfferRepository implements OfferRepositoryInterface
                                         'products.sc_name as scientefic_name',
                                         'products.com_name as commercial_name',
                                         'products.expire_date as expire_date',
+                                        'offers.works_untill',
                                         'offers.pay_method as pay_method',
                                         'offers.offer_duration as offer_duration',
                                         'offers.bonus as bonus',
@@ -280,13 +296,6 @@ class DBOfferRepository implements OfferRepositoryInterface
         }
 
         return $this->notFoundResponse();
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getAllOffersForOthers()
-    {
     }
 
     /**

@@ -7,40 +7,40 @@ use App\Http\Requests\Api\V1\Offers\OffersRequest;
 use App\Models\Api\V1\Offer;
 use App\RepositoryInterface\OfferRepositoryInterface;
 use App\Traits\userTrait;
-use Illuminate\Http\Client\Request;
+use Symfony\Component\HttpFoundation\Request as HttpFoundationRequest;
 
 class StorehouseOffersController extends Controller
 {
     use userTrait;
-    private $companyOffers;
+    private $storehouseOffers;
 
-    public function __construct(OfferRepositoryInterface $companyOffers)
+    public function __construct(OfferRepositoryInterface $storehouseOffers)
     {
-        $this->companyOffers = $companyOffers;
+        $this->storehouseOffers = $storehouseOffers;
     }
 
-    public function index(Request $request)
+    public function index(HttpFoundationRequest $request)
     {
-        return $this->companyOffers->allOffers($request);
+        return $this->storehouseOffers->allOffers($request);
     }
 
     public function show(Offer $offer)
     {
-        return $this->companyOffers->showOneOffer($offer);
+        return $this->storehouseOffers->showOneOffer($offer);
     }
 
     public function store(OffersRequest $request)
     {
-        return $this->companyOffers->storeOffer($request);
+        return $this->storehouseOffers->storeOffer($request);
     }
 
     public function update(OffersRequest $request, Offer $offer)
     {
-        return $this->companyOffers->updateOffer($request, $offer);
+        return $this->storehouseOffers->updateOffer($request, $offer);
     }
 
     public function destroy(Offer $offer)
     {
-        return $this->companyOffers->destroyOffer($offer);
+        return $this->storehouseOffers->destroyOffer($offer);
     }
 }

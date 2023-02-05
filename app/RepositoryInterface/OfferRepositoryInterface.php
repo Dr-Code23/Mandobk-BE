@@ -14,7 +14,5 @@ interface OfferRepositoryInterface
 
     public function destroyOffer($offer);
 
-    public function getAllOffersForOthers();
-
     public function getAllOfferDurations();
 }

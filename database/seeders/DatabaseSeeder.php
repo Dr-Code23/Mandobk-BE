@@ -6,6 +6,7 @@ namespace Database\Seeders;
 
 use Database\Seeders\Api\V1\humanResourceSeeder;
 use Database\Seeders\Api\V1\marktingSeeder;
+use Database\Seeders\Api\V1\OfferOrderSeeder;
 use Database\Seeders\Api\V1\OfferSeeder;
 use Database\Seeders\Api\V1\payMethodsSeeder;
 use Database\Seeders\Api\V1\productSeeder;
@@ -34,6 +35,7 @@ class DatabaseSeeder extends Seeder
             saleSeeder::class,
             marktingSeeder::class,
             OfferSeeder::class,
+            OfferOrderSeeder::class,
         ]);
     }
 }

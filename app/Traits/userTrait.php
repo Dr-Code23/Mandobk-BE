@@ -19,7 +19,7 @@ trait userTrait
 
         $permissions = [];
         if (!$ExcludeCEO) {
-            $permissionName[] = 'ceo';
+            $permissions[] = 'ceo';
         }
         if ($permissionName) {
             $permissions[] = $permissionName;

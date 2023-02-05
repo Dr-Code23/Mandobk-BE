@@ -19,6 +19,7 @@ class Offer extends Model
         'created_at',
         'updated_at',
         'user_id',
+        'works_untill',
         'type',
     ];
 
@@ -33,6 +34,14 @@ class Offer extends Model
     {
         return Attribute::make(
             get: fn ($val) => $this->changeDateFormat($val, 'Y-m-d'),
+        );
+    }
+
+    public function worksUntill(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($val) => $this->changeDateFormat($val, 'Y-m-d'),
+            set: fn ($val) => $this->changeDateFormat($val, 'Y-m-d')
         );
     }
 }

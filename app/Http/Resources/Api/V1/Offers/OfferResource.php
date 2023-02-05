@@ -29,6 +29,8 @@ class OfferResource extends JsonResource
             'expire_date' => $this->expire_date,
             'offer_duration' => $this->translateWord($duration == '0' ? 'day' : ($duration == '1' ? 'week' : 'cheek')),
             'pay_method' => $this->translateWord(PayMethod::where('id', $this->pay_method)->first(['name'])->name),
+            'works' => date('Y-m-d') <= $this->works_untill ? true : false,
+            'works_untill' => $this->works_untill,
             'bonus' => $this->bonus,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
