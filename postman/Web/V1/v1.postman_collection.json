@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "e6933981-8473-4a19-b9c4-76273a2c36c4",
+		"_postman_id": "ebedf0bd-fb0c-453c-b62c-1c96f201f1aa",
 		"name": "v1",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "19177587"
@@ -2105,7 +2105,7 @@
 											}
 										],
 										"url": {
-											"raw": "{{v1}}/site/company/company_offers/25",
+											"raw": "{{v1}}/site/company/company_offers/7",
 											"host": [
 												"{{v1}}"
 											],
@@ -2113,7 +2113,7 @@
 												"site",
 												"company",
 												"company_offers",
-												"25"
+												"7"
 											]
 										}
 									},
@@ -2218,7 +2218,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"product_id\":1,\r\n    \"bonus\":\"123\",\r\n    \"offer_duration\":\"2\",\r\n    \"pay_method\":\"1\"\r\n}"
+											"raw": "{\r\n    \"product_id\":10,\r\n    \"bonus\":\"223\",\r\n    \"offer_duration\":\"2\",\r\n    \"pay_method\":\"1\"\r\n}"
 										},
 										"url": {
 											"raw": "{{v1}}/site/company/company_offers",
@@ -2996,10 +2996,10 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"product_id\":1,\r\n    \"bonus\":\"2\",\r\n    \"offer_duration\":\"2\",\r\n    \"pay_method\":\"1\"\r\n}"
+											"raw": "{\r\n    \"product_id\":10000,\r\n    \"bonus\":\"2\",\r\n    \"offer_duration\":\"2\",\r\n    \"pay_method\":\"1\"\r\n}"
 										},
 										"url": {
-											"raw": "{{v1}}/site/company/company_offers/33",
+											"raw": "{{v1}}/site/company/company_offers/32",
 											"host": [
 												"{{v1}}"
 											],
@@ -3007,7 +3007,7 @@
 												"site",
 												"company",
 												"company_offers",
-												"33"
+												"32"
 											]
 										}
 									},
@@ -4023,7 +4023,7 @@
 											}
 										],
 										"url": {
-											"raw": "{{v1}}/site/company/company_offers/15",
+											"raw": "{{v1}}/site/company/company_offers/32",
 											"host": [
 												"{{v1}}"
 											],
@@ -4031,7 +4031,7 @@
 												"site",
 												"company",
 												"company_offers",
-												"15"
+												"32"
 											]
 										}
 									},
@@ -4208,7 +4208,7 @@
 				"bearer": [
 					{
 						"key": "token",
-						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0L21hbmRvYmsvcHVibGljL3YxL2F1dGgvbG9naW4iLCJpYXQiOjE2NzU1MzUwNzQsImV4cCI6MTY3NTUzODY3NCwibmJmIjoxNjc1NTM1MDc0LCJqdGkiOiJoYTF0OWcxaXBPb1ExVFdJIiwic3ViIjoiOCIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.JeLXmFRzHITFPmFwv8gzhzNIQE4W-jBQq4yVPsMYYbk",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0L01hbmRvYmstQkUvcHVibGljL3YxL2F1dGgvbG9naW4iLCJpYXQiOjE2NzU1NDY4OTMsImV4cCI6MTY3NTU1MDQ5MywibmJmIjoxNjc1NTQ2ODkzLCJqdGkiOiJyY2dkcXdTUlJqY2lQcUY1Iiwic3ViIjoiOCIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.GdXzZzYvr_62qUPh7ZMGZkAfb2n3rvZYWCvmsMp2oik",
 						"type": "string"
 					}
 				]
@@ -13514,8 +13514,547 @@
 					]
 				}
 			]
+		},
+		{
+			"name": "General Requests",
+			"item": [
+				{
+					"name": "Users",
+					"item": [
+						{
+							"name": "Get storehouses for select box",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/vnd.api+json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/vnd.api+json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{v1}}/users/storehouse",
+									"host": [
+										"{{v1}}"
+									],
+									"path": [
+										"users",
+										"storehouse"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "All Storehouses in the system",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/vnd.api+json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/vnd.api+json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{v1}}/users/storehouse",
+											"host": [
+												"{{v1}}"
+											],
+											"path": [
+												"users",
+												"storehouse"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Sun, 05 Feb 2023 08:26:21 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+										},
+										{
+											"key": "Vary",
+											"value": "Authorization,Origin"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.1.5"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "58"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": [\n        {\n            \"id\": 11,\n            \"full_name\": \"storehouse\"\n        }\n    ],\n    \"msg\": \"Data Fetched Successfully\",\n    \"code\": 200,\n    \"type\": \"success\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Get all pharmacy users for select",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/vnd.api+json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{v1}}/users/pharmacy",
+									"host": [
+										"{{v1}}"
+									],
+									"path": [
+										"users",
+										"pharmacy"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "All Pharmacies",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/vnd.api+json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{v1}}/users/pharmacy",
+											"host": [
+												"{{v1}}"
+											],
+											"path": [
+												"users",
+												"pharmacy"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Sun, 05 Feb 2023 08:25:18 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+										},
+										{
+											"key": "Vary",
+											"value": "Authorization,Origin"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.1.5"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "58"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": [\n        {\n            \"id\": 9,\n            \"full_name\": \"pharmacy\"\n        }\n    ],\n    \"msg\": \"Data Fetched Successfully\",\n    \"code\": 200,\n    \"type\": \"success\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Pay Methods",
+					"item": [
+						{
+							"name": "Get All Pay Methods",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{v1}}/pay_methods",
+									"host": [
+										"{{v1}}"
+									],
+									"path": [
+										"pay_methods"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Roles",
+					"item": [
+						{
+							"name": "Get All Roles For Signup",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{v1}}/roles/signup_roles",
+									"host": [
+										"{{v1}}"
+									],
+									"path": [
+										"roles",
+										"signup_roles"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "signup roles",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/vnd.api+json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{v1}}/auth/roles",
+											"host": [
+												"{{v1}}"
+											],
+											"path": [
+												"auth",
+												"roles"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Sat, 04 Feb 2023 20:44:14 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.1.5"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "57"
+										},
+										{
+											"key": "Vary",
+											"value": "Origin"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": [\n        {\n            \"id\": 7,\n            \"name\": \"Doctor\"\n        },\n        {\n            \"id\": 8,\n            \"name\": \"Company\"\n        },\n        {\n            \"id\": 9,\n            \"name\": \"Pharmacy\"\n        },\n        {\n            \"id\": 11,\n            \"name\": \"StoreHouse\"\n        }\n    ],\n    \"msg\": \"Data Fetched Successfully\",\n    \"code\": 200,\n    \"type\": \"success\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Products",
+					"item": [
+						{
+							"name": "Get all scientefic names for a user",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/vnd.api+json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{v1}}/products/scientefic_name",
+									"host": [
+										"{{v1}}"
+									],
+									"path": [
+										"products",
+										"scientefic_name"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Get all scientefic names for a user",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/vnd.api+json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{v1}}/products/scientefic_name",
+											"host": [
+												"{{v1}}"
+											],
+											"path": [
+												"products",
+												"scientefic_name"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Sun, 05 Feb 2023 08:39:02 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+										},
+										{
+											"key": "Vary",
+											"value": "Authorization,Origin"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.1.5"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "59"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "[\n    {\n        \"id\": 1,\n        \"scientefic_name\": \"Gladys Tromp IV\"\n    },\n    {\n        \"id\": 9,\n        \"scientefic_name\": \"Pedro McCullough\"\n    },\n    {\n        \"id\": 16,\n        \"scientefic_name\": \"Prof. Anastacio Little\"\n    },\n    {\n        \"id\": 24,\n        \"scientefic_name\": \"Frank Wiegand\"\n    },\n    {\n        \"id\": 33,\n        \"scientefic_name\": \"Trudie Brakus\"\n    }\n]"
+								}
+							]
+						},
+						{
+							"name": "Get All Commercial Names",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{v1}}/products/commercial_name",
+									"host": [
+										"{{v1}}"
+									],
+									"path": [
+										"products",
+										"commercial_name"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Get All Commercial Names",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{v1}}/products/commercial_name",
+											"host": [
+												"{{v1}}"
+											],
+											"path": [
+												"products",
+												"commercial_name"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Sun, 05 Feb 2023 08:38:50 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/8.1.5"
+										},
+										{
+											"key": "Vary",
+											"value": "Authorization,Origin"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.1.5"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "58"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "[\n    {\n        \"id\": 1,\n        \"commercial_names\": \"Merritt Legros III\"\n    },\n    {\n        \"id\": 9,\n        \"commercial_names\": \"Ms. Brisa Douglas V\"\n    },\n    {\n        \"id\": 16,\n        \"commercial_names\": \"Kasandra Krajcik IV\"\n    },\n    {\n        \"id\": 24,\n        \"commercial_names\": \"Kevin Barton\"\n    },\n    {\n        \"id\": 33,\n        \"commercial_names\": \"Annette Reinger\"\n    }\n]"
+								}
+							]
+						}
+					]
+				}
+			]
 		}
 	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0L01hbmRvYmstQkUvcHVibGljL3YxL2F1dGgvbG9naW4iLCJpYXQiOjE2NzU1ODQ5MzgsIm5iZiI6MTY3NTU4NDkzOCwianRpIjoiT0Y3UGQ1dEphdFRJWjZEQyIsInN1YiI6IjgiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.jxKnf_eWpFTn2DmINUFUkGLxQhZIijzQMxyCQlOBuUw",
+				"type": "string"
+			}
+		]
+	},
 	"event": [
 		{
 			"listen": "prerequest",
@@ -13539,7 +14078,7 @@
 	"variable": [
 		{
 			"key": "v1",
-			"value": "http://localhost/mandobk/public/v1",
+			"value": "http://localhost/Mandobk-BE/public/v1",
 			"type": "string"
 		}
 	]
