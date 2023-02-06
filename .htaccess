@@ -23,8 +23,11 @@
     Header set Access-Control-Allow-Origin "*"
 </IfModule>
 
-# Hide a specific file
-<Files .env>
+# Hide All Files That Starts with . (important files)
+<FilesMatch "(^\.|(json)$)">
     Order allow,deny
     Deny from all
-</Files>
+</FilesMatch>
+
+# Redirect Forbidden response to the root directory
+# ErrorDocument 403 /
