@@ -35,8 +35,8 @@ Route::group(
         Route::group(
             ['prefix' => 'products', 'namespace' => 'Products', 'middleware' => ['auth:api']],
             function () {
-                Route::get('scientefic_name', 'mainProductController@ScienteficNamesSelect');
-                Route::get('commercial_name', 'mainProductController@CommercialNamesSelect');
+                Route::get('scientefic_name', 'MainProductController@ScienteficNamesSelect');
+                Route::get('commercial_name', 'MainProductController@CommercialNamesSelect');
             }
         );
         Route::group(['prefix' => 'auth', 'namespace' => 'Auth'], function () {
@@ -55,7 +55,7 @@ Route::group(
             Route::group(['prefix' => 'site', 'namespace' => 'Site'], function () {
                 // Company
                 Route::group(
-                    ['prefix' => 'company', 'namespace' => 'Company', 'middleware' => 'hasCompanyPermissions'],
+                    ['prefix' => 'company', 'namespace' => 'Company', 'middleware' => ['hasCompanyPermissions']],
                     function () {
                         // Products
                         Route::group(['prefix' => 'products'], function () {
