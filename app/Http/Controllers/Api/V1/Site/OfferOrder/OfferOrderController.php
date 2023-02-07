@@ -55,21 +55,36 @@ class OfferOrderController extends Controller
         $offer = Offer::join('products', 'products.id', 'offers.product_id')
             ->where('offers.id', $request->offer_id)
             ->where('works_untill', '>=', date('Y-m-d'))
-            ->where('offers.type', '1')
+            ->where('offers.type', $request->routeIs('order-company-show') ? '1' : '2')
             ->first([
                 'products.qty',
+                'offers.id as id',
             ]);
 
         if ($offer) {
+            $qty = (int) $request->qty;
+            $offer_order = OfferOrder::where('offer_id', $offer->id)
+                ->where('status', '1')
+                ->where('want_offer_id', $this->getAuthenticatedUserId())
+                ->first(['id']);
+            $updated = false;
             if ($offer->qty >= $request->quantity) {
                 // Everything is valid so add the data
-                OfferOrder::create([
-                    'offer_id' => $request->offer_id,
-                    'want_offer_id' => $this->getAuthenticatedUserId(),
-                    'qty' => $request->quantity,
-                ]);
 
-                return $this->success(null, 'Order Made Successfully , waiting admin response');
+                // If The same order exists for the same user and it's pending update the quantity of it
+                if ($offer_order) {
+                    $offer_order->qty = $offer_order->qty + $qty;
+                    $offer_order->update();
+                    $updated = true;
+                } else { // Check If an order exists with the same offer id with the same user
+                    OfferOrder::create([
+                        'offer_id' => $request->offer_id,
+                        'want_offer_id' => $this->getAuthenticatedUserId(),
+                        'qty' => $request->quantity,
+                    ]);
+                }
+
+                return $this->success(null, 'Order '.($updated ? 'Updated' : 'Made').' , waiting admin response');
             }
 
             return $this->validation_errors([

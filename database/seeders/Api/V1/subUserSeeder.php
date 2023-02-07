@@ -17,10 +17,10 @@ class subUserSeeder extends Seeder
      */
     public function run()
     {
-        for ($i = 1; $i < 10; ++$i) {
+        for ($i = 14; $i < 24; ++$i) {
             User::create([
                 'username' => 'sub_user_'.$i,
-                'password' => Hash::make('sub_user'.$i),
+                'password' => Hash::make('sub_user_'.$i),
                 'full_name' => 'sub_user_'.$i,
                 'role_id' => Role::where('name', 'pharmacy_sub_user')->first(['id'])->id,
             ]);

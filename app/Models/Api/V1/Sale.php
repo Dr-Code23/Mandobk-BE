@@ -16,6 +16,7 @@ class Sale extends Model
         'to_id',
         'type',
         'details',
+        'total',
     ];
 
     protected function details(): Attribute

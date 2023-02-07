@@ -24,7 +24,7 @@ class productSeeder extends Seeder
                 'sel_price' => fake()->randomFloat(1, 1, 1000),
                 'bonus' => fake()->randomFloat(1, 1, 1000),
                 'created_at' => fake()->date(),
-                'expire_date' => fake()->date(),
+                'expire_date' => date('Y-m-d', strtotime('+'.fake()->numberBetween(1, 100).'days')),
                 'con' => fake()->randomFloat(),
                 'limited' => fake()->boolean(),
                 'patch_number' => fake()->numberBetween(1, 100),

@@ -5,7 +5,6 @@ namespace App\Repository;
 use App\Models\Api\V1\Product;
 use App\Models\Api\V1\Role;
 use App\Models\Api\V1\Sale;
-use App\Models\Api\V1\SubUser;
 use App\Models\User;
 use App\RepositoryInterface\SalesRepositoryInterface;
 use App\Traits\HttpResponse;
@@ -22,50 +21,10 @@ class DBSalesRepository implements SalesRepositoryInterface
     /**
      * @return mixed
      */
-    public function getAllSales(int $type)
+    public function getAllSales()
     {
-        $pharmacy_role = Role::where('name', 'pharmacy')->first(['id'])->id;
-        $pharmacy_sub_user_role = Role::where('name', 'pharmacy_sub_user')->first(['id'])->id;
-
-        // Then it's Company To Storehouse
-        $sales = Sale::join('users', function ($join) use ($pharmacy_role, $pharmacy_sub_user_role, $type) {
-            $join->on('users.id', 'sales.to_id')
-                    ->where(function ($query) use ($pharmacy_role, $pharmacy_sub_user_role, $type) {
-                        // From Company To Storehouse
-                        if ($type == 1) {
-                            $query->where('users.role_id', Role::where('name', 'storehouse')->first(['id'])->id);
-                        }
-                        // From Storehouse To Pharmacy (Admin or sub_user)
-                        elseif ($type == 2) {
-                            $query->where('users.role_id', '=', $pharmacy_role)
-                                ->orWhere('users.role_id', '=', $pharmacy_sub_user_role);
-                        }
-                        // From Pharmacy(Admin or sub_user) to random customer
-                        elseif ($type == 3) {
-                            $query->where('users.role_id', '=', Role::where('name', 'customer')->first(['id'])->id);
-                        } else {
-                            $query->where('users.role_id', '=', 1000); // Impossible to occur
-                        }
-                    }
-                    );
-        })
-        ->where(function ($query) use ($pharmacy_sub_user_role, $pharmacy_role) {
-            $authenticated_user_role_id = $this->getAuthenticatedUserInformation()->role_id;
-            if (in_array($authenticated_user_role_id, [$pharmacy_role, $pharmacy_sub_user_role])) {
-                $sub_users = [];
-                $parent_id = SubUser::where('sub_user_id', $this->getAuthenticatedUserId())->first(['parent_id']);
-                // if logged user is pharmacy check sales made by pharmacy sub users as well
-                $query->where('users.from_id', $this->getAuthenticatedUserId());
-                if ($parent_id) {
-                    foreach (SubUser::where('parent_id', $parent_id)->get(['sub_user_id']) as $sub_user_id) {
-                        $sub_users[] = $sub_user_id->sub_user_id;
-                    }
-                }
-                if ($sub_users) {
-                    $query->orWhereIn('users.from_id', $sub_users);
-                }
-            }
-        })
+        $sales = Sale::join('users', 'sales.to_id', 'users.id')
+        ->whereIn('sales.from_id', $this->getSubUsersForAuthenticatedUser())
         ->get([
             'sales.id as id',
             'sales.from_id as from_id',
@@ -77,6 +36,48 @@ class DBSalesRepository implements SalesRepositoryInterface
         ]);
 
         return $sales;
+        // Then it's Company To Storehouse
+        // $sales = Sale::join('users', function ($join) use ($pharmacy_role, $pharmacy_sub_user_role, $type) {
+        //     $join->on('users.id', 'sales.to_id')
+        //             ->where(function ($query) use ($pharmacy_role, $pharmacy_sub_user_role, $type) {
+        //                 // From Company To Storehouse
+        //                 if ($type == 1) {
+        //                     $query->where('users.role_id', Role::where('name', 'storehouse')->first(['id'])->id);
+        //                 }
+        //                 // From Storehouse To Pharmacy (Admin or sub_user)
+        //                 elseif ($type == 2) {
+        //                     $query->where('users.role_id', '=', $pharmacy_role)
+        //                         ->orWhere('users.role_id', '=', $pharmacy_sub_user_role);
+        //                 }
+        //                 // From Pharmacy(Admin or sub_user) to random customer
+        //                 elseif ($type == 3) {
+        //                     $query->where('users.role_id', '=', Role::where('name', 'customer')->first(['id'])->id);
+        //                 } else {
+        //                     $query->where('users.role_id', '=', 1000); // Impossible to occur
+        //                 }
+        //             }
+        //             );
+        // })
+        // ->where(function ($query) use ($pharmacy_sub_user_role, $pharmacy_role) {
+        //     $authenticated_user_role_id = $this->getAuthenticatedUserInformation()->role_id;
+        //     if (in_array($authenticated_user_role_id, [$pharmacy_role, $pharmacy_sub_user_role])) {
+        //         $sub_users = $this->getSubUsersForAuthenticatedUser();
+        //         // if logged user is pharmacy check sales made by pharmacy sub users as well
+        //         $query->where('users.from_id', $this->getAuthenticatedUserId());
+        //         if ($sub_users) {
+        //             $query->orWhereIn('users.from_id', $sub_users);
+        //         }
+        //     }
+        // })
+        // ->get([
+        //     'sales.id as id',
+        //     'sales.from_id as from_id',
+        //     'sales.to_id as to_id',
+        //     'users.full_name as full_name',
+        //     'sales.details as details',
+        //     'sales.created_at as created_at',
+        //     'sales.updated_at as updated_at',
+        // ]);
     }
 
     /**
@@ -86,6 +87,7 @@ class DBSalesRepository implements SalesRepositoryInterface
      */
     public function storeSale($request)
     {
+        $total_sales = 0;
         $rules = [
             'product_id' => ['required'],
             'expire_date' => ['required', 'date_format:Y-m-d'],
@@ -137,28 +139,17 @@ class DBSalesRepository implements SalesRepositoryInterface
 
         for ($i = 0; $i < $data_count; ++$i) {
             $data[$i]['product_exists'] = Product::where('id', $data[$i]['product_id'])
-                ->where(function ($query) use ($request) {
-                    $query->where('user_id', $this->getAuthenticatedUserId());
-                    if ($request->routeIs('pharmacy-sales-add')) {
-                        $parent = $this->getAuthenticatedUserId();
-                        $sub_users = SubUser::where('parent_id', $parent)->get(['sub_user_id']);
-                        $subusers = [];
-                        foreach ($sub_users as $subuser) {
-                            $subusers[] = $subuser->sub_user_id;
-                        } if ($subusers) {
-                            $query->whereIn('user_id', $subusers);
-                        }
-                    }
-                })
+                ->whereIn('user_id', $this->getSubUsersForAuthenticatedUser())
                     ->first(['id'])
                     ? true : false;
         }
+
         if ($errors) {
             return $this->validation_errors($errors);
         }
 
         $data_length = count($data);
-        for ($i = 0; $i < $data_length; ++$i) {
+        for ($i = 0; $i <= $data_length; ++$i) {
             // * Remove The Product from the cart if the product does not exists
             if (!$data[$i]['product_exists']) {
                 unset($data[$i]);
@@ -184,6 +175,7 @@ class DBSalesRepository implements SalesRepositoryInterface
                 $data[$i]['scientefic_name'] = $product_info->sc_name;
                 $data[$i]['purchase_price'] = $product_info->pur_price;
                 $data[$i]['original_qty'] = $product_info->qty;
+                $total_sales += ($data[$i]['quantity'] * $product_info->sel_price);
             }
         }
 
@@ -223,6 +215,7 @@ class DBSalesRepository implements SalesRepositoryInterface
         if ($errors) {
             return $this->validation_errors($errors);
         }
+
         if ($send_to_id) {
             for ($i = 0; $i < count($data); ++$i) {
                 Product::where('id', $data[$i]['product_id'])->update([
@@ -230,20 +223,16 @@ class DBSalesRepository implements SalesRepositoryInterface
                 ]);
                 unset($data[$i]['original_qty']);
             }
+
             // Start To Store Sale
             $sale = Sale::create([
                 'from_id' => $this->getAuthenticatedUserId(),
                 'to_id' => $send_to_id,
                 'details' => $data,
+                'total' => $total_sales,
             ]);
 
             return $this->success($sale, 'Sale Created Successfully');
         }
-        // Now Everything is valid , start to store
-        // foreach($data)
-    }
-
-    private function addSales($products)
-    {
     }
 }

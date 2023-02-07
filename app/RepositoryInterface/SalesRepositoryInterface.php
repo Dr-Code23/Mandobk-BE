@@ -4,7 +4,7 @@ namespace App\RepositoryInterface;
 
 interface SalesRepositoryInterface
 {
-    public function getAllSales(int $type);
+    public function getAllSales();
 
     public function storeSale($request);
 }

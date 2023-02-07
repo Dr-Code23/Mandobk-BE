@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Api\V1\Site\Home\HomeController;
 use App\Http\Controllers\Api\V1\Site\OfferOrder\OfferOrderController;
+use App\Http\Controllers\Api\V1\Site\Sales\SalesController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(
@@ -54,9 +56,11 @@ Route::group(
             // Public Site Routes
             Route::group(['prefix' => 'site', 'namespace' => 'Site'], function () {
                 // Company
+
                 Route::group(
                     ['prefix' => 'company', 'namespace' => 'Company', 'middleware' => ['hasCompanyPermissions']],
                     function () {
+                        Route::get('', [HomeController::class, 'index']);
                         // Products
                         Route::group(['prefix' => 'products'], function () {
                             Route::get('', 'ProductController@index');
@@ -67,8 +71,8 @@ Route::group(
                         Route::group(
                             ['prefix' => 'sales'],
                             function () {
-                                Route::get('', 'SalesController@index')->name('company-sales-all');
-                                Route::post('', 'SalesController@store')->name('company-sales-add');
+                                Route::get('', [SalesController::class, 'index'])->name('company-sales-all');
+                                Route::post('', [SalesController::class, 'store'])->name('company-sales-add');
                             }
                         );
 
@@ -88,6 +92,7 @@ Route::group(
 
                 // Storehouse
                 Route::group(['prefix' => 'storehouse', 'namespace' => 'Storehouse',  'middleware' => ['hasStorehousePermissions']], function () {
+                    Route::get('', [HomeController::class, 'index']);
                     Route::group(
                         ['prefix' => 'products'],
                         function () {
@@ -120,11 +125,42 @@ Route::group(
                     Route::group(
                         ['prefix' => 'sales'],
                         function () {
-                            Route::get('', 'SalesController@index')->name('storehouse-sales-all');
-                            Route::post('', 'SalesController@store')->name('storehouse-sales-add');
+                            Route::get('', [SalesController::class, 'index'])->name('storehouse-sales-all');
+                            Route::post('', [SalesController::class, 'store'])->name('storehouse-sales-add');
                         }
                     );
                 });
+
+                // Pharmacy
+
+                Route::group(
+                    ['prefix' => 'pharmacy', 'namespace' => 'Pharmacy'],
+                    function () {
+                        Route::get('', [HomeController::class, 'index']);
+                        // Products
+                        Route::group(['prefix' => 'products'], function () {
+                            Route::get('', 'ProductsController@index');
+                            Route::post('', 'ProductsController@store');
+                        }
+                        );
+
+                        // Storehouse offers
+                        Route::group(
+                            ['prefix' => 'storehouse_offers'],
+                            function () {
+                                Route::get('', [OfferOrderController::class, 'index'])->name('order-storehouse-show');
+                                Route::post('', [OfferOrderController::class, 'order'])->name('order-storehouse-make');
+                            }
+                        );
+
+                        // Sales
+                        Route::group(['prefix' => 'sales'], function () {
+                            Route::get('', [SalesController::class, 'index'])->name('pharmacy-sales-show');
+                            Route::post('', [SalesController::class, 'store'])->name('pharmacy-sales-add');
+                        }
+                        );
+                    }
+                );
             });
 
             Route::group(['prefix' => 'mobile'], function () {});

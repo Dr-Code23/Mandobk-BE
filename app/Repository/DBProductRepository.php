@@ -46,7 +46,6 @@ class DBProductRepository implements ProductRepositoryInterface
             Role::where('name', 'ceo')->first(['id'])->id,
             Role::where('name', 'data_entry')->first(['id'])->id,
         ];
-        $authenticated_user_role_id = $this->getAuthenticatedUserInformation()->role_id;
         // Get Authenticated user information
         $authenticatedUserInformation = $this->getAuthenticatedUserInformation();
         $commercial_name = $this->sanitizeString($request->commercial_name);
@@ -59,8 +58,6 @@ class DBProductRepository implements ProductRepositoryInterface
 
         // Check if either commercial name or scientefic_name exists
         $product_exists = false;
-        $product_info = null;
-        $role_name_for_user = Role::where('id', $authenticatedUserInformation->role_id)->first(['name'])->name;
         if (
             Product::where(function ($bind) use ($commercial_name, $scientefic_name, $concentrate, $admin_roles) {
                 $bind->where('com_name', $commercial_name);
@@ -71,13 +68,20 @@ class DBProductRepository implements ProductRepositoryInterface
                     // * if the product role_id in admin roles or added by an admin , then it's exists
                     $bind->whereIn('role_id', $admin_roles);
                 } else {
-                    $bind->where('user_id', '=', $this->getAuthenticatedUserId());
+                    // Get All Products For A User And authenticated user
+                    $bind->whereIn('user_id', $this->getSubUsersForAuthenticatedUser());
                 }
             })->first(['id'])) {
             $product_exists = true;
         }
         if (!$product_exists) {
             // Check if the admin has already added the product
+
+            // Check If Data Entry Has has product
+            $admin_product = Product::where('com_name', $commercial_name)
+                ->where('sc_name', $scientefic_name)
+                ->whereIn('role_id', $admin_roles)
+                ->first(['limited']);
 
             /* Make the barcode for the product */
             // Generate A Barcode for the product
@@ -98,7 +102,7 @@ class DBProductRepository implements ProductRepositoryInterface
                     'patch_number' => $request->patch_number,
                     'bar_code' => $barcode_value,
                     'provider' => $provider,
-                    'limited' => $request->limited ? 1 : 0,
+                    'limited' => $admin_product ? $admin_product->limited : ($request->limited ? 1 : 0),
                     'user_id' => $authenticatedUserInformation->id,
                     'role_id' => $authenticatedUserInformation->role_id,
                     'entry_date' => $request->entry_date,
@@ -129,7 +133,6 @@ class DBProductRepository implements ProductRepositoryInterface
      */
     public function updateProduct($request, $product)
     {
-        $authenticatedUserInformation = $this->getAuthenticatedUserInformation();
         $commercial_name = $this->sanitizeString($request->commercial_name);
         $scientefic_name = $this->sanitizeString($request->scientefic_name);
         $provider = $this->sanitizeString($request->provider);
@@ -154,7 +157,8 @@ class DBProductRepository implements ProductRepositoryInterface
                     // * if the product role_id in admin roles or added by an admin , then it's exists
                     $bind->whereIn('role_id', $admin_roles);
                 } else {
-                    $bind->where('user_id', '=', $this->getAuthenticatedUserId());
+                    // Get All Products For A User And authenticated user
+                    $bind->whereIn('user_id', $this->getSubUsersForAuthenticatedUser());
                 }
                 $bind->where('id', '!=', $product->id);
             })->first(['id'])) {
