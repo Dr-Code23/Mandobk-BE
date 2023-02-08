@@ -2,7 +2,7 @@
 
 namespace Database\Seeders\Api\V1;
 
-use App\Models\Api\V1\DataEntry;
+use App\Models\V1\DataEntry;
 use Illuminate\Database\Seeder;
 
 class dataEntrySeeder extends Seeder

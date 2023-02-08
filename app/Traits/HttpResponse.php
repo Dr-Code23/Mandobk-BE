@@ -26,9 +26,9 @@ trait HttpResponse
     /**
      * Success Response.
      *
-     * @param mixed $data
+     * @param mixed|null $data
      */
-    public function success($data = null, string $msg = 'Success', int $code = Response::HTTP_OK): JsonResponse
+    public function success(mixed $data = null, string $msg = 'Success', int $code = Response::HTTP_OK): JsonResponse
     {
         return response()->json([
             'data' => $data,

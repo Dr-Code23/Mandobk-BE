@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Api\V1\Site\Home;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\V1\Product\productCollection;
-use App\Models\Api\V1\Product;
-use App\Models\Api\V1\Role;
-use App\Models\Api\V1\Sale;
+use App\Models\V1\Product;
+use App\Models\V1\Role;
+use App\Models\V1\Sale;
 use App\Traits\userTrait;
 
 class HomeController extends Controller

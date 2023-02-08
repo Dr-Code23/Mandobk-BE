@@ -2,7 +2,7 @@
 
 namespace App\Traits;
 
-use App\Models\Api\V1\Role;
+use App\Models\V1\Role;
 
 trait roleTrait
 {

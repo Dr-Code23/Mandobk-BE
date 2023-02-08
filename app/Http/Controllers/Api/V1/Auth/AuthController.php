@@ -3,42 +3,57 @@
 namespace App\Http\Controllers\Api\V1\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\V1\Auth\webLoginRequest;
-use App\Http\Requests\Api\V1\Auth\webSignUpRequest;
-use App\Models\Api\V1\Role;
+use App\Http\Requests\Api\V1\Auth\LoginRequest;
+use App\Http\Requests\Api\V1\Auth\signUpRequest;
 use App\Models\User;
+use App\Models\V1\Role;
 use App\Traits\HttpResponse;
 use App\Traits\StringTrait;
 use App\Traits\translationTrait;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
 {
-    use HttpResponse;
-    use translationTrait;
-    use StringTrait;
+    use HttpResponse, translationTrait, StringTrait;
+
+    /**
+     * @var User
+     */
+    protected User $userModel;
+
+    /**
+     * @param User $user
+     */
+    public function __construct(User $user)
+    {
+        $this->userModel = $user;
+    }
 
     /**
      * Login User.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @param LoginRequest $request
+     * @return JsonResponse
      */
-    public function login(webLoginRequest $request)
+    public function login(LoginRequest $request): \Illuminate\Http\JsonResponse
     {
         // Get Credentials
-        $username = $this->sanitizeString($request->username);
-        $password = $request->password;
+        $username = $this->sanitizeString($request->post('username'));
+
+        $password = $request->post('password');
 
         // Check if the user exists
-        if ($token = Auth::attempt(['username' => $username, 'password' => $password])) {
+        if ($token = Auth::attempt(['username' => $username, 'password' => $password]))
+        {
             $user = Auth::user();
 
             return $this->success([
                 'username' => $user->username,
                 'full_name' => $this->strLimit($user->full_name),
-                'role' => Role::where('id', $user->role_id)->first('name')->name,
+                'role' => Role::where('id', $user->role_id)->first('name')->name ?? NULL,
                 'token' => $token,
             ]);
         } else {
@@ -51,15 +66,15 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function signup(webSignUpRequest $req)
+    public function signup(signUpRequest $req)
     {
-        $full_name = $this->sanitizeString($req->full_name);
-        $username = $this->sanitizeString($req->username);
-        $role_id = $this->sanitizeString($req->role);
+        $full_name = $this->sanitizeString($req->post('full_name'));
+        $username = $this->sanitizeString($req->post('username'));
+        $role_id = $this->sanitizeString($req->post('role'));
         $role = Role::where('id', $role_id)->first(['id', 'name']);
         if ($role && in_array($role->name, config('roles.signup_roles'))) {
             // Valid Data
-            User::create([
+            $this->userModel->create([
                 'full_name' => $full_name,
                 'username' => $username,
                 'password' => Hash::make($req->password),

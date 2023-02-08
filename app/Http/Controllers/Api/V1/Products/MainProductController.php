@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Api\V1\Products;
 
 use App\Http\Controllers\Controller;
-use App\Models\Api\V1\Product;
+use App\Models\V1\Product;
 use App\Traits\userTrait;
+use Illuminate\Support\Facades\Auth;
 
 class MainProductController extends Controller
 {
@@ -12,7 +13,7 @@ class MainProductController extends Controller
 
     public function ScienteficNamesSelect()
     {
-        return Product::where('user_id', $this->getAuthenticatedUserId())->get(['id', 'sc_name as scientefic_name']);
+        return Product::where('user_id', Auth::id())->get(['id', 'sc_name as scientific_name']);
     }
 
     public function CommercialNamesSelect()

@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Models\Api\V1\HumanResource;
-use App\Models\Api\V1\Role;
+use App\Models\V1\HumanResource;
+use App\Models\V1\Role;
 use App\Traits\dateTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -11,6 +11,9 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 
+/**
+ * @method create(array $array)
+ */
 class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens;

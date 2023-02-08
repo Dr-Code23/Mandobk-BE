@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\V1\Site\Company;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\Offers\OffersRequest;
-use App\Models\Api\V1\Offer;
+use App\Models\V1\Offer;
 use App\RepositoryInterface\OfferRepositoryInterface;
 use App\Traits\userTrait;
 use Illuminate\Http\Request as HttpRequest;

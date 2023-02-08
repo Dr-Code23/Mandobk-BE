@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Api\V1;
+namespace App\Models\V1;
 
 use App\Traits\dateTrait;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -11,6 +11,10 @@ class CompanyOffer extends Model
 {
     use HasFactory;
     use dateTrait;
+
+    /**
+     * @var string[]
+     */
     protected $fillable = [
         // 'sc_name',
         // 'com_name',

@@ -4,9 +4,9 @@ namespace App\Repository;
 
 use App\Http\Resources\Api\V1\Offers\OfferCollection;
 use App\Http\Resources\Api\V1\Offers\OfferResource;
-use App\Models\Api\V1\Offer;
-use App\Models\Api\V1\Product;
-use App\Models\Api\V1\Role;
+use App\Models\V1\Offer;
+use App\Models\V1\Product;
+use App\Models\V1\Role;
 use App\RepositoryInterface\OfferRepositoryInterface;
 use App\Traits\dateTrait;
 use App\Traits\HttpResponse;

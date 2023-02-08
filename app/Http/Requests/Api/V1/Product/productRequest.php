@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Api\V1\Product;
 
-use App\Models\Api\V1\Role;
+use App\Models\V1\Role;
 use App\Traits\HttpResponse;
 use App\Traits\translationTrait;
 use App\Traits\userTrait;

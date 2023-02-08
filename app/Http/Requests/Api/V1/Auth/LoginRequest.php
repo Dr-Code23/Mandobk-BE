@@ -7,7 +7,7 @@ use App\Traits\translationTrait;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 
-class webLoginRequest extends FormRequest
+class LoginRequest extends FormRequest
 {
     use HttpResponse;
     use translationTrait;

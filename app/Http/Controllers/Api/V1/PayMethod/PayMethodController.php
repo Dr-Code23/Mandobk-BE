@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\V1\PayMethod;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\V1\PayMethod\PayMethodCollection;
-use App\Models\Api\V1\PayMethod;
+use App\Models\V1\PayMethod;
 use App\Traits\HttpResponse;
 
 class PayMethodController extends Controller

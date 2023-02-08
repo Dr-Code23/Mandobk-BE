@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api\V1\Users;
 
 use App\Http\Controllers\Controller;
-use App\Models\Api\V1\Role;
 use App\Models\User;
+use App\Models\V1\Role;
 use App\Traits\userTrait;
 use Illuminate\Http\Request;
 

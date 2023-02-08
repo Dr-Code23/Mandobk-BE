@@ -2,9 +2,9 @@
 
 namespace App\Traits;
 
-use App\Models\Api\V1\Role;
-use App\Models\Api\V1\SubUser;
 use App\Models\User;
+use App\Models\V1\Role;
+use App\Models\V1\SubUser;
 use Illuminate\Support\Facades\Auth;
 
 trait userTrait
@@ -36,7 +36,7 @@ trait userTrait
 
     public function getAuthenticatedUserId()
     {
-        return Auth::user()->id;
+        return Auth::id();
     }
 
     public function getUserSelectBox(string $role)

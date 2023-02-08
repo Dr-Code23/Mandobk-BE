@@ -2,9 +2,9 @@
 
 namespace Database\Seeders\Api\V1;
 
-use App\Models\Api\V1\Role;
-use App\Models\Api\V1\SubUser;
 use App\Models\User;
+use App\Models\V1\Role;
+use App\Models\V1\SubUser;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 

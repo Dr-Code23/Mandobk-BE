@@ -2,7 +2,7 @@
 
 namespace Database\Seeders\Api\V1;
 
-use App\Models\Api\V1\Markting;
+use App\Models\V1\Markting;
 use Illuminate\Database\Seeder;
 
 class marktingSeeder extends Seeder
