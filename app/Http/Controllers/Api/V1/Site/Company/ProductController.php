@@ -7,6 +7,8 @@ use App\Http\Requests\Api\V1\Product\productRequest;
 use App\Models\Api\V1\Product;
 use App\RepositoryInterface\ProductRepositoryInterface;
 use App\Traits\userTrait;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -25,7 +27,7 @@ class ProductController extends Controller
 
     public function index()
     {
-        return $this->productRepository->showAllProducts(Product::where('user_id', $this->getAuthenticatedUserId())->get());
+        return $this->productRepository->showAllProducts(Product::where('user_id', Auth::id())->paginate());
     }
 
     /**
@@ -38,9 +40,9 @@ class ProductController extends Controller
         return $this->productRepository->storeProduct($request);
     }
 
-    public function show()
+    public function show(Request $request, Product $product)
     {
-        // Feature Update
+        return $this->productRepository->showOneProduct($product);
     }
 
     public function update()

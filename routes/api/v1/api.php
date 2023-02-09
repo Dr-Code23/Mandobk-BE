@@ -1,35 +1,44 @@
 <?php
 
+use App\Http\Controllers\Api\V1\Products\MainProductController;
 use App\Http\Controllers\Api\V1\Site\Home\HomeController;
 use App\Http\Controllers\Api\V1\Site\OfferOrder\OfferOrderController;
+use App\Http\Controllers\Api\V1\Site\Recipes\RecipesController;
 use App\Http\Controllers\Api\V1\Site\Sales\SalesController;
+use App\Http\Controllers\Api\V1\Users\UsersController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(
     ['namespace' => 'App\Http\Controllers\Api\V1'],
     function () {
         // Roles
-        Route::group(['prefix' => 'roles', 'namespace' => 'Roles'], function () {
-            Route::get('signup_roles', 'rolesController@getSignUpRoles');
-        }
+        Route::group(
+            ['prefix' => 'roles', 'namespace' => 'Roles'],
+            function () {
+                Route::get('signup_roles', 'rolesController@getSignUpRoles');
+            }
         );
 
         // Pay Methods
-        Route::group(['prefix' => 'pay_methods', 'namespace' => 'PayMethod'], function () {
-            Route::get('', 'PayMethodController@getAllPayMethods');
-        }
+        Route::group(
+            ['prefix' => 'pay_methods', 'namespace' => 'PayMethod'],
+            function () {
+                Route::get('', 'PayMethodController@getAllPayMethods');
+            }
         );
 
         // Users For Select
 
-        Route::group(['prefix' => 'users', 'namespace' => 'Users', 'middleware' => ['auth:api']], function () {
-            Route::get('/storehouse', 'UsersController@getUsersForSelectBox')
-                ->middleware(['hasCompanyPermissions'])
-                ->name('roles-storehouse-all');
-            Route::get('/pharmacy', 'UsersController@getUsersForSelectBox')
-                ->middleware(['hasStorehousePermissions'])
-                ->name('roles-pharmacy-all');
-        }
+        Route::group(
+            ['prefix' => 'users', 'namespace' => 'Users', 'middleware' => ['auth:api']],
+            function () {
+                Route::get('/storehouse', 'UsersController@getUsersForSelectBox')
+                    ->middleware(['hasCompanyPermissions'])
+                    ->name('roles-storehouse-all');
+                Route::get('/pharmacy', 'UsersController@getUsersForSelectBox')
+                    ->middleware(['hasStorehousePermissions'])
+                    ->name('roles-pharmacy-all');
+            }
         );
 
         // Products
@@ -62,10 +71,13 @@ Route::group(
                     function () {
                         Route::get('', [HomeController::class, 'index']);
                         // Products
-                        Route::group(['prefix' => 'products'], function () {
-                            Route::get('', 'ProductController@index');
-                            Route::post('', 'ProductController@store');
-                        }
+                        Route::group(
+                            ['prefix' => 'products'],
+                            function () {
+                                Route::get('', 'ProductController@index');
+                                Route::get('/{product}', 'ProductController@show');
+                                Route::post('', 'ProductController@store');
+                            }
                         );
                         // Sales
                         Route::group(
@@ -138,10 +150,12 @@ Route::group(
                     function () {
                         Route::get('', [HomeController::class, 'index']);
                         // Products
-                        Route::group(['prefix' => 'products'], function () {
-                            Route::get('', 'ProductsController@index');
-                            Route::post('', 'ProductsController@store');
-                        }
+                        Route::group(
+                            ['prefix' => 'products'],
+                            function () {
+                                Route::get('', 'ProductsController@index');
+                                Route::post('', 'ProductsController@store');
+                            }
                         );
 
                         // Storehouse offers
@@ -154,16 +168,43 @@ Route::group(
                         );
 
                         // Sales
-                        Route::group(['prefix' => 'sales'], function () {
-                            Route::get('', [SalesController::class, 'index'])->name('pharmacy-sales-show');
-                            Route::post('', [SalesController::class, 'store'])->name('pharmacy-sales-add');
-                        }
+                        Route::group(
+                            ['prefix' => 'sales'],
+                            function () {
+                                Route::get('', [SalesController::class, 'index'])->name('pharmacy-sales-show');
+                                Route::post('', [SalesController::class, 'store'])->name('pharmacy-sales-add');
+                            }
+                        );
+                    }
+                );
+                Route::group(
+                    ['prefix' => 'doctor'],
+                    function () {
+
+                        Route::get('products', [MainProductController::class, 'doctorProducts']);
+                        // Recipes
+                        Route::group(
+                            ['prefix' => 'recipe'],
+                            function () {
+                                Route::get('', [RecipesController::class, 'getAllRecipes']);
+                                Route::get('visitor_recipe', [RecipesController::class, 'getProductsWithRandomNumber']);
+                                Route::post('visitor_recipe', [RecipesController::class, 'addRecipe']);
+                            }
+                        );
+
+                        // Visitor
+                        Route::group(
+                            ['prefix' => 'visitor'],
+                            function () {
+                                Route::post('', [UsersController::class, 'registerNewVisitor']);
+                            }
                         );
                     }
                 );
             });
 
-            Route::group(['prefix' => 'mobile'], function () {});
+            Route::group(['prefix' => 'mobile'], function () {
+            });
 
             Route::group(
                 ['prefix' => 'dashboard', 'namespace' => 'Dashboard'],
@@ -219,8 +260,10 @@ Route::group(
                         }
                     );
 
-                    Route::group(['prefix' => 'order_management'], function () {
-                    }
+                    Route::group(
+                        ['prefix' => 'order_management'],
+                        function () {
+                        }
                     );
                 }
             );
