@@ -2,7 +2,7 @@
 
 namespace Database\Seeders\Api\V1;
 
-use App\Models\Api\V1\HumanResource;
+use App\Models\V1\HumanResource;
 use Illuminate\Database\Seeder;
 
 class humanResourceSeeder extends Seeder

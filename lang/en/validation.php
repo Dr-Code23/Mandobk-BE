@@ -109,8 +109,8 @@ return [
     'numeric' => 'must be a number.',
     'password' => [
         'letters' => ' letter',
-        'min' => ':attribute-short',
-        'mixed' => ' Must Contain at least one upper and lower Character',
+        'min' => ':attribute Is Less than :min characters',
+        'mixed' => 'Must Contain at least one upper and lower Character',
         'numbers' => 'Contain At least one number',
         'symbols' => 'Contain at least one symbol',
         'uncompromised' => 'Found on leaked data on the internet choose another one!',
@@ -147,7 +147,10 @@ return [
     'ulid' => ' must be a valid ULID.',
     'uuid' => ' must be a valid UUID.',
     'not_found' => 'Not Found',
-
+    'not_empty' => 'Not Empty',
+    'limited' => 'Is limited and cannot take more than one',
+    'invalid' => 'Is not valid',
+    'operation_failed' => 'Operation Failed',
     // Custom Error Messages
     'not_fully_numbers_symbols' => 'Cannot be fully numbers or symbols',
     'custom_string' => [
@@ -159,7 +162,7 @@ return [
     'commercial_name' => [
         'max' => 'Cannot Be Greater Than :max Characters',
     ],
-    'scientefic_name' => [
+    'scientific_name' => [
         'max' => 'Cannot Be Greater Than :max Characters',
     ],
     'quantity' => [

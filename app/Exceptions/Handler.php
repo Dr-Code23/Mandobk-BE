@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use App\Traits\HttpResponse;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
@@ -59,6 +60,12 @@ class Handler extends ExceptionHandler
         $this->renderable(function (NotFoundHttpException $e, $req) {
             if ($req->is('v1/*')) {
                 return $this->error(null, 404, 'Not Found');
+            }
+        });
+        // Method not allowed
+        $this->renderable(function (\Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException $e, $request) {
+            if ($request->is('v1/*')) {
+                return $this->error(null, 405, $e->getMessage());
             }
         });
     }

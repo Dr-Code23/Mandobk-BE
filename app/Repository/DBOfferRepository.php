@@ -4,14 +4,15 @@ namespace App\Repository;
 
 use App\Http\Resources\Api\V1\Offers\OfferCollection;
 use App\Http\Resources\Api\V1\Offers\OfferResource;
-use App\Models\Api\V1\Offer;
-use App\Models\Api\V1\Product;
-use App\Models\Api\V1\Role;
+use App\Models\V1\Offer;
+use App\Models\V1\Product;
+use App\Models\V1\Role;
 use App\RepositoryInterface\OfferRepositoryInterface;
 use App\Traits\dateTrait;
 use App\Traits\HttpResponse;
 use App\Traits\translationTrait;
 use App\Traits\userTrait;
+use Illuminate\Support\Facades\Auth;
 
 class DBOfferRepository implements OfferRepositoryInterface
 {
@@ -25,34 +26,34 @@ class DBOfferRepository implements OfferRepositoryInterface
      */
     public function allOffers($request)
     {
-        $offers = Offer::where('offers.user_id', $this->getAuthenticatedUserId())
-        ->join('products', 'products.id', 'offers.product_id')
-        ->where('type', Role::where('id', $this->getAuthenticatedUserInformation()->role_id)->first(['name'])->name == 'company' ? '1' : '2')
-        ->where(function ($query) use ($request) {
-            if ($request->has('type')) {
-                $type = $request->input('type');
-                if ($type == 'day') {
-                    $query->where('offers.offer_duration', '0');
-                } elseif ($type == 'week') {
-                    $query->where('offers.offer_duration', '1');
-                } elseif ($type == 'cheek') {
-                    $query->where('offers.offer_duration', '2');
+        $offers = Offer::join('products', 'products.id', 'offers.product_id')
+            ->where('type', Role::where('id', $this->getAuthenticatedUserInformation()->role_id)->first(['name'])->name == 'company' ? '1' : '2')
+            ->whereIn('offers.user_id', $this->getSubUsersForAuthenticatedUser())
+            ->where(function ($query) use ($request) {
+                if ($request->has('type')) {
+                    $type = $request->input('type');
+                    if ($type == 'day') {
+                        $query->where('offers.offer_duration', '0');
+                    } elseif ($type == 'week') {
+                        $query->where('offers.offer_duration', '1');
+                    } elseif ($type == 'cheek') {
+                        $query->where('offers.offer_duration', '2');
+                    }
                 }
-            }
-        })
-        ->get([
-            'offers.id as id',
-            'products.id as product_id',
-            'products.sc_name as scientefic_name',
-            'products.com_name as commercial_name',
-            'products.expire_date as expire_date',
-            'offers.works_untill as works_untill',
-            'offers.pay_method as pay_method',
-            'offers.offer_duration as offer_duration',
-            'offers.bonus as bonus',
-            'offers.created_at as created_at',
-            'offers.updated_at as updated_at',
-        ]);
+            })
+            ->get([
+                'offers.id as id',
+                'products.id as product_id',
+                'products.sc_name as scientific_name',
+                'products.com_name as commercial_name',
+                'products.expire_date as expire_date',
+                'offers.works_untill as works_untill',
+                'offers.pay_method as pay_method',
+                'offers.offer_duration as offer_duration',
+                'offers.bonus as bonus',
+                'offers.created_at as created_at',
+                'offers.updated_at as updated_at',
+            ]);
         if ($offers) {
             return $this->resourceResponse(new OfferCollection($offers));
         }
@@ -67,15 +68,15 @@ class DBOfferRepository implements OfferRepositoryInterface
      */
     public function showOneOffer($offer)
     {
-        if ($offer->user_id == $this->getAuthenticatedUserId()) {
-            $offer = Offer::where('offers.id', $offer->id)
+        $offer = Offer::where('offers.id', $offer->id)
             ->join('products', 'products.id', 'offers.product_id')
             ->where('type', Role::where('id', $this->getAuthenticatedUserInformation()->role_id)->first(['name'])->name == 'company' ? '1' : '2')
-            ->where('products.user_id', $this->getAuthenticatedUserId())
+            ->whereIn('offers.user_id', $this->getSubUsersForAuthenticatedUser())
+
             ->first([
                 'offers.id as id',
                 'products.id as product_id',
-                'products.sc_name as scientefic_name',
+                'products.sc_name as scientific_name',
                 'products.com_name as commercial_name',
                 'products.expire_date as expire_date',
                 'offers.works_untill as works_untill',
@@ -86,9 +87,8 @@ class DBOfferRepository implements OfferRepositoryInterface
                 'offers.updated_at as updated_at',
             ]);
 
-            if ($offer) {
-                return $this->resourceResponse(new OfferResource($offer));
-            }
+        if ($offer) {
+            return $this->resourceResponse(new OfferResource($offer));
         }
 
         return $this->notFoundResponse();
@@ -108,7 +108,7 @@ class DBOfferRepository implements OfferRepositoryInterface
         // return 'Good';
         if (
             Product::where('id', $request->product_id)
-            ->where('user_id', $this->getAuthenticatedUserId())
+            ->where('user_id', Auth::id())
             ->first(['id'])
         ) {
             $product_id_exists = true;
@@ -118,12 +118,12 @@ class DBOfferRepository implements OfferRepositoryInterface
         // return;
         if (
             Offer::where('product_id', $request->product_id)
-                ->where('user_id', $this->getAuthenticatedUserId())
-                ->where('pay_method', $request->pay_method)
-                ->where('offer_duration', $request->offer_duration)
-                ->where('bonus', $bonus)
-                ->where('type', Role::where('id', $this->getAuthenticatedUserInformation()->role_id)->first(['name'])->name == 'company' ? '1' : '2')
-                ->first(['id'])
+            ->where('user_id', Auth::id())
+            ->where('pay_method', $request->pay_method)
+            ->where('offer_duration', $request->offer_duration)
+            ->where('bonus', $bonus)
+            ->where('type', Role::where('id', $this->getAuthenticatedUserInformation()->role_id)->first(['name'])->name == 'company' ? '1' : '2')
+            ->first(['id'])
         ) {
             $offer_exists = true;
         }
@@ -144,7 +144,7 @@ class DBOfferRepository implements OfferRepositoryInterface
                             'pay_method' => $pay_method,
                             'works_untill' => $this->addDaysToDate($offer_duration == '0' ? 1 : ($offer_duration == '1' ? 7 : 1000)),
                             'type' => Role::where('id', $this->getAuthenticatedUserInformation()->role_id)->first(['name'])->name == 'company' ? '1' : '2',
-                            'user_id' => $this->getAuthenticatedUserId(),
+                            'user_id' => Auth::id(),
                         ]);
 
                         $offer = Offer::where('offers.id', $offer->id)
@@ -153,7 +153,7 @@ class DBOfferRepository implements OfferRepositoryInterface
                             ->first([
                                 'offers.id as id',
                                 'products.id as product_id',
-                                'products.sc_name as scientefic_name',
+                                'products.sc_name as scientific_name',
                                 'products.com_name as commercial_name',
                                 'products.expire_date as expire_date',
                                 'offers.works_untill',
@@ -190,26 +190,26 @@ class DBOfferRepository implements OfferRepositoryInterface
      */
     public function updateOffer($request, $offer)
     {
-        if ($offer->user_id == $this->getAuthenticatedUserId()) {
+        if ($offer->user_id == Auth::id()) {
             $bonus = $this->setPercisionForFloatString($request->bonus);
             $product_id_exists = false;
             if (
                 Product::where('id', $request->product_id)
-                    ->where('user_id', $this->getAuthenticatedUserId())
-                    ->first(['id'])
+                ->where('user_id', Auth::id())
+                ->first(['id'])
             ) {
                 $product_id_exists = true;
             }
             $offer_exists = false;
             if (
                 Offer::where('product_id', $request->product_id)
-                    ->where('user_id', $this->getAuthenticatedUserId())
-                    ->where('pay_method', $request->pay_method)
-                    ->where('offer_duration', $request->offer_duration)
-                    ->where('bonus', $bonus)
-                    ->where('type', Role::where('id', $this->getAuthenticatedUserInformation()->role_id)->first(['name'])->name == 'company' ? '1' : '2')
-                    ->where('id', '!=', $offer->id)
-                    ->first(['id'])
+                ->where('user_id', Auth::id())
+                ->where('pay_method', $request->pay_method)
+                ->where('offer_duration', $request->offer_duration)
+                ->where('bonus', $bonus)
+                ->where('type', Role::where('id', $this->getAuthenticatedUserInformation()->role_id)->first(['name'])->name == 'company' ? '1' : '2')
+                ->where('id', '!=', $offer->id)
+                ->first(['id'])
             ) {
                 $offer_exists = true;
             }
@@ -247,7 +247,7 @@ class DBOfferRepository implements OfferRepositoryInterface
                                     ->first([
                                         'offers.id as id',
                                         'products.id as product_id',
-                                        'products.sc_name as scientefic_name',
+                                        'products.sc_name as scientific_name',
                                         'products.com_name as commercial_name',
                                         'products.expire_date as expire_date',
                                         'offers.works_untill',
@@ -289,7 +289,7 @@ class DBOfferRepository implements OfferRepositoryInterface
      */
     public function destroyOffer($offer)
     {
-        if ($offer->user_id == $this->getAuthenticatedUserId()) {
+        if ($offer->user_id == Auth::id()) {
             $offer->delete();
 
             return $this->success(msg: 'Offer Deleted Successfully');

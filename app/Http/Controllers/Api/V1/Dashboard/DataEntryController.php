@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\V1\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\Product\productRequest;
-use App\Models\Api\V1\Product;
+use App\Models\V1\Product;
 use App\RepositoryInterface\ProductRepositoryInterface;
 
 // use App\Traits\productTrait;
@@ -24,9 +24,8 @@ class DataEntryController extends Controller
     }
 
     /**
-     * Store Product For Data Entry.
-     *
-     * @return \Illuminate\Http\JsonResponse
+     * @param productRequest $request
+     * @return mixed
      */
     public function store(productRequest $request)
     {

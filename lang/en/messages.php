@@ -2,7 +2,7 @@
 
 return [
     'commercial_name' => 'Commercial Name',
-    'scientefic_name' => 'Scientefic Name',
+    'scientific_name' => 'Scientefic Name',
     'quantity' => 'Quantity',
     'purchase_price' => 'Purchase Price',
     'selling_price' => 'Selling Price',
@@ -57,4 +57,11 @@ return [
     'cash' => 'Cash',
     'offer' => 'Offer',
     'barcode' => 'Bar Code',
+    'phone' => 'Phone Number',
+    'alias' => 'Alias',
+    'name' => 'Name',
+    'random_number' => 'Random Number',
+    'products' => 'Products',
+    'archive' => 'Archive',
+    'handle' => 'Handle',
 ];

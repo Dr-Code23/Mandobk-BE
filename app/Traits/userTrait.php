@@ -2,9 +2,10 @@
 
 namespace App\Traits;
 
-use App\Models\Api\V1\Role;
-use App\Models\Api\V1\SubUser;
 use App\Models\User;
+use App\Models\V1\Role;
+use App\Models\V1\SubUser;
+use App\Models\V1\VisitorRecipe;
 use Illuminate\Support\Facades\Auth;
 
 trait userTrait
@@ -46,7 +47,7 @@ trait userTrait
 
     public function getSubUsersForAuthenticatedUser(int $user_id = null)
     {
-        $user_id = $user_id ?? $this->getAuthenticatedUserId();
+        $user_id = $user_id ?? Auth::id();
         $subusers = [];
 
         // Check If the user is a subuser
@@ -64,5 +65,15 @@ trait userTrait
         $subusers[] = ($parent_id ? $parent_id->id : $user_id);
 
         return $subusers;
+    }
+
+    /**
+     * Summary of generateRandomNumberForVisitor
+     * @return string
+     */
+    public function generateRandomNumberForVisitor()
+    {
+        $random_number = VisitorRecipe::orderByDesc('id')->first(['random_number as number']);
+        return $random_number ? ($random_number->number + 1) : 1;
     }
 }

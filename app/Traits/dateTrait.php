@@ -4,9 +4,9 @@ namespace App\Traits;
 
 trait dateTrait
 {
-    public function changeDateFormat(string $date, string $format = 'Y / m / d'): string
+    public function changeDateFormat(string|null $date, string $format = 'Y / m / d'): string|null
     {
-        return date($format, strtotime($date));
+        return $date ? date($format, strtotime($date)) : null;
     }
 
     /**
@@ -18,6 +18,6 @@ trait dateTrait
     {
         $date = $date ?? date('Y-m-d');
 
-        return date('Y-m-d', strtotime($date.' +'.$days.' days'));
+        return date('Y-m-d', strtotime($date . ' +' . $days . ' days'));
     }
 }

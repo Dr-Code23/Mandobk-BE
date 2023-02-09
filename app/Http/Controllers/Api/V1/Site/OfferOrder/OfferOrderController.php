@@ -5,12 +5,13 @@ namespace App\Http\Controllers\Api\V1\Site\OfferOrder;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\Site\OfferOrder\OfferOrderRequest;
 use App\Http\Resources\Api\V1\Site\OfferOrder\OfferOrderCollection;
-use App\Models\Api\V1\Offer;
-use App\Models\Api\V1\OfferOrder;
+use App\Models\V1\Offer;
+use App\Models\V1\OfferOrder;
 use App\Traits\HttpResponse;
 use App\Traits\translationTrait;
 use App\Traits\userTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OfferOrderController extends Controller
 {
@@ -65,7 +66,7 @@ class OfferOrderController extends Controller
             $qty = (int) $request->qty;
             $offer_order = OfferOrder::where('offer_id', $offer->id)
                 ->where('status', '1')
-                ->where('want_offer_id', $this->getAuthenticatedUserId())
+                ->where('want_offer_id', Auth::id())
                 ->first(['id']);
             $updated = false;
             if ($offer->qty >= $request->quantity) {
@@ -79,16 +80,16 @@ class OfferOrderController extends Controller
                 } else { // Check If an order exists with the same offer id with the same user
                     OfferOrder::create([
                         'offer_id' => $request->offer_id,
-                        'want_offer_id' => $this->getAuthenticatedUserId(),
+                        'want_offer_id' => Auth::id(),
                         'qty' => $request->quantity,
                     ]);
                 }
 
-                return $this->success(null, 'Order '.($updated ? 'Updated' : 'Made').' , waiting admin response');
+                return $this->success(null, 'Order ' . ($updated ? 'Updated' : 'Made') . ' , waiting admin response');
             }
 
             return $this->validation_errors([
-                'quantity' => $this->translateWord('quantity').' Cannot Be Greater than existing quantiy ('.$offer->qty.')',
+                'quantity' => $this->translateWord('quantity') . ' Cannot Be Greater than existing quantiy (' . $offer->qty . ')',
             ]);
         }
 

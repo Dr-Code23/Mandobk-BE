@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\Dashboard\marktingRequest;
 use App\Http\Resources\Api\V1\Dashboard\Markting\marktingCollection;
 use App\Http\Resources\Api\V1\Dashboard\Markting\marktingResource;
-use App\Models\Api\V1\Markting;
+use App\Models\V1\Markting;
 use App\Traits\fileOperationTrait;
 use App\Traits\HttpResponse;
 use App\Traits\StringTrait;

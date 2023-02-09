@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Models\Api\V1\HumanResource;
-use App\Models\Api\V1\Role;
+use App\Models\V1\HumanResource;
+use App\Models\V1\Role;
 use App\Traits\dateTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -74,6 +74,10 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
+    /**
+     * Fetch Role Through One To One Relationship
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function role()
     {
         return $this->hasOne(Role::class, 'id', 'role_id');

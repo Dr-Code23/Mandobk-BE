@@ -4,11 +4,12 @@ namespace App\Repository;
 
 use App\Http\Resources\Api\V1\Product\productCollection;
 use App\Http\Resources\Api\V1\Product\productResource;
-use App\Models\Api\V1\Product;
-use App\Models\Api\V1\Role;
+use App\Models\V1\Product;
+use App\Models\V1\Role;
 use App\RepositoryInterface\ProductRepositoryInterface;
 use App\Traits\dateTrait;
 use App\Traits\HttpResponse;
+use App\Traits\roleTrait;
 use App\Traits\translationTrait;
 use App\Traits\userTrait;
 
@@ -18,12 +19,17 @@ class DBProductRepository implements ProductRepositoryInterface
     use userTrait;
     use translationTrait;
     use dateTrait;
+    use roleTrait;
 
-    /**
-     * @return mixed
-     */
-    public function showAllProducts($products)
+    public function showAllProducts()
     {
+        if ($this->roleNameIn(['ceo', 'data_entry'])) {
+            $products = Product::orderByDesc('id')->get();
+        } else {
+            $products = Product::whereIn('user_id', $this->getSubUsersForAuthenticatedUser())->orderByDesc('id')->get();
+        }
+        // ->paginate();
+
         return $this->resourceResponse(new productCollection($products));
     }
 
@@ -32,6 +38,8 @@ class DBProductRepository implements ProductRepositoryInterface
      */
     public function showOneProduct($product)
     {
+        // return Product::whereIn('user_id' , )
+
         return $this->resourceResponse(new productResource($product));
     }
 
@@ -49,28 +57,32 @@ class DBProductRepository implements ProductRepositoryInterface
         // Get Authenticated user information
         $authenticatedUserInformation = $this->getAuthenticatedUserInformation();
         $commercial_name = $this->sanitizeString($request->commercial_name);
-        $scientefic_name = $this->sanitizeString($request->scientefic_name);
+        $scientific_name = $this->sanitizeString($request->scientific_name);
         $provider = $this->sanitizeString($request->provider);
         $purchase_price = $this->setPercisionForFloatString($request->purchase_price);
         $selling_price = $this->setPercisionForFloatString($request->selling_price);
         $bonus = $this->setPercisionForFloatString($request->bonus);
         $concentrate = $this->setPercisionForFloatString($request->concentrate);
 
-        // Check if either commercial name or scientefic_name exists
+        // Check if either commercial name or scientific_name exists
         $product_exists = false;
         if (
-            Product::where(function ($bind) use ($commercial_name, $scientefic_name, $concentrate, $admin_roles) {
+            Product::where(function ($bind) use ($commercial_name, $scientific_name, $concentrate) {
                 $bind->where('com_name', $commercial_name);
-                $bind->where('sc_name', $scientefic_name);
+                $bind->where('sc_name', $scientific_name);
                 $bind->where('con', $concentrate);
-                if (in_array($this->getAuthenticatedUserInformation()->role_id, $admin_roles)) {
-                    // Then it's data entry or ceo
-                    // * if the product role_id in admin roles or added by an admin , then it's exists
-                    $bind->whereIn('role_id', $admin_roles);
-                } else {
-                    // Get All Products For A User And authenticated user
-                    $bind->whereIn('user_id', $this->getSubUsersForAuthenticatedUser());
-                }
+                $bind->whereIn('user_id', $this->getSubUsersForAuthenticatedUser());
+                // if($this->roleNameIn(['ceo' , 'data_entry'])){
+                //     $bind->whereIn('role_id')
+                // }
+                // if (in_array($this->getAuthenticatedUserInformation()->role_id, $admin_roles)) {
+                //     // Then it's data entry or ceo
+                //     // * if the product role_id in admin roles or added by an admin , then it's exists
+                //     $bind->whereIn('role_id', $admin_roles);
+                // } else {
+                //     // Get All Products For A User And authenticated user
+                //     $bind->whereIn('user_id', $this->getSubUsersForAuthenticatedUser());
+                // }
             })->first(['id'])) {
             $product_exists = true;
         }
@@ -79,7 +91,7 @@ class DBProductRepository implements ProductRepositoryInterface
 
             // Check If Data Entry Has has product
             $admin_product = Product::where('com_name', $commercial_name)
-                ->where('sc_name', $scientefic_name)
+                ->where('sc_name', $scientific_name)
                 ->whereIn('role_id', $admin_roles)
                 ->first(['limited']);
 
@@ -93,7 +105,7 @@ class DBProductRepository implements ProductRepositoryInterface
             if ($this->storeBarCodeSVG('products', $barcode, $barcode_value)) {
                 $data_entry = Product::create([
                     'com_name' => $commercial_name,
-                    'sc_name' => $scientefic_name,
+                    'sc_name' => $scientific_name,
                     'qty' => $request->quantity,
                     'pur_price' => $purchase_price,
                     'sel_price' => $selling_price,
@@ -116,7 +128,7 @@ class DBProductRepository implements ProductRepositoryInterface
             return $this->error(null, 500, 'Failed To Create Barcode');
         }
 
-        // Either commercial Name or scientefic_name exists
+        // Either commercial Name or scientific_name exists
 
         $payload = [];
         if ($product_exists) {
@@ -134,7 +146,7 @@ class DBProductRepository implements ProductRepositoryInterface
     public function updateProduct($request, $product)
     {
         $commercial_name = $this->sanitizeString($request->commercial_name);
-        $scientefic_name = $this->sanitizeString($request->scientefic_name);
+        $scientific_name = $this->sanitizeString($request->scientific_name);
         $provider = $this->sanitizeString($request->provider);
         $purchase_price = $this->setPercisionForFloatString($request->purchase_price);
         $selling_price = $this->setPercisionForFloatString($request->selling_price);
@@ -145,12 +157,12 @@ class DBProductRepository implements ProductRepositoryInterface
             Role::where('name', 'ceo')->first(['id'])->id,
             Role::where('name', 'data_entry')->first(['id'])->id,
         ];
-        // Check if either commercial name or scientefic_name exists
+        // Check if either commercial name or scientific_name exists
         $product_exists = false;
         if (
-            Product::where(function ($bind) use ($commercial_name, $scientefic_name, $concentrate, $admin_roles, $product) {
+            Product::where(function ($bind) use ($commercial_name, $scientific_name, $concentrate, $admin_roles, $product) {
                 $bind->where('com_name', $commercial_name);
-                $bind->where('sc_name', $scientefic_name);
+                $bind->where('sc_name', $scientific_name);
                 $bind->where('con', $concentrate);
                 if (in_array($this->getAuthenticatedUserInformation()->role_id, $admin_roles)) {
                     // Then it's data entry or ceo
@@ -187,8 +199,8 @@ class DBProductRepository implements ProductRepositoryInterface
                 $product->com_name = $commercial_name;
                 $anyChangeOccured = true;
             }
-            if ($product->sc_name != $scientefic_name) {
-                $product->sc_name = $scientefic_name;
+            if ($product->sc_name != $scientific_name) {
+                $product->sc_name = $scientific_name;
                 $anyChangeOccured = true;
             }
             if ($product->qty != $request->quantity) {
@@ -248,7 +260,7 @@ class DBProductRepository implements ProductRepositoryInterface
             return $this->error(null, 500, 'Failed To Create Barcode');
         }
 
-        // Either commercial Name or scientefic_name exists
+        // Either commercial Name or scientific_name exists
 
         $payload = [];
         if ($product_exists) {

@@ -113,6 +113,16 @@ trait HttpResponse
 
     public function notFoundResponse(string $msg = 'Not Found', array $data = null, int $code = Response::HTTP_NOT_FOUND)
     {
-        return $this->error(null, 404, 'Not Found');
+        return $this->error(null, 404, $msg);
+    }
+
+    public function createdResponse(array|null $data, string $msg = 'Resource Created Successfully', int $code = Response::HTTP_CREATED)
+    {
+        return response()->json([
+            'data' => $data,
+            'msg' => $msg,
+            'code' => $code,
+            'type' => 'success'
+        ], $code);
     }
 }

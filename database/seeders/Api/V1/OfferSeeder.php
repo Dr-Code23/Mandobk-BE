@@ -2,7 +2,7 @@
 
 namespace Database\Seeders\Api\V1;
 
-use App\Models\Api\V1\Offer;
+use App\Models\V1\Offer;
 use Illuminate\Database\Seeder;
 
 class OfferSeeder extends Seeder

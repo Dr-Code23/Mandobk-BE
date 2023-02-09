@@ -6,12 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\Dashboard\monitorAndEvaluationRequest;
 use App\Http\Resources\Api\V1\Dashboard\MonitorAndEvaluation\monitorAndEvaluationCollection;
 use App\Http\Resources\Api\V1\Dashboard\MonitorAndEvaluation\monitorAndEvaluationResrouce;
-use App\Models\Api\V1\Role;
 use App\Models\User;
+use App\Models\V1\Role;
 use App\Traits\HttpResponse;
 use App\Traits\StringTrait;
 use App\Traits\translationTrait;
 use App\Traits\userTrait;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class MonitorAndEvaluationController extends Controller
@@ -39,7 +40,7 @@ class MonitorAndEvaluationController extends Controller
             new monitorAndEvaluationCollection(
                 User::join('roles', 'roles.id', 'users.role_id')
                     ->whereIn('roles.name', config('roles.monitor_roles'))
-                    ->where('users.id', '!=', $this->getAuthenticatedUserId())
+                    ->where('users.id', '!=', Auth::id())
                     ->select(
                         [
                             'users.id',
@@ -90,7 +91,7 @@ class MonitorAndEvaluationController extends Controller
      */
     public function show(User $user)
     {
-        if ($user->id != $this->getAuthenticatedUserId()) {
+        if ($user->id != Auth::id()) {
             if ($role = Role::where('id', $user->role_id)->whereIn('name', config('roles.monitor_roles'))->first(['name'])) {
                 $user->role_name = $role->name;
 
@@ -100,7 +101,7 @@ class MonitorAndEvaluationController extends Controller
             return $this->validation_errors($this->translateErrorMessage('role', 'not_found'));
         }
 
-        return $this->error(null, msg: 'User '.__('validation.not_found'));
+        return $this->error(null, msg: 'User ' . __('validation.not_found'));
     }
 
     /**
@@ -110,7 +111,7 @@ class MonitorAndEvaluationController extends Controller
      */
     public function update(monitorAndEvaluationRequest $req, User $user)
     {
-        if ($user->id != $this->getAuthenticatedUserId()) {
+        if ($user->id != Auth::id()) {
             $role = Role::where('id', $user->role_id)->whereIn('name', config('roles.monitor_roles'))->first(['name as role_name', 'id']);
 
             if ($role) {
@@ -155,8 +156,8 @@ class MonitorAndEvaluationController extends Controller
 
     public function destroy(User $user)
     {
-        if ($user->id != $this->getAuthenticatedUserId()) {
-            if (Role::where('id', $user->role_id)->whereIn('name', config('roles.monitor_roles'))->where('id', '!=', $this->getAuthenticatedUserId())->first(['name'])) {
+        if ($user->id != Auth::id()) {
+            if (Role::where('id', $user->role_id)->whereIn('name', config('roles.monitor_roles'))->where('id', '!=', Auth::id())->first(['name'])) {
                 $user->delete();
 
                 return $this->success(msg: 'User Deleted Successfully');

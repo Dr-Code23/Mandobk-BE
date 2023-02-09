@@ -2,9 +2,9 @@
 
 namespace Database\Seeders\Api\V1;
 
-use App\Models\Api\V1\Role;
-use App\Models\Api\V1\Sale;
 use App\Models\User;
+use App\Models\V1\Role;
+use App\Models\V1\Sale;
 use Illuminate\Database\Seeder;
 
 class saleSeeder extends Seeder

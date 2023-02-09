@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Api\V1\Site\Storehouse;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\Product\productRequest;
-use App\Models\Api\V1\Product;
+use App\Models\V1\Product;
 use App\RepositoryInterface\ProductRepositoryInterface;
 use App\Traits\userTrait;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -25,7 +26,7 @@ class ProductController extends Controller
 
     public function index()
     {
-        return $this->productRepository->showAllProducts(Product::where('user_id', $this->getAuthenticatedUserId())->get());
+        return $this->productRepository->showAllProducts(Product::where('user_id', Auth::id())->get());
     }
 
     /**

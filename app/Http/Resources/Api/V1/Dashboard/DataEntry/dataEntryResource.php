@@ -21,7 +21,7 @@ class dataEntryResource extends JsonResource
         return [
             'id' => $this->id,
             'commercial_name' => $this->com_name,
-            'scientefic_name' => $this->sc_name,
+            'scientific_name' => $this->sc_name,
             'quantity' => $this->qty,
             'purchase_price' => $this->pur_price,
             'selling_price' => $this->sel_price,

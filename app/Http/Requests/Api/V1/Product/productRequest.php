@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\Api\V1\Product;
 
-use App\Models\Api\V1\Role;
 use App\Traits\HttpResponse;
+use App\Traits\roleTrait;
 use App\Traits\translationTrait;
 use App\Traits\userTrait;
 use Illuminate\Foundation\Http\FormRequest;
@@ -13,6 +13,7 @@ class productRequest extends FormRequest
     use translationTrait;
     use HttpResponse;
     use userTrait;
+    use roleTrait;
 
     /**
      * Determine if the user is authorized to make this request.
@@ -31,33 +32,36 @@ class productRequest extends FormRequest
      */
     public function rules()
     {
-        $admin_roles = [
-            Role::where('name', 'ceo')->first(['id'])->id,
-            Role::where('name', 'data_entry')->first(['id'])->id,
-        ];
-        $authenticated_user_role_id = $this->getAuthenticatedUserInformation()->role_id;
+        // $admin_roles = [
+        //     Role::where('name', 'ceo')->first(['id'])->id,
+        //     Role::where('name', 'data_entry')->first(['id'])->id,
+        // ];
+        // $authenticated_user_role_id = $this->getAuthenticatedUserInformation()->role_id;
         $double = ['required', 'numeric', 'min:0.1'];
         $rules = [
             'commercial_name' => ['required', 'max:255'],
-            'scientefic_name' => ['required', 'max:255'],
+            'scientific_name' => ['required', 'max:255'],
+            'quantity' => ['required', 'regex:'.config('regex.integer')],
             'concentrate' => $double,
-            'barcode' => ['required', 'numeric'],
+            'bonus' => $double,
+            'selling_price' => $double,
+            'purchase_price' => $double,
+            'patch_number' => ['required'],
+            'expire_date' => ['bail', 'required', 'date_format:Y-m-d', 'after:today'],
+            'provider' => ['required', 'max:255'],
         ];
 
-        if (in_array($authenticated_user_role_id, $admin_roles)) {
+        if ($this->method() == 'POST') {
+            $rules['barcode'] = ['required', 'numeric'];
+        }
+
+        if ($this->roleNameIn(['ceo', 'data_entry'])) {
             $rules['limited'] = ['required', 'boolean'];
-        } else {
-            $rules['quantity'] = ['required', 'regex:'.config('regex.integer')];
-            $rules['bonus'] = $double;
-            $rules['selling_price'] = $double;
-            $rules['purchase_price'] = $double;
-            $rules['patch_number'] = ['required'];
-            $rules['expire_date'] = ['bail', 'required', 'date_format:Y-m-d', 'after:today'];
-            $rules['provider'] = ['required', 'max:255'];
         }
 
         if ($this->method() == 'PUT') {
-            $rules['generate_another_bar_code'] = ['sometimes', 'boolean'];
+            $rules['barcode'] = ['sometimes', 'numeric'];
+            // $rules['generate_another_bar_code'] = ['sometimes', 'boolean'];
         }
 
         return $rules;
@@ -96,7 +100,7 @@ class productRequest extends FormRequest
         }
 
         // Max Length Data
-        $max_length_names = ['commercial_name', 'scientefic_name', 'provider'];
+        $max_length_names = ['commercial_name', 'scientific_name', 'provider'];
         foreach ($max_length_names as $key) {
             $messages["$key.max"] = $this->translateErrorMessage($key, "$key.max");
         }

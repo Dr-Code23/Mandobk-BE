@@ -70,5 +70,6 @@ class Kernel extends HttpKernel
         'hasMarktingPermissions' => \App\Http\Middleware\hasMarktingAccess::class,
         'hasCompanyPermissions' => \App\Http\Middleware\hasCompanyAccess::class,
         'hasStorehousePermissions' => \App\Http\Middleware\hasStorehouseAccess::class,
+        'hasDoctorPermissions' => \App\Http\Middleware\hasDoctorAccess::class,
     ];
 }

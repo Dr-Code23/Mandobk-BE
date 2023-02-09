@@ -2,16 +2,44 @@
 
 namespace App\Traits;
 
-use App\Models\Api\V1\Role;
+use App\Models\V1\Role;
+use Illuminate\Support\Facades\Auth;
 
 trait roleTrait
 {
     use userTrait;
 
-    public function getRoleName(int $id = null)
+    /**
+     * Summary of getRoleName
+     * @param int|null $id
+     * @return string
+     */
+    public function getRoleNameForAuthenticatedUser(): string
     {
-        $id = $id ?? $this->getAuthenticatedUserId();
+        return Auth::user()->role->name;
+    }
 
-        return Role::where('id', $id)->first(['name'])->name;
+    /**
+     * Check If the Rolename in $roles array
+     * @param array $roles
+     * @return bool
+     */
+    public function roleNameIn(array $roles): bool
+    {
+        return in_array($this->getRoleNameForAuthenticatedUser(), $roles);
+    }
+
+    /**
+     * Get Role ID By Name
+     * @param array $roles
+     * @return array
+     */
+    public function getRolesIdsByName(array $roles): array
+    {
+        $res = [];
+        foreach ($roles as $roleName) {
+            $res[] = Role::where('name', $roleName)->first(['id'])->id;
+        }
+        return $res;
     }
 }

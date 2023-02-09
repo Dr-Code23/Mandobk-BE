@@ -4,10 +4,9 @@ namespace App\Http\Controllers\Api\V1\Site\Company;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\Product\productRequest;
-use App\Models\Api\V1\Product;
+use App\Models\V1\Product;
 use App\RepositoryInterface\ProductRepositoryInterface;
 use App\Traits\userTrait;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
@@ -40,7 +39,7 @@ class ProductController extends Controller
         return $this->productRepository->storeProduct($request);
     }
 
-    public function show(Request $request, Product $product)
+    public function show(Product $product)
     {
         return $this->productRepository->showOneProduct($product);
     }

@@ -212,7 +212,4 @@ return [
         'DNS1D' => Milon\Barcode\Facades\DNS1DFacade::class,
         'DNS2D' => Milon\Barcode\Facades\DNS2DFacade::class,
     ])->toArray(),
-
-    // Custom Api Routes To Access
-    'web_v1' => 'Api/Web/V1',
 ];

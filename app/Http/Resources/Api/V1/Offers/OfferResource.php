@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources\Api\V1\Offers;
 
-use App\Models\Api\V1\PayMethod;
+use App\Models\V1\PayMethod;
 use App\Traits\translationTrait;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -23,7 +23,7 @@ class OfferResource extends JsonResource
 
         return [
             'id' => $this->id,
-            'scientefic_name' => $this->scientefic_name,
+            'scientific_name' => $this->scientific_name,
             'commercial_name' => $this->commercial_name,
             'product_id' => $this->product_id,
             'expire_date' => $this->expire_date,

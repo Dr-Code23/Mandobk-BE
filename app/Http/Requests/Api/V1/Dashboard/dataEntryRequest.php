@@ -34,7 +34,7 @@ class dataEntryRequest extends FormRequest
 
         return [
             'commercial_name' => ['required', 'max:255'],
-            'scientefic_name' => ['required', 'max:255'],
+            'scientific_name' => ['required', 'max:255'],
             'quantity' => ['required', 'regex:'.config('regex.integer')],
             'purchase_price' => $double,
             'selling_price' => $double,
@@ -82,7 +82,7 @@ class dataEntryRequest extends FormRequest
         }
 
         // Max Length Data
-        $max_length_names = ['commercial_name', 'scientefic_name', 'provider'];
+        $max_length_names = ['commercial_name', 'scientific_name', 'provider'];
         foreach ($max_length_names as $key) {
             $messages["$key.max"] = $this->translateErrorMessage($key, "$key.max");
         }

@@ -33,4 +33,9 @@ trait StringTrait
     {
         return number_format((float) $val, 1, '.', '');
     }
+
+    public function convertToInteger($val)
+    {
+        return (int) $val;
+    }
 }

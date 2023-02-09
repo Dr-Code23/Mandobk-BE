@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Api\V1;
+namespace App\Models\V1;
 
 use App\Traits\dateTrait;
 use Illuminate\Database\Eloquent\Casts\Attribute;

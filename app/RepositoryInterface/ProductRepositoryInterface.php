@@ -4,7 +4,7 @@ namespace App\RepositoryInterface;
 
 interface ProductRepositoryInterface
 {
-    public function showAllProducts($products);
+    public function showAllProducts();
 
     public function showOneProduct($product);
 

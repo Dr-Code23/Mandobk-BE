@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Api\V1\Site\Home;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\V1\Product\productCollection;
-use App\Models\Api\V1\Product;
-use App\Models\Api\V1\Role;
-use App\Models\Api\V1\Sale;
+use App\Models\V1\Product;
+use App\Models\V1\Role;
+use App\Models\V1\Sale;
 use App\Traits\userTrait;
 
 class HomeController extends Controller
@@ -41,7 +41,7 @@ class HomeController extends Controller
 
         // Sales
         foreach (Sale::whereIn('from_id', $this->getSubUsersForAuthenticatedUser())
-                ->select('total', 'created_at')->get() as $sale) {
+            ->select('total', 'created_at')->get() as $sale) {
             $sale_info = $sale->total;
             $total_sales += $sale->total;
             $created_at = date('Y-m-d', strtotime($sale->created_at));
@@ -56,6 +56,7 @@ class HomeController extends Controller
         $home_info = [
             'daily_purchases' => $daily_purchases,
             'daily_sales' => $daily_sales,
+            'daily_profits' => $daily_sales - $daily_purchases
         ];
 
         // Check If the User Is A Pharmacy Sub User

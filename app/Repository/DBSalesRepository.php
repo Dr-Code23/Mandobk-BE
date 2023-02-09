@@ -2,14 +2,15 @@
 
 namespace App\Repository;
 
-use App\Models\Api\V1\Product;
-use App\Models\Api\V1\Role;
-use App\Models\Api\V1\Sale;
 use App\Models\User;
+use App\Models\V1\Product;
+use App\Models\V1\Role;
+use App\Models\V1\Sale;
 use App\RepositoryInterface\SalesRepositoryInterface;
 use App\Traits\HttpResponse;
 use App\Traits\translationTrait;
 use App\Traits\userTrait;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class DBSalesRepository implements SalesRepositoryInterface
@@ -24,16 +25,16 @@ class DBSalesRepository implements SalesRepositoryInterface
     public function getAllSales()
     {
         $sales = Sale::join('users', 'sales.to_id', 'users.id')
-        ->whereIn('sales.from_id', $this->getSubUsersForAuthenticatedUser())
-        ->get([
-            'sales.id as id',
-            'sales.from_id as from_id',
-            'sales.to_id as to_id',
-            'users.full_name as full_name',
-            'sales.details as details',
-            'sales.created_at as created_at',
-            'sales.updated_at as updated_at',
-        ]);
+            ->whereIn('sales.from_id', $this->getSubUsersForAuthenticatedUser())
+            ->get([
+                'sales.id as id',
+                'sales.from_id as from_id',
+                'sales.to_id as to_id',
+                'users.full_name as full_name',
+                'sales.details as details',
+                'sales.created_at as created_at',
+                'sales.updated_at as updated_at',
+            ]);
 
         return $sales;
         // Then it's Company To Storehouse
@@ -63,7 +64,7 @@ class DBSalesRepository implements SalesRepositoryInterface
         //     if (in_array($authenticated_user_role_id, [$pharmacy_role, $pharmacy_sub_user_role])) {
         //         $sub_users = $this->getSubUsersForAuthenticatedUser();
         //         // if logged user is pharmacy check sales made by pharmacy sub users as well
-        //         $query->where('users.from_id', $this->getAuthenticatedUserId());
+        //         $query->where('users.from_id', Auth::id());
         //         if ($sub_users) {
         //             $query->orWhereIn('users.from_id', $sub_users);
         //         }
@@ -118,7 +119,7 @@ class DBSalesRepository implements SalesRepositoryInterface
             foreach ($data as $product_information) {
                 $validator = Validator::make($product_information, $rules, $messages);
                 if ($validator->fails()) {
-                    $errors['key_'.$cnt] = $validator->errors();
+                    $errors[$cnt] = $validator->errors();
                 }
                 ++$cnt;
             }
@@ -140,8 +141,8 @@ class DBSalesRepository implements SalesRepositoryInterface
         for ($i = 0; $i < $data_count; ++$i) {
             $data[$i]['product_exists'] = Product::where('id', $data[$i]['product_id'])
                 ->whereIn('user_id', $this->getSubUsersForAuthenticatedUser())
-                    ->first(['id'])
-                    ? true : false;
+                ->first(['id'])
+                ? true : false;
         }
 
         if ($errors) {
@@ -151,7 +152,7 @@ class DBSalesRepository implements SalesRepositoryInterface
         $data_length = count($data);
         for ($i = 0; $i <= $data_length; ++$i) {
             // * Remove The Product from the cart if the product does not exists
-            if (!$data[$i]['product_exists']) {
+            if (isset($data[$i]['product_exists']) && !$data[$i]['product_exists']) {
                 unset($data[$i]);
                 --$data_length;
             }
@@ -172,7 +173,7 @@ class DBSalesRepository implements SalesRepositoryInterface
                 $errors['product_id_'.$data[$i]['product_id']] = 'Quantity is bigger than existing quantity which is '.$product_info->qty;
             } else {
                 $data[$i]['commercial_name'] = $product_info->com_name; // Commercial Name
-                $data[$i]['scientefic_name'] = $product_info->sc_name;
+                $data[$i]['scientific_name'] = $product_info->sc_name;
                 $data[$i]['purchase_price'] = $product_info->pur_price;
                 $data[$i]['original_qty'] = $product_info->qty;
                 $total_sales += ($data[$i]['quantity'] * $product_info->sel_price);
@@ -185,7 +186,8 @@ class DBSalesRepository implements SalesRepositoryInterface
             $storehouse_id = $request->input('storehouse_id');
             if ($storehouse_id && is_numeric($storehouse_id)) {
                 if ($storehouse_id = User::where('id', $storehouse_id)
-                    ->where('role_id', Role::where('name', 'storehouse')->first(['id'])->id)->first(['id'])) {
+                    ->where('role_id', Role::where('name', 'storehouse')->first(['id'])->id)->first(['id'])
+                ) {
                     $send_to_id = $storehouse_id->id;
                 } else {
                     $errors['storehouse_id'] = 'Storehouse Not Exists';
@@ -198,7 +200,8 @@ class DBSalesRepository implements SalesRepositoryInterface
             if ($pharmacy_id && is_numeric($pharmacy_id)) {
                 if ($pharmacy_id = User::where('id', $pharmacy_id)
                     ->where('role_id', Role::where('name', 'pharmacy')->first(['id'])->id)
-                    ->first(['id'])) {
+                    ->first(['id'])
+                ) {
                     $send_to_id = $pharmacy_id->id;
                 } else {
                     $errors['pharmacy_id'] = 'Pharmacy id do not exists';
@@ -226,7 +229,7 @@ class DBSalesRepository implements SalesRepositoryInterface
 
             // Start To Store Sale
             $sale = Sale::create([
-                'from_id' => $this->getAuthenticatedUserId(),
+                'from_id' => Auth::id(),
                 'to_id' => $send_to_id,
                 'details' => $data,
                 'total' => $total_sales,

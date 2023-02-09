@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class() extends Migration {
+return new class() extends Migration
+{
     /**
      * Run the migrations.
      *
@@ -12,23 +13,18 @@ return new class() extends Migration {
      */
     public function up()
     {
-        Schema::create('recipes', function (Blueprint $table) {
+        Schema::create('visitor_recipes', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('doctor_id');
-            $table->foreign('doctor_id')
+
+            $table->unsignedBigInteger('visitor_id');
+            $table->foreign('visitor_id')
                 ->on('users')
                 ->references('id')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
-
-            $table->unsignedBigInteger('visitor_id');
-            $table->foreign('visitor_id')
-            ->on('users')
-            ->references('id')
-            ->cascadeOnUpdate()
-            ->cascadeOnDelete();
-
-            // $table->
+            $table->string('random_number')->unique();
+            $table->string('alias');
+            $table->json('details')->default(json_encode([]));
             $table->timestamps();
         });
     }
@@ -40,6 +36,14 @@ return new class() extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('recipes');
+        Schema::dropIfExists('visitor_recipes');
     }
 };
+
+/*
+
+    id visitor_id random_number details
+    id doctor_id visitor_recipe_id created_at updated_at
+
+
+*/

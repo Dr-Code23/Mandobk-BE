@@ -1,43 +1,43 @@
 <?php
 
-namespace App\Models\Api\V1;
+namespace App\Models\V1;
 
 use App\Traits\dateTrait;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Sale extends Model
+class VisitorRecipe extends Model
 {
     use HasFactory;
     use dateTrait;
     protected $fillable = [
-        'from_id',
-        'to_id',
-        'type',
+        'visitor_id',
+        'random_number',
         'details',
-        'total',
+        'alias',
     ];
 
     protected function details(): Attribute
     {
         return Attribute::make(
-            get: fn ($val) => json_decode($val),
-            set: fn ($val) => json_encode($val)
+            set: fn ($val) => json_encode($val),
+            get: fn ($val) => json_decode($val)
         );
     }
 
-    protected function createdAt(): Attribute
+    public function createdAt(): Attribute
     {
         return Attribute::make(
-            get: fn ($val) => $this->changeDateFormat($val, 'Y-m-d H:i')
+            get: fn ($val) => $this->changeDateFormat($val, 'Y-m-d H:i'),
+
         );
     }
 
-    protected function updatedAt(): Attribute
+    public function updatedAt(): Attribute
     {
         return Attribute::make(
-            get: fn ($val) => $this->changeDateFormat($val, 'Y-m-d H:i')
+            get: fn ($val) => $this->changeDateFormat($val, 'Y-m-d H:i'),
         );
     }
 }

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\V1\Roles;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\V1\Roles\rolesCollection;
-use App\Models\Api\V1\Role;
+use App\Models\V1\Role;
 use App\Traits\HttpResponse;
 
 class rolesController extends Controller
