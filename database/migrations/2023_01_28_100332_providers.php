@@ -12,15 +12,14 @@ return new class() extends Migration {
      */
     public function up()
     {
-        Schema::create('prodivers', function (Blueprint $table) {
+        Schema::create('providers', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')
                 ->on('users')
                 ->references('id')
-                ->cascadeOnUpdate()
-                ->cascadeOnDelete();
+                ->cascadeOnUpdate();
             $table->timestamps();
         });
     }
@@ -32,6 +31,6 @@ return new class() extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('prodivers');
+        Schema::dropIfExists('providers');
     }
 };

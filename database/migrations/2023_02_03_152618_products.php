@@ -42,7 +42,6 @@ return new class() extends Migration {
                 ->on('providers')
                 ->references('id')
                 ->cascadeOnUpdate();
-            $table->string('provider'); // Provider Name
             $table->boolean('limited')->default(false); // Limited Exchange
             $table->date('entry_date')->default(now()); // Entry Date In
             $table->date('expire_date')->default(now()); // Expire Date In

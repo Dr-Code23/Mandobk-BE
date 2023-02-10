@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-use Database\Seeders\Api\V1\DoctorRecipeSeeder;
 use Database\Seeders\Api\V1\DoctorVisitsSeeder;
 use Database\Seeders\Api\V1\humanResourceSeeder;
 use Database\Seeders\Api\V1\marktingSeeder;
@@ -13,6 +12,7 @@ use Database\Seeders\Api\V1\OfferSeeder;
 use Database\Seeders\Api\V1\payMethodsSeeder;
 use Database\Seeders\Api\V1\PharmacyVisitsSeeder;
 use Database\Seeders\Api\V1\productSeeder;
+use Database\Seeders\Api\V1\ProviderSeeder;
 use Database\Seeders\Api\V1\RolesSeeder;
 use Database\Seeders\Api\V1\saleSeeder;
 use Database\Seeders\Api\V1\subUserSeeder;
@@ -32,6 +32,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RolesSeeder::class,
             UserSeeder::class,
+            ProviderSeeder::class,
             subUserSeeder::class,
             productSeeder::class,
             humanResourceSeeder::class,
