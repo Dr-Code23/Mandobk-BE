@@ -26,6 +26,7 @@ class productResource extends JsonResource
             'concentrate' => $this->con,
             'patch_number' => $this->patch_number,
             'provider' => $this->provider,
+            'provider_id' => $this->provider_id,
             'bar_code' => asset('storage/products/'.$this->bar_code).'.svg',
             'entry_date' => $this->entry_date,
             'expire_date' => $this->expire_date,

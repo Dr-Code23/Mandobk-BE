@@ -57,11 +57,12 @@ class Handler extends ExceptionHandler
         });
 
         // Handle Not Found Response
-        // $this->renderable(function (NotFoundHttpException $e, $req) {
-        //     if ($req->is('v1/*')) {
-        //         return $this->error(null, 404, 'Not Found');
-        //     }
-        // });
+        $this->renderable(function (NotFoundHttpException $e, $req) {
+            if ($req->is('v1/*')) {
+                $msg = $e->getMessage();
+                return $this->error($msg, 404, 'Not Found');
+            }
+        });
         // Method not allowed
         $this->renderable(function (\Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException $e, $request) {
             if ($request->is('v1/*')) {

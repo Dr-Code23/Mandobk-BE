@@ -59,6 +59,7 @@ class DBProductRepository implements ProductRepositoryInterface
             ->first([
                 'products.*',
                 'providers.name as provider',
+                'providers.id as provider_id'
             ]);
             if ($product) {
                 return $this->resourceResponse(new productResource($product));
@@ -97,16 +98,12 @@ class DBProductRepository implements ProductRepositoryInterface
             })->first(['id'])) {
             $product_exists = true;
         }
-
         // Check If the Provider Exists For Authenticated User
         if (ProviderModel::whereIn('user_id', $this->getSubUsersForAuthenticatedUser())->first(['id'])) {
             $provider_exists = true;
         }
 
-        var_dump($product_exists);
-
-        return;
-        if (!$product_exists && $product_exists) {
+        if (!$product_exists && $provider_exists) {
             // Check if the admin has already added the product
 
             // Check If Data Entry Has has product
@@ -182,23 +179,18 @@ class DBProductRepository implements ProductRepositoryInterface
         ];
         // Check if either commercial name or scientific_name exists
         $product_exists = false;
+        $provider_exists = false;
         if (
             Product::where(function ($bind) use ($commercial_name, $scientific_name, $concentrate, $admin_roles, $product) {
                 $bind->where('com_name', $commercial_name);
                 $bind->where('sc_name', $scientific_name);
                 $bind->where('con', $concentrate);
-                if (in_array($this->getAuthenticatedUserInformation()->role_id, $admin_roles)) {
-                    // Then it's data entry or ceo
-                    // * if the product role_id in admin roles or added by an admin , then it's exists
-                    $bind->whereIn('role_id', $admin_roles);
-                } else {
-                    // Get All Products For A User And authenticated user
-                    $bind->whereIn('user_id', $this->getSubUsersForAuthenticatedUser());
-                }
+                $bind->whereIn('user_id', $this->getSubUsersForAuthenticatedUser());
                 $bind->where('id', '!=', $product->id);
             })->first(['id'])) {
             $product_exists = true;
         }
+
         if (!$product_exists) {
             $random_number = null;
             $barCodeStored = false;
