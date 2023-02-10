@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\V1\Auth\AuthController;
 use App\Http\Controllers\Api\V1\Dashboard\HumanResourceController;
 use App\Http\Controllers\Api\V1\Dashboard\MarktingController;
 use App\Http\Controllers\Api\V1\Dashboard\MonitorAndEvaluationController;
+use App\Http\Controllers\Api\V1\Dashboard\OrderManagementController;
 use App\Http\Controllers\Api\V1\PayMethod\PayMethodController;
 use App\Http\Controllers\Api\V1\Products\ProductsController;
 use App\Http\Controllers\Api\V1\Roles\rolesController;
@@ -216,7 +217,7 @@ Route::group(
 
                 // Visitor
                 Route::group(
-                    ['prefix' => 'visitor'],
+                    ['prefix' => 'visitor', 'middleware' => ['hasVisitorPermissions']],
                     function () {
                         Route::group(
                             ['prefix' => 'archive'],
@@ -226,6 +227,12 @@ Route::group(
                                 Route::post('', function (Request $request) {
                                     return ArchiveController::moveFromRandomNumberProducts($request);
                                 });
+                            }
+                        );
+                        Route::group(
+                            ['prefix' => 'recipe'],
+                            function () {
+                                Route::get('', [RecipesController::class, 'index']);
                             }
                         );
                     }
@@ -290,8 +297,10 @@ Route::group(
                     );
 
                     Route::group(
-                        ['prefix' => 'order_management'],
+                        ['prefix' => 'order_management', 'middleware' => ['hasOrderManagementPermissions']],
                         function () {
+                            Route::get('', [OrderManagementController::class, 'index']);
+                            Route::post('{order}', [OrderManagementController::class, 'acceptPendingOrders']);
                         }
                     );
                 }

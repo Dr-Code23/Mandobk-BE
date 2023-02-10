@@ -7,11 +7,13 @@ use App\Http\Resources\Api\V1\Product\productCollection;
 use App\Models\V1\Product;
 use App\Models\V1\Role;
 use App\Models\V1\Sale;
+use App\Traits\StringTrait;
 use App\Traits\userTrait;
 
 class HomeController extends Controller
 {
     use userTrait;
+    use StringTrait;
 
     public function index()
     {
@@ -54,19 +56,19 @@ class HomeController extends Controller
         }
 
         $home_info = [
-            'daily_purchases' => $daily_purchases,
-            'daily_sales' => $daily_sales,
-            'daily_profits' => $daily_sales - $daily_purchases
+            'daily_purchases' => $this->setPercisionForFloatString($daily_purchases, 2, '.', ','),
+            'daily_sales' => $this->setPercisionForFloatString($daily_sales, 2, '.', ','),
+            'daily_profits' => $this->setPercisionForFloatString($daily_sales - $daily_purchases, 2, '.', ','),
         ];
 
         // Check If the User Is A Pharmacy Sub User
         if (Role::where('name', 'pharmacy_sub_user')->first(['id'])->id != $this->getAuthenticatedUserInformation()->role_id) {
-            $home_info['total_purchases'] = $total_purchases;
-            $home_info['total_sales'] = $total_sales;
-            $home_info['total_profits'] = $total_purchases - $total_sales;
-            $home_info['monthly_purchases'] = $monthly_purchases;
-            $home_info['monthly_sales'] = $monthly_sales;
-            $home_info['monthly_profits'] = $monthly_purchases - $monthly_sales;
+            $home_info['total_purchases'] = $this->setPercisionForFloatString($total_purchases , 2 , '.' , ',');
+            $home_info['total_sales'] = $this->setPercisionForFloatString($total_sales , 2 , '.' , ',');
+            $home_info['total_profits'] = $this->setPercisionForFloatString($total_purchases - $total_sales , 2 , '.' , ',');
+            $home_info['monthly_purchases'] = $this->setPercisionForFloatString($monthly_purchases , 2 , '.' , ',');
+            $home_info['monthly_sales'] = $this->setPercisionForFloatString($monthly_sales , 2 , '.' , ',');
+            $home_info['monthly_profits'] = $this->setPercisionForFloatString($monthly_purchases - $monthly_sales , 2 , '.' , ',');
         }
         $home_info['products'] = new productCollection(Product::whereIn('user_id', $this->getSubUsersForAuthenticatedUser())->limit(7)->get());
 

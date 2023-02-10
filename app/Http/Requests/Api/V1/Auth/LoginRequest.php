@@ -7,7 +7,7 @@ use App\Traits\translationTrait;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 
-class webLoginRequest extends FormRequest
+class LoginRequest extends FormRequest
 {
     use HttpResponse;
     use translationTrait;
@@ -42,7 +42,6 @@ class webLoginRequest extends FormRequest
         return [
             'username.required' => $this->translateErrorMessage('username', 'required'),
             'password.required' => $this->translateErrorMessage('password', 'required'),
-            // 'password.required' => 'password-required',
         ];
     }
 

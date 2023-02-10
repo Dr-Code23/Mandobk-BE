@@ -221,21 +221,16 @@ class RecipesController extends Controller
         if ($validator->fails()) {
             return $this->validation_errors($validator->errors());
         }
-        $random_number = $this->convertToInteger($request->input('random_number'));
+        $random_number = $request->input('random_number');
         // valid data
         $visitor_products = VisitorRecipe::where('random_number', $random_number)->first(['details']);
-        if ($visitor_products && !$visitor_products->details) {
-            // Everything is valid
 
+        if ($visitor_products) {
+            // Everything is valid
             return $this->resourceResponse($visitor_products->details);
-        } else {
-            // ? You must move old products to archive before make receipt
-            return $this->validation_errors(
-                [
-                    'products' => $this->translateErrorMessage('products', 'not_empty'),
-                ]
-            );
         }
+
+        return $this->notFoundResponse('Random Number Not Exists');
     }
 
     private function moveProductsToArchive(int $random_number): bool

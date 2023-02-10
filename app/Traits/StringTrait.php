@@ -29,9 +29,9 @@ trait StringTrait
         return Crypt::decryptString($encrypted);
     }
 
-    public function setPercisionForFloatString(string $val): string
+    public function setPercisionForFloatString(string $val, int $decimals = 1, string $decimal_separator = '.', string $thousands_separator = ''): string
     {
-        return number_format((float) $val, 1, '.', '');
+        return number_format((float) $val, $decimals, $decimal_separator, $thousands_separator);
     }
 
     public function convertToInteger($val)

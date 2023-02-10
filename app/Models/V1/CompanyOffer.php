@@ -11,6 +11,10 @@ class CompanyOffer extends Model
 {
     use HasFactory;
     use dateTrait;
+
+    /**
+     * @var string[]
+     */
     protected $fillable = [
         // 'sc_name',
         // 'com_name',

@@ -64,4 +64,5 @@ return [
     'products' => 'Products',
     'archive' => 'Archive',
     'handle' => 'Handle',
+    'approve' => 'Approve',
 ];

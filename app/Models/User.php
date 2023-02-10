@@ -11,6 +11,9 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 
+/**
+ * @method create(array $array)
+ */
 class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens;

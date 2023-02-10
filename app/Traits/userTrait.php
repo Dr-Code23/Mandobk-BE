@@ -37,7 +37,7 @@ trait userTrait
 
     public function getAuthenticatedUserId()
     {
-        return Auth::user()->id;
+        return Auth::id();
     }
 
     public function getUserSelectBox(string $role)
@@ -68,12 +68,14 @@ trait userTrait
     }
 
     /**
-     * Summary of generateRandomNumberForVisitor
+     * Summary of generateRandomNumberForVisitor.
+     *
      * @return string
      */
     public function generateRandomNumberForVisitor()
     {
         $random_number = VisitorRecipe::orderByDesc('id')->first(['random_number as number']);
+
         return $random_number ? ($random_number->number + 1) : 1;
     }
 }
