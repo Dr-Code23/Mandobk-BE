@@ -27,7 +27,7 @@ class productResource extends JsonResource
             'patch_number' => $this->patch_number,
             'provider' => $this->provider,
             'provider_id' => $this->provider_id,
-            'bar_code' => asset('storage/products/'.$this->bar_code).'.svg',
+            'bar_code' => asset('public/storage/products/'.$this->bar_code).'.svg',
             'entry_date' => $this->entry_date,
             'expire_date' => $this->expire_date,
             'created_at' => $this->created_at,
