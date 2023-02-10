@@ -37,6 +37,11 @@ return new class() extends Migration {
             $table->unsignedDouble('con'); // Concentrate
             $table->string('patch_number'); // Patch Number
             $table->string('bar_code'); // QR Code
+            $table->unsignedBigInteger('provider_id');
+            $table->foreign('provider_id')
+                ->on('providers')
+                ->references('id')
+                ->cascadeOnUpdate();
             $table->string('provider'); // Provider Name
             $table->boolean('limited')->default(false); // Limited Exchange
             $table->date('entry_date')->default(now()); // Entry Date In

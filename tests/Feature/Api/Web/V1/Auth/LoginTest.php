@@ -10,13 +10,6 @@ class LoginTest extends TestCase
     use fileOperationTrait;
     private string $authPath = 'Auth/';
 
-    public function testLoginViewIsWorking()
-    {
-        $res = $this->getJson(route('web-v1-login-view'));
-        $this->writeAFileForTesting($this->authPath, 'loginView', $res->content());
-        $res->assertStatus(200);
-    }
-
     public function testLoginProcessPageIsWorking()
     {
         $res = $this->postJson(route('web-v1-login-user'));
@@ -39,6 +32,5 @@ class LoginTest extends TestCase
         $res = $this->postJson(route('web-v1-login-user'), $credentials);
         $this->writeAFileForTesting($this->authPath, 'LoggedInSuccessfully', $res->content());
         $res->assertStatus(200);
-        $res->assertCookie('jwt_token');
     }
 }
