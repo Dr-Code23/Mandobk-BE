@@ -9,6 +9,7 @@ class ProviderModel extends Model
 {
     use HasFactory;
     public $table = 'providers';
+    public $timestamps = false;
     protected $fillable = [
         'id',
         'user_id',

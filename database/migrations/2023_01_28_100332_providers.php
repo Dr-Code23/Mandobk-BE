@@ -20,7 +20,6 @@ return new class() extends Migration {
                 ->on('users')
                 ->references('id')
                 ->cascadeOnUpdate();
-            $table->timestamps();
         });
     }
 

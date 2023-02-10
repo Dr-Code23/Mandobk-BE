@@ -191,23 +191,13 @@ class DBProductRepository implements ProductRepositoryInterface
             $product_exists = true;
         }
 
-        if (!$product_exists) {
+        if (ProviderModel::whereIn('user_id', $this->getSubUsersForAuthenticatedUser())->first(['id']))
+            $provider_exists = true;
+        if (!$product_exists && $provider_exists) {
             $random_number = null;
             $barCodeStored = false;
             $barCodeValue = null;
             $anyChangeOccured = false;
-            // Check if $generate_another_bar_code Variable isset to generate another barcode
-            // if ($request->has('generate_another_bar_code') && $request->input('generate_another_bar_code') == true) {
-            //     // Delete The Old Barcode
-            //     $this->deleteBarCode($product->bar_code);
-
-            //     // Generate A Barcode for the product
-            //     $barcode = $request->input('barcode');
-            //     // Store the barcode
-            //     $barCodeValue = $barcode;
-            //     $barCodeStored = $this->storeBarCodeSVG('data_entry', $barcode, $barCodeValue);
-            //     $anyChangeOccured = true;
-            // }
 
             // Begin Update Logic If Any Change Occured
             if ($product->com_name != $commercial_name) {
@@ -279,9 +269,11 @@ class DBProductRepository implements ProductRepositoryInterface
 
         $payload = [];
         if ($product_exists) {
-            $payload['product_exists'] = [$this->translateErrorMessage('product', 'exists')];
+            $payload['product_exists'] = $this->translateErrorMessage('product', 'exists');
         }
 
+        if (!$product_exists)
+            $payload['provider'] = $this->translateErrorMessage('provider', 'not_exists');
         return $this->validation_errors($payload);
     }
 
@@ -294,9 +286,12 @@ class DBProductRepository implements ProductRepositoryInterface
      */
     public function deleteProduct($product)
     {
-        $this->deleteBarCode($product->bar_code);
-        $product->delete();
+        if (in_array($product->user_id, $this->getSubUsersForAuthenticatedUser())) {
+            $this->deleteBarCode($product->bar_code);
+            $product->delete();
 
-        return $this->success(null, 'Product Deleted Successfully');
+            return $this->success(null, 'Product Deleted Successfully');
+        }
+        return $this->notFoundResponse($this->translateErrorMessage('product' , 'not_exists'));
     }
 }

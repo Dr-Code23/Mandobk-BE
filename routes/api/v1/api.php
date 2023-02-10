@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\V1\Dashboard\MonitorAndEvaluationController;
 use App\Http\Controllers\Api\V1\Dashboard\OrderManagementController;
 use App\Http\Controllers\Api\V1\PayMethod\PayMethodController;
 use App\Http\Controllers\Api\V1\Products\ProductsController;
+use App\Http\Controllers\Api\V1\Providers\ProvidersController;
 use App\Http\Controllers\Api\V1\Roles\rolesController;
 use App\Http\Controllers\Api\V1\Site\Company\CompanyOffersController;
 use App\Http\Controllers\Api\V1\Site\Home\HomeController;
@@ -63,6 +64,9 @@ Route::group(
                 Route::get('{product}', [ProductsController::class, 'show']);
             },
         );
+
+        // Providers
+        Route::apiResource('providers', ProvidersController::class);
         Route::group(['prefix' => 'auth'], function () {
             // Login
             Route::post('/login', [AuthController::class, 'login'])->name('web-v1-login-user');

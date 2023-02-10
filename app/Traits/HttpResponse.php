@@ -2,7 +2,9 @@
 
 namespace App\Traits;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\ResourceResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 trait HttpResponse
@@ -116,7 +118,7 @@ trait HttpResponse
         return $this->error(null, 404, $msg);
     }
 
-    public function createdResponse(array|null $data, string $msg = 'Resource Created Successfully', int $code = Response::HTTP_CREATED)
+    public function createdResponse(array|null|\Illuminate\Http\Resources\Json\JsonResource $data, string $msg = 'Resource Created Successfully', int $code = Response::HTTP_CREATED)
     {
         return response()->json([
             'data' => $data,
