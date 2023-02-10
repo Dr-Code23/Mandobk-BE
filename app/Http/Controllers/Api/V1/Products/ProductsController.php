@@ -27,9 +27,9 @@ class ProductsController extends Controller
         return $this->productRepository->showAllProducts();
     }
 
-    public function show($product)
+    public function show(Product $product)
     {
-        // return $this->productRepository->showOneProduct($product);
+        return $this->productRepository->showOneProduct($product);
     }
 
     public function store(productRequest $request)
@@ -49,8 +49,7 @@ class ProductsController extends Controller
 
     public function ScientificNamesSelect()
     {
-        return 'Good';
-        // return Product::where('user_id', Auth::id())->get(['id', 'sc_name as scientific_name']);
+        return Product::where('user_id', Auth::id())->get(['id', 'sc_name as scientific_name']);
     }
 
     public function CommercialNamesSelect()
