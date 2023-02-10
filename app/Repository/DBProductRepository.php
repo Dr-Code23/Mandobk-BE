@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Http\Resources\Api\V1\Product\productCollection;
 use App\Http\Resources\Api\V1\Product\productResource;
 use App\Models\V1\Product;
+use App\Models\V1\ProviderModel;
 use App\Models\V1\Role;
 use App\RepositoryInterface\ProductRepositoryInterface;
 use App\Traits\dateTrait;
@@ -24,9 +25,22 @@ class DBProductRepository implements ProductRepositoryInterface
     public function showAllProducts()
     {
         if ($this->roleNameIn(['ceo', 'data_entry'])) {
-            $products = Product::orderByDesc('id')->get();
+            $products = Product::orderByDesc('id')
+            ->join('providers', 'providers.id', 'products.provider_id')
+            ->get([
+                'products.*',
+                'providers.name as provider',
+            ]);
         } else {
-            $products = Product::whereIn('user_id', $this->getSubUsersForAuthenticatedUser())->orderByDesc('id')->get();
+            $products = Product::whereIn(
+                'products.user_id',
+                $this->getSubUsersForAuthenticatedUser()
+            )
+            ->join('providers', 'providers.id', 'products.provider_id')
+            ->orderByDesc('products.id')->get([
+                'products.*',
+                'providers.name as provider',
+            ]);
         }
         // ->paginate();
 
@@ -38,9 +52,20 @@ class DBProductRepository implements ProductRepositoryInterface
      */
     public function showOneProduct($product)
     {
-        // return Product::whereIn('user_id' , )
+        if (ProviderModel::whereIn('user_id', $this->getSubUsersForAuthenticatedUser())->first(['id'])) {
+            $product = Product::whereIn('products.user_id', $this->getSubUsersForAuthenticatedUser())
+            ->join('providers', 'providers.id', 'products.provider_id')
+            ->where('products.id', $product->id)
+            ->first([
+                'products.*',
+                'providers.name as provider',
+            ]);
+            if ($product) {
+                return $this->resourceResponse(new productResource($product));
+            }
+        }
 
-        return $this->resourceResponse(new productResource($product));
+        return $this->notFoundResponse('Provider Not Found For Logged User');
     }
 
     /**
@@ -50,10 +75,6 @@ class DBProductRepository implements ProductRepositoryInterface
      */
     public function storeProduct($request)
     {
-        $admin_roles = [
-            Role::where('name', 'ceo')->first(['id'])->id,
-            Role::where('name', 'data_entry')->first(['id'])->id,
-        ];
         // Get Authenticated user information
         $authenticatedUserInformation = $this->getAuthenticatedUserInformation();
         $commercial_name = $this->sanitizeString($request->commercial_name);
@@ -66,33 +87,32 @@ class DBProductRepository implements ProductRepositoryInterface
 
         // Check if either commercial name or scientific_name exists
         $product_exists = false;
+        $provider_exists = false;
         if (
             Product::where(function ($bind) use ($commercial_name, $scientific_name, $concentrate) {
                 $bind->where('com_name', $commercial_name);
                 $bind->where('sc_name', $scientific_name);
                 $bind->where('con', $concentrate);
                 $bind->whereIn('user_id', $this->getSubUsersForAuthenticatedUser());
-                // if($this->roleNameIn(['ceo' , 'data_entry'])){
-                //     $bind->whereIn('role_id')
-                // }
-                // if (in_array($this->getAuthenticatedUserInformation()->role_id, $admin_roles)) {
-                //     // Then it's data entry or ceo
-                //     // * if the product role_id in admin roles or added by an admin , then it's exists
-                //     $bind->whereIn('role_id', $admin_roles);
-                // } else {
-                //     // Get All Products For A User And authenticated user
-                //     $bind->whereIn('user_id', $this->getSubUsersForAuthenticatedUser());
-                // }
             })->first(['id'])) {
             $product_exists = true;
         }
-        if (!$product_exists) {
+
+        // Check If the Provider Exists For Authenticated User
+        if (ProviderModel::whereIn('user_id', $this->getSubUsersForAuthenticatedUser())->first(['id'])) {
+            $provider_exists = true;
+        }
+
+        var_dump($product_exists);
+
+        return;
+        if (!$product_exists && $product_exists) {
             // Check if the admin has already added the product
 
             // Check If Data Entry Has has product
             $admin_product = Product::where('com_name', $commercial_name)
                 ->where('sc_name', $scientific_name)
-                ->whereIn('role_id', $admin_roles)
+                ->whereIn('role_id', $this->getRolesIdsByName(['ceo', 'data_entry']))
                 ->first(['limited']);
 
             /* Make the barcode for the product */
@@ -113,7 +133,7 @@ class DBProductRepository implements ProductRepositoryInterface
                     'con' => $concentrate,
                     'patch_number' => $request->patch_number,
                     'bar_code' => $barcode_value,
-                    'provider' => $provider,
+                    'provider_id' => $provider,
                     'limited' => $admin_product ? $admin_product->limited : ($request->limited ? 1 : 0),
                     'user_id' => $authenticatedUserInformation->id,
                     'role_id' => $authenticatedUserInformation->role_id,
@@ -133,6 +153,9 @@ class DBProductRepository implements ProductRepositoryInterface
         $payload = [];
         if ($product_exists) {
             $payload['product'] = $this->translateErrorMessage('product', 'exists');
+        }
+        if (!$provider_exists) {
+            $payload['provider'] = $this->translateErrorMessage('provider', 'not_exists');
         }
 
         return $this->validation_errors($payload);

@@ -48,7 +48,7 @@ class productRequest extends FormRequest
             'purchase_price' => $double,
             'patch_number' => ['required'],
             'expire_date' => ['bail', 'required', 'date_format:Y-m-d', 'after:today'],
-            'provider' => ['required', 'max:255'],
+            'provider' => ['required', 'numeric'],
         ];
 
         if ($this->method() == 'POST') {
@@ -77,6 +77,7 @@ class productRequest extends FormRequest
             'entry_date.date_format' => $this->translateErrorMessage('entry_date', 'entry_date.date.date_format'),
             'expire_date.date_format' => $this->translateErrorMessage('expire_date', 'expire_date.date.date_format'),
             'expire_date.after' => $this->translateErrorMessage('expire_date', 'after'),
+            'provider.numeric' => $this->translateErrorMessage('provider', 'numeric'),
             'generate_another_bar_code' => $this->translateErrorMessage('bar_code', 'boolean'),
         ];
 
@@ -91,7 +92,7 @@ class productRequest extends FormRequest
         // Numeric , between and regex validation messages
         $regex_length_names = ['quantity', 'purchase_price', 'selling_price', 'bonus', 'patch_number', 'concentrate'];
         foreach ($regex_length_names as $key) {
-            if (!in_array($key, ['patch_number', 'quantity'])) {
+            if (!in_array($key, ['patch_number', 'quantity '])) {
                 $messages["$key.numeric"] = $this->translateErrorMessage($key, 'numeric');
                 $messages["$key.min"] = $this->translateErrorMessage($key, 'min.numeric');
             } else {
@@ -100,7 +101,7 @@ class productRequest extends FormRequest
         }
 
         // Max Length Data
-        $max_length_names = ['commercial_name', 'scientific_name', 'provider'];
+        $max_length_names = ['commercial_name', 'scientific_name'];
         foreach ($max_length_names as $key) {
             $messages["$key.max"] = $this->translateErrorMessage($key, "$key.max");
         }

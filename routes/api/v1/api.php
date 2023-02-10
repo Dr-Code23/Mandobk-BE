@@ -57,6 +57,7 @@ Route::group(
         Route::group(['middleware' => ['auth:api'], 'prefix' => 'products'],
             function () {
                 Route::get('', [ProductsController::class, 'index']);
+                Route::get('{product}', [ProductsController::class, 'show']);
                 Route::get('scientific_name', [ProductsController::class, 'ScientificNamesSelect']);
                 Route::get('commercial_name', [ProductsController::class, 'CommercialNamesSelect']);
             },
