@@ -9,6 +9,7 @@ use Illuminate\Database\Seeder;
 class VisitorRecipeSeeder extends Seeder
 {
     use userTrait;
+
     /**
      * Run the database seeds.
      *
@@ -16,17 +17,17 @@ class VisitorRecipeSeeder extends Seeder
      */
     public function run()
     {
-
         for ($i = 1; $i <= 50; ++$i) {
             VisitorRecipe::create([
                 'visitor_id' => 12,
                 'random_number' => $this->generateRandomNumberForVisitor(),
                 'details' => [[
-                    'id' => $i,
-                    'name' => fake()->name(),
-                    'limited'  => fake()->boolean()
+                'scientific_name' => fake()->name(),
+                'commercial_name' => fake()->name(),
+                'concentrate' => fake()->numberBetween(1, 100),
+                'taken' => fake()->boolean(),
                 ]],
-                'alias' => fake()->name()
+                'alias' => fake()->name(),
             ]);
         }
     }
