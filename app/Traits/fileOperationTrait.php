@@ -39,12 +39,14 @@ trait fileOperationTrait
      */
     public function writeAFileForTesting(string $directory, string $file_name, string $data): void
     {
-        if (!is_dir(__DIR__.'/../../tests/responsesExamples/'.$directory)) {
-            mkdir(__DIR__.'/../../tests/responsesExamples/'.$directory, recursive: true);
+        if (config('test.store_response')) {
+            if (!is_dir(__DIR__.'/../../tests/responsesExamples/'.$directory)) {
+                mkdir(__DIR__.'/../../tests/responsesExamples/'.$directory, recursive: true);
+            }
+            $handle = fopen(__DIR__.'/../../tests/responsesExamples/'.$directory."/$file_name".'.json', 'w');
+            fwrite($handle, $data);
+            fclose($handle);
         }
-        $handle = fopen(__DIR__.'/../../tests/responsesExamples/'.$directory."/$file_name".'.json', 'w');
-        fwrite($handle, $data);
-        fclose($handle);
     }
 
     /**

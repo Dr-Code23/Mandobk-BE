@@ -13,7 +13,7 @@ class signUpRequest extends FormRequest
     use HttpResponse;
     use translationTrait;
 
-    protected $stopOnFirstFailure = true;
+    // protected $stopOnFirstFailure = true;
 
     /**
      * Determine if the user is authorized to make this request.
@@ -42,8 +42,7 @@ class signUpRequest extends FormRequest
                 RulesPassword::min(8)->
                     mixedCase()
                     ->numbers()
-                    ->symbols()
-                    ->uncompromised(3),
+                    ->symbols(),
             ],
         ];
     }
@@ -52,12 +51,12 @@ class signUpRequest extends FormRequest
     {
         return [
             'full_name.required' => $this->translateErrorMessage('full_name', 'required'),
-            'phone.required' => $this->translateErrorMessage('phone_number', 'required'),
-            'role.required' => $this->translateErrorMessage('role_name', 'required'),
+            'phone.required' => $this->translateErrorMessage('phone', 'required'),
+            'role.required' => $this->translateErrorMessage('role', 'required'),
             'username.required' => $this->translateErrorMessage('username', 'required'),
             'password.required' => $this->translateErrorMessage('password', 'required'),
             'full_name.max' => $this->translateErrorMessage('full_name', 'max.string'),
-            'username.regex' => $this->translateErrorMessage('username', 'regex'),
+            'username.regex' => $this->translateErrorMessage('username', 'username.regex'),
             'username.unique' => $this->translateErrorMessage('username', 'unique'),
         ];
     }

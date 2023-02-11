@@ -9,21 +9,26 @@ use Tests\TestCase;
 class LoginTest extends TestCase
 {
     use fileOperationTrait;
-    private string $authPath = 'Auth/';
+    private string $authPath = 'Auth/Login/';
 
     public function testLoginWithEmptyCredentials()
     {
         $response = $this->postJson(route('v1-login'));
-        $this->writeAFileForTesting($this->authPath, 'loginPost', $response->content());
+        if (config('test.store_response')) {
+            $this->writeAFileForTesting($this->authPath, 'loginPost', $response->content());
+        }
         $response->assertSee('Username Cannot Be Empty');
         $response->assertSee('Password Cannot Be Empty');
-        $response->assertStatus(422);
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     public function testLoginWithWrongCredentials()
     {
         $credentials = ['username' => '1', 'password' => 'Aa123@#$'];
         $response = $this->postJson(route('v1-login'), $credentials);
+        if (config('test.store_response')) {
+            $this->writeAFileForTesting($this->authPath, 'WrongCredentials', $response->content());
+        }
         $response->assertStatus(Response::HTTP_UNAUTHORIZED);
         $response->assertSee('Wrong Credentials');
     }
@@ -32,7 +37,9 @@ class LoginTest extends TestCase
     {
         $credentials = ['username' => 'doctor', 'password' => 'doctor'];
         $response = $this->postJson(route('v1-login'), $credentials);
-        $this->writeAFileForTesting($this->authPath, 'LoggedInSuccessfully', $response->content());
-        $response->assertStatus(200);
+        if (config('test.store_response')) {
+            $this->writeAFileForTesting($this->authPath, 'LoggedInSuccessfully', $response->content());
+        }
+        $response->assertStatus(Response::HTTP_OK);
     }
 }
