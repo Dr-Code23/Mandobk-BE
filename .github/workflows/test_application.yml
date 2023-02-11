@@ -84,7 +84,7 @@ jobs:
         env:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
 
-      - name: Run Laravel Tests
-        run: php artisan test
+      - name: Run Tests
+        run: ./vendor/bin/phpunit
         env:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
