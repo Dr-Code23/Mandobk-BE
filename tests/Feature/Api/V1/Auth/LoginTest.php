@@ -1,8 +1,9 @@
 <?php
 
-namespace Tests\Feature\Api\Web\V1\Auth;
+namespace Api\V1\Auth;
 
 use App\Traits\fileOperationTrait;
+use Illuminate\Http\Response;
 use Tests\TestCase;
 
 class LoginTest extends TestCase
@@ -19,17 +20,18 @@ class LoginTest extends TestCase
         $response->assertStatus(422);
     }
 
-    public function testValidationAllValuesRequired()
+    public function testLoginWithWrongCredentials()
     {
-        $response = $this->postJson(route('v1-user'));
-        $this->writeAFileForTesting($this->authPath, 'requiredValues', $response->content());
-        $response->assertStatus(422);
+        $credentials = ['username' => '1', 'password' => 'Aa123@#$'];
+        $response = $this->postJson(route('v1-login'), $credentials);
+        $response->assertStatus(Response::HTTP_UNAUTHORIZED);
+        $response->assertSee('Wrong Credentials');
     }
 
     public function testLoginWithRightCredentials()
     {
         $credentials = ['username' => 'doctor', 'password' => 'doctor'];
-        $response = $this->postJson(route('v1-user'), $credentials);
+        $response = $this->postJson(route('v1-login'), $credentials);
         $this->writeAFileForTesting($this->authPath, 'LoggedInSuccessfully', $response->content());
         $response->assertStatus(200);
     }
