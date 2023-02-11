@@ -66,6 +66,8 @@ Route::group(
             },
         );
 
+        // Markting Offers
+        Route::get('markting_offers', [MarktingController::class, 'index']);
         Route::get('offer_duration', [CompanyOffersController::class, 'offerDurations']);
         // Providers
         Route::apiResource('providers', ProvidersController::class);
