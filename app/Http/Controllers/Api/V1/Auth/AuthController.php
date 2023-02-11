@@ -39,7 +39,7 @@ class AuthController extends Controller
         $password = $request->post('password');
 
         // Check if the user exists
-        if ($token = Auth::attempt(['username' => $username, 'password' => $password])) {
+        if ($token = Auth::attempt(['username' => $username, 'password' => $password, 'status' => '1'])) {
             $user = Auth::user();
 
             return $this->success([

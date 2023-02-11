@@ -22,7 +22,7 @@ class subUserSeeder extends Seeder
                 'username' => 'sub_user_'.$i,
                 'password' => Hash::make('sub_user_'.$i),
                 'full_name' => 'sub_user_'.$i,
-                'role_id' => Role::where('name', 'pharmacy_sub_user')->first(['id'])->id,
+                'role_id' => Role::where('name', 'pharmacy_sub_user')->value('id'),
             ]);
 
             SubUser::create([

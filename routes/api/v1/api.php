@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\V1\Roles\rolesController;
 use App\Http\Controllers\Api\V1\Site\Company\CompanyOffersController;
 use App\Http\Controllers\Api\V1\Site\Home\HomeController;
 use App\Http\Controllers\Api\V1\Site\OfferOrder\OfferOrderController;
+use App\Http\Controllers\Api\V1\Site\Pharmacy\SubUsersController;
 use App\Http\Controllers\Api\V1\Site\Recipes\RecipesController;
 use App\Http\Controllers\Api\V1\Site\Sales\SalesController;
 use App\Http\Controllers\Api\V1\Site\Storehouse\StorehouseOffersController;
@@ -65,6 +66,7 @@ Route::group(
             },
         );
 
+        Route::get('offer_duration', [CompanyOffersController::class, 'offerDurations']);
         // Providers
         Route::apiResource('providers', ProvidersController::class);
         Route::group(['prefix' => 'auth'], function () {
@@ -191,6 +193,16 @@ Route::group(
                                 Route::get('', [SalesController::class, 'index'])->name('pharmacy-sales-show');
                                 Route::post('', [SalesController::class, 'store'])->name('pharmacy-sales-add');
                             }
+                        );
+
+                        // Sub Users
+                        Route::group(['prefix' => 'sub_user'], function () {
+                            Route::get('', [SubUsersController::class, 'index']);
+                            Route::get('{subuser}', [SubUsersController::class, 'show']);
+                            Route::post('', [SubUsersController::class, 'store']);
+                            Route::put('{subuser}', [SubUsersController::class, 'update']);
+                            Route::delete('{subuser}', [SubUsersController::class, 'destroy']);
+                        }
                         );
                     }
                 );

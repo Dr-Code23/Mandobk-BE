@@ -33,8 +33,8 @@ class productRequest extends FormRequest
     public function rules()
     {
         // $admin_roles = [
-        //     Role::where('name', 'ceo')->first(['id'])->id,
-        //     Role::where('name', 'data_entry')->first(['id'])->id,
+        //     Role::where('name', 'ceo')->value('id'),
+        //     Role::where('name', 'data_entry')->value('id'),
         // ];
         // $authenticated_user_role_id = $this->getAuthenticatedUserInformation()->role_id;
         $double = ['required', 'numeric', 'min:0.1'];

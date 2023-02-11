@@ -2,9 +2,7 @@
 
 namespace App\Traits;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Resources\Json\ResourceResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 trait HttpResponse
@@ -27,8 +25,6 @@ trait HttpResponse
 
     /**
      * Success Response.
-     *
-     * @param mixed|null $data
      */
     public function success(mixed $data = null, string $msg = 'Success', int $code = Response::HTTP_OK): JsonResponse
     {
@@ -110,7 +106,7 @@ trait HttpResponse
 
     public function noContentResponse()
     {
-        return response()->json(status: Response::HTTP_NO_CONTENT);
+        return response()->noContent();
     }
 
     public function notFoundResponse(string $msg = 'Not Found', array $data = null, int $code = Response::HTTP_NOT_FOUND)
@@ -124,7 +120,7 @@ trait HttpResponse
             'data' => $data,
             'msg' => $msg,
             'code' => $code,
-            'type' => 'success'
+            'type' => 'success',
         ], $code);
     }
 }

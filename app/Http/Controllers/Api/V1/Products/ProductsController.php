@@ -63,8 +63,8 @@ class ProductsController extends Controller
             return Product::whereIn(
                 'role_id',
                 [
-                    Role::where('name', 'ceo')->first(['id'])->id,
-                    Role::where('name', 'data_entry')->first(['id'])->id,
+                    Role::where('name', 'ceo')->value('id'),
+                    Role::where('name', 'data_entry')->value('id'),
                 ]
             )
                 ->get(['id', 'sc_name as scientific_name', 'limited']);

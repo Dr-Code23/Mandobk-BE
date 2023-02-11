@@ -174,8 +174,8 @@ class DBProductRepository implements ProductRepositoryInterface
         $concentrate = $this->setPercisionForFloatString($request->concentrate);
 
         $admin_roles = [
-            Role::where('name', 'ceo')->first(['id'])->id,
-            Role::where('name', 'data_entry')->first(['id'])->id,
+            Role::where('name', 'ceo')->value('id'),
+            Role::where('name', 'data_entry')->value('id'),
         ];
         // Check if either commercial name or scientific_name exists
         $product_exists = false;

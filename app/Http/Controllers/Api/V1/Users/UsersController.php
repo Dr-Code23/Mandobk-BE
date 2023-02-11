@@ -32,7 +32,7 @@ class UsersController extends Controller
             $role_name = 'pharmacy';
         }
         if ($role_name) {
-            $role_id = Role::where('name', $role_name)->first(['id'])->id;
+            $role_id = Role::where('name', $role_name)->value('id');
 
             $users = User::where('role_id', $role_id)->get(['id', 'full_name']);
 
@@ -85,7 +85,7 @@ class UsersController extends Controller
             'username' => $username,
             'password' => Hash::make($request->password),
             'phone' => $phone,
-            'role_id' => Role::where('name', 'visitor')->first(['id'])->id,
+            'role_id' => Role::where('name', 'visitor')->value('id'),
         ]);
         $visitor_info = VisitorRecipe::create([
             'visitor_id' => $visitor->id,

@@ -34,7 +34,7 @@ trait roleTrait
     {
         $res = [];
         foreach ($roles as $roleName) {
-            $res[] = Role::where('name', $roleName)->first(['id'])->id;
+            $res[] = Role::where('name', $roleName)->value('id');
         }
 
         return $res;

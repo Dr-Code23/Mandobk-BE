@@ -43,4 +43,9 @@ class CompanyOffersController extends Controller
     {
         return $this->companyOffers->destroyOffer($offer);
     }
+
+    public function offerDurations()
+    {
+        return $this->companyOffers->getAllOfferDurations();
+    }
 }

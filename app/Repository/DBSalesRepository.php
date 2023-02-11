@@ -43,7 +43,7 @@ class DBSalesRepository implements SalesRepositoryInterface
         //             ->where(function ($query) use ($pharmacy_role, $pharmacy_sub_user_role, $type) {
         //                 // From Company To Storehouse
         //                 if ($type == 1) {
-        //                     $query->where('users.role_id', Role::where('name', 'storehouse')->first(['id'])->id);
+        //                     $query->where('users.role_id', Role::where('name', 'storehouse')->value('id'));
         //                 }
         //                 // From Storehouse To Pharmacy (Admin or sub_user)
         //                 elseif ($type == 2) {
@@ -52,7 +52,7 @@ class DBSalesRepository implements SalesRepositoryInterface
         //                 }
         //                 // From Pharmacy(Admin or sub_user) to random customer
         //                 elseif ($type == 3) {
-        //                     $query->where('users.role_id', '=', Role::where('name', 'customer')->first(['id'])->id);
+        //                     $query->where('users.role_id', '=', Role::where('name', 'customer')->value('id'));
         //                 } else {
         //                     $query->where('users.role_id', '=', 1000); // Impossible to occur
         //                 }
@@ -186,7 +186,7 @@ class DBSalesRepository implements SalesRepositoryInterface
             $storehouse_id = $request->input('storehouse_id');
             if ($storehouse_id && is_numeric($storehouse_id)) {
                 if ($storehouse_id = User::where('id', $storehouse_id)
-                    ->where('role_id', Role::where('name', 'storehouse')->first(['id'])->id)->first(['id'])
+                    ->where('role_id', Role::where('name', 'storehouse')->value('id'))->first(['id'])
                 ) {
                     $send_to_id = $storehouse_id->id;
                 } else {
@@ -199,7 +199,7 @@ class DBSalesRepository implements SalesRepositoryInterface
             $pharmacy_id = $request->input('pharmacy_id');
             if ($pharmacy_id && is_numeric($pharmacy_id)) {
                 if ($pharmacy_id = User::where('id', $pharmacy_id)
-                    ->where('role_id', Role::where('name', 'pharmacy')->first(['id'])->id)
+                    ->where('role_id', Role::where('name', 'pharmacy')->value('id'))
                     ->first(['id'])
                 ) {
                     $send_to_id = $pharmacy_id->id;
@@ -210,7 +210,7 @@ class DBSalesRepository implements SalesRepositoryInterface
                 $errors['pharmacy_id'] = 'Pharmacy is invalid';
             }
         } elseif ($request->routeIs('pharmacy-sales-add')) {
-            $send_to_id = User::where('username', 'customer')->first(['id'])->id;
+            $send_to_id = User::where('username', 'customer')->value('id');
         }
         if (!$data) {
             $errors['product'] = 'Choose at least one existing product';

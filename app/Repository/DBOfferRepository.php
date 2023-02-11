@@ -20,14 +20,24 @@ class DBOfferRepository implements OfferRepositoryInterface
     use HttpResponse;
     use translationTrait;
     use dateTrait;
+    private Offer $offerModel;
+    private Role $roleModel;
+    private Product $productModel;
+
+    public function __construct(Offer $offer, Role $role, Product $product)
+    {
+        $this->offerModel = $offer;
+        $this->roleModel = $role;
+        $this->productModel = $product;
+    }
 
     /**
      * @return mixed
      */
     public function allOffers($request)
     {
-        $offers = Offer::join('products', 'products.id', 'offers.product_id')
-            ->where('type', Role::where('id', $this->getAuthenticatedUserInformation()->role_id)->first(['name'])->name == 'company' ? '1' : '2')
+        $offers = $this->offerModel->join('products', 'products.id', 'offers.product_id')
+            ->where('type', $this->roleModel->where('id', $this->getAuthenticatedUserInformation()->role_id)->first(['name'])->name == 'company' ? '1' : '2')
             ->whereIn('offers.user_id', $this->getSubUsersForAuthenticatedUser())
             ->where(function ($query) use ($request) {
                 if ($request->has('type')) {
@@ -68,9 +78,9 @@ class DBOfferRepository implements OfferRepositoryInterface
      */
     public function showOneOffer($offer)
     {
-        $offer = Offer::where('offers.id', $offer->id)
+        $offer = $this->offerModel->where('offers.id', $offer->id)
             ->join('products', 'products.id', 'offers.product_id')
-            ->where('type', Role::where('id', $this->getAuthenticatedUserInformation()->role_id)->first(['name'])->name == 'company' ? '1' : '2')
+            ->where('type', $this->roleModel->where('id', $this->getAuthenticatedUserInformation()->role_id)->first(['name'])->name == 'company' ? '1' : '2')
             ->whereIn('offers.user_id', $this->getSubUsersForAuthenticatedUser())
 
             ->first([
@@ -107,7 +117,7 @@ class DBOfferRepository implements OfferRepositoryInterface
 
         // return 'Good';
         if (
-            Product::where('id', $request->product_id)
+            $this->productModel->where('id', $request->product_id)
             ->where('user_id', Auth::id())
             ->first(['id'])
         ) {
@@ -117,12 +127,12 @@ class DBOfferRepository implements OfferRepositoryInterface
 
         // return;
         if (
-            Offer::where('product_id', $request->product_id)
+            $this->offerModel->where('product_id', $request->product_id)
             ->where('user_id', Auth::id())
             ->where('pay_method', $request->pay_method)
             ->where('offer_duration', $request->offer_duration)
             ->where('bonus', $bonus)
-            ->where('type', Role::where('id', $this->getAuthenticatedUserInformation()->role_id)->first(['name'])->name == 'company' ? '1' : '2')
+            ->where('type', $this->roleModel->where('id', $this->getAuthenticatedUserInformation()->role_id)->first(['name'])->name == 'company' ? '1' : '2')
             ->first(['id'])
         ) {
             $offer_exists = true;
@@ -137,19 +147,19 @@ class DBOfferRepository implements OfferRepositoryInterface
                     if (in_array($pay_method, ['1'])) {
                         // Check if the offer exists
                         // return $this->addDaysToDate($offer_duration == '0' ? 1 : ($offer_duration == '1' ? 7 : 1000));
-                        $offer = Offer::create([
+                        $offer = $this->offerModel->create([
                             'product_id' => $request->product_id,
                             'bonus' => $bonus,
                             'offer_duration' => $offer_duration,
                             'pay_method' => $pay_method,
                             'works_untill' => $this->addDaysToDate($offer_duration == '0' ? 1 : ($offer_duration == '1' ? 7 : 1000)),
-                            'type' => Role::where('id', $this->getAuthenticatedUserInformation()->role_id)->first(['name'])->name == 'company' ? '1' : '2',
+                            'type' => $this->roleModel->where('id', $this->getAuthenticatedUserInformation()->role_id)->first(['name'])->name == 'company' ? '1' : '2',
                             'user_id' => Auth::id(),
                         ]);
 
-                        $offer = Offer::where('offers.id', $offer->id)
+                        $offer = $this->offerModel->where('offers.id', $offer->id)
                             ->join('products', 'products.id', 'offers.product_id')
-                            ->where('type', Role::where('id', $this->getAuthenticatedUserInformation()->role_id)->first(['name'])->name == 'company' ? '1' : '2')
+                            ->where('type', $this->roleModel->where('id', $this->getAuthenticatedUserInformation()->role_id)->first(['name'])->name == 'company' ? '1' : '2')
                             ->first([
                                 'offers.id as id',
                                 'products.id as product_id',
@@ -194,7 +204,7 @@ class DBOfferRepository implements OfferRepositoryInterface
             $bonus = $this->setPercisionForFloatString($request->bonus);
             $product_id_exists = false;
             if (
-                Product::where('id', $request->product_id)
+                $this->productModel->where('id', $request->product_id)
                 ->where('user_id', Auth::id())
                 ->first(['id'])
             ) {
@@ -202,12 +212,12 @@ class DBOfferRepository implements OfferRepositoryInterface
             }
             $offer_exists = false;
             if (
-                Offer::where('product_id', $request->product_id)
+                $this->offerModel->where('product_id', $request->product_id)
                 ->where('user_id', Auth::id())
                 ->where('pay_method', $request->pay_method)
                 ->where('offer_duration', $request->offer_duration)
                 ->where('bonus', $bonus)
-                ->where('type', Role::where('id', $this->getAuthenticatedUserInformation()->role_id)->first(['name'])->name == 'company' ? '1' : '2')
+                ->where('type', $this->roleModel->where('id', $this->getAuthenticatedUserInformation()->role_id)->first(['name'])->name == 'company' ? '1' : '2')
                 ->where('id', '!=', $offer->id)
                 ->first(['id'])
             ) {
@@ -242,7 +252,7 @@ class DBOfferRepository implements OfferRepositoryInterface
                             }
                             if ($anyChangeOccured) {
                                 $offer->update();
-                                $offer = Offer::where('offers.id', $offer->id)
+                                $offer = $this->offerModel->where('offers.id', $offer->id)
                                     ->join('products', 'products.id', 'offers.product_id')
                                     ->first([
                                         'offers.id as id',
@@ -304,9 +314,18 @@ class DBOfferRepository implements OfferRepositoryInterface
     public function getAllOfferDurations()
     {
         return $this->resourceResponse([
-            '0' => $this->translateWord('day'),
-            '1' => $this->translateWord('week'),
-            '2' => $this->translateWord('cheek'),
+            [
+                'id' => '0',
+                'name' => $this->translateWord('day'),
+            ],
+            [
+                'id' => '1',
+                'name' => $this->translateWord('week'),
+            ],
+            [
+                'id' => '2',
+                'name' => $this->translateWord('cheek'),
+            ],
         ]);
     }
 }

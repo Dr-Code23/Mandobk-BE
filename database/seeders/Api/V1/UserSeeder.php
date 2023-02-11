@@ -32,7 +32,7 @@ class UserSeeder extends Seeder
                 'username' => 'customer',
                 'password' => Hash::make(Hash::make('customer')),
                 'full_name' => 'Unknow Customer',
-                'role_id' => Role::where('name', 'customer')->first(['id'])->id,
+                'role_id' => Role::where('name', 'customer')->value('id'),
         ]);
     }
 }

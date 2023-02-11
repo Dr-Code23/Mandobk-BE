@@ -62,7 +62,7 @@ class HomeController extends Controller
         ];
 
         // Check If the User Is A Pharmacy Sub User
-        if (Role::where('name', 'pharmacy_sub_user')->first(['id'])->id != $this->getAuthenticatedUserInformation()->role_id) {
+        if (Role::where('name', 'pharmacy_sub_user')->value('id') != $this->getAuthenticatedUserInformation()->role_id) {
             $home_info['total_purchases'] = $this->setPercisionForFloatString($total_purchases , 2 , '.' , ',');
             $home_info['total_sales'] = $this->setPercisionForFloatString($total_sales , 2 , '.' , ',');
             $home_info['total_profits'] = $this->setPercisionForFloatString($total_purchases - $total_sales , 2 , '.' , ',');

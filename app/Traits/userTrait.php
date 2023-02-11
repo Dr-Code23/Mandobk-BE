@@ -47,6 +47,8 @@ trait userTrait
 
     public function getSubUsersForAuthenticatedUser(int $user_id = null)
     {
+        // If Authenticated User is a subuser and disabled , don't let him access data
+        // But if a parent user want to access his data let him access
         $user_id = $user_id ?? Auth::id();
         $subusers = [];
 
