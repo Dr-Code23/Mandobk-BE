@@ -3,12 +3,14 @@
 namespace Api\V1\Auth;
 
 use App\Traits\fileOperationTrait;
+use App\Traits\TestingTrait;
 use Illuminate\Http\Response;
 use Tests\TestCase;
 
 class LoginTest extends TestCase
 {
     use fileOperationTrait;
+    use TestingTrait;
     private string $authPath = 'Auth/Login/';
 
     public function testLoginWithEmptyCredentials()
@@ -41,5 +43,8 @@ class LoginTest extends TestCase
             $this->writeAFileForTesting($this->authPath, 'LoggedInSuccessfully', $response->content());
         }
         $response->assertStatus(Response::HTTP_OK);
+
+        // Store The Token To use it operations want token
+        $this->setToken(json_decode($response->getContent())->data->token);
     }
 }

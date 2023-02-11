@@ -59,7 +59,7 @@ Route::group(
         Route::group(
             ['middleware' => ['auth:api'], 'prefix' => 'products'],
             function () {
-                Route::get('', [ProductsController::class, 'index']);
+                Route::get('', [ProductsController::class, 'index'])->name('v1-products-all');
                 Route::get('scientific_name', [ProductsController::class, 'ScientificNamesSelect']);
                 Route::get('commercial_name', [ProductsController::class, 'CommercialNamesSelect']);
                 Route::get('{product}', [ProductsController::class, 'show']);
@@ -79,7 +79,7 @@ Route::group(
             Route::post('/signup', [AuthController::class, 'signup'])->name('v1-signup');
 
             // Logout
-            Route::post('/logout', [AuthController::class, 'logout'])->name('web-v1-logout')
+            Route::post('/logout', [AuthController::class, 'logout'])->name('v1-logout')
                 ->middleware(['auth:api', 'isAuthenticated']);
         });
 

@@ -19,4 +19,31 @@ trait TestingTrait
 
         return $data;
     }
+
+    /**
+     * Set Token For Testing Phase.
+     *
+     * @return void
+     */
+    public function setToken(string $token)
+    {
+        if (config('test.store_response')) {
+            if (!is_dir(__DIR__.'/../../tests/responsesExamples/Auth')) {
+                mkdir(__DIR__.'/../../tests/responsesExamples/Auth', recursive: true);
+            }
+            $handle = fopen(__DIR__.'/../../tests/responsesExamples/Auth/token.txt', 'w');
+            fwrite($handle, $token);
+            fclose($handle);
+        }
+    }
+
+    /**
+     * Get Token For Testing.
+     *
+     * @return string
+     */
+    public function getToken()
+    {
+        return file_get_contents(__DIR__.'/../../tests/responsesExamples/Auth/token.txt');
+    }
 }
