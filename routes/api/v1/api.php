@@ -74,9 +74,9 @@ Route::group(
         Route::apiResource('providers', ProvidersController::class);
         Route::group(['prefix' => 'auth'], function () {
             // Login
-            Route::post('/login', [AuthController::class, 'login'])->name('web-v1-login-user');
+            Route::post('/login', [AuthController::class, 'login'])->name('v1-login');
             // Signup
-            Route::post('/signup', [AuthController::class, 'signup'])->name('web-v1-add-user');
+            Route::post('/signup', [AuthController::class, 'signup'])->name('v1-signup');
 
             // Logout
             Route::post('/logout', [AuthController::class, 'logout'])->name('web-v1-logout')

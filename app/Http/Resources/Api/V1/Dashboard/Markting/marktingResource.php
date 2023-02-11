@@ -20,7 +20,7 @@ class marktingResource extends JsonResource
             'medicine_name' => $this->medicine_name,
             'company_name' => $this->company_name,
             'discount' => $this->discount,
-            'img' => asset('storage/markting/'.$this->img),
+            'img' => asset('public/storage/markting/'.$this->img),
         ];
     }
 }
