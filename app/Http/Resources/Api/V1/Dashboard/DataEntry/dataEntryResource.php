@@ -30,7 +30,7 @@ class dataEntryResource extends JsonResource
             'limited' => $this->limited ? true : false,
             'patch_number' => $this->patch_number,
             'provider' => $this->provider,
-            'bar_code' => asset('storage/data_entry/'.$this->bar_code).'.svg',
+            'barcode' => asset('storage/data_entry/'.$this->barcode).'.svg',
             'entry_date' => $this->changeDateFormat($this->entry_date),
             'expire_date' => $this->changeDateFormat($this->expire_date),
             'created_at' => $this->changeDateFormat($this->created_at),

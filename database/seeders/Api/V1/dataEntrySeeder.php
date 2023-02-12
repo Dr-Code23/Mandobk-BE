@@ -28,7 +28,7 @@ class dataEntrySeeder extends Seeder
                 'con' => fake()->randomFloat(),
                 'limited' => fake()->boolean(),
                 'patch_number' => fake()->numberBetween(1, 100),
-                'bar_code' => '',
+                'barcode' => '',
                 'provider' => fake()->name(),
             ]);
         }

@@ -28,7 +28,7 @@ class productSeeder extends Seeder
                 'con' => fake()->randomFloat(),
                 'limited' => fake()->boolean(),
                 'patch_number' => fake()->numberBetween(1, 100),
-                'bar_code' => '',
+                'barcode' => '',
                 'user_id' => fake()->numberBetween(1, 10),
                 'role_id' => fake()->numberBetween(1, 10),
                 'provider_id' => fake()->numberBetween(1, 99),

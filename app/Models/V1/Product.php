@@ -27,7 +27,7 @@ class Product extends Model
         'patch_number',
         'limited',
         'provider_id',
-        'bar_code',
+        'barcode',
         'entry_date',
         'expire_date',
         'created_at',

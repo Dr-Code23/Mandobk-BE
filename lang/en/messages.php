@@ -21,7 +21,7 @@ return [
     'pay_method' => 'Pay Method',
     'limited' => 'Limited Exchange',
     'add_category_btn' => 'Add Category',
-    'bar_code' => 'Bar Code',
+    'barcode' => 'Bar Code',
     'print' => 'Print Categories',
     'user_id' => 'User ID',
     'status' => 'User Status',

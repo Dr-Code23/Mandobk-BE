@@ -63,7 +63,7 @@ Route::group(
                 Route::get('scientific_name', [ProductsController::class, 'ScientificNamesSelect']);
                 Route::get('commercial_name', [ProductsController::class, 'CommercialNamesSelect']);
                 Route::get('{product}', [ProductsController::class, 'show']);
-                Route::post('', [ProductsController::class, 'store']);
+                Route::post('', [ProductsController::class, 'store'])->name('v1-products-store');
             },
         );
 

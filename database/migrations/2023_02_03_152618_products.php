@@ -36,7 +36,7 @@ return new class() extends Migration {
             $table->unsignedDouble('bonus'); // Bonus
             $table->unsignedDouble('con'); // Concentrate
             $table->string('patch_number'); // Patch Number
-            $table->string('bar_code'); // QR Code
+            $table->string('barcode'); // QR Code
             $table->unsignedBigInteger('provider_id');
             $table->foreign('provider_id')
                 ->on('providers')

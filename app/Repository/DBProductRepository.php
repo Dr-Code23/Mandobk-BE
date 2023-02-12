@@ -59,7 +59,7 @@ class DBProductRepository implements ProductRepositoryInterface
             ->first([
                 'products.*',
                 'providers.name as provider',
-                'providers.id as provider_id'
+                'providers.id as provider_id',
             ]);
             if ($product) {
                 return $this->resourceResponse(new productResource($product));
@@ -129,7 +129,7 @@ class DBProductRepository implements ProductRepositoryInterface
                     'bonus' => $bonus,
                     'con' => $concentrate,
                     'patch_number' => $request->patch_number,
-                    'bar_code' => $barcode_value,
+                    'barcode' => $barcode_value,
                     'provider_id' => $provider,
                     'limited' => $admin_product ? $admin_product->limited : ($request->limited ? 1 : 0),
                     'user_id' => $authenticatedUserInformation->id,
@@ -181,7 +181,7 @@ class DBProductRepository implements ProductRepositoryInterface
         $product_exists = false;
         $provider_exists = false;
         if (
-            Product::where(function ($bind) use ($commercial_name, $scientific_name, $concentrate, $admin_roles, $product) {
+            Product::where(function ($bind) use ($commercial_name, $scientific_name, $concentrate, $product) {
                 $bind->where('com_name', $commercial_name);
                 $bind->where('sc_name', $scientific_name);
                 $bind->where('con', $concentrate);
@@ -191,8 +191,9 @@ class DBProductRepository implements ProductRepositoryInterface
             $product_exists = true;
         }
 
-        if (ProviderModel::whereIn('user_id', $this->getSubUsersForAuthenticatedUser())->first(['id']))
+        if (ProviderModel::whereIn('user_id', $this->getSubUsersForAuthenticatedUser())->first(['id'])) {
             $provider_exists = true;
+        }
         if (!$product_exists && $provider_exists) {
             $random_number = null;
             $barCodeStored = false;
@@ -250,7 +251,7 @@ class DBProductRepository implements ProductRepositoryInterface
             }
             if (($random_number && $barCodeStored) || !$random_number) {
                 if ($random_number) {
-                    $product->bar_code = $barCodeValue;
+                    $product->barcode = $barCodeValue;
                     $anyChangeOccured = true;
                 }
                 if ($anyChangeOccured) {
@@ -272,8 +273,10 @@ class DBProductRepository implements ProductRepositoryInterface
             $payload['product_exists'] = $this->translateErrorMessage('product', 'exists');
         }
 
-        if (!$product_exists)
+        if (!$product_exists) {
             $payload['provider'] = $this->translateErrorMessage('provider', 'not_exists');
+        }
+
         return $this->validation_errors($payload);
     }
 
@@ -287,11 +290,12 @@ class DBProductRepository implements ProductRepositoryInterface
     public function deleteProduct($product)
     {
         if (in_array($product->user_id, $this->getSubUsersForAuthenticatedUser())) {
-            $this->deleteBarCode($product->bar_code);
+            $this->deleteBarCode($product->barcode);
             $product->delete();
 
             return $this->success(null, 'Product Deleted Successfully');
         }
-        return $this->notFoundResponse($this->translateErrorMessage('product' , 'not_exists'));
+
+        return $this->notFoundResponse($this->translateErrorMessage('product', 'not_exists'));
     }
 }
