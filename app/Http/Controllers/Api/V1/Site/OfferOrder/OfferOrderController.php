@@ -56,12 +56,11 @@ class OfferOrderController extends Controller
         $offer = Offer::join('products', 'products.id', 'offers.product_id')
             ->where('offers.id', $request->offer_id)
             ->where('works_untill', '>=', date('Y-m-d'))
-            ->where('offers.type', $request->routeIs('order-company-show') ? '1' : '2')
+            ->where('offers.type', $request->routeIs('order-company-make') ? '1' : '2')
             ->first([
                 'products.qty',
                 'offers.id as id',
             ]);
-
         if ($offer) {
             $qty = (int) $request->qty;
             $offer_order = OfferOrder::where('offer_id', $offer->id)
@@ -85,11 +84,11 @@ class OfferOrderController extends Controller
                     ]);
                 }
 
-                return $this->success(null, 'Order ' . ($updated ? 'Updated' : 'Made') . ' , waiting admin response');
+                return $this->success(null, 'Order '.($updated ? 'Updated' : 'Made').' , waiting admin response');
             }
 
             return $this->validation_errors([
-                'quantity' => $this->translateWord('quantity') . ' Cannot Be Greater than existing quantiy (' . $offer->qty . ')',
+                'quantity' => $this->translateWord('quantity').' Cannot Be Greater than existing quantiy ('.$offer->qty.')',
             ]);
         }
 
