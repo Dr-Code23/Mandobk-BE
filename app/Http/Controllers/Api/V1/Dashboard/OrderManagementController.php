@@ -22,11 +22,11 @@ class OrderManagementController extends Controller
             ->join('products', 'products.id', 'offers.product_id')
             ->join('users as offers_users', 'offers_users.id', 'offers.user_id')
             ->where(function ($query) use ($request) {
-                if ($request->has('status') && $request->input('status') == 'pending') { // Fetch Pending Offers
-                    $query->where('status', '1');
+                if ($request->has('offer_orders.status') && $request->input('status') == 'pending') { // Fetch Pending Offers
+                    $query->where('offer_orders.status', '1');
                 } else {
                     // it's Offers Logs
-                    $query->where('status', '!=', '1');
+                    $query->where('offer_orders.status', '!=', '1');
                 }
             })
             ->select([
