@@ -16,9 +16,9 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
-index.exe
-index.cpp
-index.py
-_notes.txt
+main.exe
+main.cpp
+main.py
+notes.txt
 How_to_do.txt
 .env.live.example

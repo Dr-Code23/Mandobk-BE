@@ -32,7 +32,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RolesSeeder::class,
             UserSeeder::class,
-            // ProviderSeeder::class,
+            ProviderSeeder::class,
             // subUserSeeder::class,
             // productSeeder::class,
             // humanResourceSeeder::class,

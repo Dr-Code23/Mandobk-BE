@@ -32,15 +32,10 @@ class productRequest extends FormRequest
      */
     public function rules()
     {
-        // $admin_roles = [
-        //     Role::where('name', 'ceo')->value('id'),
-        //     Role::where('name', 'data_entry')->value('id'),
-        // ];
-        // $authenticated_user_role_id = $this->getAuthenticatedUserInformation()->role_id;
         $double = ['required', 'numeric', 'min:0.1'];
         $rules = [
-            'commercial_name' => ['required', 'max:255'],
-            'scientific_name' => ['required', 'max:255'],
+            'commercial_name' => ['required'],
+            'scientific_name' => ['required'],
             'quantity' => ['required', 'regex:'.config('regex.integer')],
             'concentrate' => $double,
             'bonus' => $double,
@@ -79,6 +74,7 @@ class productRequest extends FormRequest
             'expire_date.after' => $this->translateErrorMessage('expire_date', 'after'),
             'provider.numeric' => $this->translateErrorMessage('provider', 'numeric'),
             'generate_another_bar_code' => $this->translateErrorMessage('bar_code', 'boolean'),
+            'quantity.regex' => $this->translateErrorMessage('quantity', 'quantity.regex'),
         ];
 
         // get all fields names
@@ -92,7 +88,7 @@ class productRequest extends FormRequest
         // Numeric , between and regex validation messages
         $regex_length_names = ['quantity', 'purchase_price', 'selling_price', 'bonus', 'patch_number', 'concentrate'];
         foreach ($regex_length_names as $key) {
-            if (!in_array($key, ['patch_number', 'quantity '])) {
+            if (!in_array($key, ['patch_number'])) {
                 $messages["$key.numeric"] = $this->translateErrorMessage($key, 'numeric');
                 $messages["$key.min"] = $this->translateErrorMessage($key, 'min.numeric');
             } else {

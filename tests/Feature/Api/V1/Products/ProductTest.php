@@ -28,19 +28,31 @@ class ProductTest extends TestCase
             ->postJson(route('v1-products-store'));
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
         $response->assertJsonFragment([
-            'commercial_name' => $this->translateErrorMessage('commercial_name', 'required'),
-            'scientific_name' => $this->translateErrorMessage('scientific_name', 'required'),
-            'quantity' => $this->translateErrorMessage('quantity', 'required'),
-            'concentrate' => $this->translateErrorMessage('concentrate', 'required'),
-            'bonus' => $this->translateErrorMessage('bonus', 'required'),
-            'selling_price' => $this->translateErrorMessage('selling_price', 'required'),
-            'purchase_price' => $this->translateErrorMessage('purchase_price', 'required'),
-            'patch_number' => $this->translateErrorMessage('patch_number', 'required'),
-            'expire_date' => $this->translateErrorMessage('expire_date', 'required'),
-            'provider' => $this->translateErrorMessage('provider', 'required'),
-            'barcode' => $this->translateErrorMessage('barcode', 'required'),
+            'commercial_name' => [$this->translateErrorMessage('commercial_name', 'required')],
+            'scientific_name' => [$this->translateErrorMessage('scientific_name', 'required')],
+            'quantity' => [$this->translateErrorMessage('quantity', 'required')],
+            'concentrate' => [$this->translateErrorMessage('concentrate', 'required')],
+            'bonus' => [$this->translateErrorMessage('bonus', 'required')],
+            'selling_price' => [$this->translateErrorMessage('selling_price', 'required')],
+            'purchase_price' => [$this->translateErrorMessage('purchase_price', 'required')],
+            'patch_number' => [$this->translateErrorMessage('patch_number', 'required')],
+            'expire_date' => [$this->translateErrorMessage('expire_date', 'required')],
+            'provider' => [$this->translateErrorMessage('provider', 'required')],
+            'barcode' => [$this->translateErrorMessage('barcode', 'required')],
         ]);
-        dd($response->getContent());
+
+        $this->writeAFileForTesting($this->path, 'AllValuesAreRequired', $response->getContent());
+    }
+
+    public function testQuantity()
+    {
+        $response = $this->withHeader('Authorization', 'Bearer '.$this->getToken())
+            ->postJson(route('v1-products-store'), $this->getProductsData('quantity', 'Google'));
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+        $response->assertJsonFragment([
+            'quantity' => [$this->translateErrorMessage('quantity', 'quantity.regex')],
+        ]);
+        $this->writeAFileForTesting($this->path, 'QuantityInvalid', $response->getContent());
     }
 
     /**

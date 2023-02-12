@@ -57,8 +57,11 @@ Route::group(
         // Products
 
         Route::group(
-            ['middleware' => ['auth:api'], 'prefix' => 'products'],
+            ['middleware' => ['auth:api', 'hasProductPermissions'], 'prefix' => 'products'],
             function () {
+                Route::get('doctor_products', [ProductsController::class, 'doctorProducts'])
+                    ->withoutMiddleware('hasProductPermissions')
+                    ->middleware('hasDoctorPermissions');
                 Route::get('', [ProductsController::class, 'index'])->name('v1-products-all');
                 Route::get('scientific_name', [ProductsController::class, 'ScientificNamesSelect']);
                 Route::get('commercial_name', [ProductsController::class, 'CommercialNamesSelect']);
@@ -214,7 +217,6 @@ Route::group(
                 Route::group(
                     ['prefix' => 'doctor', 'middleware' => 'hasDoctorPermissions'],
                     function () {
-                        Route::get('products', [ProductsController::class, 'doctorProducts']);
                         // Recipes
                         Route::group(
                             ['prefix' => 'recipe'],

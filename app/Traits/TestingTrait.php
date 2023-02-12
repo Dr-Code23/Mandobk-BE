@@ -4,7 +4,7 @@ namespace App\Traits;
 
 trait TestingTrait
 {
-    public function getSignUpData(string $Test = null, string $value = ''): array
+    public function getSignUpData(string $WantToTest = null, string $Against = ''): array
     {
         $data = [
             'username' => 'Aa2302',
@@ -13,8 +13,33 @@ trait TestingTrait
             'phone' => '123123',
             'role' => '8',
         ];
-        if ($Test) {
-            $data[$Test] = $value;
+        if ($WantToTest) {
+            $data[$WantToTest] = $Against;
+        }
+
+        return $data;
+    }
+
+    public function getProductsData(string $WantToTest = null, string $Against = '')
+    {
+        $data = json_decode('{
+            "commercial_name" : "TestCommercialName",
+            "scientific_name" : "TestScientificName",
+            "quantity" : "1",
+            "purchase_price":"1.001023123",
+            "selling_price":"1",
+            "bonus" : "1",
+            "concentrate" : "2",
+            "patch_number" :"1-1-1-1",
+            "provider" :"3",
+            "limited" : true,
+            "entry_date" : "2020-12-11",
+            "expire_date" : "2023-12-12",
+            "barcode" : "23021977"
+        }', true);
+
+        if ($WantToTest) {
+            $data[$WantToTest] = $Against;
         }
 
         return $data;

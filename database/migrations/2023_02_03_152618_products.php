@@ -43,7 +43,6 @@ return new class() extends Migration {
                 ->references('id')
                 ->cascadeOnUpdate();
             $table->boolean('limited')->default(false); // Limited Exchange
-            $table->date('entry_date')->default(now()); // Entry Date In
             $table->date('expire_date')->default(now()); // Expire Date In
             $table->timestamps();
         });

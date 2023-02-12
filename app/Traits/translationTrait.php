@@ -19,7 +19,10 @@ trait translationTrait
         return new translationResource($login_view);
     }
 
-    public function translateErrorMessage(string $name, string $key)
+    /**
+     * Return Custom Error Message Vor Validation.
+     */
+    public function translateErrorMessage(string $name, string $key): string
     {
         return __('messages.'.$name).' '.__('validation.'.$key);
     }

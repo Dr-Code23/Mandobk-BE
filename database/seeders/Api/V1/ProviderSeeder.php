@@ -14,10 +14,10 @@ class ProviderSeeder extends Seeder
      */
     public function run()
     {
-        for ($i = 0; $i < 100; ++$i) {
+        for ($i = 8; $i <= 11; ++$i) {
             ProviderModel::create([
                 'name' => fake()->name(),
-                'user_id' => fake()->numberBetween(1, 12),
+                'user_id' => $i,
             ]);
         }
     }
