@@ -41,49 +41,51 @@ Route::group(
         );
 
         // Users For Select
+        Route::group(['middleware' => 'auth:api'], function () {
+            Route::group(
+                ['prefix' => 'users'],
+                function () {
+                    Route::get('/storehouse', [UsersController::class, 'getUsersForSelectBox'])
+                        ->middleware(['hasCompanyPermissions'])
+                        ->name('roles-storehouse-all');
+                    Route::get('/pharmacy', [UsersController::class, 'getUsersForSelectBox'])
+                        ->middleware(['hasStorehousePermissions'])
+                        ->name('roles-pharmacy-all');
+                }
+            );
 
-        Route::group(
-            ['prefix' => 'users', 'middleware' => ['auth:api']],
-            function () {
-                Route::get('/storehouse', [UsersController::class, 'getUsersForSelectBox'])
-                    ->middleware(['hasCompanyPermissions'])
-                    ->name('roles-storehouse-all');
-                Route::get('/pharmacy', [UsersController::class, 'getUsersForSelectBox'])
-                    ->middleware(['hasStorehousePermissions'])
-                    ->name('roles-pharmacy-all');
-            }
-        );
+            // Products
 
-        // Products
+            Route::group(
+                ['middleware' => ['auth:api', 'hasProductPermissions'], 'prefix' => 'products'],
+                function () {
+                    Route::get('doctor_products', [ProductsController::class, 'doctorProducts'])
+                        ->withoutMiddleware('hasProductPermissions')
+                        ->middleware('hasDoctorPermissions');
+                    Route::get('', [ProductsController::class, 'index'])->name('v1-products-all');
+                    Route::get('scientific_name', [ProductsController::class, 'ScientificNamesSelect']);
+                    Route::get('commercial_name', [ProductsController::class, 'CommercialNamesSelect']);
+                    Route::get('{product}', [ProductsController::class, 'show']);
+                    Route::post('', [ProductsController::class, 'store'])->name('v1-products-store');
+                },
+            );
 
-        Route::group(
-            ['middleware' => ['auth:api', 'hasProductPermissions'], 'prefix' => 'products'],
-            function () {
-                Route::get('doctor_products', [ProductsController::class, 'doctorProducts'])
-                    ->withoutMiddleware('hasProductPermissions')
-                    ->middleware('hasDoctorPermissions');
-                Route::get('', [ProductsController::class, 'index'])->name('v1-products-all');
-                Route::get('scientific_name', [ProductsController::class, 'ScientificNamesSelect']);
-                Route::get('commercial_name', [ProductsController::class, 'CommercialNamesSelect']);
-                Route::get('{product}', [ProductsController::class, 'show']);
-                Route::post('', [ProductsController::class, 'store'])->name('v1-products-store');
-            },
-        );
+            // Sales
+            Route::group(
+                ['prefix' => 'sales', 'middleware' => ['hasSalesPermissions', 'auth:api']],
+                function () {
+                    Route::get('', [SalesController::class, 'index'])->name('pharmacy-sales-show');
+                    Route::post('', [SalesController::class, 'store'])->name('pharmacy-sales-add');
+                }
+            );
 
-        // Sales
-        Route::group(
-            ['prefix' => 'sales', 'middleware' => ['hasSalesPermissions']],
-            function () {
-                Route::get('', [SalesController::class, 'index'])->name('pharmacy-sales-show');
-                Route::post('', [SalesController::class, 'store'])->name('pharmacy-sales-add');
-            }
-        );
+            Route::apiResource('providers', ProvidersController::class);
+        });
 
         // Markting Offers
         Route::get('markting_offers', [MarktingController::class, 'index']);
         Route::get('offer_duration', [CompanyOffersController::class, 'offerDurations']);
         // Providers
-        Route::apiResource('providers', ProvidersController::class)->middleware('auth:api');
         Route::group(['prefix' => 'auth'], function () {
             // Login
             Route::post('/login', [AuthController::class, 'login'])->name('v1-login');
