@@ -25,7 +25,7 @@ class OrderManagementResource extends JsonResource
             'purchase_price' => $this->purchase_price,
             'quantity' => $this->quantity,
             'status' => $status == '0' ? 'Rejected' : ($status == '1' ? 'Pending' : 'Approved'),
-            'bonus' => $this->bonus,
+            'bonus' => $this->bonus.'%',
             'created_at' => $this->created_at,
         ];
     }
