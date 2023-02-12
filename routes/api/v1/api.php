@@ -83,7 +83,7 @@ Route::group(
         Route::get('markting_offers', [MarktingController::class, 'index']);
         Route::get('offer_duration', [CompanyOffersController::class, 'offerDurations']);
         // Providers
-        Route::apiResource('providers', ProvidersController::class);
+        Route::apiResource('providers', ProvidersController::class)->middleware('auth:api');
         Route::group(['prefix' => 'auth'], function () {
             // Login
             Route::post('/login', [AuthController::class, 'login'])->name('v1-login');

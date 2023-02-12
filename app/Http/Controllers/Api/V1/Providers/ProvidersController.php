@@ -11,7 +11,6 @@ use App\Traits\HttpResponse;
 use App\Traits\StringTrait;
 use App\Traits\translationTrait;
 use App\Traits\userTrait;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ProvidersController extends Controller
@@ -20,6 +19,7 @@ class ProvidersController extends Controller
     use userTrait;
     use translationTrait;
     use StringTrait;
+
     public function index()
     {
         return $this->resourceResponse(
@@ -34,25 +34,27 @@ class ProvidersController extends Controller
                 new ProviderResource($provider)
             );
         }
+
         return $this->notFoundResponse($this->translateErrorMessage('provider', 'not_exists'));
     }
 
     /**
-     * Summary of store
-     * @param ProvidersRequest $request
+     * Summary of store.
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(ProvidersRequest $request)
     {
-
         $name = $this->strLimit($request->input('name'), 50);
-        if (!ProviderModel::where('name', $name)->whereIn('user_id', $this->getSubUsersForAuthenticatedUser())->first(['id'])) {
+        if (!ProviderModel::where('name', $name)->whereIn('user_id', $this->getSubUsersForAuthenticatedUser())->value('id')) {
             $provider = ProviderModel::create([
                 'name' => $name,
-                'user_id' => Auth::id()
+                'user_id' => Auth::id(),
             ]);
+
             return $this->createdResponse(new ProviderResource($provider));
         }
+
         return $this->validation_errors(['provider' => $this->translateErrorMessage('provider', 'exists')]);
     }
 
@@ -64,21 +66,27 @@ class ProvidersController extends Controller
                 ->whereIn('user_id', $this->getSubUsersForAuthenticatedUser())
                 ->where('id', '!=', $provider->id)->first(['id'])
         ) {
-            if($name != $provider->name){
+            if ($name != $provider->name) {
                 $provider->name = $name;
                 $provider->update();
-                return $this->success(new ProviderResource($provider) , 'Provider Updated Successfully');
+
+                return $this->success(new ProviderResource($provider), 'Provider Updated Successfully');
             }
+
             return $this->noContentResponse();
         }
+
         return $this->validation_errors(['provider' => $this->translateErrorMessage('provider', 'exists')]);
     }
 
-    public function destroy(ProviderModel $provider){
-        if(in_array($provider->user_id , $this->getSubUsersForAuthenticatedUser())){
+    public function destroy(ProviderModel $provider)
+    {
+        if (in_array($provider->user_id, $this->getSubUsersForAuthenticatedUser())) {
             $provider->delete();
+
             return $this->success(null, 'Provider Deleted Successfully');
         }
+
         return $this->notFoundResponse('Provider not found');
     }
 }
