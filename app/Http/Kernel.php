@@ -74,5 +74,6 @@ class Kernel extends HttpKernel
         'hasVisitorPermissions' => \App\Http\Middleware\hasVisitorAccess::class,
         'hasOrderManagementPermissions' => \App\Http\Middleware\hasOrderManagementAccess::class,
         'hasProductPermissions' => \App\Http\Middleware\hasProductAccess::class,
+        'hasSalesPermissions' => \App\Http\Middleware\hasSalesAccess::class,
     ];
 }

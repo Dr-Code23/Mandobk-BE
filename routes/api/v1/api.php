@@ -70,6 +70,15 @@ Route::group(
             },
         );
 
+        // Sales
+        Route::group(
+            ['prefix' => 'sales', 'middleware' => ['hasSalesPermissions']],
+            function () {
+                Route::get('', [SalesController::class, 'index'])->name('pharmacy-sales-show');
+                Route::post('', [SalesController::class, 'store'])->name('pharmacy-sales-add');
+            }
+        );
+
         // Markting Offers
         Route::get('markting_offers', [MarktingController::class, 'index']);
         Route::get('offer_duration', [CompanyOffersController::class, 'offerDurations']);

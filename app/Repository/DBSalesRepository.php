@@ -2,6 +2,8 @@
 
 namespace App\Repository;
 
+use App\Http\Resources\Api\V1\Site\Sales\SalesCollection;
+use App\Http\Resources\Api\V1\Site\Sales\SalesResource;
 use App\Models\User;
 use App\Models\V1\Product;
 use App\Models\V1\Role;
@@ -36,49 +38,7 @@ class DBSalesRepository implements SalesRepositoryInterface
                 'sales.updated_at as updated_at',
             ]);
 
-        return $sales;
-        // Then it's Company To Storehouse
-        // $sales = Sale::join('users', function ($join) use ($pharmacy_role, $pharmacy_sub_user_role, $type) {
-        //     $join->on('users.id', 'sales.to_id')
-        //             ->where(function ($query) use ($pharmacy_role, $pharmacy_sub_user_role, $type) {
-        //                 // From Company To Storehouse
-        //                 if ($type == 1) {
-        //                     $query->where('users.role_id', Role::where('name', 'storehouse')->value('id'));
-        //                 }
-        //                 // From Storehouse To Pharmacy (Admin or sub_user)
-        //                 elseif ($type == 2) {
-        //                     $query->where('users.role_id', '=', $pharmacy_role)
-        //                         ->orWhere('users.role_id', '=', $pharmacy_sub_user_role);
-        //                 }
-        //                 // From Pharmacy(Admin or sub_user) to random customer
-        //                 elseif ($type == 3) {
-        //                     $query->where('users.role_id', '=', Role::where('name', 'customer')->value('id'));
-        //                 } else {
-        //                     $query->where('users.role_id', '=', 1000); // Impossible to occur
-        //                 }
-        //             }
-        //             );
-        // })
-        // ->where(function ($query) use ($pharmacy_sub_user_role, $pharmacy_role) {
-        //     $authenticated_user_role_id = $this->getAuthenticatedUserInformation()->role_id;
-        //     if (in_array($authenticated_user_role_id, [$pharmacy_role, $pharmacy_sub_user_role])) {
-        //         $sub_users = $this->getSubUsersForAuthenticatedUser();
-        //         // if logged user is pharmacy check sales made by pharmacy sub users as well
-        //         $query->where('users.from_id', Auth::id());
-        //         if ($sub_users) {
-        //             $query->orWhereIn('users.from_id', $sub_users);
-        //         }
-        //     }
-        // })
-        // ->get([
-        //     'sales.id as id',
-        //     'sales.from_id as from_id',
-        //     'sales.to_id as to_id',
-        //     'users.full_name as full_name',
-        //     'sales.details as details',
-        //     'sales.created_at as created_at',
-        //     'sales.updated_at as updated_at',
-        // ]);
+        return $this->resourceResponse(new SalesCollection($sales));
     }
 
     /**
@@ -234,8 +194,9 @@ class DBSalesRepository implements SalesRepositoryInterface
                 'details' => $data,
                 'total' => $total_sales,
             ]);
+            $sale->full_name = User::where('id', $send_to_id)->value('full_name');
 
-            return $this->success($sale, 'Sale Created Successfully');
+            return $this->createdResponse(new SalesResource($sale), $this->translateSuccessMessage('product', 'created'));
         }
     }
 }
