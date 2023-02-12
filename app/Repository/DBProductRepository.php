@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Http\Requests\Api\V1\Product\productRequest;
 use App\Http\Resources\Api\V1\Product\productCollection;
 use App\Http\Resources\Api\V1\Product\productResource;
 use App\Models\V1\Product;
@@ -13,6 +14,8 @@ use App\Traits\HttpResponse;
 use App\Traits\roleTrait;
 use App\Traits\translationTrait;
 use App\Traits\userTrait;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 
 class DBProductRepository implements ProductRepositoryInterface
 {
@@ -66,18 +69,18 @@ class DBProductRepository implements ProductRepositoryInterface
             }
         }
 
-        return $this->notFoundResponse('Provider Not Found For Logged User');
+        return $this->notFoundResponse($this->translateSuccessMessage('provider', 'not_found'));
     }
 
     /**
-     * @param mixed $request
+     * Store Product.
      *
-     * @return mixed
+     * @param productRequest $request
+     *
+     * @return JsonResponse
      */
     public function storeProduct($request)
     {
-        // Get Authenticated user information
-        $authenticatedUserInformation = $this->getAuthenticatedUserInformation();
         $commercial_name = $this->sanitizeString($request->commercial_name);
         $scientific_name = $this->sanitizeString($request->scientific_name);
         $provider = $this->sanitizeString($request->provider);
@@ -120,7 +123,7 @@ class DBProductRepository implements ProductRepositoryInterface
             $barcode_value = $barcode;
 
             if ($this->storeBarCodeSVG('products', $barcode, $barcode_value)) {
-                $data_entry = Product::create([
+                $product = Product::create([
                     'com_name' => $commercial_name,
                     'sc_name' => $scientific_name,
                     'qty' => $request->quantity,
@@ -132,13 +135,14 @@ class DBProductRepository implements ProductRepositoryInterface
                     'barcode' => $barcode_value,
                     'provider_id' => $provider,
                     'limited' => $admin_product ? $admin_product->limited : ($request->limited ? 1 : 0),
-                    'user_id' => $authenticatedUserInformation->id,
-                    'role_id' => $authenticatedUserInformation->role_id,
+                    'user_id' => Auth::id(),
+                    'role_id' => Auth::user()->role_id,
                     'entry_date' => $request->entry_date,
                     'expire_date' => $request->expire_date,
                 ]);
+                $product->provider = $product->provider->name;
 
-                return $this->success(new productResource($data_entry), 'Product Created Successfully');
+                return $this->success(new productResource($product), $this->translateSuccessMessage('product', 'created'));
             }
 
             // Failed To Create Or Store the barcode

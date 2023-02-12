@@ -210,6 +210,9 @@ return [
     'discount' => [
         'regex' => 'format is invalid',
     ],
+    'created' => 'Created Successfully',
+    'updated' => 'Updated Successfully',
+    'deleted' => 'Deleted Successfully',
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines

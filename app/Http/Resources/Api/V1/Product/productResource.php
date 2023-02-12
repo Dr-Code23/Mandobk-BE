@@ -28,10 +28,9 @@ class productResource extends JsonResource
             'provider' => $this->provider,
             'provider_id' => $this->provider_id,
             'barcode' => asset('/storage/products/'.$this->barcode).'.svg',
-            'entry_date' => $this->entry_date,
             'expire_date' => $this->expire_date,
             'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            // 'updated_at' => $this->updated_at,
         ];
         if ($request->is('data_entry/*') || $request->is('data_entry/')) {
             $resource['limited'] = $this->limited ? true : false;

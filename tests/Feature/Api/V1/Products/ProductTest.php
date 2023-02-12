@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Api\V1\Products;
 
+use App\Models\V1\Product;
 use App\Traits\fileOperationTrait;
 use App\Traits\TestingTrait;
 use App\Traits\translationTrait;
@@ -15,7 +16,7 @@ class ProductTest extends TestCase
     use translationTrait;
     private string $path = 'Products/';
 
-    public function testLogin(array $credentials = ['username' => 'visitor', 'password' => 'visitor'])
+    public function testLogin(array $credentials = ['username' => 'company', 'password' => 'company'])
     {
         $response = $this->postJson(route('v1-login'), $credentials);
         $response->assertStatus(Response::HTTP_OK);
@@ -55,11 +56,15 @@ class ProductTest extends TestCase
         $this->writeAFileForTesting($this->path, 'QuantityInvalid', $response->getContent());
     }
 
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
+    public function testStoreProductSuccessfully()
+    {
+        $response = $this->withHeader('Authorization', 'Bearer '.$this->getToken())
+            ->postJson(route('v1-products-store'), $this->getProductsData());
+        $response->assertStatus(Response::HTTP_OK);
+        Product::where('id', json_decode($response->getContent())->data->id)->delete();
+        $this->writeAFileForTesting($this->path, 'StoreProductSuccessfully', $response->getContent());
+    }
+
     public function testGetAllProducts()
     {
         $response = $this->withHeader('Authorization', 'Bearer '.$this->getToken())

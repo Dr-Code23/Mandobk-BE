@@ -33,6 +33,11 @@ class Product extends Model
         'updated_at',
     ];
 
+    public function provider()
+    {
+        return $this->hasOne(ProviderModel::class, 'id', 'provider_id');
+    }
+
     public function patchNumber(): Attribute
     {
         return Attribute::make(
@@ -64,14 +69,6 @@ class Product extends Model
         );
     }
 
-    public function entryDate(): Attribute
-    {
-        return Attribute::make(
-            get: fn ($val) => $this->changeDateFormat($val, 'Y-m-d'),
-            set: fn ($val) => $this->changeDateFormat($val, 'Y-m-d')
-        );
-    }
-
     public function expireDate(): Attribute
     {
         return Attribute::make(
@@ -84,7 +81,6 @@ class Product extends Model
     {
         return Attribute::make(
             get: fn ($val) => $this->changeDateFormat($val, 'Y-m-d'),
-            set: fn ($val) => $this->changeDateFormat($val, 'Y-m-d')
         );
     }
 

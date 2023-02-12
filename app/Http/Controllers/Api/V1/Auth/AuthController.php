@@ -74,7 +74,6 @@ class AuthController extends Controller
                 'role_id' => $role->id,
             ]);
             $token = Auth::attempt(['username' => $req->username, 'password' => $req->password]);
-            // $jwt_cookie = cookie('jwt_token', $token, 1e9);
 
             return $this->success([
                 'full_name' => $this->strLimit($full_name),
