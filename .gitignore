@@ -16,3 +16,8 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+main.exe
+main.cpp
+main.py
+_notes.txt
+How_to_do.txt
