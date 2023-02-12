@@ -47,8 +47,8 @@ class MarktingController extends Controller
             // Store image
 
             // Change Directory Permissions To Show images
-            if (!is_dir(__DIR__.'/../storage/app/public/markting')) {
-                mkdir(__DIR__.'/../storage/app/public/markting');
+            if (!is_dir('/storage/app/public/markting')) {
+                mkdir('/storage/app/public/markting');
             }
             $image_name = explode('/', $request->file('img')->store('public/markting'));
             $image_name = $image_name[count($image_name) - 1];
