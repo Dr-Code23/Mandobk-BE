@@ -45,6 +45,11 @@ class MarktingController extends Controller
         // Check if the ad is already exists
         if (!Markting::where('medicine_name', $medicine_name)->where('company_name', $company_name)->where('discount', $discount)->first(['id'])) {
             // Store image
+
+            // Change Directory Permissions To Show images
+            if (!is_dir(__DIR__.'/../storage/app/public/markting')) {
+                mkdir(__DIR__.'/../storage/app/public/markting');
+            }
             $image_name = explode('/', $request->file('img')->store('public/markting'));
             $image_name = $image_name[count($image_name) - 1];
             $ad = Markting::create([
