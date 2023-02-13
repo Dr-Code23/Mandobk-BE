@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\V1\Site\Home;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Api\V1\Product\productCollection;
+use App\Http\Resources\Api\V1\Product\ProductCollection;
 use App\Models\V1\Product;
 use App\Models\V1\Role;
 use App\Models\V1\Sale;
@@ -70,7 +70,7 @@ class HomeController extends Controller
             $home_info['monthly_sales'] = $this->setPercisionForFloatString($monthly_sales, 2, '.', ',');
             $home_info['monthly_profits'] = $this->setPercisionForFloatString($monthly_purchases - $monthly_sales, 2, '.', ',');
         }
-        $home_info['products'] = new productCollection(Product::whereIn('user_id', $this->getSubUsersForAuthenticatedUser())->limit(7)->get());
+        $home_info['products'] = new ProductCollection(Product::whereIn('user_id', $this->getSubUsersForAuthenticatedUser())->limit(7)->get());
 
         return $this->resourceResponse($home_info);
     }

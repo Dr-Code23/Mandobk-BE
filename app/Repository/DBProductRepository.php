@@ -3,8 +3,8 @@
 namespace App\Repository;
 
 use App\Http\Requests\Api\V1\Product\productRequest;
-use App\Http\Resources\Api\V1\Product\productCollection;
-use App\Http\Resources\Api\V1\Product\productResource;
+use App\Http\Resources\Api\V1\Product\ProductCollection;
+use App\Http\Resources\Api\V1\Product\ProductResource;
 use App\Models\V1\Product;
 use App\Models\V1\ProviderModel;
 use App\Models\V1\Role;
@@ -47,7 +47,7 @@ class DBProductRepository implements ProductRepositoryInterface
         }
         // ->paginate();
 
-        return $this->resourceResponse(new productCollection($products));
+        return $this->resourceResponse(new ProductCollection($products));
     }
 
     /**
@@ -65,7 +65,7 @@ class DBProductRepository implements ProductRepositoryInterface
                 'providers.id as provider_id',
             ]);
             if ($product) {
-                return $this->resourceResponse(new productResource($product));
+                return $this->resourceResponse(new ProductResource($product));
             }
         }
 
@@ -142,7 +142,7 @@ class DBProductRepository implements ProductRepositoryInterface
                 ]);
                 $product->provider = $product->provider->name;
 
-                return $this->success(new productResource($product), $this->translateSuccessMessage('product', 'created'));
+                return $this->success(new ProductResource($product), $this->translateSuccessMessage('product', 'created'));
             }
 
             // Failed To Create Or Store the barcode
@@ -261,7 +261,7 @@ class DBProductRepository implements ProductRepositoryInterface
                 if ($anyChangeOccured) {
                     $product->update();
 
-                    return $this->success(new productResource($product), 'Product Updated Successfully');
+                    return $this->success(new ProductResource($product), 'Product Updated Successfully');
                 }
 
                 return $this->noContentResponse();
