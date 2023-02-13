@@ -4,7 +4,7 @@ namespace App\Http\Resources\Api\V1\Dashboard\MonitorAndEvaluation;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class monitorAndEvaluationCollection extends ResourceCollection
+class MonitorAndEvaluationCollection extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.

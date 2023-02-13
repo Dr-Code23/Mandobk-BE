@@ -5,7 +5,7 @@ namespace App\Http\Resources\Api\V1\Roles;
 use App\Traits\TranslationTrait;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class roleResource extends JsonResource
+class RoleResource extends JsonResource
 {
     use TranslationTrait;
 

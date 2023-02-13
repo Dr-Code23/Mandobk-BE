@@ -4,7 +4,7 @@ namespace App\Http\Resources\Api\V1\Dashboard\Markting;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class marktingResource extends JsonResource
+class MarktingResource extends JsonResource
 {
     /**
      * Transform the resource into an array.

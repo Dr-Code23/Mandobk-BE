@@ -8,7 +8,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password as RulesPassword;
 
-class monitorAndEvaluationRequest extends FormRequest
+class MonitorAndEvaluationRequest extends FormRequest
 {
     use HttpResponse;
     use TranslationTrait;

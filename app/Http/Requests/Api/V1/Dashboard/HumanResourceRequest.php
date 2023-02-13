@@ -6,7 +6,7 @@ use App\Traits\HttpResponse;
 use App\Traits\TranslationTrait;
 use Illuminate\Foundation\Http\FormRequest;
 
-class humanResourceRequest extends FormRequest
+class HumanResourceRequest extends FormRequest
 {
     use TranslationTrait;
     use HttpResponse;

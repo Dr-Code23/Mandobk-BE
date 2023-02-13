@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Api\V1\Dashboard;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\V1\Dashboard\humanResourceRequest;
-use App\Http\Resources\Api\V1\Dashboard\HumanResource\humanResourceCollection;
-use App\Http\Resources\Api\V1\Dashboard\HumanResource\humanResourceResource;
+use App\Http\Requests\Api\V1\Dashboard\HumanResourceRequest;
+use App\Http\Resources\Api\V1\Dashboard\HumanResource\HumanResourceCollection;
+use App\Http\Resources\Api\V1\Dashboard\HumanResource\HumanResourceResource;
 use App\Models\User;
 use App\Models\V1\HumanResource;
 use App\Traits\DateTrait;
@@ -41,7 +41,7 @@ class HumanResourceController extends Controller
             )
             ->get();
         if ($users) {
-            return $this->resourceResponse(new humanResourceCollection($users));
+            return $this->resourceResponse(new HumanResourceCollection($users));
         }
 
         return $this->notFoundResponse();
@@ -65,13 +65,13 @@ class HumanResourceController extends Controller
             )
             ->first();
         if ($user) {
-            return $this->resourceResponse(new humanResourceResource($user));
+            return $this->resourceResponse(new HumanResourceResource($user));
         }
 
         return $this->notFoundResponse();
     }
 
-    public function storeOrUpdate(humanResourceRequest $request)
+    public function storeOrUpdate(HumanResourceRequest $request)
     {
         // Check if the user is not CEO
         $user = User::find($request->user_id)->join('roles', 'users.role_id', 'roles.id')
@@ -99,7 +99,7 @@ class HumanResourceController extends Controller
                     $human_resource->update();
                     $human_resource->full_name = $fullName_Role->full_name;
 
-                    return $this->success(new humanResourceResource($human_resource), 'Resource Updated Successfully');
+                    return $this->success(new HumanResourceResource($human_resource), 'Resource Updated Successfully');
                 }
 
                 return $this->noContentResponse();
@@ -114,7 +114,7 @@ class HumanResourceController extends Controller
             $human_resource->full_name = $fullName_Role->full_name;
             $human_resource->role_name = $fullName_Role->full_name;
 
-            return $this->success(new humanResourceResource($human_resource), 'Resource Created Successfully');
+            return $this->success(new HumanResourceResource($human_resource), 'Resource Created Successfully');
         }
         $this->notFoundResponse();
     }

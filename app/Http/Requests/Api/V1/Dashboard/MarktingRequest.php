@@ -7,7 +7,7 @@ use App\Traits\TranslationTrait;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 
-class marktingRequest extends FormRequest
+class MarktingRequest extends FormRequest
 {
     use TranslationTrait;
     use HttpResponse;

@@ -5,7 +5,7 @@ namespace App\Http\Resources\Api\V1\Dashboard\MonitorAndEvaluation;
 use App\Traits\DateTrait;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class monitorAndEvaluationResrouce extends JsonResource
+class MonitorAndEvaluationResrouce extends JsonResource
 {
     use DateTrait;
 

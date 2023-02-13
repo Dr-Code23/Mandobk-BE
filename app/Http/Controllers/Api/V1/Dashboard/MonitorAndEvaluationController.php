@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Api\V1\Dashboard;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\V1\Dashboard\monitorAndEvaluationRequest;
-use App\Http\Resources\Api\V1\Dashboard\MonitorAndEvaluation\monitorAndEvaluationCollection;
-use App\Http\Resources\Api\V1\Dashboard\MonitorAndEvaluation\monitorAndEvaluationResrouce;
+use App\Http\Requests\Api\V1\Dashboard\MonitorAndEvaluationRequest;
+use App\Http\Resources\Api\V1\Dashboard\MonitorAndEvaluation\MonitorAndEvaluationCollection;
+use App\Http\Resources\Api\V1\Dashboard\MonitorAndEvaluation\MonitorAndEvaluationResrouce;
 use App\Models\User;
 use App\Models\V1\Role;
 use App\Traits\HttpResponse;
@@ -30,14 +30,14 @@ class MonitorAndEvaluationController extends Controller
      */
     public function lang_content()
     {
-        return $this->resourceResponse($this->getWebTranslationFile('Dashboard/monitorAndEvaluationTranslationFile'));
+        return $this->resourceResponse($this->getWebTranslationFile('Dashboard/MonitorAndEvaluationTranslationFile'));
     }
 
     public function index()
     {
         // Monitor Collection Not Works Maybe because different models
         return $this->resourceResponse(
-            new monitorAndEvaluationCollection(
+            new MonitorAndEvaluationCollection(
                 User::join('roles', 'roles.id', 'users.role_id')
                     ->whereIn('roles.name', config('roles.monitor_roles'))
                     ->where('users.id', '!=', Auth::id())
@@ -62,7 +62,7 @@ class MonitorAndEvaluationController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse|array
      */
-    public function store(monitorAndEvaluationRequest $req)
+    public function store(MonitorAndEvaluationRequest $req)
     {
         $full_name = $this->sanitizeString($req->full_name);
         $username = $this->sanitizeString($req->username);
@@ -78,7 +78,7 @@ class MonitorAndEvaluationController extends Controller
             ]);
             $user->role_name = $role->name;
 
-            return $this->success(new monitorAndEvaluationResrouce($user), 'User Created Successfully');
+            return $this->success(new MonitorAndEvaluationResrouce($user), 'User Created Successfully');
         }
 
         return $this->validation_errors($this->translateErrorMessage('role', 'not_found'));
@@ -95,7 +95,7 @@ class MonitorAndEvaluationController extends Controller
             if ($role = Role::where('id', $user->role_id)->whereIn('name', config('roles.monitor_roles'))->first(['name'])) {
                 $user->role_name = $role->name;
 
-                return $this->resourceResponse(new monitorAndEvaluationResrouce($user));
+                return $this->resourceResponse(new MonitorAndEvaluationResrouce($user));
             }
 
             return $this->validation_errors($this->translateErrorMessage('role', 'not_found'));
@@ -109,7 +109,7 @@ class MonitorAndEvaluationController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(monitorAndEvaluationRequest $req, User $user)
+    public function update(MonitorAndEvaluationRequest $req, User $user)
     {
         if ($user->id != Auth::id()) {
             $role = Role::where('id', $user->role_id)->whereIn('name', config('roles.monitor_roles'))->first(['name as role_name', 'id']);
@@ -141,7 +141,7 @@ class MonitorAndEvaluationController extends Controller
                     $user->update();
                     $user->role_name = $role->role_name;
 
-                    return $this->success(new monitorAndEvaluationResrouce($user), 'User Updated Successfully');
+                    return $this->success(new MonitorAndEvaluationResrouce($user), 'User Updated Successfully');
                 }
 
                 // No Thing Changed so Return No Content Reponse

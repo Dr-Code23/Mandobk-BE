@@ -297,7 +297,7 @@ Route::group(
                     Route::group(
                         ['prefix' => 'monitor_and_evaluation', 'middleware' => ['hasMonitorAndEvaluationPermissions']],
                         function () {
-                            Route::get('view', [MonitorAndEvaluationController::class, 'lang_content', 'monitorAndEvaluationController@lang_content']);
+                            Route::get('view', [MonitorAndEvaluationController::class, 'lang_content', 'MonitorAndEvaluationController@lang_content']);
                             Route::get('', [MonitorAndEvaluationController::class, 'index']);
                             Route::get('/{user}', [MonitorAndEvaluationController::class, 'show']);
                             Route::post('', [MonitorAndEvaluationController::class, 'store']);
