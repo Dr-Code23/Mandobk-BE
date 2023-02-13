@@ -4,13 +4,13 @@ namespace Api\V1\Auth;
 
 use App\Models\User;
 use App\Traits\TestingTrait;
-use App\Traits\translationTrait;
+use App\Traits\TranslationTrait;
 use Illuminate\Http\Response;
 use Tests\TestCase;
 
 class SignupTest extends TestCase
 {
-    use translationTrait;
+    use TranslationTrait;
     use TestingTrait;
     private string $signupPath = 'Auth/Signup';
 

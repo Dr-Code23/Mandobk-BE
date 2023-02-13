@@ -2,12 +2,12 @@
 
 namespace App\Http\Resources\Api\V1\Dashboard\DataEntry;
 
-use App\Traits\dateTrait;
+use App\Traits\DateTrait;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class dataEntryResource extends JsonResource
 {
-    use dateTrait;
+    use DateTrait;
 
     /**
      * Transform the resource into an array.

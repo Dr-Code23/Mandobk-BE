@@ -2,12 +2,12 @@
 
 namespace App\Http\Resources\Api\V1\PayMethod;
 
-use App\Traits\translationTrait;
+use App\Traits\TranslationTrait;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class PayMethodResource extends JsonResource
 {
-    use translationTrait;
+    use TranslationTrait;
 
     /**
      * Transform the resource into an array.

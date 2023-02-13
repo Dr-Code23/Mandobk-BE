@@ -2,7 +2,7 @@
 
 namespace App\Models\V1;
 
-use App\Traits\dateTrait;
+use App\Traits\DateTrait;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 class Offer extends Model
 {
     use HasFactory;
-    use dateTrait;
+    use DateTrait;
     protected $fillable = [
         'bonus',
         'product_id',

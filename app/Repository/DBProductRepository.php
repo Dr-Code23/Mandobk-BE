@@ -9,21 +9,21 @@ use App\Models\V1\Product;
 use App\Models\V1\ProviderModel;
 use App\Models\V1\Role;
 use App\RepositoryInterface\ProductRepositoryInterface;
-use App\Traits\dateTrait;
+use App\Traits\DateTrait;
 use App\Traits\HttpResponse;
-use App\Traits\roleTrait;
-use App\Traits\translationTrait;
-use App\Traits\userTrait;
+use App\Traits\RoleTrait;
+use App\Traits\TranslationTrait;
+use App\Traits\UserTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
 class DBProductRepository implements ProductRepositoryInterface
 {
     use HttpResponse;
-    use userTrait;
-    use translationTrait;
-    use dateTrait;
-    use roleTrait;
+    use UserTrait;
+    use TranslationTrait;
+    use DateTrait;
+    use RoleTrait;
 
     public function showAllProducts()
     {

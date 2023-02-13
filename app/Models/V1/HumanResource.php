@@ -3,7 +3,7 @@
 namespace App\Models\V1;
 
 use App\Models\User;
-use App\Traits\dateTrait;
+use App\Traits\DateTrait;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 class HumanResource extends Model
 {
     use HasFactory;
-    use dateTrait;
+    use DateTrait;
     public $timestamps = false;
     protected $fillable = [
         'user_id',

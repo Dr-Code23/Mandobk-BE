@@ -3,15 +3,15 @@
 namespace App\Http\Controllers\Api\V1\Site\Storehouse;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\V1\Offers\OffersRequest;
+use App\Http\Requests\Api\V1\Offers\OfferRequest;
 use App\Models\V1\Offer;
 use App\RepositoryInterface\OfferRepositoryInterface;
-use App\Traits\userTrait;
+use App\Traits\UserTrait;
 use Symfony\Component\HttpFoundation\Request as HttpFoundationRequest;
 
 class StorehouseOffersController extends Controller
 {
-    use userTrait;
+    use UserTrait;
     private $storehouseOffers;
 
     public function __construct(OfferRepositoryInterface $storehouseOffers)
@@ -29,12 +29,12 @@ class StorehouseOffersController extends Controller
         return $this->storehouseOffers->showOneOffer($offer);
     }
 
-    public function store(OffersRequest $request)
+    public function store(OfferRequest $request)
     {
         return $this->storehouseOffers->storeOffer($request);
     }
 
-    public function update(OffersRequest $request, Offer $offer)
+    public function update(OfferRequest $request, Offer $offer)
     {
         return $this->storehouseOffers->updateOffer($request, $offer);
     }

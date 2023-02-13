@@ -2,12 +2,12 @@
 
 namespace App\Http\Resources\Api\V1\Site\Recipes;
 
-use App\Traits\roleTrait;
+use App\Traits\RoleTrait;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class RecipeResource extends JsonResource
 {
-    use roleTrait;
+    use RoleTrait;
 
     /**
      * Transform the resource into an array.
@@ -24,13 +24,14 @@ class RecipeResource extends JsonResource
             $resource['random_number'] = $this->random_number;
             $resource['details'] = $this->details;
             $resource['updated_at'] = $this->updated_at;
-        } else if ($this->roleNameIn(['pharmacy', 'pharmacy_sub_user'])) {
+        } elseif ($this->roleNameIn(['pharmacy', 'pharmacy_sub_user'])) {
             $resource['visitor_name'] = $this->alias;
             $resource['doctor_name'] = $this->doctor_name;
-        } else if ($this->getRoleNameForAuthenticatedUser() == 'doctor') {
+        } elseif ($this->getRoleNameForAuthenticatedUser() == 'doctor') {
             $resource['visitor_name'] = $this->alias;
         }
         $resource['created_at'] = $this->created_at;
+
         return $resource;
     }
 }

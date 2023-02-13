@@ -2,23 +2,23 @@
 
 namespace App\Repository;
 
-use App\Http\Resources\Api\V1\Site\Sales\SalesCollection;
-use App\Http\Resources\Api\V1\Site\Sales\SalesResource;
+use App\Http\Resources\Api\V1\Site\Sales\SaleCollection;
+use App\Http\Resources\Api\V1\Site\Sales\SaleResource;
 use App\Models\User;
 use App\Models\V1\Product;
 use App\Models\V1\Role;
 use App\Models\V1\Sale;
 use App\RepositoryInterface\SalesRepositoryInterface;
 use App\Traits\HttpResponse;
-use App\Traits\translationTrait;
-use App\Traits\userTrait;
+use App\Traits\TranslationTrait;
+use App\Traits\UserTrait;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class DBSalesRepository implements SalesRepositoryInterface
 {
-    use userTrait;
-    use translationTrait;
+    use UserTrait;
+    use TranslationTrait;
     use HttpResponse;
 
     /**
@@ -38,7 +38,7 @@ class DBSalesRepository implements SalesRepositoryInterface
                 'sales.updated_at as updated_at',
             ]);
 
-        return $this->resourceResponse(new SalesCollection($sales));
+        return $this->resourceResponse(new SaleCollection($sales));
     }
 
     /**
@@ -196,7 +196,7 @@ class DBSalesRepository implements SalesRepositoryInterface
             ]);
             $sale->full_name = User::where('id', $send_to_id)->value('full_name');
 
-            return $this->createdResponse(new SalesResource($sale), $this->translateSuccessMessage('product', 'created'));
+            return $this->createdResponse(new SaleResource($sale), $this->translateSuccessMessage('product', 'created'));
         }
     }
 }

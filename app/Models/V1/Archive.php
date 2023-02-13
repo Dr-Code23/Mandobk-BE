@@ -2,14 +2,14 @@
 
 namespace App\Models\V1;
 
-use App\Traits\dateTrait;
+use App\Traits\DateTrait;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Archive extends Model
 {
-    use HasFactory, dateTrait;
+    use HasFactory, DateTrait;
     protected $table = 'archives';
     protected $fillable = [
         'details',

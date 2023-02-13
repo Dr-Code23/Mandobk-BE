@@ -2,8 +2,8 @@
 
 namespace App\Models\V1;
 
-use App\Traits\dateTrait;
-use App\Traits\roleTrait;
+use App\Traits\DateTrait;
+use App\Traits\RoleTrait;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,8 +12,8 @@ use Illuminate\Support\Facades\Cache;
 class Product extends Model
 {
     use HasFactory;
-    use dateTrait;
-    use roleTrait;
+    use DateTrait;
+    use RoleTrait;
     protected $fillable = [
         'com_name',
         'sc_name',

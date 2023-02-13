@@ -7,7 +7,7 @@ use App\Http\Requests\Api\V1\Dashboard\marktingRequest;
 use App\Http\Resources\Api\V1\Dashboard\Markting\marktingCollection;
 use App\Http\Resources\Api\V1\Dashboard\Markting\marktingResource;
 use App\Models\V1\Markting;
-use App\Traits\fileOperationTrait;
+use App\Traits\FileOperationTrait;
 use App\Traits\HttpResponse;
 use App\Traits\StringTrait;
 
@@ -15,7 +15,7 @@ class MarktingController extends Controller
 {
     use HttpResponse;
     use StringTrait;
-    use fileOperationTrait;
+    use FileOperationTrait;
 
     /**
      * List All Ads For Markting Role.

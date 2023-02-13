@@ -9,7 +9,7 @@ use App\Models\User;
 use App\Models\V1\Role;
 use App\Traits\HttpResponse;
 use App\Traits\StringTrait;
-use App\Traits\translationTrait;
+use App\Traits\TranslationTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 class AuthController extends Controller
 {
     use HttpResponse;
-    use translationTrait;
+    use TranslationTrait;
     use StringTrait;
 
     protected User $userModel;

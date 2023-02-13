@@ -10,8 +10,8 @@ use App\Models\User;
 use App\Models\V1\Role;
 use App\Traits\HttpResponse;
 use App\Traits\StringTrait;
-use App\Traits\translationTrait;
-use App\Traits\userTrait;
+use App\Traits\TranslationTrait;
+use App\Traits\UserTrait;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -20,8 +20,8 @@ class MonitorAndEvaluationController extends Controller
     use HttpResponse;
     use StringTrait;
     use HttpResponse;
-    use translationTrait;
-    use userTrait;
+    use TranslationTrait;
+    use UserTrait;
 
     /**
      * Get Translated Content.
@@ -101,7 +101,7 @@ class MonitorAndEvaluationController extends Controller
             return $this->validation_errors($this->translateErrorMessage('role', 'not_found'));
         }
 
-        return $this->error(null, msg: 'User ' . __('validation.not_found'));
+        return $this->error(null, msg: 'User '.__('validation.not_found'));
     }
 
     /**

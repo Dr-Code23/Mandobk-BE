@@ -8,11 +8,11 @@ use App\Models\V1\Product;
 use App\Models\V1\Role;
 use App\Models\V1\Sale;
 use App\Traits\StringTrait;
-use App\Traits\userTrait;
+use App\Traits\UserTrait;
 
 class HomeController extends Controller
 {
-    use userTrait;
+    use UserTrait;
     use StringTrait;
 
     public function index()
@@ -63,12 +63,12 @@ class HomeController extends Controller
 
         // Check If the User Is A Pharmacy Sub User
         if (Role::where('name', 'pharmacy_sub_user')->value('id') != $this->getAuthenticatedUserInformation()->role_id) {
-            $home_info['total_purchases'] = $this->setPercisionForFloatString($total_purchases , 2 , '.' , ',');
-            $home_info['total_sales'] = $this->setPercisionForFloatString($total_sales , 2 , '.' , ',');
-            $home_info['total_profits'] = $this->setPercisionForFloatString($total_purchases - $total_sales , 2 , '.' , ',');
-            $home_info['monthly_purchases'] = $this->setPercisionForFloatString($monthly_purchases , 2 , '.' , ',');
-            $home_info['monthly_sales'] = $this->setPercisionForFloatString($monthly_sales , 2 , '.' , ',');
-            $home_info['monthly_profits'] = $this->setPercisionForFloatString($monthly_purchases - $monthly_sales , 2 , '.' , ',');
+            $home_info['total_purchases'] = $this->setPercisionForFloatString($total_purchases, 2, '.', ',');
+            $home_info['total_sales'] = $this->setPercisionForFloatString($total_sales, 2, '.', ',');
+            $home_info['total_profits'] = $this->setPercisionForFloatString($total_purchases - $total_sales, 2, '.', ',');
+            $home_info['monthly_purchases'] = $this->setPercisionForFloatString($monthly_purchases, 2, '.', ',');
+            $home_info['monthly_sales'] = $this->setPercisionForFloatString($monthly_sales, 2, '.', ',');
+            $home_info['monthly_profits'] = $this->setPercisionForFloatString($monthly_purchases - $monthly_sales, 2, '.', ',');
         }
         $home_info['products'] = new productCollection(Product::whereIn('user_id', $this->getSubUsersForAuthenticatedUser())->limit(7)->get());
 

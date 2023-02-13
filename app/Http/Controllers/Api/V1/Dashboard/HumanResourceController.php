@@ -8,15 +8,15 @@ use App\Http\Resources\Api\V1\Dashboard\HumanResource\humanResourceCollection;
 use App\Http\Resources\Api\V1\Dashboard\HumanResource\humanResourceResource;
 use App\Models\User;
 use App\Models\V1\HumanResource;
-use App\Traits\dateTrait;
+use App\Traits\DateTrait;
 use App\Traits\HttpResponse;
-use App\Traits\translationTrait;
+use App\Traits\TranslationTrait;
 
 class HumanResourceController extends Controller
 {
-    use translationTrait;
+    use TranslationTrait;
     use HttpResponse;
-    use dateTrait;
+    use DateTrait;
 
     /**
      * Summary of index.

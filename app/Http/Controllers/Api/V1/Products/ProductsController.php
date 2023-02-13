@@ -7,14 +7,14 @@ use App\Http\Requests\Api\V1\Product\productRequest;
 use App\Models\V1\Product;
 use App\Models\V1\Role;
 use App\RepositoryInterface\ProductRepositoryInterface;
-use App\Traits\roleTrait;
-use App\Traits\userTrait;
+use App\Traits\RoleTrait;
+use App\Traits\UserTrait;
 use Illuminate\Support\Facades\Auth;
 
 class ProductsController extends Controller
 {
-    use userTrait;
-    use roleTrait;
+    use UserTrait;
+    use RoleTrait;
     private ProductRepositoryInterface $productRepository;
 
     public function __construct(ProductRepositoryInterface $productRepository)

@@ -3,14 +3,14 @@
 namespace App\Http\Requests\Api\V1\Site\Pharmacy;
 
 use App\Traits\HttpResponse;
-use App\Traits\translationTrait;
+use App\Traits\TranslationTrait;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password;
 
 class SubUserRequest extends FormRequest
 {
     use HttpResponse;
-    use translationTrait;
+    use TranslationTrait;
 
     /**
      * Determine if the user is authorized to make this request.

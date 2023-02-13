@@ -3,17 +3,17 @@
 namespace Tests\Feature\Api\V1\Products;
 
 use App\Models\V1\Product;
-use App\Traits\fileOperationTrait;
+use App\Traits\FileOperationTrait;
 use App\Traits\TestingTrait;
-use App\Traits\translationTrait;
+use App\Traits\TranslationTrait;
 use Illuminate\Http\Response;
 use Tests\TestCase;
 
 class ProductTest extends TestCase
 {
     use TestingTrait;
-    use fileOperationTrait;
-    use translationTrait;
+    use FileOperationTrait;
+    use TranslationTrait;
     private string $path = 'Products/';
 
     public function testLogin(array $credentials = ['username' => 'company', 'password' => 'company'])

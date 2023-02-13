@@ -8,18 +8,18 @@ use App\Models\V1\Offer;
 use App\Models\V1\Product;
 use App\Models\V1\Role;
 use App\RepositoryInterface\OfferRepositoryInterface;
-use App\Traits\dateTrait;
+use App\Traits\DateTrait;
 use App\Traits\HttpResponse;
-use App\Traits\translationTrait;
-use App\Traits\userTrait;
+use App\Traits\TranslationTrait;
+use App\Traits\UserTrait;
 use Illuminate\Support\Facades\Auth;
 
 class DBOfferRepository implements OfferRepositoryInterface
 {
-    use userTrait;
+    use UserTrait;
     use HttpResponse;
-    use translationTrait;
-    use dateTrait;
+    use TranslationTrait;
+    use DateTrait;
     private Offer $offerModel;
     private Role $roleModel;
     private Product $productModel;
@@ -36,8 +36,14 @@ class DBOfferRepository implements OfferRepositoryInterface
      */
     public function allOffers($request)
     {
-        $offers = $this->offerModel->join('products', 'products.id', 'offers.product_id')
-            ->where('type', $this->roleModel->where('id', $this->getAuthenticatedUserInformation()->role_id)->first(['name'])->name == 'company' ? '1' : '2')
+        $offers = $this->offerModel->join(
+            'products', 'products.id', 'offers.product_id'
+        )
+            ->where('type', $this->roleModel->where(
+                'id',
+                $this->getAuthenticatedUserInformation()->role_id
+            )
+            ->first(['name'])->name == 'company' ? '1' : '2')
             ->whereIn('offers.user_id', $this->getSubUsersForAuthenticatedUser())
             ->where(function ($query) use ($request) {
                 if ($request->has('type')) {

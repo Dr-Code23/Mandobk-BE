@@ -2,14 +2,14 @@
 
 namespace Api\V1\Auth;
 
-use App\Traits\fileOperationTrait;
+use App\Traits\FileOperationTrait;
 use App\Traits\TestingTrait;
 use Illuminate\Http\Response;
 use Tests\TestCase;
 
 class LoginTest extends TestCase
 {
-    use fileOperationTrait;
+    use FileOperationTrait;
     use TestingTrait;
     private string $authPath = 'Auth/Login/';
 

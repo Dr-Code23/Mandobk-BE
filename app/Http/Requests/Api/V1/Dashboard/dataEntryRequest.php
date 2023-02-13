@@ -3,12 +3,12 @@
 namespace App\Http\Requests\Api\V1\Dashboard;
 
 use App\Traits\HttpResponse;
-use App\Traits\translationTrait;
+use App\Traits\TranslationTrait;
 use Illuminate\Foundation\Http\FormRequest;
 
 class dataEntryRequest extends FormRequest
 {
-    use translationTrait;
+    use TranslationTrait;
     use HttpResponse;
 
     protected $stopOnFirstFailure = false;

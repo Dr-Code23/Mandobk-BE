@@ -8,16 +8,16 @@ use App\Http\Controllers\Api\V1\Dashboard\MonitorAndEvaluationController;
 use App\Http\Controllers\Api\V1\Dashboard\OrderManagementController;
 use App\Http\Controllers\Api\V1\PayMethod\PayMethodController;
 use App\Http\Controllers\Api\V1\Products\ProductsController;
-use App\Http\Controllers\Api\V1\Providers\ProvidersController;
-use App\Http\Controllers\Api\V1\Roles\rolesController;
-use App\Http\Controllers\Api\V1\Site\Company\CompanyOffersController;
+use App\Http\Controllers\Api\V1\Providers\ProviderController;
+use App\Http\Controllers\Api\V1\Roles\roleController;
+use App\Http\Controllers\Api\V1\Site\Company\CompanyOfferController;
 use App\Http\Controllers\Api\V1\Site\Home\HomeController;
 use App\Http\Controllers\Api\V1\Site\OfferOrder\OfferOrderController;
-use App\Http\Controllers\Api\V1\Site\Pharmacy\SubUsersController;
-use App\Http\Controllers\Api\V1\Site\Recipes\RecipesController;
-use App\Http\Controllers\Api\V1\Site\Sales\SalesController;
+use App\Http\Controllers\Api\V1\Site\Pharmacy\SubUserController;
+use App\Http\Controllers\Api\V1\Site\Recipes\RecipeController;
+use App\Http\Controllers\Api\V1\Site\Sales\SaleController;
 use App\Http\Controllers\Api\V1\Site\Storehouse\StorehouseOffersController;
-use App\Http\Controllers\Api\V1\Users\UsersController;
+use App\Http\Controllers\Api\V1\Users\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -28,27 +28,27 @@ Route::group(
         Route::group(
             ['prefix' => 'roles'],
             function () {
-                Route::get('signup_roles', [rolesController::class, 'getSignUpRoles']);
-            }
-        );
-
-        // Pay Methods
-        Route::group(
-            ['prefix' => 'pay_methods'],
-            function () {
-                Route::get('', [PayMethodController::class, 'getAllPayMethods']);
+                Route::get('signup_roles', [roleController::class, 'getSignUpRoles']);
             }
         );
 
         // Users For Select
         Route::group(['middleware' => 'auth:api'], function () {
+            // Pay Methods
+            Route::group(
+                ['prefix' => 'pay_methods'],
+                function () {
+                    Route::get('', [PayMethodController::class, 'getAllPayMethods']);
+                }
+            );
+
             Route::group(
                 ['prefix' => 'users'],
                 function () {
-                    Route::get('/storehouse', [UsersController::class, 'getUsersForSelectBox'])
+                    Route::get('/storehouse', [UserController::class, 'getUsersForSelectBox'])
                         ->middleware(['hasCompanyPermissions'])
                         ->name('roles-storehouse-all');
-                    Route::get('/pharmacy', [UsersController::class, 'getUsersForSelectBox'])
+                    Route::get('/pharmacy', [UserController::class, 'getUsersForSelectBox'])
                         ->middleware(['hasStorehousePermissions'])
                         ->name('roles-pharmacy-all');
                 }
@@ -74,17 +74,17 @@ Route::group(
             Route::group(
                 ['prefix' => 'sales', 'middleware' => ['hasSalesPermissions', 'auth:api']],
                 function () {
-                    Route::get('', [SalesController::class, 'index'])->name('pharmacy-sales-show');
-                    Route::post('', [SalesController::class, 'store'])->name('pharmacy-sales-add');
+                    Route::get('', [SaleController::class, 'index'])->name('pharmacy-sales-show');
+                    Route::post('', [SaleController::class, 'store'])->name('pharmacy-sales-add');
                 }
             );
 
-            Route::apiResource('providers', ProvidersController::class);
+            Route::apiResource('providers', ProviderController::class);
         });
 
         // Markting Offers
         Route::get('markting_offers', [MarktingController::class, 'index']);
-        Route::get('offer_duration', [CompanyOffersController::class, 'offerDurations']);
+        Route::get('offer_duration', [CompanyOfferController::class, 'offerDurations']);
         // Providers
         Route::group(['prefix' => 'auth'], function () {
             // Login
@@ -119,8 +119,8 @@ Route::group(
                         Route::group(
                             ['prefix' => 'sales'],
                             function () {
-                                Route::get('', [SalesController::class, 'index'])->name('company-sales-all');
-                                Route::post('', [SalesController::class, 'store'])->name('company-sales-add');
+                                Route::get('', [SaleController::class, 'index'])->name('company-sales-all');
+                                Route::post('', [SaleController::class, 'store'])->name('company-sales-add');
                             }
                         );
 
@@ -128,11 +128,11 @@ Route::group(
                         Route::group(
                             ['prefix' => 'company_offers'],
                             function () {
-                                Route::get('', [CompanyOffersController::class, 'index']);
-                                Route::get('{offer}', [CompanyOffersController::class, 'show']);
-                                Route::post('', [CompanyOffersController::class, 'store']);
-                                Route::put('/{offer}', [CompanyOffersController::class, 'update']);
-                                Route::delete('/{offer}', [CompanyOffersController::class, 'destroy']);
+                                Route::get('', [CompanyOfferController::class, 'index']);
+                                Route::get('{offer}', [CompanyOfferController::class, 'show']);
+                                Route::post('', [CompanyOfferController::class, 'store']);
+                                Route::put('/{offer}', [CompanyOfferController::class, 'update']);
+                                Route::delete('/{offer}', [CompanyOfferController::class, 'destroy']);
                             }
                         );
                     }
@@ -173,8 +173,8 @@ Route::group(
                     Route::group(
                         ['prefix' => 'sales'],
                         function () {
-                            Route::get('', [SalesController::class, 'index'])->name('storehouse-sales-all');
-                            Route::post('', [SalesController::class, 'store'])->name('storehouse-sales-add');
+                            Route::get('', [SaleController::class, 'index'])->name('storehouse-sales-all');
+                            Route::post('', [SaleController::class, 'store'])->name('storehouse-sales-add');
                         }
                     );
                 });
@@ -207,18 +207,18 @@ Route::group(
                         Route::group(
                             ['prefix' => 'sales'],
                             function () {
-                                Route::get('', [SalesController::class, 'index'])->name('pharmacy-sales-show');
-                                Route::post('', [SalesController::class, 'store'])->name('pharmacy-sales-add');
+                                Route::get('', [SaleController::class, 'index'])->name('pharmacy-sales-show');
+                                Route::post('', [SaleController::class, 'store'])->name('pharmacy-sales-add');
                             }
                         );
 
                         // Sub Users
                         Route::group(['prefix' => 'sub_user'], function () {
-                            Route::get('', [SubUsersController::class, 'index']);
-                            Route::get('{subuser}', [SubUsersController::class, 'show']);
-                            Route::post('', [SubUsersController::class, 'store']);
-                            Route::put('{subuser}', [SubUsersController::class, 'update']);
-                            Route::delete('{subuser}', [SubUsersController::class, 'destroy']);
+                            Route::get('', [SubUserController::class, 'index']);
+                            Route::get('{subuser}', [SubUserController::class, 'show']);
+                            Route::post('', [SubUserController::class, 'store']);
+                            Route::put('{subuser}', [SubUserController::class, 'update']);
+                            Route::delete('{subuser}', [SubUserController::class, 'destroy']);
                         }
                         );
                     }
@@ -232,9 +232,9 @@ Route::group(
                         Route::group(
                             ['prefix' => 'recipe'],
                             function () {
-                                Route::get('', [RecipesController::class, 'getAllRecipes']);
-                                Route::get('visitor_recipe', [RecipesController::class, 'getProductsWithRandomNumber']);
-                                Route::post('visitor_recipe', [RecipesController::class, 'addRecipe']);
+                                Route::get('', [RecipeController::class, 'getAllRecipes']);
+                                Route::get('visitor_recipe', [RecipeController::class, 'getProductsWithRandomNumber']);
+                                Route::post('visitor_recipe', [RecipeController::class, 'addRecipe']);
                             }
                         );
 
@@ -242,8 +242,8 @@ Route::group(
                         Route::group(
                             ['prefix' => 'visitor'],
                             function () {
-                                Route::post('', [UsersController::class, 'registerNewVisitor']);
-                                Route::post('forgot_random_number', [UsersController::class, 'ForgotVisitorRandomNumber']);
+                                Route::post('', [UserController::class, 'registerNewVisitor']);
+                                Route::post('forgot_random_number', [UserController::class, 'ForgotVisitorRandomNumber']);
                             }
                         );
                     }
@@ -266,7 +266,7 @@ Route::group(
                         Route::group(
                             ['prefix' => 'recipe'],
                             function () {
-                                Route::get('', [RecipesController::class, 'index']);
+                                Route::get('', [RecipeController::class, 'index']);
                             }
                         );
                     }

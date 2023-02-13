@@ -3,14 +3,14 @@
 namespace App\Models\V1;
 
 use App\Models\User;
-use App\Traits\dateTrait;
+use App\Traits\DateTrait;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class PharmacyVisit extends Model
 {
-    use HasFactory, dateTrait;
+    use HasFactory, DateTrait;
     protected $fillable = [
         'visitor_recipe_id',
         'doctor_id',

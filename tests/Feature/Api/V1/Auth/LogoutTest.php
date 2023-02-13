@@ -2,14 +2,14 @@
 
 namespace Tests\Feature\Api\V1\Auth;
 
-use App\Traits\fileOperationTrait;
+use App\Traits\FileOperationTrait;
 use App\Traits\TestingTrait;
 use Illuminate\Http\Response;
 use Tests\TestCase;
 
 class LogoutTest extends TestCase
 {
-    use fileOperationTrait;
+    use FileOperationTrait;
     use TestingTrait;
 
     public function testLogoutWithNoAuthenticatedUser()

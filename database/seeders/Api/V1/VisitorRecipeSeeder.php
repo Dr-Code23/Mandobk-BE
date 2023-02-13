@@ -3,12 +3,12 @@
 namespace Database\Seeders\Api\V1;
 
 use App\Models\V1\VisitorRecipe;
-use App\Traits\userTrait;
+use App\Traits\UserTrait;
 use Illuminate\Database\Seeder;
 
 class VisitorRecipeSeeder extends Seeder
 {
-    use userTrait;
+    use UserTrait;
 
     /**
      * Run the database seeds.

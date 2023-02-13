@@ -6,14 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\V1\Dashboard\OrderManagement\OrderManagementCollection;
 use App\Models\V1\OfferOrder;
 use App\Traits\HttpResponse;
-use App\Traits\translationTrait;
+use App\Traits\TranslationTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator as FacadesValidator;
 
 class OrderManagementController extends Controller
 {
     use HttpResponse;
-    use translationTrait;
+    use TranslationTrait;
 
     public function index(Request $request)
     {

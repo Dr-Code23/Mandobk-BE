@@ -3,7 +3,7 @@
 namespace App\Http\Requests\Api\V1\Auth;
 
 use App\Traits\HttpResponse;
-use App\Traits\translationTrait;
+use App\Traits\TranslationTrait;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password as RulesPassword;
@@ -11,7 +11,7 @@ use Illuminate\Validation\Rules\Password as RulesPassword;
 class signUpRequest extends FormRequest
 {
     use HttpResponse;
-    use translationTrait;
+    use TranslationTrait;
 
     // protected $stopOnFirstFailure = true;
 

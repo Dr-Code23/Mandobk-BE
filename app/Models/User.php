@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Models\V1\HumanResource;
 use App\Models\V1\Role;
-use App\Traits\dateTrait;
+use App\Traits\DateTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -19,7 +19,7 @@ class User extends Authenticatable implements JWTSubject
     use HasApiTokens;
     use HasFactory;
     use Notifiable;
-    use dateTrait;
+    use DateTrait;
 
     /**
      * The attributes that are mass assignable.
