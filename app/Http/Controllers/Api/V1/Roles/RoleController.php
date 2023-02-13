@@ -7,7 +7,7 @@ use App\Http\Resources\Api\V1\Roles\roleCollection;
 use App\Models\V1\Role;
 use App\Traits\HttpResponse;
 
-class roleController extends Controller
+class RoleController extends Controller
 {
     use HttpResponse;
 

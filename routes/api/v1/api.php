@@ -9,7 +9,7 @@ use App\Http\Controllers\Api\V1\Dashboard\OrderManagementController;
 use App\Http\Controllers\Api\V1\PayMethod\PayMethodController;
 use App\Http\Controllers\Api\V1\Products\ProductsController;
 use App\Http\Controllers\Api\V1\Providers\ProviderController;
-use App\Http\Controllers\Api\V1\Roles\roleController;
+use App\Http\Controllers\Api\V1\Roles\RoleController;
 use App\Http\Controllers\Api\V1\Site\Company\CompanyOfferController;
 use App\Http\Controllers\Api\V1\Site\Home\HomeController;
 use App\Http\Controllers\Api\V1\Site\OfferOrder\OfferOrderController;
@@ -28,7 +28,7 @@ Route::group(
         Route::group(
             ['prefix' => 'roles'],
             function () {
-                Route::get('signup_roles', [roleController::class, 'getSignUpRoles']);
+                Route::get('signup_roles', [RoleController::class, 'getSignUpRoles']);
             }
         );
 
