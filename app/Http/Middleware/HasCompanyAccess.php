@@ -6,7 +6,7 @@ use App\Traits\HttpResponse;
 use App\Traits\UserTrait;
 use Illuminate\Http\Request;
 
-class hasCompanyAccess
+class HasCompanyAccess
 {
     use UserTrait;
     use HttpResponse;
