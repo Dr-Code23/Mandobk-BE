@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Http\Requests\Api\V1\Product\productRequest;
+use App\Http\Requests\Api\V1\Product\ProductRequest;
 use App\Http\Resources\Api\V1\Product\ProductCollection;
 use App\Http\Resources\Api\V1\Product\ProductResource;
 use App\Models\V1\Product;
@@ -75,7 +75,7 @@ class DBProductRepository implements ProductRepositoryInterface
     /**
      * Store Product.
      *
-     * @param productRequest $request
+     * @param ProductRequest $request
      *
      * @return JsonResponse
      */

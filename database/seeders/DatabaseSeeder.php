@@ -5,17 +5,17 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use Database\Seeders\Api\V1\DoctorVisitsSeeder;
-use Database\Seeders\Api\V1\humanResourceSeeder;
-use Database\Seeders\Api\V1\marktingSeeder;
+use Database\Seeders\Api\V1\HumanResourceSeeder;
+use Database\Seeders\Api\V1\MarktingSeeder;
 use Database\Seeders\Api\V1\OfferOrderSeeder;
 use Database\Seeders\Api\V1\OfferSeeder;
 use Database\Seeders\Api\V1\PayMethodSeeder;
 use Database\Seeders\Api\V1\PharmacyVisitSeeder;
-use Database\Seeders\Api\V1\productSeeder;
+use Database\Seeders\Api\V1\ProductSeeder;
 use Database\Seeders\Api\V1\ProviderSeeder;
 use Database\Seeders\Api\V1\RoleSeeder;
-use Database\Seeders\Api\V1\saleSeeder;
-use Database\Seeders\Api\V1\subUserSeeder;
+use Database\Seeders\Api\V1\SaleSeeder;
+use Database\Seeders\Api\V1\SubUserSeeder;
 use Database\Seeders\Api\V1\UserSeeder;
 use Database\Seeders\Api\V1\VisitorRecipeSeeder;
 use Illuminate\Database\Seeder;
@@ -33,12 +33,12 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             UserSeeder::class,
             ProviderSeeder::class,
-            // subUserSeeder::class,
-            // productSeeder::class,
-            // humanResourceSeeder::class,
+            // SubUserSeeder::class,
+            // ProductSeeder::class,
+            // HumanResourceSeeder::class,
             PayMethodSeeder::class,
-            // saleSeeder::class,
-            // marktingSeeder::class,
+            // SaleSeeder::class,
+            // MarktingSeeder::class,
             // OfferSeeder::class,
             // OfferOrderSeeder::class,
             // VisitorRecipeSeeder::class,

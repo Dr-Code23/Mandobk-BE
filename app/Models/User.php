@@ -78,7 +78,8 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
-     * Fetch Role Through One To One Relationship
+     * Fetch Role Through One To One Relationship.
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function role()
@@ -110,7 +111,7 @@ class User extends Authenticatable implements JWTSubject
         return $this->changeDateFormat($value);
     }
 
-    public function humanResources()
+    public function HumanResources()
     {
         return $this->hasMany(HumanResource::class, 'user_id', 'id');
     }

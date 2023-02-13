@@ -5,7 +5,7 @@ namespace Database\Seeders\Api\V1;
 use App\Models\V1\Markting;
 use Illuminate\Database\Seeder;
 
-class marktingSeeder extends Seeder
+class MarktingSeeder extends Seeder
 {
     /**
      * Run the database seeds.

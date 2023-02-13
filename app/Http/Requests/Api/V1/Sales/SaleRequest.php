@@ -4,7 +4,7 @@ namespace App\Http\Requests\Api\V1\Sales;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class saleRequest extends FormRequest
+class SaleRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

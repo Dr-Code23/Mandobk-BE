@@ -8,7 +8,7 @@ use App\Traits\TranslationTrait;
 use App\Traits\UserTrait;
 use Illuminate\Foundation\Http\FormRequest;
 
-class productRequest extends FormRequest
+class ProductRequest extends FormRequest
 {
     use TranslationTrait;
     use HttpResponse;

@@ -7,7 +7,7 @@ use App\Models\V1\Role;
 use App\Models\V1\Sale;
 use Illuminate\Database\Seeder;
 
-class saleSeeder extends Seeder
+class SaleSeeder extends Seeder
 {
     /**
      * Run the database seeds.

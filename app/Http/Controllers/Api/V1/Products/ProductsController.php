@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\V1\Products;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\V1\Product\productRequest;
+use App\Http\Requests\Api\V1\Product\ProductRequest;
 use App\Models\V1\Product;
 use App\Models\V1\Role;
 use App\RepositoryInterface\ProductRepositoryInterface;
@@ -32,12 +32,12 @@ class ProductsController extends Controller
         return $this->productRepository->showOneProduct($product);
     }
 
-    public function store(productRequest $request)
+    public function store(ProductRequest $request)
     {
         return $this->productRepository->storeProduct($request);
     }
 
-    public function update(productRequest $request, Product $product)
+    public function update(ProductRequest $request, Product $product)
     {
         return $this->productRepository->updateProduct($request, $product);
     }

@@ -17,7 +17,12 @@ class OrderManagementController extends Controller
 
     public function index(Request $request)
     {
-        return $this->resourceResponse(new OrderManagementCollection(OfferOrder::join('users as want_offer_users', 'want_offer_users.id', 'offer_orders.want_offer_id')
+        return $this->resourceResponse(new OrderManagementCollection(
+            OfferOrder::join(
+                'users as want_offer_users',
+                'want_offer_users.id',
+                'offer_orders.want_offer_id'
+            )
             ->join('offers', 'offers.id', 'offer_orders.offer_id')
             ->join('products', 'products.id', 'offers.product_id')
             ->join('users as offers_users', 'offers_users.id', 'offers.user_id')
