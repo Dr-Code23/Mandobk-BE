@@ -31,7 +31,7 @@ class ProductSeeder extends Seeder
                 'barcode' => '',
                 'user_id' => fake()->numberBetween(1, 10),
                 'role_id' => fake()->numberBetween(1, 10),
-                'provider_id' => fake()->numberBetween(1, 99),
+                'provider_id' => fake()->numberBetween(1, 2),
             ]);
         }
     }
