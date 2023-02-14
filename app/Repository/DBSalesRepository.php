@@ -147,7 +147,7 @@ class DBSalesRepository implements SalesRepositoryInterface
             }
             ++$cnt;
         }
-        // return $errors;
+
         // ? Send To Who ?
         $buyerId = null;
 
@@ -162,43 +162,42 @@ class DBSalesRepository implements SalesRepositoryInterface
                 ->value('id');
         }
 
-        if (!$products) {
+        if (!$uniqueProducts) {
             $errors['product'] = 'Choose at least one existing product';
         }
-
-        if ($buyerId) {
-            $totalSales = 0;
-            $productsIds = array_keys($uniqueProducts);
-            $sentProducts = [];
-            for ($i = 0; $i < count($productsIds); ++$i) {
-                $productId = $productsIds[$i];
-                $productInfo = $uniqueProducts[$productId];
-
-                Product::where('id', $productId)->update(
-                    [
-                        'qty' => ((int) $productInfo['original_qty'] - (int) $productInfo['quantity']),
-                    ]
-                );
-                $totalSales += ($productInfo['selling_price'] * $productInfo['quantity']);
-                unset($productInfo['original_qty']);
-                $sentProducts[] = $productInfo;
-            }
-
-            $sale = Sale::create([
-                'from_id' => Auth::id(),
-                'to_id' => $buyerId,
-                'details' => $sentProducts,
-                'total' => $totalSales,
-            ]);
-
-            $sale->full_name = User::where('id', $buyerId)->value('full_name');
-
-            return $this->createdResponse(new SaleResource($sale), $this->translateSuccessMessage('product', 'created'));
-        } else {
+        if (!$buyerId) {
             $errors['buyer_id'] = $this->translateErrorMessage('the_buyer', 'not_exists');
         }
         if ($errors) {
             return $this->validation_errors($errors);
         }
+
+        $totalSales = 0;
+        $productsIds = array_keys($uniqueProducts);
+        $sentProducts = [];
+        for ($i = 0; $i < count($productsIds); ++$i) {
+            $productId = $productsIds[$i];
+            $productInfo = $uniqueProducts[$productId];
+
+            Product::where('id', $productId)->update(
+                [
+                    'qty' => ((int) $productInfo['original_qty'] - (int) $productInfo['quantity']),
+                ]
+            );
+            $totalSales += ($productInfo['selling_price'] * $productInfo['quantity']);
+            unset($productInfo['original_qty']);
+            $sentProducts[] = $productInfo;
+        }
+
+        $sale = Sale::create([
+            'from_id' => Auth::id(),
+            'to_id' => $buyerId,
+            'details' => $sentProducts,
+            'total' => $totalSales,
+        ]);
+
+        $sale->full_name = User::where('id', $buyerId)->value('full_name');
+
+        return $this->createdResponse(new SaleResource($sale), $this->translateSuccessMessage('product', 'created'));
     }
 }
