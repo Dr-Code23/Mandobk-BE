@@ -331,6 +331,7 @@ Route::group(
                         }
                     );
 
+                    // Order Management
                     Route::group(
                         ['prefix' => 'order_management', 'middleware' => ['hasOrderManagementPermissions']],
                         function () {
