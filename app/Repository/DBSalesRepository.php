@@ -83,7 +83,6 @@ class DBSalesRepository implements SalesRepositoryInterface
                 if ($validator->fails()) {
                     $errors[$cnt] = $validator->errors();
                 }
-                $errors[$cnt] = $validator->fails() ? $validator->errors() : ['error' => false];
                 ++$cnt;
             }
         } else {
