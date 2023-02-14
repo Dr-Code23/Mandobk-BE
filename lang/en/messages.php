@@ -56,7 +56,6 @@ return [
     'week' => 'Weekly',
     'cash' => 'Cash',
     'offer' => 'Offer',
-    'barcode' => 'Bar Code',
     'phone' => 'Phone Number',
     'alias' => 'Alias',
     'name' => 'Name',
@@ -65,4 +64,5 @@ return [
     'archive' => 'Archive',
     'handle' => 'Handle',
     'approve' => 'Approve',
+    'the_buyer' => 'Buyer',
 ];

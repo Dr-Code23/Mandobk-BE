@@ -73,10 +73,10 @@ Route::group(
 
             // Sales
             Route::group(
-                ['prefix' => 'sales', 'middleware' => ['hasSalesPermissions', 'auth:api']],
+                ['prefix' => 'sales', 'middleware' => ['auth:api', 'hasSalesPermissions']],
                 function () {
-                    Route::get('', [SaleController::class, 'index'])->name('pharmacy-sales-show');
-                    Route::post('', [SaleController::class, 'store'])->name('pharmacy-sales-add');
+                    Route::get('', [SaleController::class, 'index']);
+                    Route::post('', [SaleController::class, 'store']);
                 }
             );
 

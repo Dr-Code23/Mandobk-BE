@@ -26,6 +26,8 @@ class hasSalesAccess
             'pharmacy',
             'pharmacy_sub_user',
         ])) {
+            return $this->notFoundResponse();
+
             return $this->forbiddenResponse();
         }
 

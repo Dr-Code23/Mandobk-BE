@@ -166,6 +166,7 @@ return [
         'max' => 'Cannot Be Greater Than :max Characters',
     ],
     'quantity' => [
+        'big' => 'Has Total Bigger Than Existing which is ',
         'regex' => 'Must Be A Valid Number And Greater Than Zero',
     ],
     'purchase_price' => [

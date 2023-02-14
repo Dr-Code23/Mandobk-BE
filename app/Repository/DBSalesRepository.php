@@ -6,7 +6,6 @@ use App\Http\Resources\Api\V1\Site\Sales\SaleCollection;
 use App\Http\Resources\Api\V1\Site\Sales\SaleResource;
 use App\Models\User;
 use App\Models\V1\Product;
-use App\Models\V1\Role;
 use App\Models\V1\Sale;
 use App\RepositoryInterface\SalesRepositoryInterface;
 use App\Traits\HttpResponse;
@@ -88,8 +87,6 @@ class DBSalesRepository implements SalesRepositoryInterface
         } else {
             // if Request all is empty
             $errors['product'] = $this->translateErrorMessage('product', 'required');
-
-            return $this->validation_errors($errors);
         }
         if ($errors) {
             return $this->validation_errors($errors);
@@ -103,10 +100,6 @@ class DBSalesRepository implements SalesRepositoryInterface
             ->whereIn('user_id', $this->getSubUsersForAuthenticatedUser())
             ->first(['id'])
             ? true : false;
-        }
-
-        if ($errors) {
-            return $this->validation_errors($errors);
         }
 
         for ($i = 0; $i <= $products_count; ++$i) {
@@ -147,82 +140,65 @@ class DBSalesRepository implements SalesRepositoryInterface
             }
         }
 
-        foreach ($uniqueProducts as $productId => $product_info) {
-            if ($product_info['original_qty'] < $product_info['quantity']) {
-                $errors[$productId]['quantity'][] = $this->translateErrorMessage('quantity', 'big');
+        $cnt = 0;
+        foreach ($uniqueProducts as $productId => $productInfo) {
+            if ($productInfo['original_qty'] < $productInfo['quantity']) {
+                $errors[$cnt]['quantity'][] = $this->translateErrorMessage('quantity', 'quantity.big').$productInfo['original_qty'];
             }
-        }
-
-        if ($errors) {
-            return $this->validation_errors($errors);
+            ++$cnt;
         }
         // return $errors;
         // ? Send To Who ?
-        $sendToId = null;
-        if ($request->routeIs('company-sales-add')) {
-            $storehouse_id = $request->input('storehouse_id');
-            if ($storehouse_id && is_numeric($storehouse_id)) {
-                if ($storehouse_id = User::where('id', $storehouse_id)
-                    ->where('role_id', Role::where('name', 'storehouse')->value('id'))->first(['id'])
-                ) {
-                    $sendToId = $storehouse_id->id;
-                } else {
-                    $errors['storehouse_id'] = 'Storehouse Not Exists';
-                }
-            } else {
-                $errors['store_house'] = 'StoreHouse is invalid';
-            }
-        } elseif ($request->routeIs('storehouse-sales-add')) {
-            $pharmacy_id = $request->input('pharmacy_id');
-            if ($pharmacy_id && is_numeric($pharmacy_id)) {
-                if ($pharmacy_id = User::where('id', $pharmacy_id)
-                    ->where('role_id', Role::where('name', 'pharmacy')->value('id'))
-                    ->first(['id'])
-                ) {
-                    $sendToId = $pharmacy_id->id;
-                } else {
-                    $errors['pharmacy_id'] = 'Pharmacy id do not exists';
-                }
-            } else {
-                $errors['pharmacy_id'] = 'Pharmacy is invalid';
-            }
-        } elseif ($request->routeIs('pharmacy-sales-add')) {
-            $sendToId = User::where('username', 'customer')->value('id');
+        $buyerId = null;
+
+        if ($this->roleNameIn(['pharmacy', 'pharmacy_sub_user'])) {
+            $buyerId = User::where('username', 'customer')->value('id');
+        } elseif ($this->getRoleNameForAuthenticatedUser() == 'company') {
+            $buyerId = User::where('id', $request->buyer_id)
+                ->whereIn('role_id', $this->getRolesIdsByName(['storehouse']))->value('id');
+        } elseif ($this->getRoleNameForAuthenticatedUser() == 'storehouse') {
+            $buyerId = User::where('id', $request->buyer_id)
+                ->whereIn('role_id', $this->getRolesIdsByName(['pharmacy']))
+                ->value('id');
         }
+
         if (!$products) {
             $errors['product'] = 'Choose at least one existing product';
         }
-        if ($errors) {
-            return $this->validation_errors($errors);
-        }
 
-        if ($sendToId) {
+        if ($buyerId) {
             $totalSales = 0;
             $productsIds = array_keys($uniqueProducts);
             $sentProducts = [];
             for ($i = 0; $i < count($productsIds); ++$i) {
                 $productId = $productsIds[$i];
                 $productInfo = $uniqueProducts[$productId];
+
                 Product::where('id', $productId)->update(
                     [
                         'qty' => ((int) $productInfo['original_qty'] - (int) $productInfo['quantity']),
                     ]
                 );
-                $totalSales += ($productInfo['selling_price'] + $productInfo['quantity']);
+                $totalSales += ($productInfo['selling_price'] * $productInfo['quantity']);
                 unset($productInfo['original_qty']);
                 $sentProducts[] = $productInfo;
             }
 
             $sale = Sale::create([
                 'from_id' => Auth::id(),
-                'to_id' => $sendToId,
+                'to_id' => $buyerId,
                 'details' => $sentProducts,
                 'total' => $totalSales,
             ]);
 
-            $sale->full_name = User::where('id', $sendToId)->value('full_name');
+            $sale->full_name = User::where('id', $buyerId)->value('full_name');
 
             return $this->createdResponse(new SaleResource($sale), $this->translateSuccessMessage('product', 'created'));
+        } else {
+            $errors['buyer_id'] = $this->translateErrorMessage('the_buyer', 'not_exists');
+        }
+        if ($errors) {
+            return $this->validation_errors($errors);
         }
     }
 }
