@@ -2,12 +2,12 @@
 
 namespace App\Http\Resources\Api\V1\Dashboard\HumanResource;
 
-use App\Traits\TranslationTrait;
+use App\Traits\Translatable;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class HumanResourceResource extends JsonResource
 {
-    use TranslationTrait;
+    use Translatable;
 
     /**
      * Transform the resource into an array.

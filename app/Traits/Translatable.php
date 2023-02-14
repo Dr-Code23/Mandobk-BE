@@ -4,7 +4,7 @@ namespace App\Traits;
 
 use App\Http\Resources\Api\V1\Translation\translationResource;
 
-trait TranslationTrait
+trait Translatable
 {
     use FileOperationTrait;
 
@@ -19,7 +19,7 @@ trait TranslationTrait
         return new translationResource($login_view);
     }
 
-    public function translateSuccessMessage(string $name, string $key)
+    public function translateSuccessMessage(string $name, string $key): string
     {
         return $this->translateErrorMessage($name, $key);
     }
@@ -32,7 +32,7 @@ trait TranslationTrait
         return __('messages.'.$name).' '.__('validation.'.$key);
     }
 
-    public function translateWord(string $word)
+    public function translateWord(string $word): string|null
     {
         return __('messages.'.$word);
     }

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\V1\Site\Recipes;
 
 use App\Http\Controllers\Api\V1\Archive\ArchiveController;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Api\V1\Site\Recipes\RecipeCollection;
+use App\Http\Resources\Api\V1\Site\Recipe\RecipeCollection;
 use App\Models\V1\Archive;
 use App\Models\V1\DoctorVisit;
 use App\Models\V1\PharmacyVisit;
@@ -13,7 +13,7 @@ use App\Models\V1\VisitorRecipe;
 use App\Traits\HttpResponse;
 use App\Traits\PaginationTrait;
 use App\Traits\RoleTrait;
-use App\Traits\TranslationTrait;
+use App\Traits\Translatable;
 use App\Traits\UserTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,10 +23,10 @@ class RecipeController extends Controller
 {
     use UserTrait;
     use HttpResponse;
-    use TranslationTrait;
+    use Translatable;
     use PaginationTrait;
     use RoleTrait;
-    use TranslationTrait;
+    use Translatable;
 
     public function getAllRecipes(Request $request)
     {

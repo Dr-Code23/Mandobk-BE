@@ -2,12 +2,12 @@
 
 namespace App\Http\Resources\Api\V1\Site\OfferOrder;
 
-use App\Traits\TranslationTrait;
+use App\Traits\Translatable;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class OfferOrderResource extends JsonResource
 {
-    use TranslationTrait;
+    use Translatable;
 
     /**
      * Transform the resource into an array.

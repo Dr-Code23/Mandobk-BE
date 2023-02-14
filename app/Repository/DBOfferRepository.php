@@ -10,7 +10,7 @@ use App\Models\V1\Role;
 use App\RepositoryInterface\OfferRepositoryInterface;
 use App\Traits\DateTrait;
 use App\Traits\HttpResponse;
-use App\Traits\TranslationTrait;
+use App\Traits\Translatable;
 use App\Traits\UserTrait;
 use Illuminate\Support\Facades\Auth;
 
@@ -18,7 +18,7 @@ class DBOfferRepository implements OfferRepositoryInterface
 {
     use UserTrait;
     use HttpResponse;
-    use TranslationTrait;
+    use Translatable;
     use DateTrait;
     private Offer $offerModel;
     private Role $roleModel;

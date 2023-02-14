@@ -7,7 +7,7 @@ use App\Http\Controllers\Api\V1\Dashboard\MarktingController;
 use App\Http\Controllers\Api\V1\Dashboard\MonitorAndEvaluationController;
 use App\Http\Controllers\Api\V1\Dashboard\OrderManagementController;
 use App\Http\Controllers\Api\V1\PayMethod\PayMethodController;
-use App\Http\Controllers\Api\V1\Products\ProductsController;
+use App\Http\Controllers\Api\V1\Products\ProductController;
 use App\Http\Controllers\Api\V1\Providers\ProviderController;
 use App\Http\Controllers\Api\V1\Roles\RoleController;
 use App\Http\Controllers\Api\V1\Site\Company\CompanyOfferController;
@@ -18,6 +18,7 @@ use App\Http\Controllers\Api\V1\Site\Recipes\RecipeController;
 use App\Http\Controllers\Api\V1\Site\Sales\SaleController;
 use App\Http\Controllers\Api\V1\Site\Storehouse\StorehouseOffersController;
 use App\Http\Controllers\Api\V1\Users\UserController;
+use App\Models\V1\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -59,14 +60,14 @@ Route::group(
             Route::group(
                 ['middleware' => ['auth:api', 'hasProductPermissions'], 'prefix' => 'products'],
                 function () {
-                    Route::get('doctor_products', [ProductsController::class, 'doctorProducts'])
+                    Route::get('doctor_products', [ProductController::class, 'doctorProducts'])
                         ->withoutMiddleware('hasProductPermissions')
                         ->middleware('hasDoctorPermissions');
-                    Route::get('', [ProductsController::class, 'index'])->name('v1-products-all');
-                    Route::get('scientific_name', [ProductsController::class, 'ScientificNamesSelect']);
-                    Route::get('commercial_name', [ProductsController::class, 'CommercialNamesSelect']);
-                    Route::get('{product}', [ProductsController::class, 'show']);
-                    Route::post('', [ProductsController::class, 'store'])->name('v1-products-store');
+                    Route::get('', [ProductController::class, 'index'])->name('v1-products-all');
+                    Route::get('scientific_name', [ProductController::class, 'ScientificNamesSelect']);
+                    Route::get('commercial_name', [ProductController::class, 'CommercialNamesSelect']);
+                    Route::get('{product}', [ProductController::class, 'show']);
+                    Route::post('', [ProductController::class, 'store'])->name('v1-products-store');
                 },
             );
 
@@ -110,9 +111,9 @@ Route::group(
                         Route::group(
                             ['prefix' => 'products'],
                             function () {
-                                Route::get('', [ProductsController::class, 'index']);
-                                Route::get('/{product}', [ProductsController::class, 'show']);
-                                Route::post('', [ProductsController::class, 'store']);
+                                Route::get('', [ProductController::class, 'index']);
+                                Route::get('/{product}', [ProductController::class, 'show']);
+                                Route::post('', [ProductController::class, 'store']);
                             }
                         );
                         // Sales
@@ -144,8 +145,8 @@ Route::group(
                     Route::group(
                         ['prefix' => 'products'],
                         function () {
-                            Route::get('', [ProductsController::class, 'index']);
-                            Route::post('', [ProductsController::class, 'store']);
+                            Route::get('', [ProductController::class, 'index']);
+                            Route::post('', [ProductController::class, 'store']);
                         }
                     );
 
@@ -189,8 +190,8 @@ Route::group(
                         Route::group(
                             ['prefix' => 'products'],
                             function () {
-                                Route::get('', [ProductsController::class, 'index']);
-                                Route::post('', [ProductsController::class, 'store']);
+                                Route::get('', [ProductController::class, 'index']);
+                                Route::post('', [ProductController::class, 'store']);
                             }
                         );
 
@@ -228,7 +229,7 @@ Route::group(
                 Route::group(
                     ['prefix' => 'doctor', 'middleware' => 'hasDoctorPermissions'],
                     function () {
-                        // Recipes
+                        // Recipe
                         Route::group(
                             ['prefix' => 'recipe'],
                             function () {
@@ -284,11 +285,11 @@ Route::group(
                     Route::group(
                         ['prefix' => 'data_entry', 'middleware' => ['hasDataEntryPermissions']],
                         function () {
-                            Route::get('', [ProductsController::class, 'index']);
-                            Route::get('/{dataEntry}', [ProductsController::class, 'show']);
-                            Route::post('', [ProductsController::class, 'store']);
-                            Route::put('/{dataEntry}', [ProductsController::class, 'update']);
-                            Route::delete('/{dataEntry}', [ProductsController::class, 'destroy']);
+                            Route::get('', [ProductController::class, 'index']);
+                            Route::get('/{dataEntry}', [ProductController::class, 'show']);
+                            Route::post('', [ProductController::class, 'store']);
+                            Route::put('/{dataEntry}', [ProductController::class, 'update']);
+                            Route::delete('/{dataEntry}', [ProductController::class, 'destroy']);
                         }
                     );
 
@@ -342,6 +343,6 @@ Route::group(
         });
     }
 );
-Route::get('/', function () {
-    return 'This directory is working';
+Route::get('', function () {
+    return Role::paginate(2);
 });

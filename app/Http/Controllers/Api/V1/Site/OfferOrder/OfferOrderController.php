@@ -8,7 +8,7 @@ use App\Http\Resources\Api\V1\Site\OfferOrder\OfferOrderCollection;
 use App\Models\V1\Offer;
 use App\Models\V1\OfferOrder;
 use App\Traits\HttpResponse;
-use App\Traits\TranslationTrait;
+use App\Traits\Translatable;
 use App\Traits\UserTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Auth;
 class OfferOrderController extends Controller
 {
     use HttpResponse;
-    use TranslationTrait;
+    use Translatable;
     use UserTrait;
 
     public function index(Request $request)

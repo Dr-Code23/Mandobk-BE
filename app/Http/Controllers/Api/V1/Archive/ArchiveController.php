@@ -8,7 +8,7 @@ use App\Http\Resources\Api\V1\Archive\ArchiveResource;
 use App\Models\V1\Archive;
 use App\Models\V1\VisitorRecipe;
 use App\Traits\HttpResponse;
-use App\Traits\TranslationTrait;
+use App\Traits\Translatable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Validator;
 class ArchiveController extends Controller
 {
     use HttpResponse;
-    use TranslationTrait;
+    use Translatable;
 
     /**
      * Show archive history for all associated visitor's users.

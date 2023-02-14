@@ -11,7 +11,7 @@ use App\Traits\RoleTrait;
 use App\Traits\UserTrait;
 use Illuminate\Support\Facades\Auth;
 
-class ProductsController extends Controller
+class ProductController extends Controller
 {
     use UserTrait;
     use RoleTrait;

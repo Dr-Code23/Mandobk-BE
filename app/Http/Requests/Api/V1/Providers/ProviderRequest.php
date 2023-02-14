@@ -3,12 +3,12 @@
 namespace App\Http\Requests\Api\V1\Providers;
 
 use App\Traits\HttpResponse;
-use App\Traits\TranslationTrait;
+use App\Traits\Translatable;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ProviderRequest extends FormRequest
 {
-    use TranslationTrait;
+    use Translatable;
     use HttpResponse;
     /**
      * Determine if the user is authorized to make this request.

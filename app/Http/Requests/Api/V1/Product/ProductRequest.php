@@ -4,13 +4,13 @@ namespace App\Http\Requests\Api\V1\Product;
 
 use App\Traits\HttpResponse;
 use App\Traits\RoleTrait;
-use App\Traits\TranslationTrait;
+use App\Traits\Translatable;
 use App\Traits\UserTrait;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ProductRequest extends FormRequest
 {
-    use TranslationTrait;
+    use Translatable;
     use HttpResponse;
     use UserTrait;
     use RoleTrait;

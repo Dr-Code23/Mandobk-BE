@@ -9,7 +9,7 @@ use App\Models\V1\Role;
 use App\Models\V1\VisitorRecipe;
 use App\Traits\HttpResponse;
 use App\Traits\StringTrait;
-use App\Traits\TranslationTrait;
+use App\Traits\Translatable;
 use App\Traits\UserTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -19,7 +19,7 @@ use Illuminate\Validation\Rules\Password as RulesPassword;
 class UserController extends Controller
 {
     use UserTrait;
-    use TranslationTrait;
+    use Translatable;
     use HttpResponse;
     use StringTrait;
 

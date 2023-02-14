@@ -3,12 +3,12 @@
 namespace App\Http\Resources\Api\V1\Offers;
 
 use App\Models\V1\PayMethod;
-use App\Traits\TranslationTrait;
+use App\Traits\Translatable;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class OfferResource extends JsonResource
 {
-    use TranslationTrait;
+    use Translatable;
 
     /**
      * Transform the resource into an array.

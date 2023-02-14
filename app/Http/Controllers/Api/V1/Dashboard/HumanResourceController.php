@@ -10,11 +10,11 @@ use App\Models\User;
 use App\Models\V1\HumanResource;
 use App\Traits\DateTrait;
 use App\Traits\HttpResponse;
-use App\Traits\TranslationTrait;
+use App\Traits\Translatable;
 
 class HumanResourceController extends Controller
 {
-    use TranslationTrait;
+    use Translatable;
     use HttpResponse;
     use DateTrait;
 

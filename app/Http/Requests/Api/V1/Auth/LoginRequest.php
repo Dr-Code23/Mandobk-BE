@@ -3,14 +3,14 @@
 namespace App\Http\Requests\Api\V1\Auth;
 
 use App\Traits\HttpResponse;
-use App\Traits\TranslationTrait;
+use App\Traits\Translatable;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 
 class LoginRequest extends FormRequest
 {
     use HttpResponse;
-    use TranslationTrait;
+    use Translatable;
     protected $stopOnFirstFailure = false;
 
     // protected $stopOnFirstFailure = true;

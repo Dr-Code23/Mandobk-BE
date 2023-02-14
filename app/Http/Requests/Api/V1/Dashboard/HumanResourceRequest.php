@@ -3,12 +3,12 @@
 namespace App\Http\Requests\Api\V1\Dashboard;
 
 use App\Traits\HttpResponse;
-use App\Traits\TranslationTrait;
+use App\Traits\Translatable;
 use Illuminate\Foundation\Http\FormRequest;
 
 class HumanResourceRequest extends FormRequest
 {
-    use TranslationTrait;
+    use Translatable;
     use HttpResponse;
 
     /**

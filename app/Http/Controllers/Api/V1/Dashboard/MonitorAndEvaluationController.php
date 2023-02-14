@@ -10,7 +10,7 @@ use App\Models\User;
 use App\Models\V1\Role;
 use App\Traits\HttpResponse;
 use App\Traits\StringTrait;
-use App\Traits\TranslationTrait;
+use App\Traits\Translatable;
 use App\Traits\UserTrait;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -20,7 +20,7 @@ class MonitorAndEvaluationController extends Controller
     use HttpResponse;
     use StringTrait;
     use HttpResponse;
-    use TranslationTrait;
+    use Translatable;
     use UserTrait;
 
     /**

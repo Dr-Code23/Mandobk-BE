@@ -5,7 +5,7 @@ namespace Tests\Feature\Api\V1\Products;
 use App\Models\V1\Product;
 use App\Traits\FileOperationTrait;
 use App\Traits\TestingTrait;
-use App\Traits\TranslationTrait;
+use App\Traits\Translatable;
 use Illuminate\Http\Response;
 use Tests\TestCase;
 
@@ -13,7 +13,7 @@ class ProductTest extends TestCase
 {
     use TestingTrait;
     use FileOperationTrait;
-    use TranslationTrait;
+    use Translatable;
     private string $path = 'Products/';
 
     public function testLogin(array $credentials = ['username' => 'company', 'password' => 'company'])

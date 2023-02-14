@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources\Api\V1\Site\Pharmacy\SubUsers;
+namespace App\Http\Resources\Api\V1\Site\Pharmacy\SubUser;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 

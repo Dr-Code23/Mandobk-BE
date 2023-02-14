@@ -3,13 +3,13 @@
 namespace App\Http\Requests\Api\V1\Offers;
 
 use App\Traits\HttpResponse;
-use App\Traits\TranslationTrait;
+use App\Traits\Translatable;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 
 class OfferRequest extends FormRequest
 {
-    use TranslationTrait;
+    use Translatable;
     use HttpResponse;
 
     /**

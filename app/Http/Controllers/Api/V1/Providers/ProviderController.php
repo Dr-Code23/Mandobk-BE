@@ -9,7 +9,7 @@ use App\Http\Resources\Api\V1\Providers\ProviderResource;
 use App\Models\V1\ProviderModel;
 use App\Traits\HttpResponse;
 use App\Traits\StringTrait;
-use App\Traits\TranslationTrait;
+use App\Traits\Translatable;
 use App\Traits\UserTrait;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,7 +17,7 @@ class ProviderController extends Controller
 {
     use HttpResponse;
     use UserTrait;
-    use TranslationTrait;
+    use Translatable;
     use StringTrait;
 
     public function index()

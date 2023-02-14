@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Api\V1\Site\Pharmacy;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\Site\Pharmacy\SubUserRequest;
-use App\Http\Resources\Api\V1\Site\Pharmacy\SubUsers\SubUserCollection;
-use App\Http\Resources\Api\V1\Site\Pharmacy\SubUsers\SubUserResource;
+use App\Http\Resources\Api\V1\Site\Pharmacy\SubUser\SubUserCollection;
+use App\Http\Resources\Api\V1\Site\Pharmacy\SubUser\SubUserResource;
 use App\Models\User;
 use App\Models\V1\Role;
 use App\Models\V1\SubUser;

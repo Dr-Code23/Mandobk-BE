@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources\Api\V1\Site\Recipes;
+namespace App\Http\Resources\Api\V1\Site\Recipe;
 
 use App\Traits\RoleTrait;
 use Illuminate\Http\Resources\Json\JsonResource;
