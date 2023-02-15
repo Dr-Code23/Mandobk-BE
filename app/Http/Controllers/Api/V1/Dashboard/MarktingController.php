@@ -43,7 +43,7 @@ class MarktingController extends Controller
         $company_name = $this->sanitizeString($request->company_name);
         $discount = $this->setPercisionForFloatString($request->discount);
         // Check if the ad is already exists
-        if (!Markting::where('medicine_name', $medicine_name)->where('company_name', $company_name)->where('discount', $discount)->first(['id'])) {
+        if (!Markting::where('medicine_name', $medicine_name)->where('company_name', $company_name)->where('discount', $discount)->value('id')) {
             // Store image
 
             // Change Directory Permissions To Show images

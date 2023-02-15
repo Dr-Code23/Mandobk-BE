@@ -102,7 +102,8 @@ class DBProductRepository implements ProductRepositoryInterface
             $product_exists = true;
         }
         // Check If the Provider Exists For Authenticated User
-        if (ProviderModel::whereIn('user_id', $this->getSubUsersForAuthenticatedUser())->first(['id'])) {
+        if (ProviderModel::whereIn('user_id', $this->getSubUsersForAuthenticatedUser())
+            ->where('id', $request->provider)->value('id')) {
             $provider_exists = true;
         }
 

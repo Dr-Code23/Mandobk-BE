@@ -36,7 +36,7 @@ class DatabaseSeeder extends Seeder
             // SubUserSeeder::class,
             // ProductSeeder::class,
             // HumanResourceSeeder::class,
-            // PayMethodSeeder::class,
+            PayMethodSeeder::class,
             // SaleSeeder::class,
             // MarktingSeeder::class,
             // OfferSeeder::class,
