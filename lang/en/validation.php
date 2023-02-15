@@ -214,6 +214,7 @@ return [
     'created' => 'Created Successfully',
     'updated' => 'Updated Successfully',
     'deleted' => 'Deleted Successfully',
+    'limited_products_with_big_quantity' => ' Is Limited And Have Quantity More than 1',
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines

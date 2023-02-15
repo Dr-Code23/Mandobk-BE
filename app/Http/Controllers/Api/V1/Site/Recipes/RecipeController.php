@@ -96,15 +96,15 @@ class RecipeController extends Controller
                     if (!in_array($i, $limited_products)) {
                         // Check if the product quantity is more than 1 in limited products
                         if ($products[$i]['quantity'] != 1) {
-                            $errors['limited_products_with_big_quantity'][] = $i;
+                            $errors['products'][$i]['limited_products_with_big_quantity'][] = $this->translateErrorMessage('product', 'limited_products_with_big_quantity');
                         }
                         $limited_products[] = $i;
                     } else {
-                        $errors['limited'][] = $i;
+                        $errors['products'][$i]['limited'][] = $this->translateErrorMessage('product', 'limited');
                     }
                 }
             } else { // The product not exists
-                $errors['not_exists'][] = $i;
+                $errors['products'][$i]['not_exists'][] = $this->translateErrorMessage('product', 'not_exists');
             }
         }
         if ($errors) {
