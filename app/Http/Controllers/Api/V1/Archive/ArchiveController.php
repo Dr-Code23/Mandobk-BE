@@ -19,9 +19,9 @@ class ArchiveController extends Controller
     use Translatable;
 
     /**
-     * Show archive history for all associated visitor's users.
+     * Undocumented function.
      *
-     * @return array
+     * @return mixed
      */
     public function index()
     {

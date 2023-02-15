@@ -22,11 +22,12 @@ class HomeController extends Controller
         $total_purchases = $total_sales =
             $daily_purchases = $daily_sales =
             $monthly_purchases = $monthly_sales = 0;
+
         // Purchases
         foreach (Product::whereIn('user_id', $this->getSubUsersForAuthenticatedUser())
-            ->get(['pur_price', 'qty', 'created_at']) as $product) {
+            ->get(['original_total as total', 'created_at']) as $product) {
             // product info
-            $purchase = ($product->pur_price * $product->qty);
+            $purchase = $product->total;
             $created_at = date('Y-m-d', strtotime($product->created_at));
 
             $total_purchases += $purchase;
@@ -70,7 +71,12 @@ class HomeController extends Controller
             $home_info['monthly_sales'] = $this->setPercisionForFloatString($monthly_sales, 2, '.', ',');
             $home_info['monthly_profits'] = $this->setPercisionForFloatString($monthly_purchases - $monthly_sales, 2, '.', ',');
         }
-        $home_info['products'] = new ProductCollection(Product::whereIn('user_id', $this->getSubUsersForAuthenticatedUser())->limit(7)->get());
+        $home_info['products'] =
+        new ProductCollection(
+            Product::whereIn('products.user_id', $this->getSubUsersForAuthenticatedUser()
+            )
+            ->join('providers', 'providers.id', 'products.provider_id')
+            ->limit(7)->get(['products.*', 'providers.name as provider']));
 
         return $this->resourceResponse($home_info);
     }

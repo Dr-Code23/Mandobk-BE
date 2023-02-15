@@ -50,6 +50,7 @@ class DBSalesRepository implements SalesRepositoryInterface
     {
         $products = $request->data;
         $uniqueProducts = [];
+        $errors = [];
 
         // ! Cannot Append Values in foreach
         $products_count = count($products);

@@ -28,6 +28,7 @@ class Product extends Model
         'limited',
         'provider_id',
         'barcode',
+        'original_total',
         'expire_date',
         'created_at',
         'updated_at',

@@ -117,8 +117,7 @@ class DBProductRepository implements ProductRepositoryInterface
 
             /* Make the barcode for the product */
             // Generate A Barcode for the product
-            $barcode = $request->input('barcode');
-
+            $barcode = rand(1, 100000);
             // Store the barcode
             $barcode_value = $barcode;
 
@@ -133,6 +132,7 @@ class DBProductRepository implements ProductRepositoryInterface
                     'con' => $concentrate,
                     'patch_number' => $request->patch_number,
                     'barcode' => $barcode_value,
+                    'original_total' => $purchase_price * $request->quantity,
                     'provider_id' => $provider,
                     'limited' => $admin_product ? $admin_product->limited : ($request->limited ? 1 : 0),
                     'user_id' => Auth::id(),

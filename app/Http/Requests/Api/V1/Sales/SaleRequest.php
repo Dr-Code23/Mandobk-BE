@@ -12,6 +12,7 @@ class SaleRequest extends FormRequest
 {
     use HttpResponse;
     use Translatable;
+    // protected $stopOnFirstFailure = true;
 
     /**
      * Determine if the user is authorized to make this request.

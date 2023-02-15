@@ -36,12 +36,19 @@ return new class() extends Migration {
             $table->unsignedDouble('bonus'); // Bonus
             $table->unsignedDouble('con'); // Concentrate
             $table->string('patch_number'); // Patch Number
-            $table->string('barcode'); // QR Code
+            $table->string('barcode'); // Bar Code
+
             $table->unsignedBigInteger('provider_id');
             $table->foreign('provider_id')
                 ->on('providers')
                 ->references('id')
                 ->cascadeOnUpdate();
+
+            /* 
+                Used To Find Total Purchases For That Product if 
+                the total quantity changed in sale operation for example 
+            */
+            $table->string('original_total')->nullable();
             $table->boolean('limited')->default(false); // Limited Exchange
             $table->date('expire_date')->default(now()); // Expire Date In
             $table->timestamps();
