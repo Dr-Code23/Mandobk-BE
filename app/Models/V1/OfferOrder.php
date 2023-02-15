@@ -21,7 +21,7 @@ class OfferOrder extends Model
     public function createdAt(): Attribute
     {
         return Attribute::make(
-            get: fn ($val) => $val->changeDateFormat($val, 'Y-m-d H:i'),
+            get: fn ($val) => $this->changeDateFormat($val, 'Y-m-d H:i'),
         );
     }
 
