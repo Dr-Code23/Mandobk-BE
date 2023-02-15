@@ -64,5 +64,8 @@ return [
     'archive' => 'Archive',
     'handle' => 'Handle',
     'approve' => 'Approve',
+    'approved' => 'Approved',
+    'rejected' => 'Rejected',
     'the_buyer' => 'Buyer',
+    'data' => 'Data',
 ];

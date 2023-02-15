@@ -13,7 +13,6 @@ use App\Traits\RoleTrait;
 use App\Traits\Translatable;
 use App\Traits\UserTrait;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 
 class DBSalesRepository implements SalesRepositoryInterface
 {
@@ -49,48 +48,8 @@ class DBSalesRepository implements SalesRepositoryInterface
      */
     public function storeSale($request)
     {
-        $rules = [
-            'product_id' => ['required'],
-            'expire_date' => ['required', 'date_format:Y-m-d'],
-            'selling_price' => ['required', 'numeric', 'min:1'],
-            'quantity' => ['required', 'numeric', 'min:1'],
-        ];
-        $messages = [
-            'product_id.required' => $this->translateErrorMessage('product', 'required'),
-            'expire_date.required' => $this->translateErrorMessage('expire_date', 'required'),
-            'expire_date.date_format' => $this->translateErrorMessage('expire_date', 'date_format'),
-            'selling_price.required' => $this->translateErrorMessage('selling_price', 'required'),
-            'selling_price.numeric' => $this->translateErrorMessage('selling_price', 'numeric'),
-            'selling_price.min' => $this->translateErrorMessage('selling_price', 'min.numeric'),
-            'quantity.required' => $this->translateErrorMessage('quantity', 'required'),
-            'quantity.numeric' => $this->translateErrorMessage('quantity', 'numeric'),
-            'quantity.min' => $this->translateErrorMessage('quantity', 'min.numeric'),
-        ];
-        $cnt = 0;
-        $products = $request->input('data');
+        $products = $request->data;
         $uniqueProducts = [];
-
-        if (!is_array($products)) {
-            return $this->validation_errors([
-                'Data is not array',
-            ]);
-        }
-        $errors = [];
-        if ($products) {
-            foreach ($products as $product_information) {
-                $validator = Validator::make($product_information, $rules, $messages);
-                if ($validator->fails()) {
-                    $errors[$cnt] = $validator->errors();
-                }
-                ++$cnt;
-            }
-        } else {
-            // if Request all is empty
-            $errors['product'] = $this->translateErrorMessage('product', 'required');
-        }
-        if ($errors) {
-            return $this->validation_errors($errors);
-        }
 
         // ! Cannot Append Values in foreach
         $products_count = count($products);
