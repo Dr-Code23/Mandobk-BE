@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1\Site\Recipes;
 
 use App\Http\Controllers\Api\V1\Archive\ArchiveController;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\V1\Site\Recipes\RecipeRequest;
 use App\Http\Resources\Api\V1\Site\Recipe\RecipeCollection;
 use App\Models\V1\Archive;
 use App\Models\V1\DoctorVisit;
@@ -66,140 +67,113 @@ class RecipeController extends Controller
         return $this->resourceResponse(new RecipeCollection($data));
     }
 
-    public function addRecipe(Request $request)
+    public function addRecipe(RecipeRequest $request)
     {
         $errors = [];
         $products = $request->input('products');
 
         // Store all limited products in that array
         $limited_products = [];
-        if (!is_array($products)) {
-            $errors['products'] = $this->translateErrorMessage('products', 'required');
-        } else {
-            $index = 0;
-            // Data is array
-            foreach ($products as $product) {
-                $validator = Validator::make($product, [
-                    'product_id' => ['required', 'numeric'],
-                    'quantity' => ['required', 'numeric', 'min:1'],
-                ], [
-                    'product_id.required' => $this->translateErrorMessage('product', 'required'),
-                    'product_id.numeric' => $this->translateErrorMessage('product', 'numeric'),
-                    'quantity.required' => $this->translateErrorMessage('quantity', 'required'),
-                    'quantity.numeric' => $this->translateErrorMessage('quantity', 'numeric'),
-                    'quantity.min' => $this->translateErrorMessage('quantity', 'min.numeric'),
-                ]);
 
-                // ? Cannot use product id cause don't sure if it's exists in array or not
-                if ($validator->fails()) {
-                    $errors[$index] = $validator->errors();
-                }
-                ++$index;
-            }
-            if ($errors) {
-                return $this->validation_errors($errors);
-            }
-            // Check For Products If Exists In Admin
-            // ! foreach don't add value to array !
-            // foreach ($products as $product) {
-            // }
-            $product_count = count($products);
-            for ($i = 0; $i < $product_count; ++$i) {
-                // Validte only coming product
-                if (isset($products[$i]['product_id'])) {
-                    $product_id = $products[$i]['product_id'];
-                    // Now We Can check for products with the same id
+        // Check For Products If Exists In Admin
+        // ! foreach don't add value to array !
+        // foreach ($products as $product) {
+        // }
+        $product_count = count($products);
+        for ($i = 0; $i < $product_count; ++$i) {
+            // Validte only coming product
 
-                    if (
-                        $origial_product = Product::whereIn('role_id', $this->getRolesIdsByName(['ceo', 'data_entry']))
-                        ->where('id', $product_id)
-                        ->first(['id', 'limited'])
-                    ) {
-                        // Check If the product is limited or not
-                        if ($origial_product->limited) {
-                            if (!in_array($i, $limited_products)) {
-                                // Check if the product quantity is more than 1 in limited products
-                                if ($products[$i]['quantity'] != 1) {
-                                    $errors['limited_products_with_big_quantity'][] = $i;
-                                }
-                                $limited_products[] = $i;
-                            } else {
-                                $errors['limited'][] = $i;
-                            }
+            $product_id = $products[$i]['product_id'];
+            // Now We Can check for products with the same id
+
+            if (
+                $origial_product = Product::whereIn('role_id', $this->getRolesIdsByName(['ceo', 'data_entry']))
+                ->where('id', $product_id)
+                ->first(['id', 'limited'])
+            ) {
+                // Check If the product is limited or not
+                if ($origial_product->limited) {
+                    if (!in_array($i, $limited_products)) {
+                        // Check if the product quantity is more than 1 in limited products
+                        if ($products[$i]['quantity'] != 1) {
+                            $errors['limited_products_with_big_quantity'][] = $i;
                         }
-                    } else { // The product not exists
-                        $errors['not_exists'][] = $i;
-                    }
-                }
-            }
-            if ($errors) {
-                return $this->validation_errors($errors);
-            }
-
-            // Everything is valid so , Check Random Number Have old products or not
-
-            // check if the request has random number
-            if (is_numeric($request->input('random_number'))) {
-                if ($recipe = VisitorRecipe::where(
-                    'random_number',
-                    $request->input('random_number'))
-                    ->first(['id', 'details', 'alias'])
-                ) {
-                    // If There is any products with random number , move it to archieve
-                    $move_to_archive = $request->input('move_products_to_archive_if_exists');
-                    if ($move_to_archive == true) {
-                        if (!ArchiveController::moveFromRandomNumberProducts(new Request(), $request->input('random_number'))) {
-                            $errors['move_to_archive'] = __('validation.operation_failed');
-                        }
-
-                        if ($errors) {
-                            return $this->validation_errors($errors);
-                        }
-                        $recipe->details = [];
-                    }
-
-                    // return $recipe->details;
-                    $details = [];
-                    $products_count = count($products);
-                    for ($i = 0; $i < $products_count; ++$i) {
-                        $product = $products[$i];
-
-                        $product_info = Product::where('id', $product['product_id'])->first(
-                            [
-                                'sc_name',
-                                'com_name',
-                                'con',
-                            ]
-                        );
-                        $details['products'][$i]['scientific_name'] = $product_info->sc_name;
-                        $details['products'][$i]['commercial_name'] = $product_info->com_name;
-                        $details['products'][$i]['concentrate'] = $product_info->con;
-                        $details['products'][$i]['taken'] = false;
-                    }
-                    $details['doctor_name'] = $this->getAuthenticatedUserInformation()->full_name;
-
-                    // return $details;
-                    if (!$recipe->details) {
-                        $recipe->details = $details;
-
-                        $recipe->update();
-
-                        // Add This visit To the doctor
-                        DoctorVisit::create([
-                            'doctor_id' => Auth::id(),
-                            'visitor_recipe_id' => $recipe->id,
-                        ]);
-
-                        return $this->success(null, 'Recipe Sent Successfully');
+                        $limited_products[] = $i;
                     } else {
-                        $errors['products'] = $this->translateErrorMessage('products', 'not_empty');
+                        $errors['limited'][] = $i;
                     }
+                }
+            } else { // The product not exists
+                $errors['not_exists'][] = $i;
+            }
+        }
+        if ($errors) {
+            return $this->validation_errors($errors);
+        }
+
+        // Everything is valid so , Check Random Number Have old products or not
+
+        // check if the request has random number
+        if (is_numeric($request->input('random_number'))) {
+            if ($recipe = VisitorRecipe::where(
+                'random_number',
+                $request->input('random_number'))
+                ->first(['id', 'details', 'alias'])
+            ) {
+                // If There is any products with random number , move it to archieve
+                $move_to_archive = $request->input('move_products_to_archive_if_exists');
+                if ($move_to_archive == true) {
+                    if (!ArchiveController::moveFromRandomNumberProducts(new Request(), $request->input('random_number'))) {
+                        $errors['move_to_archive'] = __('validation.operation_failed');
+                    }
+
+                    if ($errors) {
+                        return $this->validation_errors($errors);
+                    }
+                    $recipe->details = [];
+                }
+
+                // return $recipe->details;
+                $details = [];
+                $products_count = count($products);
+                for ($i = 0; $i < $products_count; ++$i) {
+                    $product = $products[$i];
+
+                    $product_info = Product::where('id', $product['product_id'])->first(
+                        [
+                            'sc_name',
+                            'com_name',
+                            'con',
+                        ]
+                    );
+                    $details['products'][$i]['scientific_name'] = $product_info->sc_name;
+                    $details['products'][$i]['commercial_name'] = $product_info->com_name;
+                    $details['products'][$i]['concentrate'] = $product_info->con;
+                    $details['products'][$i]['taken'] = false;
+                }
+                $details['doctor_name'] = $this->getAuthenticatedUserInformation()->full_name;
+
+                // return $details;
+                if (!$recipe->details) {
+                    $recipe->details = $details;
+
+                    $recipe->update();
+
+                    // Add This visit To the doctor
+                    DoctorVisit::create([
+                        'doctor_id' => Auth::id(),
+                        'visitor_recipe_id' => $recipe->id,
+                    ]);
+
+                    return $this->success(null, 'Recipe Sent Successfully');
                 } else {
-                    $errors['random_number'][] = $this->translateErrorMessage('random_number', 'not_exists');
+                    $errors['products'] = $this->translateErrorMessage('products', 'not_empty');
                 }
             } else {
-                $errors['random_number'][] = $this->translateErrorMessage('random_number', 'invalid');
+                $errors['random_number'][] = $this->translateErrorMessage('random_number', 'not_exists');
             }
+        } else {
+            $errors['random_number'][] = $this->translateErrorMessage('random_number', 'invalid');
         }
 
         return $this->validation_errors($errors);

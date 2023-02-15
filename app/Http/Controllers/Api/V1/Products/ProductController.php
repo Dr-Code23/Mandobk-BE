@@ -49,25 +49,25 @@ class ProductController extends Controller
 
     public function ScientificNamesSelect()
     {
-        return Product::where('user_id', Auth::id())->get(['id', 'sc_name as scientific_name']);
+        return $this->resourceResponse(Product::where('user_id', Auth::id())->get(['id', 'sc_name as scientific_name']));
     }
 
     public function CommercialNamesSelect()
     {
-        return Product::where('user_id', Auth::id())->get(['id', 'com_name as commercial_names']);
+        return $this->resourceResponse(Product::where('user_id', Auth::id())->get(['id', 'com_name as commercial_names']));
     }
 
     public function doctorProducts()
     {
         if ($this->getRoleNameForAuthenticatedUser() == 'doctor') {
-            return Product::whereIn(
+            return $this->resourceResponse(Product::whereIn(
                 'role_id',
                 [
                     Role::where('name', 'ceo')->value('id'),
                     Role::where('name', 'data_entry')->value('id'),
                 ]
             )
-                ->get(['id', 'sc_name as scientific_name', 'limited']);
+                ->get(['id', 'sc_name as scientific_name', 'limited']));
         }
 
         return $this->notFoundResponse();

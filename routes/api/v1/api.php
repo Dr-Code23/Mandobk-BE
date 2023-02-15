@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\V1\Dashboard\HumanResourceController;
 use App\Http\Controllers\Api\V1\Dashboard\MarktingController;
 use App\Http\Controllers\Api\V1\Dashboard\MonitorAndEvaluationController;
 use App\Http\Controllers\Api\V1\Dashboard\OrderManagementController;
+use App\Http\Controllers\Api\V1\Mobile\Auth\MobileAuthController;
 use App\Http\Controllers\Api\V1\PayMethod\PayMethodController;
 use App\Http\Controllers\Api\V1\Products\ProductController;
 use App\Http\Controllers\Api\V1\Providers\ProviderController;
@@ -223,6 +224,12 @@ Route::group(['middleware' => ['auth:api']], function () {
                 );
             }
         );
+    });
+
+    Route::group(['prefix' => 'mobile'], function () {
+        Route::post('login', [MobileAuthController::class, 'login'])
+            ->withoutMiddleware('auth:api');
+        Route::post('logout', [MobileAuthController::class, 'logout']);
 
         // Visitor
         Route::group(
@@ -241,15 +248,11 @@ Route::group(['middleware' => ['auth:api']], function () {
                 Route::group(
                     ['prefix' => 'recipe'],
                     function () {
-                        Route::get('', [RecipeController::class, 'index']);
+                        Route::get('', [RecipeController::class, 'getAllRecipes']);
                     }
                 );
             }
         );
-    });
-
-    Route::group(['prefix' => 'mobile'], function () {
-        // Route::post('login' , )
     });
 
     Route::group(
@@ -299,8 +302,8 @@ Route::group(['middleware' => ['auth:api']], function () {
                 ['prefix' => 'markting', 'middleware' => ['hasMarktingPermissions']],
                 function () {
                     Route::get('', [MarktingController::class, 'index']);
-                    Route::get('{ad}', [MarktingController::class, 'show']);
                     Route::post('', [MarktingController::class, 'store'])->name('markting_store');
+                    Route::get('{ad}', [MarktingController::class, 'show']);
                     Route::post('{ad}', [MarktingController::class, 'update'])->name('markting_update');
                     Route::delete('{ad}', [MarktingController::class, 'destroy']);
                 }
