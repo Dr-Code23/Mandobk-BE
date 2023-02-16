@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class() extends Migration {
+return new class() extends Migration
+{
     /**
      * Run the migrations.
      *
@@ -37,12 +38,6 @@ return new class() extends Migration {
             $table->unsignedDouble('con'); // Concentrate
             $table->string('patch_number'); // Patch Number
             $table->string('barcode'); // Bar Code
-
-            $table->unsignedBigInteger('provider_id');
-            $table->foreign('provider_id')
-                ->on('providers')
-                ->references('id')
-                ->cascadeOnUpdate();
 
             /* 
                 Used To Find Total Purchases For That Product if 

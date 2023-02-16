@@ -22,9 +22,9 @@ class AuthController extends Controller
      *
      * @param LoginRequest $request
      * @param AuthService $authService
-     * @return JsonResponse
+     * @return JsonResponse|mixed
      */
-    public function login(LoginRequest $request, AuthService $authService): JsonResponse
+    public function login(LoginRequest $request, AuthService $authService): mixed
     {
 
         $user = $authService->login($request, false);

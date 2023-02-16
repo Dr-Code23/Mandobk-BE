@@ -24,14 +24,13 @@ class ProductSeeder extends Seeder
                 'sel_price' => fake()->randomFloat(1, 1, 1000),
                 'bonus' => fake()->randomFloat(1, 1, 1000),
                 'created_at' => fake()->date(),
-                'expire_date' => date('Y-m-d', strtotime('+'.fake()->numberBetween(1, 100).'days')),
+                'expire_date' => date('Y-m-d', strtotime('+' . fake()->numberBetween(1, 100) . 'days')),
                 'con' => fake()->randomFloat(),
                 'limited' => fake()->boolean(),
                 'patch_number' => fake()->numberBetween(1, 100),
                 'barcode' => '',
                 'user_id' => fake()->numberBetween(1, 10),
                 'role_id' => fake()->numberBetween(1, 10),
-                'provider_id' => fake()->numberBetween(1, 2),
             ]);
         }
     }

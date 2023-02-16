@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
         for ($i = 1; $i <= count($roles); ++$i) {
             User::create([
                 'username' => $roles[$i - 1],
-                'password' => Hash::make($roles[$i - 1]),
+                'password' => $roles[$i - 1],
                 'full_name' => $roles[$i - 1],
                 'role_id' => $i,
             ]);
@@ -29,10 +29,10 @@ class UserSeeder extends Seeder
         // Add Customer User
 
         User::create([
-                'username' => 'customer',
-                'password' => Hash::make(Hash::make('customer')),
-                'full_name' => 'Unknow Customer',
-                'role_id' => Role::where('name', 'customer')->value('id'),
+            'username' => 'customer',
+            'password' => Hash::make(Hash::make('customer')),
+            'full_name' => 'Unknow Customer',
+            'role_id' => Role::where('name', 'customer')->value('id'),
         ]);
     }
 }

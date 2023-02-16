@@ -26,7 +26,6 @@ class Product extends Model
         'con',
         'patch_number',
         'limited',
-        'provider_id',
         'barcode',
         'original_total',
         'expire_date',
@@ -63,7 +62,7 @@ class Product extends Model
                 }
                 foreach ($all_roles as $role_name => $role_id) {
                     if ($role_id == $this->role_id) {
-                        return config('roles.role_patch_number_symbol.'.$role_name).'-'.$val;
+                        return config('roles.role_patch_number_symbol.' . $role_name) . '-' . $val;
                     }
                 }
             }

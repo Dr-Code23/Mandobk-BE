@@ -28,22 +28,10 @@ class DBProductRepository implements ProductRepositoryInterface
     public function showAllProducts()
     {
         if ($this->roleNameIn(['ceo', 'data_entry'])) {
-            $products = Product::orderByDesc('id')
-            ->join('providers', 'providers.id', 'products.provider_id')
-            ->get([
-                'products.*',
-                'providers.name as provider',
-            ]);
+            $products = Product::latest()->get();
         } else {
-            $products = Product::whereIn(
-                'products.user_id',
-                $this->getSubUsersForAuthenticatedUser()
-            )
-            ->join('providers', 'providers.id', 'products.provider_id')
-            ->orderByDesc('products.id')->get([
-                'products.*',
-                'providers.name as provider',
-            ]);
+            $products = Product::whereIn('products.user_id', $this->getSubUsersForAuthenticatedUser())
+                ->latest()->get();
         }
         // ->paginate();
 
@@ -55,20 +43,13 @@ class DBProductRepository implements ProductRepositoryInterface
      */
     public function showOneProduct($product)
     {
-        if (ProviderModel::whereIn('user_id', $this->getSubUsersForAuthenticatedUser())->first(['id'])) {
-            $product = Product::whereIn('products.user_id', $this->getSubUsersForAuthenticatedUser())
-            ->join('providers', 'providers.id', 'products.provider_id')
-            ->where('products.id', $product->id)
-            ->first([
-                'products.*',
-                'providers.name as provider',
-                'providers.id as provider_id',
-            ]);
-            if ($product) {
-                return $this->resourceResponse(new ProductResource($product));
-            }
-        }
 
+        $product = Product::whereIn('user_id', $this->getSubUsersForAuthenticatedUser())
+            ->where('id', $product->id)
+            ->first();
+        if ($product) {
+            return $this->resourceResponse(new ProductResource($product));
+        }
         return $this->notFoundResponse($this->translateSuccessMessage('provider', 'not_found'));
     }
 
@@ -83,7 +64,6 @@ class DBProductRepository implements ProductRepositoryInterface
     {
         $commercial_name = $this->sanitizeString($request->commercial_name);
         $scientific_name = $this->sanitizeString($request->scientific_name);
-        $provider = $this->sanitizeString($request->provider);
         $purchase_price = $this->setPercisionForFloatString($request->purchase_price);
         $selling_price = $this->setPercisionForFloatString($request->selling_price);
         $bonus = $this->setPercisionForFloatString($request->bonus);
@@ -91,23 +71,18 @@ class DBProductRepository implements ProductRepositoryInterface
 
         // Check if either commercial name or scientific_name exists
         $product_exists = false;
-        $provider_exists = false;
         if (
             Product::where(function ($bind) use ($commercial_name, $scientific_name, $concentrate) {
                 $bind->where('com_name', $commercial_name);
                 $bind->where('sc_name', $scientific_name);
                 $bind->where('con', $concentrate);
                 $bind->whereIn('user_id', $this->getSubUsersForAuthenticatedUser());
-            })->first(['id'])) {
+            })->first(['id'])
+        ) {
             $product_exists = true;
         }
-        // Check If the Provider Exists For Authenticated User
-        if (ProviderModel::whereIn('user_id', $this->getSubUsersForAuthenticatedUser())
-            ->where('id', $request->provider)->value('id')) {
-            $provider_exists = true;
-        }
 
-        if (!$product_exists && $provider_exists) {
+        if (!$product_exists) {
             // Check if the admin has already added the product
 
             // Check If Data Entry Has has product
@@ -134,7 +109,6 @@ class DBProductRepository implements ProductRepositoryInterface
                     'patch_number' => $request->patch_number,
                     'barcode' => $barcode_value,
                     'original_total' => $purchase_price * $request->quantity,
-                    'provider_id' => $provider,
                     'limited' => $admin_product ? $admin_product->limited : ($request->limited ? 1 : 0),
                     'user_id' => Auth::id(),
                     'role_id' => Auth::user()->role_id,
@@ -155,9 +129,6 @@ class DBProductRepository implements ProductRepositoryInterface
         $payload = [];
         if ($product_exists) {
             $payload['product'] = $this->translateErrorMessage('product', 'exists');
-        }
-        if (!$provider_exists) {
-            $payload['provider'] = $this->translateErrorMessage('provider', 'not_exists');
         }
 
         return $this->validation_errors($payload);
@@ -184,7 +155,6 @@ class DBProductRepository implements ProductRepositoryInterface
         ];
         // Check if either commercial name or scientific_name exists
         $product_exists = false;
-        $provider_exists = false;
         if (
             Product::where(function ($bind) use ($commercial_name, $scientific_name, $concentrate, $product) {
                 $bind->where('com_name', $commercial_name);
@@ -192,14 +162,12 @@ class DBProductRepository implements ProductRepositoryInterface
                 $bind->where('con', $concentrate);
                 $bind->whereIn('user_id', $this->getSubUsersForAuthenticatedUser());
                 $bind->where('id', '!=', $product->id);
-            })->first(['id'])) {
+            })->first(['id'])
+        ) {
             $product_exists = true;
         }
 
-        if (ProviderModel::whereIn('user_id', $this->getSubUsersForAuthenticatedUser())->first(['id'])) {
-            $provider_exists = true;
-        }
-        if (!$product_exists && $provider_exists) {
+        if (!$product_exists) {
             $random_number = null;
             $barCodeStored = false;
             $barCodeValue = null;
@@ -238,10 +206,6 @@ class DBProductRepository implements ProductRepositoryInterface
                 $product->patch_number = $request->patch_number;
                 $anyChangeOccured = true;
             }
-            if ($product->provider != $provider) {
-                $product->provider = $provider;
-                $anyChangeOccured = true;
-            }
             if ($product->limited != (int) $request->limited) {
                 $product->limited = $request->limited ? 1 : 0;
                 $anyChangeOccured = true;
@@ -276,10 +240,6 @@ class DBProductRepository implements ProductRepositoryInterface
         $payload = [];
         if ($product_exists) {
             $payload['product_exists'] = $this->translateErrorMessage('product', 'exists');
-        }
-
-        if (!$product_exists) {
-            $payload['provider'] = $this->translateErrorMessage('provider', 'not_exists');
         }
 
         return $this->validation_errors($payload);

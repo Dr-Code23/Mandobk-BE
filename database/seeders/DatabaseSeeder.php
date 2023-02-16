@@ -12,7 +12,6 @@ use Database\Seeders\Api\V1\OfferSeeder;
 use Database\Seeders\Api\V1\PayMethodSeeder;
 use Database\Seeders\Api\V1\PharmacyVisitSeeder;
 use Database\Seeders\Api\V1\ProductSeeder;
-use Database\Seeders\Api\V1\ProviderSeeder;
 use Database\Seeders\Api\V1\RoleSeeder;
 use Database\Seeders\Api\V1\SaleSeeder;
 use Database\Seeders\Api\V1\SubUserSeeder;
@@ -32,7 +31,6 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RoleSeeder::class,
             UserSeeder::class,
-            ProviderSeeder::class,
             SubUserSeeder::class,
             ProductSeeder::class,
             HumanResourceSeeder::class,
