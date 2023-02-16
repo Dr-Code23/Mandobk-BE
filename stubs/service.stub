@@ -1,0 +1,13 @@
+<?php
+namespace App\Services{{namespace}};
+
+class {{class}}
+{
+    /*
+        Simple Service Class
+    */
+    public function index()
+    {
+        // Do Magic Here !
+    }
+}
