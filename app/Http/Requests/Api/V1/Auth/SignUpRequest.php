@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Api\V1\Auth;
 
+use App\Rules\RoleExists;
 use App\Traits\HttpResponse;
 use App\Traits\Translatable;
 use Illuminate\Contracts\Validation\Validator;
@@ -36,7 +37,7 @@ class signUpRequest extends FormRequest
             'full_name' => ['required'],
             'username' => ['required', 'regex:'.config('regex.username'), 'unique:users,username'],
             'phone' => 'required',
-            'role' => ['required'],
+            'role' => ['required', new RoleExists()],
             'password' => [
                 'required',
                 RulesPassword::min(8)->

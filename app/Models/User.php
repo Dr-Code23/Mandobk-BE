@@ -5,9 +5,11 @@ namespace App\Models;
 use App\Models\V1\HumanResource;
 use App\Models\V1\Role;
 use App\Traits\DateTrait;
+use Illuminate\Database\Eloquent\Casts\Attribute as CastsAttribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 
@@ -114,5 +116,12 @@ class User extends Authenticatable implements JWTSubject
     public function HumanResources()
     {
         return $this->hasMany(HumanResource::class, 'user_id', 'id');
+    }
+
+    public function password(): CastsAttribute
+    {
+        return CastsAttribute::make(
+            set: fn ($val) => Hash::check($val, $this->password) ? $val : Hash::make($val)
+        );
     }
 }
