@@ -52,7 +52,7 @@ class OrderManagementController extends Controller
     public function acceptPendingOrders(Request $request, OfferOrder $order)
     {
         if ($order->status == '1') {
-            $order->status = $request->input('approve') == '0' ? '0' : '2';
+            $order->status = $request->input('approve') ? '2' : '0';
             $order->update();
 
             $order = OfferOrder::where('offer_orders.id', $order->id)
