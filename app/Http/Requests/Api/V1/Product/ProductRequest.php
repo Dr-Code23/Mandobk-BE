@@ -36,14 +36,13 @@ class ProductRequest extends FormRequest
         $rules = [
             'commercial_name' => ['required'],
             'scientific_name' => ['required'],
-            'quantity' => ['required', 'regex:'.config('regex.integer')],
+            'quantity' => ['required', 'regex:' . config('regex.integer')],
             'concentrate' => $double,
             'bonus' => $double,
             'selling_price' => $double,
             'purchase_price' => $double,
             'patch_number' => ['required'],
             'expire_date' => ['bail', 'required', 'date_format:Y-m-d', 'after:today'],
-            'provider' => ['required', 'numeric'],
         ];
 
         if ($this->method() == 'POST') {
@@ -72,7 +71,6 @@ class ProductRequest extends FormRequest
             'entry_date.date_format' => $this->translateErrorMessage('entry_date', 'entry_date.date.date_format'),
             'expire_date.date_format' => $this->translateErrorMessage('expire_date', 'expire_date.date.date_format'),
             'expire_date.after' => $this->translateErrorMessage('expire_date', 'after'),
-            'provider.numeric' => $this->translateErrorMessage('provider', 'numeric'),
             'generate_another_bar_code' => $this->translateErrorMessage('bar_code', 'boolean'),
             'quantity.regex' => $this->translateErrorMessage('quantity', 'quantity.regex'),
         ];
@@ -92,7 +90,7 @@ class ProductRequest extends FormRequest
                 $messages["$key.numeric"] = $this->translateErrorMessage($key, 'numeric');
                 $messages["$key.min"] = $this->translateErrorMessage($key, 'min.numeric');
             } else {
-                $messages["$key.regex"] = $this->translateErrorMessage($key, $key.'.regex');
+                $messages["$key.regex"] = $this->translateErrorMessage($key, $key . '.regex');
             }
         }
 

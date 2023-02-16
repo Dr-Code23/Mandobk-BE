@@ -31,7 +31,6 @@ trait TestingTrait
             "bonus" : "1",
             "concentrate" : "2",
             "patch_number" :"1-1-1-1",
-            "provider" :"3",
             "limited" : true,
             "entry_date" : "2020-12-11",
             "expire_date" : "2023-12-12",
@@ -53,10 +52,10 @@ trait TestingTrait
     public function setToken(string $token)
     {
         if (config('test.store_response')) {
-            if (!is_dir(__DIR__.'/../../tests/responsesExamples/Auth')) {
-                mkdir(__DIR__.'/../../tests/responsesExamples/Auth', recursive: true);
+            if (!is_dir(__DIR__ . '/../../tests/responsesExamples/Auth')) {
+                mkdir(__DIR__ . '/../../tests/responsesExamples/Auth', recursive: true);
             }
-            $handle = fopen(__DIR__.'/../../tests/responsesExamples/Auth/token.txt', 'w');
+            $handle = fopen(__DIR__ . '/../../tests/responsesExamples/Auth/token.txt', 'w');
             fwrite($handle, $token);
             fclose($handle);
         }
@@ -69,6 +68,6 @@ trait TestingTrait
      */
     public function getToken()
     {
-        return file_get_contents(__DIR__.'/../../tests/responsesExamples/Auth/token.txt');
+        return file_get_contents(__DIR__ . '/../../tests/responsesExamples/Auth/token.txt');
     }
 }

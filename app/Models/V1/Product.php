@@ -33,11 +33,6 @@ class Product extends Model
         'updated_at',
     ];
 
-    public function provider()
-    {
-        return $this->hasOne(ProviderModel::class, 'id', 'provider_id');
-    }
-
     public function patchNumber(): Attribute
     {
         return Attribute::make(

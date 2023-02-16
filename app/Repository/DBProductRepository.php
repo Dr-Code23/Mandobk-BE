@@ -6,7 +6,6 @@ use App\Http\Requests\Api\V1\Product\ProductRequest;
 use App\Http\Resources\Api\V1\Product\ProductCollection;
 use App\Http\Resources\Api\V1\Product\ProductResource;
 use App\Models\V1\Product;
-use App\Models\V1\ProviderModel;
 use App\Models\V1\Role;
 use App\RepositoryInterface\ProductRepositoryInterface;
 use App\Traits\DateTrait;
@@ -115,8 +114,6 @@ class DBProductRepository implements ProductRepositoryInterface
                     'entry_date' => $request->entry_date,
                     'expire_date' => $request->expire_date,
                 ]);
-                $product->provider = $product->provider->name;
-
                 return $this->success(new ProductResource($product), $this->translateSuccessMessage('product', 'created'));
             }
 

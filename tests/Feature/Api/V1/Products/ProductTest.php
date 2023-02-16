@@ -25,7 +25,7 @@ class ProductTest extends TestCase
 
     public function testStoreProduct()
     {
-        $response = $this->withHeader('Authorization', 'Bearer '.$this->getToken())
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
             ->postJson(route('v1-products-store'));
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
         $response->assertJsonFragment([
@@ -38,7 +38,6 @@ class ProductTest extends TestCase
             'purchase_price' => [$this->translateErrorMessage('purchase_price', 'required')],
             'patch_number' => [$this->translateErrorMessage('patch_number', 'required')],
             'expire_date' => [$this->translateErrorMessage('expire_date', 'required')],
-            'provider' => [$this->translateErrorMessage('provider', 'required')],
             'barcode' => [$this->translateErrorMessage('barcode', 'required')],
         ]);
 
@@ -47,7 +46,7 @@ class ProductTest extends TestCase
 
     public function testQuantity()
     {
-        $response = $this->withHeader('Authorization', 'Bearer '.$this->getToken())
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
             ->postJson(route('v1-products-store'), $this->getProductsData('quantity', 'Google'));
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
         $response->assertJsonFragment([
@@ -58,16 +57,20 @@ class ProductTest extends TestCase
 
     public function testStoreProductSuccessfully()
     {
-        $response = $this->withHeader('Authorization', 'Bearer '.$this->getToken())
+
+        if ($product = Product::where('com_name', 'TestCommercialName')->first('id')) {
+            $product->delete();
+        }
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
             ->postJson(route('v1-products-store'), $this->getProductsData());
+        $this->writeAFileForTesting($this->path, 'StoreProductSuccessfully', $response->getContent());
         $response->assertStatus(Response::HTTP_OK);
         Product::where('id', json_decode($response->getContent())->data->id)->delete();
-        $this->writeAFileForTesting($this->path, 'StoreProductSuccessfully', $response->getContent());
     }
 
     public function testGetAllProducts()
     {
-        $response = $this->withHeader('Authorization', 'Bearer '.$this->getToken())
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
             ->getJson(route('v1-products-all'));
         $response->assertStatus(Response::HTTP_OK);
 
