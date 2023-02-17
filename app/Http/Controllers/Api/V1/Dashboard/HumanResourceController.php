@@ -31,7 +31,8 @@ class HumanResourceController extends Controller
             ->orderBy('human_resources.date', 'DESC')
             ->select(
                 [
-                    'users.id',
+                    'human_resources.id as id',
+                    'users.id as user_id',
                     'users.full_name',
                     'roles.name as role_name',
                     'human_resources.date',
