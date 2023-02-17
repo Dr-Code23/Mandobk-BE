@@ -58,11 +58,16 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     // Users For Select
     Route::group(
-        ['prefix' => 'users'],
+        ['prefix' => 'users', 'middleware' => ['auth:api']],
         function () {
+
             Route::get('/storehouse', [UserController::class, 'getUsersForSelectBox'])
                 ->middleware(['hasCompanyPermissions'])
                 ->name('roles-storehouse-all');
+
+            Route::get('/human_resource', [UserController::class, 'getHumanResourceUsers'])
+                ->middleware('hasHumanResourcePermissions');
+
             Route::get('/pharmacy', [UserController::class, 'getUsersForSelectBox'])
                 ->middleware(['hasStorehousePermissions'])
                 ->name('roles-pharmacy-all');

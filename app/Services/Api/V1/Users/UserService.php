@@ -83,4 +83,9 @@ class UserService
 
         return null;
     }
+
+    public function getHumanResourceUsers()
+    {
+        return User::whereIn('role_id', $this->getRolesIdsByName(config('roles.human_resources_roles')))->get(['id', 'full_name']);
+    }
 }

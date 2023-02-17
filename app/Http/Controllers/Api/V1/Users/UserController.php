@@ -120,4 +120,11 @@ class UserController extends Controller
 
         return $this->notFoundResponse('There Is No User With That Handle');
     }
+
+
+    public function getHumanResourceUsers(UserService $userService)
+    {
+        $users = $userService->getHumanResourceUsers();
+        return $this->resourceResponse($users);
+    }
 }
