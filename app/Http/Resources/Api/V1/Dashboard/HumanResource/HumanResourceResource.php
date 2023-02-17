@@ -19,11 +19,13 @@ class HumanResourceResource extends JsonResource
     public function toArray($request)
     {
         $response = [
-            'user_id' => $this->id,
+            'id' => $this->id,
+            'user_id' => $this->user_id,
             'full_name' => $this->full_name,
             'attendance' => $this->attendance,
             'departure' => $this->departure,
-            'status' => $this->status == '0' ? $this->translateWord('attended') : ($this->status == '1' ? $this->translateWord('absense') : $this->translateWord('holiday')),
+            'status' => $this->status == '0' ? $this->translateWord('attended')
+                : ($this->status == '1' ? $this->translateWord('absense') : $this->translateWord('holiday')),
             'date' => $this->date,
         ];
         if ($this->role_name) {

@@ -75,7 +75,10 @@ class HumanResourceController extends Controller
     public function storeOrUpdate(HumanResourceRequest $request)
     {
         // Check if the user is not CEO
-        $user = User::find($request->user_id)->join('roles', 'users.role_id', 'roles.id')
+        $user = User::find($request->user_id)->join('roles', function ($join) {
+            $join->on('roles.id', 'users.role_id')
+                ->whereIn('roles.id', config('roles.human_resources_roles'));
+        })
             ->where('users.id', $request->user_id)
             ->select(['roles.name as role_name'])->first();
         if ($user && $user->role_name != 'ceo') {
