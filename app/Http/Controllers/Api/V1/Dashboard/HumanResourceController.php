@@ -74,7 +74,7 @@ class HumanResourceController extends Controller
         // Check if the user is not CEO
         $user = User::find($request->user_id)->join('roles', function ($join) {
             $join->on('roles.id', 'users.role_id')
-                ->whereIn('roles.id', config('roles.human_resources_roles'));
+                ->whereIn('roles.name', config('roles.human_resources_roles'));
         })
             ->where('users.id', $request->user_id)
             ->first(['roles.name as role_name']);
