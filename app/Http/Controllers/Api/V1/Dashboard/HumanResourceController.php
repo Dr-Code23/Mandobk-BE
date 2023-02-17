@@ -77,7 +77,7 @@ class HumanResourceController extends Controller
                 ->whereIn('roles.id', config('roles.human_resources_roles'));
         })
             ->where('users.id', $request->user_id)
-            ->select(['roles.name as role_name'])->first();
+            ->first(['roles.name as role_name']);
         if ($user && $user->role_name != 'ceo') {
             $fullName_Role = User::where('users.id', $request->user_id)->join('roles', 'roles.id', 'users.role_id')
                 ->select(['users.full_name', 'roles.name as role_name'])
@@ -117,6 +117,6 @@ class HumanResourceController extends Controller
 
             return $this->success(new HumanResourceResource($human_resource), 'Resource Created Successfully');
         }
-        $this->notFoundResponse();
+        return $this->notFoundResponse('User Not Found');
     }
 }
