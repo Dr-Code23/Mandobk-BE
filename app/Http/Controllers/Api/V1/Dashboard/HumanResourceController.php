@@ -25,28 +25,23 @@ class HumanResourceController extends Controller
      */
     public function index()
     {
-        $users = User::join('roles', 'roles.id', 'users.role_id')
+        $users = User::join('roles', function ($join) {
+            $join->on('roles.id', 'users.role_id')
+                ->whereIn('roles.name', config('roles.human_resources_roles'));
+        })
             ->join('human_resources', 'human_resources.user_id', 'users.id')
-            ->whereIn(config('roles_table_name') . 'name', config('roles.human_resources_roles'))
-            ->orderBy('human_resources.date', 'DESC')
-            ->select(
-                [
-                    'human_resources.id as id',
-                    'users.id as user_id',
-                    'users.full_name',
-                    'roles.name as role_name',
-                    'human_resources.date',
-                    'human_resources.status as status',
-                    'human_resources.departure',
-                    'human_resources.attendance',
-                ]
-            )
-            ->get();
-        if ($users) {
-            return $this->resourceResponse(new HumanResourceCollection($users));
-        }
-
-        return $this->notFoundResponse();
+            ->orderByDesc('human_resources.date')
+            ->get([
+                'human_resources.id as id',
+                'users.id as user_id',
+                'users.full_name',
+                'roles.name as role_name',
+                'human_resources.date',
+                'human_resources.status as status',
+                'human_resources.departure',
+                'human_resources.attendance',
+            ]);
+        return $this->resourceResponse(new HumanResourceCollection($users));
     }
 
     public function show(User $user)
