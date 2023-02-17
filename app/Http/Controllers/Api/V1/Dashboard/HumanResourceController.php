@@ -56,7 +56,8 @@ class HumanResourceController extends Controller
             ->whereIn(config('roles_table_name') . 'name', config('roles.human_resources_roles'))
             ->select(
                 [
-                    'users.id',
+                    'human_resources.id as id',
+                    'users.id as user_id',
                     'users.full_name',
                     'roles.name as role_name',
                     'human_resources.date',
