@@ -27,7 +27,7 @@ class HumanResourceController extends Controller
     {
         $users = User::join('roles', 'roles.id', 'users.role_id')
             ->join('human_resources', 'human_resources.user_id', 'users.id')
-            ->whereIn(config('roles_table_name').'name', config('roles.human_resources_roles'))
+            ->whereIn(config('roles_table_name') . 'name', config('roles.human_resources_roles'))
             ->orderBy('human_resources.date', 'DESC')
             ->select(
                 [
@@ -35,6 +35,7 @@ class HumanResourceController extends Controller
                     'users.full_name',
                     'roles.name as role_name',
                     'human_resources.date',
+                    'human_resources.status as status',
                     'human_resources.departure',
                     'human_resources.attendance',
                 ]
@@ -52,7 +53,7 @@ class HumanResourceController extends Controller
         $user = User::join('roles', 'roles.id', 'users.role_id')
             ->where('users.id', $user->id)
             ->join('human_resources', 'human_resources.user_id', 'users.id')
-            ->whereIn(config('roles_table_name').'name', config('roles.human_resources_roles'))
+            ->whereIn(config('roles_table_name') . 'name', config('roles.human_resources_roles'))
             ->select(
                 [
                     'users.id',
