@@ -11,6 +11,7 @@ use Database\Seeders\Api\V1\OfferOrderSeeder;
 use Database\Seeders\Api\V1\OfferSeeder;
 use Database\Seeders\Api\V1\PayMethodSeeder;
 use Database\Seeders\Api\V1\PharmacyVisitSeeder;
+use Database\Seeders\Api\V1\ProductInfoSeeder;
 use Database\Seeders\Api\V1\ProductSeeder;
 use Database\Seeders\Api\V1\RoleSeeder;
 use Database\Seeders\Api\V1\SaleSeeder;
@@ -33,6 +34,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             SubUserSeeder::class,
             ProductSeeder::class,
+            ProductInfoSeeder::class,
             HumanResourceSeeder::class,
             PayMethodSeeder::class,
             SaleSeeder::class,

@@ -31,12 +31,10 @@ return new class() extends Migration
 
             $table->string('com_name'); // Commercial Name
             $table->string('sc_name'); // Scientefic Name
-            $table->unsignedBigInteger('qty'); // Quantity
             $table->unsignedDouble('pur_price'); // Purchasing price
             $table->unsignedDouble('sel_price'); // Selling Price
             $table->unsignedDouble('bonus'); // Bonus
             $table->unsignedDouble('con'); // Concentrate
-            $table->string('patch_number'); // Patch Number
             $table->string('barcode'); // Bar Code
 
             /* 
@@ -45,8 +43,6 @@ return new class() extends Migration
             */
             $table->string('original_total')->nullable();
             $table->boolean('limited')->default(false); // Limited Exchange
-            $table->date('expire_date')->default(now()); // Expire Date In
-            $table->timestamps();
         });
     }
 

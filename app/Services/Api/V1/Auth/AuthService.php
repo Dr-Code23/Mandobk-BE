@@ -22,31 +22,21 @@ class AuthService
      * Make Account For New User.
      *
      * @param $request
-     * @return array|null
+     * @return bool
      */
-    public function signup($request): array|null
+    public function signup($request): bool
     {
         $roleName = Role::where('id', $request->role)->value('name');
 
         // return $request->validated();
         if (in_array($roleName, config('roles.signup_roles'))) {
             // Valid Data
-            $this->userModel->create($request->validated() + ['role_id' => $request->role]);
-            $token = Auth::attempt([
-                'username' => $request->username,
-                'password' => $request->password,
-            ]);
-
-            return [
-                'full_name' => $this->strLimit($request->full_name),
-                'username' => $request->username,
-                'role' => $roleName,
-                'token' => $token,
-            ];
+            $this->userModel->create($request->validated() + ['role_id' => $request->role, 'status' => '0']);
+            return true;
         }
 
         // Role Is not found
-        return null;
+        return false;
     }
 
     /**

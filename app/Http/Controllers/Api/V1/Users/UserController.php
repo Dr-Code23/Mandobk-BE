@@ -3,14 +3,19 @@
 namespace App\Http\Controllers\Api\V1\Users;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\V1\Users\ApproveUserRequest;
 use App\Http\Resources\Api\V1\Site\Doctor\VisitorAccount\VisitorAccountResource;
+use App\Http\Resources\Api\V1\Users\UserCollection;
+use App\Http\Resources\Api\V1\Users\UserResource;
 use App\Models\User;
 use App\Models\V1\Role;
 use App\Models\V1\VisitorRecipe;
+use App\Services\Api\V1\Users\UserService;
 use App\Traits\HttpResponse;
 use App\Traits\StringTrait;
 use App\Traits\Translatable;
 use App\Traits\UserTrait;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -18,45 +23,63 @@ use Illuminate\Validation\Rules\Password as RulesPassword;
 
 class UserController extends Controller
 {
-    use UserTrait;
     use Translatable;
     use HttpResponse;
-    use StringTrait;
 
-    public function getUsersForSelectBox(Request $request)
+
+    public function getAllUsersInDashboardToApprove(UserService $userService)
     {
-        $role_name = '';
-        if ($request->routeIs('roles-storehouse-all')) {
-            $role_name = 'storehouse';
-        } elseif ($request->routeIs('roles-pharmacy-all')) {
-            $role_name = 'pharmacy';
-        }
-        if ($role_name) {
-            $role_id = Role::where('name', $role_name)->value('id');
+        $users = $userService->getAllUsersInDashboardToApprove();
+        return $this->resourceResponse(new UserCollection($users));
+    }
 
-            $users = User::where('role_id', $role_id)->get(['id', 'full_name']);
+    /**
+     * Approve User For Admin
+     *
+     * @param ApproveUserRequest $request
+     * @param User $user
+     * @param UserService $userService
+     * @return JsonResponse
+     */
 
-            return $this->resourceResponse($users);
-        }
+    public function approveUser(ApproveUserRequest $request, User $user, UserService $userService): JsonResponse
+    {
+        $processed = $userService->approveUser($request, $user);
+        if ($processed) return $this->success(new UserResource($user));
+        return $this->notFoundResponse('User not found');
+    }
 
-        return $this->notFoundResponse();
+    /**
+     * Get All Users For Select In Buying Process
+     *
+     * @param Request $request
+     * @param UserService $userService
+     * @return JsonResponse|array
+     */
+    public function getUsersForSelectBox(Request $request, UserService $userService): JsonResponse|array
+    {
+
+        $users = $userService->getUsersForSelectBox($request);
+
+        if ($users != null) return $this->resourceResponse($users);
+
+        return $this->notFoundResponse('No Users To Show');
     }
 
     public function registerNewVisitor(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => ['bail', 'required', 'not_regex:'.config('regex.not_fully_numbers_symbols'), 'max:40'],
-            'username' => ['bail', 'required', 'regex:'.config('regex.username'), 'unique:users,username'],
+            'name' => ['bail', 'required', 'not_regex:' . config('regex.not_fully_numbers_symbols'), 'max:40'],
+            'username' => ['bail', 'required', 'regex:' . config('regex.username'), 'unique:users,username'],
             'phone' => ['bail', 'required', 'numeric', 'unique:users,phone'],
             'password' => [
                 'required',
-                RulesPassword::min(8)->
-                    mixedCase()
+                RulesPassword::min(8)->mixedCase()
                     ->numbers()
                     ->symbols()
                     ->uncompromised(3),
             ],
-            'alias' => ['bail', 'required', 'not_regex:'.config('regex.not_fully_numbers_symbols')],
+            'alias' => ['bail', 'required', 'not_regex:' . config('regex.not_fully_numbers_symbols')],
         ], [
             'name.required' => $this->translateErrorMessage('name', 'required'),
             'name.not_regex' => $this->translateErrorMessage('name', 'not_fully_numbers_symbols'),
@@ -115,7 +138,8 @@ class UserController extends Controller
             $visitor = User::where(function ($query) use ($handle) {
                 $query->where('username', $handle)
                     ->orWhere('phone', $handle);
-            })->first(['id'])) {
+            })->first(['id'])
+        ) {
             $data = [];
             $cnt = 0;
             foreach (VisitorRecipe::where('visitor_id', $visitor->id)->get(['random_number', 'alias']) as $recipe) {

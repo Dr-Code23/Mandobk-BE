@@ -9,7 +9,6 @@ use App\Http\Controllers\Api\V1\Dashboard\OrderManagementController;
 use App\Http\Controllers\Api\V1\Mobile\Auth\MobileAuthController;
 use App\Http\Controllers\Api\V1\PayMethod\PayMethodController;
 use App\Http\Controllers\Api\V1\Products\ProductController;
-use App\Http\Controllers\Api\V1\Providers\ProviderController;
 use App\Http\Controllers\Api\V1\Roles\RoleController;
 use App\Http\Controllers\Api\V1\Site\Company\CompanyOfferController;
 use App\Http\Controllers\Api\V1\Site\Home\HomeController;
@@ -94,9 +93,6 @@ Route::group(['middleware' => ['auth:api']], function () {
             Route::post('', [SaleController::class, 'store']);
         }
     );
-
-    // Providers
-    Route::apiResource('providers', ProviderController::class);
 
     // Public Site Routes
     Route::group(['prefix' => 'site'], function () {
@@ -317,6 +313,14 @@ Route::group(['middleware' => ['auth:api']], function () {
                     Route::post('{order}', [OrderManagementController::class, 'acceptPendingOrders']);
                 }
             );
+
+
+            // User Management
+
+            Route::group(['prefix' => 'user_management'], function () {
+                Route::get('', [UserController::class, 'getAllUsersInDashboardToApprove']);
+                Route::post('{user}', [UserController::class, 'approveUser']);
+            });
         }
     );
 });

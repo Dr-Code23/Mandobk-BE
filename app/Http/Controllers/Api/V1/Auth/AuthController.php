@@ -47,9 +47,9 @@ class AuthController extends Controller
      */
     public function signup(signUpRequest $req, AuthService $authService): JsonResponse
     {
-        $user = $authService->signup($req);
-        if ($user) {
-            return $this->success($user, __('standard.account_created'));
+        $added = $authService->signup($req);
+        if ($added) {
+            return $this->createdResponse(null, __('standard.account_created'));
         }
 
         return $this->validation_errors([
