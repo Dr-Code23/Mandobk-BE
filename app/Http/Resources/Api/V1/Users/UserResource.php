@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Api\V1\Users;
 
+use App\Traits\UserTrait;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserResource extends JsonResource
@@ -19,6 +20,7 @@ class UserResource extends JsonResource
             'full_name' => $this->full_name,
             'username' => $this->username,
             'role' => $this->role,
+            'status' => $this->status,
             'phone' => $this->phone,
         ];
         if (isset($this->token)) $resource['token'] = $this->token;

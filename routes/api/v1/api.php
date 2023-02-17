@@ -318,8 +318,8 @@ Route::group(['middleware' => ['auth:api']], function () {
             // User Management
 
             Route::group(['prefix' => 'user_management'], function () {
-                Route::get('', [UserController::class, 'getAllUsersInDashboardToApprove']);
-                Route::post('{user}', [UserController::class, 'approveUser']);
+                Route::get('', [UserController::class, 'getAllUsersInDashboardToApprove'])->name('dashboard-user-all');
+                Route::put('{user}', [UserController::class, 'changeUserStatus'])->name('dashboard-user-update');
             });
         }
     );

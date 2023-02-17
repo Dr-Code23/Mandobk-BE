@@ -6,13 +6,14 @@ use App\Models\User;
 use App\Models\V1\Role;
 use App\Traits\RoleTrait;
 use App\Traits\StringTrait;
+use App\Traits\UserTrait;
 use Illuminate\Support\Facades\Auth;
 
 class AuthService
 {
     use StringTrait;
     use RoleTrait;
-
+    use UserTrait;
     public function __construct(
         protected User $userModel
     ) {
@@ -31,7 +32,7 @@ class AuthService
         // return $request->validated();
         if (in_array($roleName, config('roles.signup_roles'))) {
             // Valid Data
-            $this->userModel->create($request->validated() + ['role_id' => $request->role, 'status' => '0']);
+            $this->userModel->create($request->validated() + ['role_id' => $request->role]);
             return true;
         }
 
@@ -49,7 +50,7 @@ class AuthService
     public function login($request, bool $isVisitor = false): array|null
     {
         // Check if the user exists
-        if ($token = Auth::attempt($request->validated() + ['status' => '1'])) {
+        if ($token = Auth::attempt($request->validated() + ['status' => $this->isActive()])) {
             $user = Auth::user();
             $roleChecked = false;
             if ($isVisitor && $this->roleNameIn(['visitor'])) $roleChecked = true;

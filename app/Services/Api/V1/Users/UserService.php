@@ -14,7 +14,7 @@ class UserService
     public function getAllUsersInDashboardToApprove()
     {
         return User::whereIn('role_id', $this->getRolesIdsByName(config('roles.signup_roles')))
-            ->whereNotIn('id', function ($query) {
+            ->whereNotIn('users.id', function ($query) {
                 $query->select('sub_user_id')->from('sub_users');
             })
             ->join('roles', 'roles.id', 'users.role_id')
@@ -23,25 +23,39 @@ class UserService
                 'users.full_name as full_name',
                 'users.username as username',
                 'roles.name as role',
+                'users.status as status',
                 'users.created_at as created_at'
             ]);
     }
-    public function approveUser($request, $user): mixed
+
+    /**
+     * Change User Status
+     *
+     * @param $request
+     * @param $user
+     * @return mixed
+     */
+    public function changeUserStatus($request, $user): mixed
     {
-        $approve = $request->approve;
+        $status = $request->status;
         if (
-            (User::where('id', $user->id)
-                ->where('status', '0')
-                ->whereIn('role_id', $this->getRolesIdsByName(config('roles.signup_roles')))->value('id'))
+            in_array($user->role_id, $this->getRolesIdsByName(config('roles.signup_roles')))
             && !SubUser::where('sub_user_id', $user->id)->value('id')
         ) {
-            if ($approve) {
-                $user->update(['status' => '1']);
-            } else $user->delete();
-            return true;
+            // Delete User And Return Success Message
+            if ($status == $this->isDeleted()) {
+                $user->delete();
+                return true;
+            }
+            if ($status != $user->status) {
+                $user->update(['status' => $status]);
+            }
+            $roleName = Role::where('id', $user->role_id)->value('name');
+            $user->role = $roleName;
+            return $user;
         }
-        if ($user->status == '1') true;
-        return false;
+
+        return null;
     }
 
     /**

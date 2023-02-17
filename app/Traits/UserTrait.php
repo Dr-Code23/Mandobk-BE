@@ -42,7 +42,9 @@ trait UserTrait
 
     public function getUserSelectBox(string $role)
     {
-        return $this->resourceResponse(User::where('role_id', Role::where('name', $role)->first(['name']))->get(['id', 'full_name']));
+        return $this->resourceResponse(
+            User::where('role_id', Role::where('name', $role)->first(['name']))->get(['id', 'full_name'])
+        );
     }
 
     public function getSubUsersForAuthenticatedUser(int $user_id = null)
@@ -79,5 +81,30 @@ trait UserTrait
         $random_number = VisitorRecipe::orderByDesc('id')->first(['random_number as number']);
 
         return $random_number ? ($random_number->number + 1) : 1;
+    }
+
+    /**
+     * Determine if user is active or not
+     *
+     * @return string
+     */
+    public function isActive(): string
+    {
+        return '1';
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @return string
+     */
+    public function isDeleted(): string
+    {
+        return '0';
+    }
+
+    public function isFrozen()
+    {
+        return '2';
     }
 }

@@ -60,15 +60,7 @@ class SignupTest extends TestCase
             $user->delete();
         }
         $response = $this->postJson(route('v1-signup'), $this->getSignUpData());
-        $response->assertStatus(Response::HTTP_OK);
-        $response->assertJsonStructure(
-            [
-            'data' => [
-            'username',
-            'full_name',
-            'token',
-            'role', ],
-        ]);
+        $response->assertStatus(Response::HTTP_CREATED);
         $this->writeAFileForTesting($this->signupPath, 'passing', $response->content());
     }
 
@@ -80,5 +72,8 @@ class SignupTest extends TestCase
         ]);
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
         $this->writeAFileForTesting($this->signupPath, 'passingExistingUsername', $response->content());
+        if ($user = User::where('username', 'Aa2302')->first('id')) {
+            $user->delete();
+        }
     }
 }

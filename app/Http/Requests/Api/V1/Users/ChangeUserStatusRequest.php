@@ -4,13 +4,15 @@ namespace App\Http\Requests\Api\V1\Users;
 
 use App\Traits\HttpResponse;
 use App\Traits\Translatable;
+use App\Traits\UserTrait;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 
-class ApproveUserRequest extends FormRequest
+class ChangeUserStatusRequest extends FormRequest
 {
     use Translatable;
     use HttpResponse;
+    use UserTrait;
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -29,15 +31,15 @@ class ApproveUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'approve' => ['required', 'boolean']
+            'status' => ['required', 'in:' . $this->isActive() . ',' . $this->isFrozen() . ',' . $this->isDeleted()]
         ];
     }
 
     public function messages()
     {
         return [
-            'approve.required' => $this->translateErrorMessage('approve', 'required'),
-            'approve.boolean' => $this->translateErrorMessage('approve', 'boolean')
+            'status.required' => $this->translateErrorMessage('status', 'required'),
+            'status.in' => $this->translateErrorMessage('status', 'in')
         ];
     }
 

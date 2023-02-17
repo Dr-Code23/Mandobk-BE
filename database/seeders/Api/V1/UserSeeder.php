@@ -4,11 +4,13 @@ namespace Database\Seeders\Api\V1;
 
 use App\Models\User;
 use App\Models\V1\Role;
+use App\Traits\UserTrait;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
+    use UserTrait;
     /**
      * Run the database seeds.
      *
@@ -22,6 +24,7 @@ class UserSeeder extends Seeder
                 'username' => $roles[$i - 1],
                 'password' => $roles[$i - 1],
                 'full_name' => $roles[$i - 1],
+                'status' => $this->isActive(),
                 'role_id' => $i,
             ]);
         }
@@ -30,8 +33,8 @@ class UserSeeder extends Seeder
 
         User::create([
             'username' => 'customer',
-            'password' => Hash::make(Hash::make('customer')),
-            'full_name' => 'Unknow Customer',
+            'password' => Hash::make('customer'),
+            'full_name' => 'Customer',
             'role_id' => Role::where('name', 'customer')->value('id'),
         ]);
     }

@@ -68,4 +68,7 @@ return [
     'rejected' => 'Rejected',
     'the_buyer' => 'Buyer',
     'data' => 'Data',
+    'attended' => 'Attended',
+    'absense' => 'Absense',
+    'holiday' => 'Holiday'
 ];

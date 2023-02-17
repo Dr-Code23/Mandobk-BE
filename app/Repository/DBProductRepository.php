@@ -27,10 +27,10 @@ class DBProductRepository implements ProductRepositoryInterface
     public function showAllProducts()
     {
         if ($this->roleNameIn(['ceo', 'data_entry'])) {
-            $products = Product::latest()->get();
+            $products = Product::all();
         } else {
             $products = Product::whereIn('products.user_id', $this->getSubUsersForAuthenticatedUser())
-                ->latest()->get();
+                ->get();
         }
         // ->paginate();
 
