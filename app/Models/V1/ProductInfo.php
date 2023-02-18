@@ -17,6 +17,7 @@ class ProductInfo extends Model
     protected $table = 'products_info';
 
     protected $fillable = [
+        'role_id',
         'product_id',
         'qty',
         'patch_number',
@@ -28,6 +29,7 @@ class ProductInfo extends Model
     {
         return Attribute::make(
             get: function ($val) {
+
                 // Cache All Roles Ids
                 if (!Cache::get('all_roles')) {
                     $roles = [];

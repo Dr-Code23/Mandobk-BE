@@ -17,6 +17,7 @@ class ProductInfoSeeder extends Seeder
     {
         for ($i = 0; $i < 100; $i++) {
             ProductInfo::create([
+                'role_id' => fake()->numberBetween(1, 10),
                 'product_id' => fake()->numberBetween(1, 49),
                 'qty' => fake()->numberBetween(1, 100),
                 'expire_date' => fake()->date(),

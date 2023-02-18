@@ -25,10 +25,11 @@ class ProductResource extends JsonResource
             'selling_price' => $this->sel_price,
             'bonus' => $this->bonus,
             'concentrate' => $this->con,
+            'limited' => $this->limited ? true : false,
             'barcode' => asset('/storage/products/' . $this->barcode) . '.svg',
             'product_details' => $this->whenLoaded('product_details'),
         ];
-        if ($request->is('data_entry/*') || $request->is('data_entry/')) {
+        if ($request->is('ceo/*') || $request->is('ceo/') || $request->is('data_entry/*') || $request->is('data_entry/')) {
             $resource['limited'] = $this->limited ? true : false;
         }
         if (isset($this->detail))

@@ -16,6 +16,12 @@ return new class extends Migration
         Schema::create('products_info', function (Blueprint $table) {
             $table->id();
 
+            $table->unsignedBigInteger('role_id');
+            $table->foreign('role_id')
+                ->on('roles')
+                ->references('id')
+                ->cascadeOnUpdate();
+
             $table->unsignedBigInteger('product_id');
             $table->foreign('product_id')
                 ->on('products')

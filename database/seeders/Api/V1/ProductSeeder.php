@@ -26,7 +26,6 @@ class ProductSeeder extends Seeder
                 'limited' => fake()->boolean(),
                 'barcode' => '',
                 'user_id' => fake()->numberBetween(1, 10),
-                'role_id' => fake()->numberBetween(1, 10),
             ]);
         }
     }

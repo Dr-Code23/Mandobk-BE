@@ -14,6 +14,7 @@ class AuthService
     use StringTrait;
     use RoleTrait;
     use UserTrait;
+    
     public function __construct(
         protected User $userModel
     ) {

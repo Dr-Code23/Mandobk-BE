@@ -26,7 +26,6 @@ class DBProductRepository implements ProductRepositoryInterface
 
     public function showAllProducts()
     {
-
         $products = Product::where(function ($query) {
             if (!$this->roleNameIn(['ceo', 'data_entry']))
                 $query->whereIn('products.user_id', $this->getSubUsersForAuthenticatedUser());
@@ -34,6 +33,7 @@ class DBProductRepository implements ProductRepositoryInterface
             ->with(['product_details' => function ($query) {
                 $query->select(
                     'id',
+                    'role_id',
                     'product_id',
                     'qty as quantity',
                     'expire_date',
@@ -42,6 +42,7 @@ class DBProductRepository implements ProductRepositoryInterface
                 );
             }])
             ->get();
+        // return new ProductCollection($products);
         return $this->resourceResponse(new ProductCollection($products));
     }
 

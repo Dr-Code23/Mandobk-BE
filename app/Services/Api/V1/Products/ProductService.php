@@ -9,7 +9,6 @@ use App\Traits\RoleTrait;
 use App\Traits\Translatable;
 use App\Traits\UserTrait;
 use Auth;
-use Illuminate\Database\Eloquent\Model;
 
 class ProductService
 {
@@ -48,18 +47,6 @@ class ProductService
         $bonus = $this->setPercisionForFloatString($request->bonus);
         $concentrate = $this->setPercisionForFloatString($request->concentrate);
 
-        // Check if either commercial name or scientific_name exists
-        // $product_exists = false;
-        // $product_detail_exists = false;
-        // Check If Main Product Exists
-        // $product =  Product::where(function ($bind) use ($commercial_name) {
-        //     $bind->where('com_name', $commercial_name);
-        //     $bind->whereIn('user_id', $this->getSubUsersForAuthenticatedUser());
-        // })->first(['id']);
-
-
-        // Check if the admin has already added the product
-
         // Check If Data Entry Has has product
         $admin_product = Product::where('com_name', $commercial_name)
             ->where('sc_name', $scientific_name)
@@ -67,7 +54,7 @@ class ProductService
             ->first(['limited']);
 
         /* Make the barcode for the product */
-        // Generate A Barcode for the product
+
         // Store the barcode
         $barcode_value = $request->barcode;
 
@@ -87,7 +74,6 @@ class ProductService
                 'original_total' => $purchase_price * $request->quantity,
                 'limited' => $admin_product ? $admin_product->limited : ($request->limited ? 1 : 0),
                 'user_id' => Auth::id(),
-                'role_id' => Auth::user()->role_id,
             ];
             if ($product) $product->update($inputs);
             else $product = Product::create($inputs);
@@ -98,6 +84,7 @@ class ProductService
                 'expire_date' => $request->expire_date,
                 'patch_number' => $request->patch_number
             ], [
+                'role_id' => Auth::user()->role_id,
                 'product_id' => $product->id,
                 'qty' => $request->quantity,
                 'expire_date' => $request->expire_date,
@@ -105,6 +92,7 @@ class ProductService
             ]);
 
             unset($productInfo->updated_at);
+            unset($productInfo->role_id);
             $product->detail = $productInfo;
             return $product;
         }
