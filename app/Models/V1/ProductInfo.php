@@ -3,6 +3,7 @@
 namespace App\Models\V1;
 
 use App\Traits\DateTrait;
+use App\Traits\UserTrait;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,6 +13,7 @@ class ProductInfo extends Model
 {
     use HasFactory;
     use DateTrait;
+    use UserTrait;
     protected $table = 'products_info';
 
     protected $fillable = [

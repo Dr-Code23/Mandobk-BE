@@ -27,6 +27,7 @@ Route::group(
     ['prefix' => 'roles'],
     function () {
         Route::get('signup_roles', [RoleController::class, 'getSignUpRoles']);
+        Route::get('monitor', [RoleController::class, 'monitorAndEvaluationRoles']);
     }
 );
 
@@ -331,4 +332,7 @@ Route::group(['middleware' => ['auth:api']], function () {
 });
 Route::get('', function () {
     return Role::paginate(2);
+});
+Route::get('test', function () {
+    return view('welcome');
 });

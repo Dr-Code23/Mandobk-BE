@@ -30,4 +30,11 @@ class RoleController extends Controller
     {
         return $this->resourceResponse(new RoleCollection(Role::whereIn('name', config('roles.human_resource_roles'))->get(['id', 'name'])));
     }
+
+    public function monitorAndEvaluationRoles()
+    {
+        return $this->resourceResponse(new RoleCollection(
+            Role::whereIn('name', config('roles.monitor_roles'))->get(['id', 'name'])
+        ));
+    }
 }

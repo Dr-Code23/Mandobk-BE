@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api\V1\Products;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\Product\ProductRequest;
 use App\Models\V1\Product;
-use App\Models\V1\Role;
 use App\RepositoryInterface\ProductRepositoryInterface;
 use App\Traits\RoleTrait;
 use App\Traits\UserTrait;
@@ -29,7 +28,7 @@ class ProductController extends Controller
 
     public function show(Product $product)
     {
-        return $this->productRepository->showOneProduct($product);
+        return $this->productRepository->showOneProductWithDetails($product);
     }
 
     public function store(ProductRequest $request)
@@ -49,7 +48,9 @@ class ProductController extends Controller
 
     public function ScientificNamesSelect()
     {
-        return $this->resourceResponse(Product::where('user_id', Auth::id())->get(['id', 'sc_name as scientific_name']));
+        return $this
+            ->resourceResponse(Product::where('user_id', Auth::id())
+                ->get(['id', 'sc_name as scientific_name']));
     }
 
     public function CommercialNamesSelect()
@@ -62,10 +63,7 @@ class ProductController extends Controller
         if ($this->getRoleNameForAuthenticatedUser() == 'doctor') {
             return $this->resourceResponse(Product::whereIn(
                 'role_id',
-                [
-                    Role::where('name', 'ceo')->value('id'),
-                    Role::where('name', 'data_entry')->value('id'),
-                ]
+                $this->getRolesIdsByName(['ceo', 'data_entry']),
             )
                 ->get(['id', 'sc_name as scientific_name', 'limited']));
         }

@@ -31,7 +31,7 @@ class Product extends Model
     ];
 
 
-    public function productDetails()
+    public function product_details()
     {
         return $this->hasMany(ProductInfo::class);
     }

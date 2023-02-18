@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources\Api\V1\Product;
 
+use App\Http\Resources\Api\V1\Users\UserCollection;
+use App\Http\Resources\Api\V1\Users\UserResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ProductResource extends JsonResource
@@ -19,18 +21,12 @@ class ProductResource extends JsonResource
             'id' => $this->id,
             'commercial_name' => $this->com_name,
             'scientific_name' => $this->sc_name,
-            'quantity' => $this->qty,
             'purchase_price' => $this->pur_price,
             'selling_price' => $this->sel_price,
             'bonus' => $this->bonus,
             'concentrate' => $this->con,
-            'patch_number' => $this->patch_number,
-            'provider' => $this->provider,
-            'provider_id' => $this->provider_id,
-            'barcode' => asset('/storage/products/'.$this->barcode).'.svg',
-            'expire_date' => $this->expire_date,
-            'created_at' => $this->created_at,
-            // 'updated_at' => $this->updated_at,
+            'barcode' => asset('/storage/products/' . $this->barcode) . '.svg',
+            'product_details' => $this->whenLoaded('product_details'),
         ];
         if ($request->is('data_entry/*') || $request->is('data_entry/')) {
             $resource['limited'] = $this->limited ? true : false;

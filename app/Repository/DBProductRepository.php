@@ -26,30 +26,60 @@ class DBProductRepository implements ProductRepositoryInterface
 
     public function showAllProducts()
     {
-        if ($this->roleNameIn(['ceo', 'data_entry'])) {
-            $products = Product::all();
-        } else {
-            $products = Product::whereIn('products.user_id', $this->getSubUsersForAuthenticatedUser())
-                ->get();
-        }
-        // ->paginate();
 
+        $products = Product::where(function ($query) {
+            if (!$this->roleNameIn(['ceo', 'data_entry']))
+                $query->whereIn('products.user_id', $this->getSubUsersForAuthenticatedUser());
+        })
+            ->with(['product_details' => function ($query) {
+                $query->select(
+                    'product_id',
+                    'qty as quantity',
+                    'expire_date',
+                    'patch_number',
+                    'created_at'
+                );
+            }])
+            ->get();
         return $this->resourceResponse(new ProductCollection($products));
     }
 
     /**
      * @return mixed
      */
-    public function showOneProduct($product)
-    {
 
-        $product = Product::whereIn('user_id', $this->getSubUsersForAuthenticatedUser())
-            ->where('id', $product->id)
+    public function showOnProductWithoutDetails($product)
+    {
+        $product = Product::where('id', $product->id)
+            //? Should Use `whenLoaded` method in ProductResource To Prevent Showing Relationship
+            // ->without('product_details')
+            ->whereIn('user_id', $this->getSubUsersForAuthenticatedUser())
             ->first();
+
         if ($product) {
             return $this->resourceResponse(new ProductResource($product));
         }
-        return $this->notFoundResponse($this->translateSuccessMessage('provider', 'not_found'));
+        return $this->notFoundResponse($this->translateSuccessMessage('product', 'not_found'));
+    }
+    public function showOneProductWithDetails($product)
+    {
+
+        $product = Product::where('products.id', $product->id)
+            ->where(function ($query) {
+                if (!$this->roleNameIn(['ceo', 'data_entry']))
+                    $query->whereIn('products.user_id', $this->getSubUsersForAuthenticatedUser());
+            })
+            ->with(['product_details' => function ($query) {
+                $query->select(
+                    'product_id',
+                    'qty as quantity',
+                    'expire_date',
+                    'patch_number',
+                    'created_at'
+                );
+            }])
+            ->first();
+        return $this->resourceResponse(new ProductResource($product));
     }
 
     /**

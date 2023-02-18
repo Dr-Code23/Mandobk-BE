@@ -6,7 +6,7 @@ interface ProductRepositoryInterface
 {
     public function showAllProducts();
 
-    public function showOneProduct($product);
+    public function showOneProductWithDetails($product);
 
     public function storeProduct($request);
 
