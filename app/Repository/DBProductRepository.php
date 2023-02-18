@@ -33,6 +33,7 @@ class DBProductRepository implements ProductRepositoryInterface
         })
             ->with(['product_details' => function ($query) {
                 $query->select(
+                    'id',
                     'product_id',
                     'qty as quantity',
                     'expire_date',

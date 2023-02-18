@@ -86,8 +86,8 @@ Route::group(['middleware' => ['auth:api']], function () {
             Route::get('', [ProductController::class, 'index'])->name('v1-products-all');
             Route::get('scientific_name', [ProductController::class, 'ScientificNamesSelect']);
             Route::get('commercial_name', [ProductController::class, 'CommercialNamesSelect']);
-            Route::get('{product}', [ProductController::class, 'show']);
-            Route::post('', [ProductController::class, 'store'])->name('v1-products-store');
+            Route::get('{product}', [ProductController::class, 'showWithoutDetails']);
+            Route::match(['POST'], '', [ProductController::class, 'storeOrUpdate'])->name('v1-products-store');
         },
     );
 

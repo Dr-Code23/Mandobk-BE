@@ -31,7 +31,8 @@ class ProductResource extends JsonResource
         if ($request->is('data_entry/*') || $request->is('data_entry/')) {
             $resource['limited'] = $this->limited ? true : false;
         }
-
+        if (isset($this->detail))
+            $resource['detail'] = $this->detail;
         return $resource;
     }
 }

@@ -33,8 +33,9 @@ trait RoleTrait
     public function getRolesIdsByName(array $roles): array
     {
         $res = [];
-        foreach ($roles as $roleName) {
-            $res[] = Role::where('name', $roleName)->value('id');
+        $allRoles = Role::whereIn('name', $roles)->get(['id']);
+        foreach ($allRoles as $roleName) {
+            $res[] = $roleName->id;
         }
 
         return $res;
