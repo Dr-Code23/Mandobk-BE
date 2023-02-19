@@ -35,7 +35,7 @@ class HumanResourceController extends Controller
                 'human_resources.id as id',
                 'users.id as user_id',
                 'users.full_name',
-                'roles.name as role_name',
+                'roles.id as role_id',
                 'human_resources.date',
                 'human_resources.status as status',
                 'human_resources.departure',
@@ -55,7 +55,7 @@ class HumanResourceController extends Controller
                     'human_resources.id as id',
                     'users.id as user_id',
                     'users.full_name',
-                    'roles.name as role_name',
+                    'roles.id as role_id',
                     'human_resources.date',
                     'human_resources.departure',
                     'human_resources.attendance',
@@ -80,7 +80,7 @@ class HumanResourceController extends Controller
             ->first(['roles.name as role_name']);
         if ($user && $user->role_name != 'ceo') {
             $fullName_Role = User::where('users.id', $request->user_id)->join('roles', 'roles.id', 'users.role_id')
-                ->select(['users.full_name', 'roles.name as role_name'])
+                ->select(['users.full_name', 'roles.id as role_id'])
                 ->first();
             if ($human_resource = HumanResource::where('date', $request->date)->where('user_id', $request->user_id)->first()) {
                 $anyChangeOccrued = false;
@@ -113,7 +113,7 @@ class HumanResourceController extends Controller
                 'date' => $request->date,
             ]);
             $human_resource->full_name = $fullName_Role->full_name;
-            $human_resource->role_name = $fullName_Role->full_name;
+            $human_resource->role_id = $fullName_Role->role_id;
 
             return $this->success(new HumanResourceResource($human_resource), 'Resource Created Successfully');
         }

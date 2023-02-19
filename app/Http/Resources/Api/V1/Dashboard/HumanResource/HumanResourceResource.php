@@ -28,8 +28,8 @@ class HumanResourceResource extends JsonResource
                 : ($this->status == '1' ? $this->translateWord('absense') : $this->translateWord('holiday')),
             'date' => $this->date,
         ];
-        if ($this->role_name) {
-            $response['role_name'] = $this->translateWord($this->role_name);
+        if ($this->role_id) {
+            $response['role_id'] = $this->role_id;
         }
 
         return $response;
