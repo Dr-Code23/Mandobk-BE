@@ -22,7 +22,7 @@ class OfferOrderResource extends JsonResource
             'id' => $this->id,
             'commercial_name' => $this->com_name,
             'scientific_name' => $this->sc_name,
-            'bonus' => $this->bonus,
+            'bonus' => $this->bonus . ' %',
             'expire_date' => $this->expire_date,
             'con' => $this->con,
             'selling_price' => $this->sel_price,

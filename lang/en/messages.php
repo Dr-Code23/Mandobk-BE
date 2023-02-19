@@ -70,5 +70,8 @@ return [
     'data' => 'Data',
     'attended' => 'Attended',
     'absense' => 'Absense',
-    'holiday' => 'Holiday'
+    'holiday' => 'Holiday',
+    'start_date' => 'Start Date',
+    'end_date' => 'End Date',
+    'product_id' => 'Product'
 ];

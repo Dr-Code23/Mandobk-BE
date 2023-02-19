@@ -30,9 +30,10 @@ class OfferRequest extends FormRequest
     public function rules()
     {
         return [
-            'product_id' => ['required', 'numeric'],
-            'bonus' => ['required', 'numeric', 'min:0.1'],
-            'offer_duration' => ['required'],
+            'product_id' => ['required'],
+            'bonus' => ['required', 'numeric', 'min:1'],
+            'start_date' => ['required', 'date', 'date_format:Y-m-d', 'after_or_equal:today'],
+            'end_date' => ['required', 'date', 'date_format:Y-m-d', 'after:start_date'],
             'pay_method' => ['required'],
         ];
     }
@@ -40,15 +41,18 @@ class OfferRequest extends FormRequest
     public function messages()
     {
         $messages = [
-            'product_id.required' => $this->translateErrorMessage('product', 'required'),
-            'product_id.numeric' => $this->translateErrorMessage('product', 'numeric'),
-            'bonus.numeric' => $this->translateErrorMessage('bonus', 'numeric'),
             'bonus.min' => $this->translateErrorMessage('bonus', 'min.numeric'),
+            'start_date.after_or_equal' => $this->translateErrorMessage('start_date', 'after_or_equal'),
+            'end_date.after' => $this->translateErrorMessage('end_date', 'after'),
         ];
         foreach (array_keys($this->rules()) as $key) {
-            $messages[$key.'.required'] = $this->translateErrorMessage($key, 'required');
+            $messages[$key . '.required'] = $this->translateErrorMessage($key, 'required');
         }
 
+        foreach (['date', 'date_format'] as $rule) {
+            foreach (['start_date', 'end_date'] as $key) $messages["$key.$rule"] = $this->translateErrorMessage($key, $rule);
+        }
+        // Validate Date
         return $messages;
     }
 

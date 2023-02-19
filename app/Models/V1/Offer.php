@@ -12,14 +12,14 @@ class Offer extends Model
     use HasFactory;
     use DateTrait;
     protected $fillable = [
-        'bonus',
         'product_id',
         'pay_method',
-        'offer_duration',
+        'from',
+        'to',
+        'status',
         'created_at',
         'updated_at',
         'user_id',
-        'works_untill',
         'type',
     ];
 
@@ -29,19 +29,23 @@ class Offer extends Model
             get: fn ($val) => $this->changeDateFormat($val, 'Y-m-d'),
         );
     }
-
-    public function updatedAt(): Attribute
+    public function from(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($val) => $this->changeDateFormat($val, 'Y-m-d'),
+        );
+    }
+    public function to(): Attribute
     {
         return Attribute::make(
             get: fn ($val) => $this->changeDateFormat($val, 'Y-m-d'),
         );
     }
 
-    public function worksUntill(): Attribute
+
+
+    public function product()
     {
-        return Attribute::make(
-            get: fn ($val) => $this->changeDateFormat($val, 'Y-m-d'),
-            set: fn ($val) => $this->changeDateFormat($val, 'Y-m-d')
-        );
+        return $this->belongsTo(Product::class);
     }
 }
