@@ -30,7 +30,6 @@ class OfferResource extends JsonResource
             'end_date' => $this->to,
             'pay_method_id' => $this->pay_method,
             'status' => $this->status,
-            'bonus' => $this->bonus,
             'created_at' => $this->created_at,
         ];
     }

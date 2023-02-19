@@ -10,13 +10,12 @@ use App\Http\Controllers\Api\V1\Mobile\Auth\MobileAuthController;
 use App\Http\Controllers\Api\V1\PayMethod\PayMethodController;
 use App\Http\Controllers\Api\V1\Products\ProductController;
 use App\Http\Controllers\Api\V1\Roles\RoleController;
-use App\Http\Controllers\Api\V1\Site\Company\CompanyOfferController;
 use App\Http\Controllers\Api\V1\Site\Home\HomeController;
 use App\Http\Controllers\Api\V1\Site\OfferOrder\OfferOrderController;
+use App\Http\Controllers\Api\V1\Site\Offers\OfferController;
 use App\Http\Controllers\Api\V1\Site\Pharmacy\SubUserController;
 use App\Http\Controllers\Api\V1\Site\Recipes\RecipeController;
 use App\Http\Controllers\Api\V1\Site\Sales\SaleController;
-use App\Http\Controllers\Api\V1\Site\Storehouse\StorehouseOffersController;
 use App\Http\Controllers\Api\V1\Users\UserController;
 use App\Models\V1\Role;
 use App\Services\Api\V1\Products\ProductService;
@@ -46,9 +45,6 @@ Route::group(['prefix' => 'auth'], function () {
 Route::group(['middleware' => ['auth:api']], function () {
     // Markting Offers
     Route::get('markting_offers', [MarktingController::class, 'index']);
-
-    // Offer Durations
-    Route::get('offer_duration', [CompanyOfferController::class, 'offerDurations']);
 
     // Pay Methods
     Route::group(
@@ -94,6 +90,13 @@ Route::group(['middleware' => ['auth:api']], function () {
         },
     );
 
+    Route::group(['prefix' => 'offers'], function () {
+        Route::get('', [OfferController::class, 'index']);
+        Route::post('', [OfferController::class, 'store']);
+        Route::get('{offer}', [OfferController::class, 'show']);
+        Route::put('/{offer}', [OfferController::class, 'changeOfferStatus']);
+        Route::delete('/{offer}', [OfferController::class, 'destroy']);
+    });
     // Sales
     Route::group(
         ['prefix' => 'sales', 'middleware' => ['auth:api', 'hasSalesPermissions']],
@@ -115,11 +118,11 @@ Route::group(['middleware' => ['auth:api']], function () {
                 Route::group(
                     ['prefix' => 'company_offers'],
                     function () {
-                        Route::get('', [CompanyOfferController::class, 'index']);
-                        Route::get('{offer}', [CompanyOfferController::class, 'show']);
-                        Route::post('', [CompanyOfferController::class, 'store']);
-                        Route::put('/{offer}', [CompanyOfferController::class, 'update']);
-                        Route::delete('/{offer}', [CompanyOfferController::class, 'destroy']);
+                        Route::get('', [OfferController::class, 'index']);
+                        Route::get('{offer}', [OfferController::class, 'show']);
+                        Route::post('', [OfferController::class, 'store']);
+                        Route::put('/{offer}', [OfferController::class, 'changeOfferStatus']);
+                        Route::delete('/{offer}', [OfferController::class, 'destroy']);
                     }
                 );
             }
@@ -133,11 +136,11 @@ Route::group(['middleware' => ['auth:api']], function () {
             Route::group(
                 ['prefix' => 'offers'],
                 function () {
-                    Route::get('', [StorehouseOffersController::class, 'index']);
-                    Route::get('{offer}', [StorehouseOffersController::class, 'show']);
-                    Route::post('', [StorehouseOffersController::class, 'store']);
-                    Route::put('/{offer}', [StorehouseOffersController::class, 'update']);
-                    Route::delete('/{offer}', [StorehouseOffersController::class, 'destroy']);
+                    Route::get('', [OfferController::class, 'index']);
+                    Route::get('{offer}', [OfferController::class, 'show']);
+                    Route::post('', [OfferController::class, 'store']);
+                    Route::put('/{offer}', [OfferController::class, 'changeOfferStatus']);
+                    Route::delete('/{offer}', [OfferController::class, 'destroy']);
                 }
             );
 

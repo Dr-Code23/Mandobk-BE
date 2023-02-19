@@ -31,17 +31,15 @@ class OfferRequest extends FormRequest
     {
         return [
             'product_id' => ['required'],
-            'bonus' => ['required', 'numeric', 'min:1'],
             'start_date' => ['required', 'date', 'date_format:Y-m-d', 'after_or_equal:today'],
             'end_date' => ['required', 'date', 'date_format:Y-m-d', 'after:start_date'],
-            'pay_method' => ['required'],
+            'pay_method_id' => ['required'],
         ];
     }
 
     public function messages()
     {
         $messages = [
-            'bonus.min' => $this->translateErrorMessage('bonus', 'min.numeric'),
             'start_date.after_or_equal' => $this->translateErrorMessage('start_date', 'after_or_equal'),
             'end_date.after' => $this->translateErrorMessage('end_date', 'after'),
         ];

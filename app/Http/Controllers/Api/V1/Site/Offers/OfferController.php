@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1\Site\Company;
+namespace App\Http\Controllers\Api\V1\Site\Offers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\Offers\ChangeStatusRequest;
@@ -9,13 +9,15 @@ use App\Http\Resources\Api\V1\Offers\OfferCollection;
 use App\Http\Resources\Api\V1\Offers\OfferResource;
 use App\Models\V1\Offer;
 use App\Services\Api\V1\Offers\OfferService;
+use App\Traits\HttpResponse;
 use App\Traits\Translatable;
 use App\Traits\UserTrait;
 
-class CompanyOfferController extends Controller
+class OfferController extends Controller
 {
     use UserTrait;
     use Translatable;
+    use HttpResponse;
 
     public function __construct(
         protected OfferService $offerService,
