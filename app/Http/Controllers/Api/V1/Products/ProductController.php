@@ -28,9 +28,9 @@ class ProductController extends Controller
         $this->productRepository = $productRepository;
     }
 
-    public function index()
+    public function index(ProductService $productService)
     {
-        return $this->productRepository->showAllProducts();
+        return $productService->fetchAllProducts();
     }
 
     public function showWithoutDetails(Product $product, ProductService $productService)
@@ -41,10 +41,7 @@ class ProductController extends Controller
 
         return $this->notFoundResponse($this->translateErrorMessage('product', 'not_exists'));
     }
-    public function show(Product $product)
-    {
-        return $this->productRepository->showOneProductWithDetails($product);
-    }
+
 
     public function storeOrUpdate(ProductRequest $request, ProductService $productService)
     {
@@ -58,43 +55,24 @@ class ProductController extends Controller
 
         return $this->resourceResponse(new ProductResource($product));
     }
-    public function store(ProductRequest $request)
-    {
-        return $this->productRepository->storeProduct($request);
-    }
-
-    public function update(ProductRequest $request, Product $product)
-    {
-        return $this->productRepository->updateProduct($request, $product);
-    }
 
     public function destroy(Product $product)
     {
         return $this->productRepository->deleteProduct($product);
     }
 
-    public function ScientificNamesSelect()
+    public function ScientificNamesSelect(ProductService $productService)
     {
-        return $this
-            ->resourceResponse(Product::where('user_id', Auth::id())
-                ->get(['id', 'sc_name as scientific_name']));
+        return $this->resourceResponse($productService->ScientificNamesSelect());
     }
 
-    public function CommercialNamesSelect()
+    public function CommercialNamesSelect(ProductService $productService)
     {
-        return $this->resourceResponse(Product::where('user_id', Auth::id())->get(['id', 'com_name as commercial_names']));
+        return $this->resourceResponse($productService->CommercialNamesSelect());
     }
 
-    public function doctorProducts()
+    public function doctorProducts(ProductService $productService)
     {
-        if ($this->getRoleNameForAuthenticatedUser() == 'doctor') {
-            return $this->resourceResponse(Product::whereIn(
-                'role_id',
-                $this->getRolesIdsByName(['ceo', 'data_entry']),
-            )
-                ->get(['id', 'sc_name as scientific_name', 'limited']));
-        }
-
-        return $this->notFoundResponse();
+        return $this->resourceResponse($productService->doctorProducts());
     }
 }

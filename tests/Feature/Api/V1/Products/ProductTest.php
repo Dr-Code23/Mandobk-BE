@@ -57,7 +57,6 @@ class ProductTest extends TestCase
 
     public function testStoreProductSuccessfully()
     {
-
         if ($product = Product::where('com_name', 'TestCommercialName')->first('id')) {
             $product->delete();
         }
@@ -75,5 +74,58 @@ class ProductTest extends TestCase
         $response->assertStatus(Response::HTTP_OK);
 
         $this->writeAFileForTesting($this->path, 'GetAllProducts', $response->getContent());
+    }
+
+    public function testGetAllScientificNames()
+    {
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
+            ->getJson(route('v1-products-scientific'));
+        $this->writeAFileForTesting($this->path, 'GetAllScientificNames', $response->getContent());
+        $response->assertSuccessful();
+        $response->assertJsonStructure([
+            'data' => [
+                '*' => [
+                    'id',
+                    'scientific_name',
+                ],
+            ],
+        ]);
+    }
+    public function testGetAllCommercialNames()
+    {
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
+            ->getJson(route('v1-products-commercial'));
+        $this->writeAFileForTesting($this->path, 'GetAllCommercialNames', $response->getContent());
+        $response->assertSuccessful();
+        $response->assertJsonStructure([
+            'data' => [
+                '*' => [
+                    'id',
+                    'commercial_name',
+                ],
+            ],
+        ]);
+    }
+
+    public function testGetOneProductWithNoDetails()
+    {
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
+            ->getJson(route('product_testing'));
+        $this->writeAFileForTesting($this->path, 'GetOneProductWithNoDetails', $response->getContent());
+        $response->assertSuccessful();
+
+        $content = json_decode($response->getContent(), true);
+        $response->assertSee([
+            'id',
+            'commercial_name',
+            'scientific_name',
+            'commercial_name',
+            'bonus',
+            'concentrate',
+            'limited',
+            'purchase_price',
+            'selling_price',
+            'barcode',
+        ]);
     }
 }

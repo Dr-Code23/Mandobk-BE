@@ -19,6 +19,7 @@ use App\Http\Controllers\Api\V1\Site\Sales\SaleController;
 use App\Http\Controllers\Api\V1\Site\Storehouse\StorehouseOffersController;
 use App\Http\Controllers\Api\V1\Users\UserController;
 use App\Models\V1\Role;
+use App\Services\Api\V1\Products\ProductService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -84,10 +85,12 @@ Route::group(['middleware' => ['auth:api']], function () {
                 ->withoutMiddleware('hasProductPermissions')
                 ->middleware('hasDoctorPermissions');
             Route::get('', [ProductController::class, 'index'])->name('v1-products-all');
-            Route::get('scientific_name', [ProductController::class, 'ScientificNamesSelect']);
-            Route::get('commercial_name', [ProductController::class, 'CommercialNamesSelect']);
-            Route::get('{product}', [ProductController::class, 'showWithoutDetails']);
-            Route::match(['POST'], '', [ProductController::class, 'storeOrUpdate'])->name('v1-products-store');
+            Route::get('scientific_name', [ProductController::class, 'ScientificNamesSelect'])->name('v1-products-scientific');
+            Route::get('commercial_name', [ProductController::class, 'CommercialNamesSelect'])->name('v1-products-commercial');
+            // ! Remove It After Testing
+            Route::get('product_testing', [ProductService::class, 'testGetOneProduct'])->name('product_testing');
+            Route::post('', [ProductController::class, 'storeOrUpdate'])->name('v1-products-store');
+            Route::get('{product}', [ProductController::class, 'showWithoutDetails'])->name('v1-products-one');
         },
     );
 
@@ -108,15 +111,6 @@ Route::group(['middleware' => ['auth:api']], function () {
             ['prefix' => 'company', 'middleware' => ['hasCompanyPermissions']],
             function () {
                 Route::get('', [HomeController::class, 'index']);
-                // Products
-                Route::group(
-                    ['prefix' => 'products'],
-                    function () {
-                        Route::get('', [ProductController::class, 'index']);
-                        Route::get('/{product}', [ProductController::class, 'show']);
-                        Route::post('', [ProductController::class, 'store']);
-                    }
-                );
                 // Company Offers
                 Route::group(
                     ['prefix' => 'company_offers'],
@@ -134,13 +128,6 @@ Route::group(['middleware' => ['auth:api']], function () {
         // Storehouse
         Route::group(['prefix' => 'storehouse', 'middleware' => ['hasStorehousePermissions']], function () {
             Route::get('', [HomeController::class, 'index']);
-            Route::group(
-                ['prefix' => 'products'],
-                function () {
-                    Route::get('', [ProductController::class, 'index']);
-                    Route::post('', [ProductController::class, 'store']);
-                }
-            );
 
             // Storehouse Offers
             Route::group(
@@ -170,14 +157,6 @@ Route::group(['middleware' => ['auth:api']], function () {
             ['prefix' => 'pharmacy', 'namespace' => 'Pharmacy'],
             function () {
                 Route::get('', [HomeController::class, 'index']);
-                // Products
-                Route::group(
-                    ['prefix' => 'products'],
-                    function () {
-                        Route::get('', [ProductController::class, 'index']);
-                        Route::post('', [ProductController::class, 'store']);
-                    }
-                );
 
                 // Storehouse offers
                 Route::group(
@@ -260,18 +239,6 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::group(
         ['prefix' => 'dashboard'],
         function () {
-            // Data Entry
-
-            Route::group(
-                ['prefix' => 'data_entry', 'middleware' => ['hasDataEntryPermissions']],
-                function () {
-                    Route::get('', [ProductController::class, 'index']);
-                    Route::get('/{dataEntry}', [ProductController::class, 'show']);
-                    Route::post('', [ProductController::class, 'store']);
-                    Route::put('/{dataEntry}', [ProductController::class, 'update']);
-                    Route::delete('/{dataEntry}', [ProductController::class, 'destroy']);
-                }
-            );
 
             // Monitor And Evaluation
 

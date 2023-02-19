@@ -42,7 +42,7 @@ class DBProductRepository implements ProductRepositoryInterface
                 );
             }])
             ->get();
-        // return new ProductCollection($products);
+
         return $this->resourceResponse(new ProductCollection($products));
     }
 

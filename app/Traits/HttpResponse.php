@@ -8,10 +8,12 @@ use Symfony\Component\HttpFoundation\Response;
 trait HttpResponse
 {
     /**
-     * Error Response.
+     * Error Response
      *
-     * @param mixed  $data
-     * @param string $message
+     * @param $data
+     * @param int $code
+     * @param string $msg
+     * @return JsonResponse
      */
     public function error($data = null, int $code = Response::HTTP_NOT_FOUND, string $msg = 'Error Occurred'): JsonResponse
     {
@@ -89,14 +91,22 @@ trait HttpResponse
         throw new \Illuminate\Auth\AuthenticationException();
     }
 
-    public function resourceResponse($data, string $msg = 'Data Fetched Successfully', int $code = 200)
+    /**
+     * Undocumented function
+     *
+     * @param $data
+     * @param string $msg
+     * @param integer $code
+     * @return JsonResponse
+     */
+    public function resourceResponse($data, string $msg = 'Data Fetched Successfully', int $code = 200): JsonResponse
     {
-        return [
+        return response()->json([
             'data' => $data,
             'msg' => $msg,
             'code' => $code,
             'type' => 'success',
-        ];
+        ], $code);
     }
 
     public function forbiddenResponse($msg = 'You do not have permissions to access this resource', $data = null, $code = Response::HTTP_FORBIDDEN)
@@ -109,9 +119,9 @@ trait HttpResponse
         return response()->noContent();
     }
 
-    public function notFoundResponse(string $msg = 'Not Found', array $data = null, int $code = Response::HTTP_NOT_FOUND)
+    public function notFoundResponse(string $msg = 'Not Found', array|null $data = null, int $code = Response::HTTP_NOT_FOUND)
     {
-        return $this->error(null, 404, $msg);
+        return $this->error($data, $code, $msg);
     }
 
     public function createdResponse(array|null|\Illuminate\Http\Resources\Json\JsonResource $data, string $msg = 'Resource Created Successfully', int $code = Response::HTTP_CREATED)
