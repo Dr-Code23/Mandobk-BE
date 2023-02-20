@@ -120,11 +120,14 @@ class ProductService
             else $product = Product::create($inputs);
 
 
-            $productInfo = ProductInfo::updateOrCreate([
-                'product_id' => $product->id,
-                'expire_date' => $request->expire_date,
-                'patch_number' => $request->patch_number
-            ], [
+            $productInfo = ProductInfo::where('product_id', $product->id)
+                ->where('expire_date', $request->expire_date)
+                ->where('patch_number', $request->patch_number)
+                ->first();
+            if ($productInfo) {
+                $productInfo->qty += $request->quantity;
+                $productInfo->update();
+            } else $productInfo = ProductInfo::create([
                 'role_id' => Auth::user()->role_id,
                 'product_id' => $product->id,
                 'qty' => $request->quantity,
