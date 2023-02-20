@@ -32,11 +32,11 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RoleSeeder::class,
             UserSeeder::class,
+            PayMethodSeeder::class,
             SubUserSeeder::class,
             ProductSeeder::class,
             ProductInfoSeeder::class,
             HumanResourceSeeder::class,
-            PayMethodSeeder::class,
             SaleSeeder::class,
             MarktingSeeder::class,
             OfferSeeder::class,

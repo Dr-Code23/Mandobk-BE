@@ -43,6 +43,8 @@ return new class() extends Migration
             */
             $table->string('original_total')->nullable();
             $table->boolean('limited')->default(false); // Limited Exchange
+
+            $table->timestamp('created_at')->default(now());
         });
     }
 

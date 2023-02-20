@@ -18,7 +18,7 @@ class HomeController extends Controller
     public function index()
     {
         // Purchase Price
-
+        // return date('Y-m-d', strtotime('- 29 days'));
         $total_purchases = $total_sales =
             $daily_purchases = $daily_sales =
             $monthly_purchases = $monthly_sales = 0;
@@ -37,7 +37,7 @@ class HomeController extends Controller
             }
             // then it's in Monthly purchases (We need to differentiate between months that have different days count)
 
-            if (date('Y-m-d', strtotime('-30 days')) >= $created_at) {
+            if ($created_at >= date('Y-m-d', strtotime('- 29 days'))) {
                 $monthly_purchases += $purchase;
             }
         }
@@ -51,7 +51,7 @@ class HomeController extends Controller
             if (date('Y-m-d') == $created_at) {
                 $daily_sales += $sale_info;
             }
-            if (date('Y-m-d', strtotime('-30 days')) >= $created_at) {
+            if ($created_at >= date('Y-m-d', strtotime('-30 days'))) {
                 $monthly_sales += $sale_info;
             }
         }
@@ -66,17 +66,19 @@ class HomeController extends Controller
         if (Role::where('name', 'pharmacy_sub_user')->value('id') != $this->getAuthenticatedUserInformation()->role_id) {
             $home_info['total_purchases'] = $this->setPercisionForFloatString($total_purchases, 2, '.', ',');
             $home_info['total_sales'] = $this->setPercisionForFloatString($total_sales, 2, '.', ',');
-            $home_info['total_profits'] = $this->setPercisionForFloatString($total_purchases - $total_sales, 2, '.', ',');
+            $home_info['total_profits'] = $this->setPercisionForFloatString($total_sales - $total_purchases, 2, '.', ',');
             $home_info['monthly_purchases'] = $this->setPercisionForFloatString($monthly_purchases, 2, '.', ',');
             $home_info['monthly_sales'] = $this->setPercisionForFloatString($monthly_sales, 2, '.', ',');
             $home_info['monthly_profits'] = $this->setPercisionForFloatString($monthly_purchases - $monthly_sales, 2, '.', ',');
         }
         $home_info['products'] =
-        new ProductCollection(
-            Product::whereIn('products.user_id', $this->getSubUsersForAuthenticatedUser()
-            )
-            ->join('providers', 'providers.id', 'products.provider_id')
-            ->limit(7)->get(['products.*', 'providers.name as provider']));
+            new ProductCollection(
+                Product::whereIn(
+                    'products.user_id',
+                    $this->getSubUsersForAuthenticatedUser()
+                )
+                    ->limit(7)->get()
+            );
 
         return $this->resourceResponse($home_info);
     }

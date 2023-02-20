@@ -25,7 +25,8 @@ class Product extends Model
         'limited',
         'barcode',
         'original_total',
-        'role_id'
+        'role_id',
+        'created_at'
     ];
 
 
