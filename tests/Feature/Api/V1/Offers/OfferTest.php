@@ -74,7 +74,7 @@ class OfferTest extends TestCase
         $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
             ->postJson(route('offer-store'), $this->getOfferData('product_id', Product::where('user_id', '8')->value('id')));
         $this->writeAFileForTesting($this->path, 'StoreOffer', $response->getContent());
-
         $response->assertCreated();
+        Offer::latest('id')->first()->delete();
     }
 }

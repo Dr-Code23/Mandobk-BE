@@ -30,10 +30,10 @@ class MarktingRequest extends FormRequest
     public function rules()
     {
         return [
-            'medicine_name' => ['required', 'not_regex:'.config('regex.not_fully_numbers_symbols')],
-            'company_name' => ['required', 'not_regex:'.config('regex.not_fully_numbers_symbols')],
+            'medicine_name' => ['required', 'not_regex:' . config('regex.not_fully_numbers_symbols')],
+            'company_name' => ['required', 'not_regex:' . config('regex.not_fully_numbers_symbols')],
             'discount' => ['bail', 'required', 'numeric', 'between:0,100'],
-            'img' => [$this->routeIs('markting_store') ? 'required' : 'sometimes', 'mimes:png,svg,jpg,jpeg'],
+            'img' => [$this->routeIs('markting_store') ? 'required' : 'sometimes', 'mimes:png,svg,jpg,jpeg', 'max:2048'],
         ];
     }
 

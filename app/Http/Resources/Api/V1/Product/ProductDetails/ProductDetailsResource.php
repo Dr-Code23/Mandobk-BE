@@ -20,6 +20,7 @@ class ProductDetailsResource extends JsonResource
             'quantity' => $this->qty,
             'expire_date' => $this->expire_date,
             'patch_number' => $this->patch_number,
+            'created_at' => $this->created_at,
         ];
     }
 }

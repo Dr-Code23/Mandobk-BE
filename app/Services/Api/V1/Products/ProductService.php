@@ -132,11 +132,6 @@ class ProductService
                 'patch_number' => $request->patch_number
             ]);
 
-            unset($productInfo->updated_at);
-            // $productInfo->patch_number = $this->formatPatchNumber(
-            //     $productInfo->patch_number,
-            //     $this->getAuthenticatedUserInformation()->role_id
-            // );
             $product->detail = new ProductDetailsResource($productInfo);
             return $product;
         }
