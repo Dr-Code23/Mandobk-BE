@@ -36,6 +36,7 @@ class ProductController extends Controller
     public function showWithoutDetails(Product $product, ProductService $productService)
     {
         $product = $productService->showOnProductWithoutDetails($product);
+
         if ($product != null)
             return $this->resourceResponse(new ProductResource($product));
 

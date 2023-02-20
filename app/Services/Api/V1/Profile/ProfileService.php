@@ -43,7 +43,8 @@ class ProfileService
         }
         if ($anyChangeOccur)
             $user->update();
-        if ($passowrdChanged) Auth::logout();
+
+        Auth::logout();
         return $user;
     }
 }

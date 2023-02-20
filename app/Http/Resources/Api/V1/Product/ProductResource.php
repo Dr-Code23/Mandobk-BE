@@ -3,8 +3,6 @@
 namespace App\Http\Resources\Api\V1\Product;
 
 use App\Http\Resources\Api\V1\Product\ProductDetails\ProductDetailsCollection;
-use App\Http\Resources\Api\V1\Users\UserCollection;
-use App\Http\Resources\Api\V1\Users\UserResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ProductResource extends JsonResource
@@ -24,15 +22,16 @@ class ProductResource extends JsonResource
             'scientific_name' => $this->sc_name,
             'purchase_price' => $this->pur_price,
             'selling_price' => $this->sel_price,
-            'bonus' => $this->bonus,
+            'bonus' => $this->bonus . '%',
             'concentrate' => $this->con,
             'limited' => $this->limited ? true : false,
-            'barcode' => asset('/storage/products/' . $this->barcode) . '.svg',
+            'barcode' => $this->barcode ? asset('/storage/products/' . $this->barcode) . '.svg' : null,
             'product_details' => new ProductDetailsCollection($this->whenLoaded('product_details')),
         ];
         if ($request->is('ceo/*') || $request->is('ceo/') || $request->is('data_entry/*') || $request->is('data_entry/')) {
             $resource['limited'] = $this->limited ? true : false;
         }
+        if ($this->product_details_sum_qty) $resource['total_quantity'] = $this->product_details_sum_qty;
         if (isset($this->detail))
             $resource['detail'] = $this->detail;
         return $resource;

@@ -12,6 +12,7 @@ use App\Traits\RoleTrait;
 use App\Traits\Translatable;
 use App\Traits\UserTrait;
 use Auth;
+use DB;
 
 class ProductService
 {
@@ -42,11 +43,10 @@ class ProductService
                     'qty',
                     'expire_date',
                     'patch_number',
-                    'created_at'
+                    'created_at',
                 );
             }])
             ->get();
-
         return $this->resourceResponse(new ProductCollection($products));
     }
     /**
@@ -65,6 +65,7 @@ class ProductService
                 if ($this->roleNameIn(['ceo', 'data_entry'])) $query->whereIn('role_id', $this->getRolesIdsByName(['ceo', 'data_entry']));
                 else  $query->whereIn('user_id', $this->getSubUsersForAuthenticatedUser());
             })
+            ->withSum('product_details', 'qty')
             ->first();
 
         if ($product) {
@@ -82,14 +83,6 @@ class ProductService
         $selling_price = $this->setPercisionForFloatString($request->selling_price);
         $bonus = $this->setPercisionForFloatString($request->bonus);
         $concentrate = $this->setPercisionForFloatString($request->concentrate);
-
-        // Check If Data Entry Has has product
-        // $admin_product = Product::where('com_name', $commercial_name)
-        //     ->where('sc_name', $scientific_name)
-        //     ->whereIn('role_id', $this->getRolesIdsByName(['ceo', 'data_entry']))
-        //     ->first(['limited']);
-
-        /* Make the barcode for the product */
 
         // Store the barcode
         $barcode_value = $request->barcode;
@@ -111,13 +104,20 @@ class ProductService
                 'bonus' => $bonus,
                 'con' => $concentrate,
                 'barcode' => $barcode_value,
-                'original_total' => $purchase_price * $request->quantity,
+                // 'original_total' => $purchase_price * $request->quantity,
                 'limited' => $request->limited ? 1 : 0,
                 'user_id' => Auth::id(),
                 'role_id' => $this->getAuthenticatedUserInformation()->role->id,
             ];
-            if ($product) $product->update($inputs);
-            else $product = Product::create($inputs);
+            $originalTotal = $purchase_price * $request->quantity;
+            if ($product) {
+                $originalTotal += $product->original_total;
+                $inputs['original_total'] = $originalTotal;
+                $product->update($inputs);
+            } else {
+                $inputs['original_total'] = $originalTotal;
+                $product = Product::create($inputs);
+            }
 
 
             $productInfo = ProductInfo::where('product_id', $product->id)
