@@ -5,24 +5,42 @@ namespace App\Services\Api\V1\Profile;
 use App\Models\User;
 use App\Traits\FileOperationTrait;
 use Auth;
+use Hash;
 
 class ProfileService
 {
     use FileOperationTrait;
-    public function changeUserInfo($request): bool
+    public function changeUserInfo($request)
     {
         // Store avatar
         $data = $request->validated();
-        $user = User::where('id', Auth::id());
+        $user = User::where('id', Auth::id())->first();
+        $anyChangeOccur = false;
         if ($request->has('avatar')) {
             // Delete The Old Avatar First
-            if ($user->avatar != 'user.png') {
+            if ($user->avatar) {
                 $this->deleteImage('users/' . $user->avatar);
             }
             $imagePath = explode('/', $request->file('avatar')->store('public/users'))[2];
-            $data->avatar = $imagePath;
+            $user->avatar = $imagePath;
+            $anyChangeOccur = true;
         }
-        $user->update($request->validated());
-        return true;
+        if ($user->full_name != $data['full_name']) {
+            $user->full_name = $data['full_name'];
+            $anyChangeOccur = true;
+        }
+        if ($user->phone != $data['phone']) {
+            $user->phone = $data['phone'];
+            $anyChangeOccur = true;
+        }
+        if ($request->has('password')) {
+            if (Hash::check($data['password'], $user->password)) {
+                $user->password = $data['password'];
+                $anyChangeOccur = true;
+            }
+        }
+        if ($anyChangeOccur)
+            $user->update();
+        return $user;
     }
 }

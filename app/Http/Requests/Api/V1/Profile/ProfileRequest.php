@@ -2,14 +2,17 @@
 
 namespace App\Http\Requests\Api\V1\Profile;
 
+use App\Traits\HttpResponse;
 use App\Traits\Translatable;
 use Auth;
 use Illuminate\Foundation\Http\FormRequest;
-use Password;
+use Illuminate\Validation\Rules\Password as RulesPassword;
+use Illuminate\Validation\ValidationException as ValidationValidationException;
 
 class ProfileRequest extends FormRequest
 {
     use Translatable;
+    use HttpResponse;
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -31,13 +34,13 @@ class ProfileRequest extends FormRequest
             'full_name' => ['required'],
             'password' => [
                 'sometimes',
-                Password::min(8)
+                RulesPassword::min(8)
                     ->mixedCase()
                     ->numbers()
                     ->symbols(),
             ],
             'avatar' => ['sometimes', 'image', 'mimes:png,jpg', 'max:2048'],
-            'phone' => ['required', 'unique:users,phone,' . Auth::id() . ',id']
+            'phone' => ['required', 'unique:users,phone,' . Auth::id() . ',id', 'numeric']
         ];
     }
 
@@ -52,5 +55,10 @@ class ProfileRequest extends FormRequest
             'phone.required' => $this->translateErrorMessage('phone', 'required'),
             'phone.unique' => $this->translateErrorMessage('phone', 'unique')
         ];
+    }
+
+    public function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
+    {
+        throw new ValidationValidationException($validator, $this->validation_errors($validator->errors()));
     }
 }

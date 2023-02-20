@@ -14,7 +14,7 @@ class AuthService
     use StringTrait;
     use RoleTrait;
     use UserTrait;
-    
+
     public function __construct(
         protected User $userModel
     ) {
@@ -60,6 +60,7 @@ class AuthService
                 return [
                     'username' => $user->username,
                     'phone' => $user->phone,
+                    'avatar' => $user->avatar,
                     'full_name' => $this->strLimit($user->full_name),
                     'role' => Role::where('id', $user->role_id)->value('name'),
                     'token' => $token,

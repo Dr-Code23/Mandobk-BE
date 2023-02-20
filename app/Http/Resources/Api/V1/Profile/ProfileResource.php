@@ -2,10 +2,13 @@
 
 namespace App\Http\Resources\Api\V1\Profile;
 
+use App\Models\V1\Role;
+use App\Traits\RoleTrait;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ProfileResource extends JsonResource
 {
+    use RoleTrait;
     /**
      * Transform the resource into an array.
      *
@@ -18,7 +21,8 @@ class ProfileResource extends JsonResource
             'full_name' => $this->full_name,
             'username' => $this->username,
             'phone' => $this->phone,
-            'avatar' => asset('storage/users/' . $this->avatar),
+            'role' => $this->getRoleNameForAuthenticatedUser(),
+            'avatar' => asset('storage/users/' . ($this->avatar ?? 'user.png')),
         ];
     }
 }

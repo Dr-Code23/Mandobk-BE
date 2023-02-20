@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\V1\Dashboard\OrderManagementController;
 use App\Http\Controllers\Api\V1\Mobile\Auth\MobileAuthController;
 use App\Http\Controllers\Api\V1\PayMethod\PayMethodController;
 use App\Http\Controllers\Api\V1\Products\ProductController;
+use App\Http\Controllers\Api\V1\Profile\ProfileController;
 use App\Http\Controllers\Api\V1\Roles\RoleController;
 use App\Http\Controllers\Api\V1\Site\Home\HomeController;
 use App\Http\Controllers\Api\V1\Site\OfferOrder\OfferOrderController;
@@ -43,6 +44,10 @@ Route::group(['prefix' => 'auth'], function () {
 });
 
 Route::group(['middleware' => ['auth:api']], function () {
+
+
+    // Change Profile Info
+    Route::post('profile', [ProfileController::class, 'changeProfileInfo']);
     // Markting Offers
     Route::get('markting_offers', [MarktingController::class, 'index']);
 

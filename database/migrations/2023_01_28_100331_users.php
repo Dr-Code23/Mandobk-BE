@@ -23,7 +23,7 @@ return new class() extends Migration
                 ->references('id')
                 ->onUpdate('cascade');
 
-            $table->string('avatar')->default('user.png');
+            $table->string('avatar')->nullable();
             $table->enum('status', ['0', '1', '2'])
                 ->comment('0 => Deleted , 1=> Active , 2=> Frozen')
                 ->default('2'); // Default Frozen Account
