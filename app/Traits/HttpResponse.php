@@ -69,7 +69,7 @@ trait HttpResponse
         ], $code);
     }
 
-    public function unauthenticatedResponse(string $msg = 'You Are not authenticated', int $code = Response::HTTP_FORBIDDEN, $data = null)
+    public function unauthenticatedResponse(string $msg = 'You Are not authenticated', int $code = Response::HTTP_UNAUTHORIZED, $data = null)
     {
         return response()->json([
             'data' => $data,

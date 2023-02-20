@@ -39,8 +39,8 @@ class SubUserController extends Controller
     {
         if (
             SubUser::where('parent_id', Auth::id())
-                ->where('sub_user_id', $subuser->id)
-                ->value('id') && $subuser->status == '1'
+            ->where('sub_user_id', $subuser->id)
+            ->value('id') && $subuser->status == '1'
         ) {
             return $this->resourceResponse(new SubUserResource($subuser));
         }
@@ -95,7 +95,7 @@ class SubUserController extends Controller
 
     public function destroy(User $subuser)
     {
-        if ($pharmacySubUser = SubUser::where('parent_id', Auth::id())->where('sub_user_id', $subuser->id)->value('id') && $subuser->status == '1') {
+        if (SubUser::where('parent_id', Auth::id())->where('sub_user_id', $subuser->id)->value('id') && $subuser->status == '1') {
             $subuser->status = '0';
             $subuser->update();
 

@@ -90,10 +90,11 @@ Route::group(['middleware' => ['auth:api']], function () {
         },
     );
 
-    Route::group(['prefix' => 'offers'], function () {
-        Route::get('', [OfferController::class, 'index']);
-        Route::post('', [OfferController::class, 'store']);
-        Route::get('{offer}', [OfferController::class, 'show']);
+    // Offers
+    Route::group(['prefix' => 'offers', 'middleware' => ['App\Http\Middleware\hasOfferAccess']], function () {
+        Route::get('', [OfferController::class, 'index'])->name('offer-all');
+        Route::post('', [OfferController::class, 'store'])->name('offer-store');
+        Route::get('{offer}', [OfferController::class, 'show'])->name('offer-one');
         Route::put('/{offer}', [OfferController::class, 'changeOfferStatus']);
         Route::delete('/{offer}', [OfferController::class, 'destroy']);
     });
@@ -114,35 +115,12 @@ Route::group(['middleware' => ['auth:api']], function () {
             ['prefix' => 'company', 'middleware' => ['hasCompanyPermissions']],
             function () {
                 Route::get('', [HomeController::class, 'index']);
-                // Company Offers
-                Route::group(
-                    ['prefix' => 'company_offers'],
-                    function () {
-                        Route::get('', [OfferController::class, 'index']);
-                        Route::get('{offer}', [OfferController::class, 'show']);
-                        Route::post('', [OfferController::class, 'store']);
-                        Route::put('/{offer}', [OfferController::class, 'changeOfferStatus']);
-                        Route::delete('/{offer}', [OfferController::class, 'destroy']);
-                    }
-                );
             }
         );
 
         // Storehouse
         Route::group(['prefix' => 'storehouse', 'middleware' => ['hasStorehousePermissions']], function () {
             Route::get('', [HomeController::class, 'index']);
-
-            // Storehouse Offers
-            Route::group(
-                ['prefix' => 'offers'],
-                function () {
-                    Route::get('', [OfferController::class, 'index']);
-                    Route::get('{offer}', [OfferController::class, 'show']);
-                    Route::post('', [OfferController::class, 'store']);
-                    Route::put('/{offer}', [OfferController::class, 'changeOfferStatus']);
-                    Route::delete('/{offer}', [OfferController::class, 'destroy']);
-                }
-            );
 
             // Company Offers
             Route::group(

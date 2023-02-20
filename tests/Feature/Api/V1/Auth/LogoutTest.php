@@ -15,12 +15,12 @@ class LogoutTest extends TestCase
     public function testLogoutWithNoAuthenticatedUser()
     {
         $response = $this->postJson(route('v1-logout'));
-        $response->assertStatus(Response::HTTP_FORBIDDEN);
+        $response->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
     public function testLogoutAuthenticatedUser()
     {
-        $response = $this->withHeader('Authorization', 'Bearer '.$this->getToken())->postJson(route('v1-logout'));
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())->postJson(route('v1-logout'));
         $response->assertStatus(200);
         $this->writeAFileForTesting('Auth/', 'LogoutSuccess', $response->getContent());
     }

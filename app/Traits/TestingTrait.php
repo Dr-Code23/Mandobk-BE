@@ -2,8 +2,20 @@
 
 namespace App\Traits;
 
+use App\Models\V1\PayMethod;
+use Illuminate\Http\Response as HttpResponse;
+use Response;
+
 trait TestingTrait
 {
+
+    public function login(array $credentials = ['username' => 'company', 'password' => 'company'])
+    {
+        $response = $this->postJson(route('v1-login'), $credentials);
+        $response->assertStatus(HttpResponse::HTTP_OK);
+        $this->setToken(json_decode($response->getContent())->data->token);
+    }
+
     public function getSignUpData(string $WantToTest = null, string $Against = ''): array
     {
         $data = [
@@ -12,6 +24,21 @@ trait TestingTrait
             'password' => 'Aa234!#!1',
             'phone' => '123123',
             'role' => '8',
+        ];
+        if ($WantToTest) {
+            $data[$WantToTest] = $Against;
+        }
+
+        return $data;
+    }
+    public function getOfferData(string $WantToTest = null, string $Against = ''): array
+    {
+
+        $data = [
+            'product_id' => null,
+            'start_date' => date('Y-m-d'),
+            'end_date' => date('Y-m-d', strtotime('+ 1 days')),
+            'pay_method_id' => '1',
         ];
         if ($WantToTest) {
             $data[$WantToTest] = $Against;

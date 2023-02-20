@@ -3,6 +3,7 @@
 namespace App\Services\Api\V1\Products;
 
 use App\Http\Resources\Api\V1\Product\ProductCollection;
+use App\Http\Resources\Api\V1\Product\ProductDetails\ProductDetailsResource;
 use App\Http\Resources\Api\V1\Product\ProductResource;
 use App\Models\V1\Product;
 use App\Models\V1\ProductInfo;
@@ -132,7 +133,7 @@ class ProductService
 
             unset($productInfo->updated_at);
             unset($productInfo->role_id);
-            $product->detail = $productInfo;
+            $product->detail = new ProductDetailsResource($productInfo);
             return $product;
         }
 

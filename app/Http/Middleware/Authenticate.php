@@ -2,10 +2,14 @@
 
 namespace App\Http\Middleware;
 
+use App\Traits\UserTrait;
+use Auth;
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
+use Illuminate\Validation\UnauthorizedException;
 
 class Authenticate extends Middleware
 {
+    use UserTrait;
     /**
      * Get the path the user should be redirected to when they are not authenticated.
      *
@@ -30,8 +34,13 @@ class Authenticate extends Middleware
      */
     public function handle($request, \Closure $next, ...$guards)
     {
+
         $this->authenticate($request, $guards);
 
+        if (Auth::user()->status != $this->isActive()) {
+            Auth::logout();
+            return $this->unauthenticatedResponse();
+        }
         return $next($request);
     }
 }

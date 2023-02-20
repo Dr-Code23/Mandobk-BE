@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Api\V1\Product;
 
+use App\Http\Resources\Api\V1\Product\ProductDetails\ProductDetailsCollection;
 use App\Http\Resources\Api\V1\Users\UserCollection;
 use App\Http\Resources\Api\V1\Users\UserResource;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -27,7 +28,7 @@ class ProductResource extends JsonResource
             'concentrate' => $this->con,
             'limited' => $this->limited ? true : false,
             'barcode' => asset('/storage/products/' . $this->barcode) . '.svg',
-            'product_details' => $this->whenLoaded('product_details'),
+            'product_details' => new ProductDetailsCollection($this->whenLoaded('product_details')),
         ];
         if ($request->is('ceo/*') || $request->is('ceo/') || $request->is('data_entry/*') || $request->is('data_entry/')) {
             $resource['limited'] = $this->limited ? true : false;

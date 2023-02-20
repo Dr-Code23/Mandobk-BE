@@ -31,7 +31,6 @@ class OfferService
      */
     public function allOffers(): Collection
     {
-
         return Offer::where('user_id', Auth::id())
             ->where('type', $this->roleNameIn(['company']) ? '1' : '2')
             ->get();
@@ -82,6 +81,7 @@ class OfferService
                 'user_id' => Auth::id(),
                 'from' => $request->start_date,
                 'to' => $request->end_date,
+                'status' => '1'
             ]);
         }
 
