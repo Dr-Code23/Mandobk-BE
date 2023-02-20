@@ -21,7 +21,7 @@ class ProfileResource extends JsonResource
             'full_name' => $this->full_name,
             'username' => $this->username,
             'phone' => $this->phone,
-            'role' => $this->getRoleNameForAuthenticatedUser(),
+            'role' => Role::where('id', $this->role_id)->value('name'),
             'avatar' => asset('storage/users/' . ($this->avatar ?? 'user.png')),
         ];
     }
