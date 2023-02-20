@@ -3,7 +3,8 @@
 namespace App\Models\V1;
 
 use App\Traits\DateTrait;
-use App\Traits\UserTrait;
+use App\Traits\GeneralTrait;
+use App\Traits\RoleTrait;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,7 +14,7 @@ class ProductInfo extends Model
 {
     use HasFactory;
     use DateTrait;
-    use UserTrait;
+    use GeneralTrait;
     protected $table = 'products_info';
 
     protected $fillable = [
@@ -29,30 +30,7 @@ class ProductInfo extends Model
     {
         return Attribute::make(
             get: function ($val) {
-
-                // Cache All Roles Ids
-                if (!Cache::get('all_roles')) {
-                    $roles = [];
-                    foreach (Role::all(['id', 'name']) as $role) {
-                        $roles[$role->name] = $role->id;
-                    }
-                    Cache::set('all_roles', $roles);
-                }
-                $all_roles = Cache::get('all_roles');
-
-                // Return The Original Path Number For All Users Except Admins
-                $authenticated_user_role_id = $this->getAuthenticatedUserInformation()->role_id;
-                if (!in_array($authenticated_user_role_id, [
-                    $all_roles['ceo'],
-                    $all_roles['data_entry'],
-                ])) {
-                    return $val;
-                }
-                foreach ($all_roles as $role_name => $role_id) {
-                    if ($role_id == $this->role_id) {
-                        return config('roles.role_patch_number_symbol.' . $role_name) . '-' . $val;
-                    }
-                }
+                return $this->formatPatchNumber($val, $this->role_id);
             }
         );
     }
@@ -61,7 +39,6 @@ class ProductInfo extends Model
     public function expireDate(): Attribute
     {
         return Attribute::make(
-            get: fn ($val) => $this->changeDateFormat($val, 'Y-m-d'),
             set: fn ($val) => $this->changeDateFormat($val, 'Y-m-d')
         );
     }
@@ -77,7 +54,6 @@ class ProductInfo extends Model
     {
         return Attribute::make(
             get: fn ($val) => $this->changeDateFormat($val, 'Y-m-d'),
-            set: fn ($val) => $this->changeDateFormat($val, 'Y-m-d')
         );
     }
 }

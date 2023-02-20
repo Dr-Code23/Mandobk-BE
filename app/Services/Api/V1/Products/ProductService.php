@@ -7,6 +7,7 @@ use App\Http\Resources\Api\V1\Product\ProductDetails\ProductDetailsResource;
 use App\Http\Resources\Api\V1\Product\ProductResource;
 use App\Models\V1\Product;
 use App\Models\V1\ProductInfo;
+use App\Traits\GeneralTrait;
 use App\Traits\RoleTrait;
 use App\Traits\Translatable;
 use App\Traits\UserTrait;
@@ -18,7 +19,7 @@ class ProductService
     use UserTrait;
     use Translatable;
     use RoleTrait;
-
+    use GeneralTrait;
 
 
     /**
@@ -38,7 +39,7 @@ class ProductService
                     'id',
                     'role_id',
                     'product_id',
-                    'qty as quantity',
+                    'qty',
                     'expire_date',
                     'patch_number',
                     'created_at'
@@ -132,7 +133,10 @@ class ProductService
             ]);
 
             unset($productInfo->updated_at);
-            unset($productInfo->role_id);
+            // $productInfo->patch_number = $this->formatPatchNumber(
+            //     $productInfo->patch_number,
+            //     $this->getAuthenticatedUserInformation()->role_id
+            // );
             $product->detail = new ProductDetailsResource($productInfo);
             return $product;
         }
