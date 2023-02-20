@@ -29,7 +29,7 @@ class OrderManagementResource extends JsonResource
             'quantity' => $this->quantity,
             'status' => $status == '0' ? $this->translateWord('rejected') : ($status == '1' ? 'Pending' : $this->translateWord('approved')),
             'status_code' => $status == '0' ? '0' : '1',
-            'bonus' => $this->bonus . ' %',
+            // 'bonus' => $this->bonus . ' %',
             'created_at' => $this->created_at,
         ];
     }
