@@ -14,7 +14,7 @@ class ProfileService
     {
         // Store avatar
         $data = $request->validated();
-        $user = User::where('id', Auth::id())->first();
+        $user = Auth::user();
         $anyChangeOccur = false;
         $passowrdChanged = false;
         if ($request->has('avatar')) {
