@@ -29,6 +29,15 @@ class UserSeeder extends Seeder
             ]);
         }
 
+        for ($i = 0; $i < 200; $i++) {
+            User::create([
+                'username' => "user$i",
+                'password' => "user$i",
+                'full_name' => "user $i",
+                'role_id' => fake()->numberBetween(7, 12),
+                'status' => fake()->numberBetween(1, 2) . ''
+            ]);
+        }
         // Add Customer User
 
         User::create([
