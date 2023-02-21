@@ -9,6 +9,4 @@
         console.log('New User Registred , His Data is ' + e.payload.data)
         console.log('New User Registred , His Data is ', e.payload)
     })
-    // Echo.channel('events')
-    //     .listen('RealTimeMessage', (e) => console.log('RealTimeMessage: ' + e.message));
 </script>
