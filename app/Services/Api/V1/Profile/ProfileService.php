@@ -4,7 +4,7 @@ namespace App\Services\Api\V1\Profile;
 
 use App\Models\User;
 use App\Traits\FileOperationTrait;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Hash;
 
 class ProfileService

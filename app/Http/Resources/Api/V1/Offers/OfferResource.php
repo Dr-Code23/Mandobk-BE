@@ -31,6 +31,7 @@ class OfferResource extends JsonResource
             'pay_method_id' => $this->pay_method,
             'status' => $this->status,
             'created_at' => $this->created_at,
+            'product_info' => new OfferProductResource($this->whenLoaded('product')),
         ];
     }
 }

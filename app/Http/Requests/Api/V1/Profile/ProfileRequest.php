@@ -4,7 +4,7 @@ namespace App\Http\Requests\Api\V1\Profile;
 
 use App\Traits\HttpResponse;
 use App\Traits\Translatable;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password as RulesPassword;
 use Illuminate\Validation\ValidationException as ValidationValidationException;

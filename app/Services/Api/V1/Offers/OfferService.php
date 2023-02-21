@@ -9,7 +9,8 @@ use App\Models\V1\Role;
 use App\Traits\RoleTrait;
 use App\Traits\Translatable;
 use App\Traits\UserTrait;
-use Auth;
+use Illuminate\Support\Facades\Auth;
+
 use Illuminate\Database\Eloquent\Collection;
 
 class OfferService
@@ -17,6 +18,7 @@ class OfferService
     use UserTrait;
     use RoleTrait;
     use Translatable;
+    private string $productRelation = 'product:id,com_name,sc_name,con,sel_price,bonus';
     public function __construct(
         protected Offer $offerModel,
         protected Role $roleModel,
@@ -33,6 +35,7 @@ class OfferService
     {
         return Offer::where('user_id', Auth::id())
             ->where('type', $this->roleNameIn(['company']) ? '1' : '2')
+            ->with($this->productRelation)
             ->get();
     }
 
@@ -40,11 +43,12 @@ class OfferService
      * Show One Offer
      *
      * @param Offer $offer
-     * @return Offer|null
+     * @return mixed
      */
-    public function show($offer): Offer|null
+    public function show($offer)
     {
-        if ($offer->user_id == Auth::id() && $offer->type == ($this->roleNameIn(['company']) ? '1' : '2')) return $offer;
+        if ($offer->user_id == Auth::id() && $offer->type == ($this->roleNameIn(['company']) ? '1' : '2'))
+            return $offer->load($this->productRelation);
         else return null;
     }
 
@@ -74,7 +78,7 @@ class OfferService
             $errors['pay_method'] = $this->translateErrorMessage('pay_method', 'not_exists');
 
         if (!$errors) {
-            return $this->offerModel->create([
+            $offer = $this->offerModel->create([
                 'product_id' => $request->product_id,
                 'pay_method' => $request->pay_method_id,
                 'type' => $this->roleNameIn(['company']) ? '1' : '2',
@@ -83,6 +87,8 @@ class OfferService
                 'to' => $request->end_date,
                 'status' => '1'
             ]);
+            $offer->load($this->productRelation);
+            return $offer;
         }
 
         $errors['error'] = true;
@@ -106,6 +112,7 @@ class OfferService
                 $offer->status = $request->status;
                 $offer->update();
             }
+            $offer->load($this->productRelation);
             return $offer;
         }
 

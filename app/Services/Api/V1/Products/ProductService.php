@@ -11,7 +11,7 @@ use App\Traits\GeneralTrait;
 use App\Traits\RoleTrait;
 use App\Traits\Translatable;
 use App\Traits\UserTrait;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use DB;
 
 class ProductService
