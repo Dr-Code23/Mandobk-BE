@@ -3,8 +3,8 @@
 namespace App\Http\Middleware;
 
 use App\Traits\UserTrait;
-use Auth;
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\UnauthorizedException;
 
 class Authenticate extends Middleware

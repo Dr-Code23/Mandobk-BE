@@ -18,6 +18,7 @@ use App\Http\Controllers\Api\V1\Site\Pharmacy\SubUserController;
 use App\Http\Controllers\Api\V1\Site\Recipes\RecipeController;
 use App\Http\Controllers\Api\V1\Site\Sales\SaleController;
 use App\Http\Controllers\Api\V1\Users\UserController;
+use App\Models\User;
 use App\Models\V1\Role;
 use App\Services\Api\V1\Products\ProductService;
 use Illuminate\Http\Request;
@@ -287,5 +288,6 @@ Route::get('', function () {
     return Role::paginate(2);
 });
 Route::get('test', function () {
+    auth()->login(User::find(1));
     return view('welcome');
 });
