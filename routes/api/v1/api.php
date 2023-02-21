@@ -284,7 +284,7 @@ Route::group(['middleware' => ['auth:api']], function () {
         }
     );
 });
-Route::get('[aginate', function () {
+Route::get('paginate', function () {
     return Role::paginate(2);
 });
 Route::get('test', function () {
