@@ -30,7 +30,7 @@ class Sale extends Model
     protected function createdAt(): Attribute
     {
         return Attribute::make(
-            get: fn ($val) => $this->changeDateFormat($val, 'Y-m-d H:i')
+            get: fn ($val) => $this->changeDateFormat($val, 'd M Y')
         );
     }
 

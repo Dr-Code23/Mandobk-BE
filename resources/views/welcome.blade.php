@@ -1,4 +1,4 @@
-<script src="{{ asset('build/assets/app-d72bd59b.js') }}"></script>
+<script src="{{ asset('build/assets/app-23a62441.js') }}"></script>
 
 <script>
     Echo.private('google').listen('TestEvent', function(e) {
@@ -6,7 +6,8 @@
     })
 
     Echo.private('newUserRegister').listen('RegisterUserEvent', function(e) {
-        console.log('New User Registred , His Data is ' + e.payload)
+        console.log('New User Registred , His Data is ' + e.payload.data)
+        console.log('New User Registred , His Data is ', e.payload)
     })
     // Echo.channel('events')
     //     .listen('RealTimeMessage', (e) => console.log('RealTimeMessage: ' + e.message));
