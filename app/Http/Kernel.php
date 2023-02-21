@@ -75,5 +75,6 @@ class Kernel extends HttpKernel
         'hasOrderManagementPermissions' => \App\Http\Middleware\HasOrderManagementAccess::class,
         'hasProductPermissions' => \App\Http\Middleware\HasProductAccess::class,
         'hasSalesPermissions' => \App\Http\Middleware\HasSalesAccess::class,
+        'hasNotificationsAccess' => \App\Http\Middleware\hasNotificationAccess::class,
     ];
 }

@@ -291,3 +291,7 @@ Route::get('test', function () {
     auth()->login(User::find(1));
     return view('welcome');
 });
+
+Route::get('notification', function () {
+    return 'nice';
+})->middleware('hasNotificationsAccess:dashboard,nice');

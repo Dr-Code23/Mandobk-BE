@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\RegisterUserEvent;
 use App\Models\User;
 use Illuminate\Support\Facades\Broadcast;
 
@@ -15,5 +16,11 @@ use Illuminate\Support\Facades\Broadcast;
 */
 
 Broadcast::channel('google', function () {
+    return true;
+});
+
+// Register New Visitor
+
+Broadcast::channel(RegisterUserEvent::$channelName, function () {
     return true;
 });

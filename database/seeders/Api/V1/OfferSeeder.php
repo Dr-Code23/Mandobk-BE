@@ -20,7 +20,7 @@ class OfferSeeder extends Seeder
                 'from' => now(),
                 'to' => date('Y-m-d', strtotime('+ ' . fake()->numberBetween(1, 10) . 'days')),
                 'pay_method' => 1,
-                'user_id' => fake()->numberBetween(1, 10),
+                'user_id' => 8,
                 'type' => fake()->numberBetween(1, 2) . '',
                 'status' => fake()->boolean()
             ]);

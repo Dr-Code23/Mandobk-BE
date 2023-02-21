@@ -64,7 +64,7 @@ class UserService
      * @param $request
      * @return null|array
      */
-    public function getUsersForSelectBox($request): null|array
+    public function getUsersForSelectBox($request)
     {
 
         $role_name = '';

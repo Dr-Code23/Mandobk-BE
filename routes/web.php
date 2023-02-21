@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Handler;
 use App\Http\Controllers\TestController;
+use BeyondCode\LaravelWebSockets\Facades\WebSocketsRouter;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 
 Route::get('in', [TestController::class, 'index']);
 // Route::get('Internet', [TestController::class, 'index']);

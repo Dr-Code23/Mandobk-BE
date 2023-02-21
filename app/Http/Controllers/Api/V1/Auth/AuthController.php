@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Api\V1\Auth;
 
+use App\Events\RegisterUserEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\Auth\LoginRequest;
 use App\Http\Requests\Api\V1\Auth\signUpRequest;
+use App\Models\User;
 use App\Services\Api\V1\Auth\AuthService;
 use App\Traits\HttpResponse;
 use App\Traits\Translatable;
@@ -49,6 +51,10 @@ class AuthController extends Controller
     {
         $added = $authService->signup($req);
         if ($added) {
+            $user = User::where('username', $req->username)->first();
+
+            // Send Notifications To Admin
+            RegisterUserEvent::dispatch($user);
             return $this->createdResponse(null, __('standard.account_created'));
         }
 

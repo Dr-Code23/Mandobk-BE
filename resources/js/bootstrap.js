@@ -44,7 +44,7 @@ window.Echo = new Echo({
                         },
                         {
                             headers: {
-                                Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvdjEvYXV0aC9sb2dpbiIsImlhdCI6MTY3Njk3NzM0NiwibmJmIjoxNjc2OTc3MzQ2LCJqdGkiOiJpU0ZLbVNYUWNleFpXNnRzIiwic3ViIjoiOCIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.YDVsmHtz-jfl3V9AJzJZDGM0fo8fSUzvpNWoNurok4Q`,
+                                Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvdjEvYXV0aC9sb2dpbiIsImlhdCI6MTY3Njk5NTEyNiwibmJmIjoxNjc2OTk1MTI2LCJqdGkiOiJ1SUxiRGU1UHh3ODdad0lCIiwic3ViIjoiOCIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.MmgKh8eHx8yEpaYq7Dxsk8zfpr5MFkrgTwj4a_GJaeU`,
                             },
                         }
                     )
