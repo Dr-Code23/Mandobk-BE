@@ -15,12 +15,23 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 
-Broadcast::channel('google', function () {
-    return true;
-});
+// Broadcast::channel('google', function () {
+//     return true;
+// });
 
 // Register New Visitor
 
 Broadcast::channel(RegisterUserEvent::$channelName, function () {
     return true;
+});
+
+// Broadcast::channel('pusher', function ($user) {
+//     return auth()->id() == $user->id;
+// });
+
+
+// newUserRegister Channel
+
+Broadcast::channel(RegisterUserEvent::$channelName, function ($user) {
+    return in_array($user->role->name, config('notifications.newUserRegister'));
 });

@@ -19,6 +19,7 @@ use App\Http\Controllers\Api\V1\Site\Pharmacy\SubUserController;
 use App\Http\Controllers\Api\V1\Site\Recipes\RecipeController;
 use App\Http\Controllers\Api\V1\Site\Sales\SaleController;
 use App\Http\Controllers\Api\V1\Users\UserController;
+use App\Http\Controllers\TestController;
 use App\Models\User;
 use App\Models\V1\Role;
 use App\Services\Api\V1\Products\ProductService;
@@ -288,11 +289,10 @@ Route::group(['middleware' => ['auth:api']], function () {
 Route::get('paginate', function () {
     return Role::paginate(2);
 });
-Route::get('test', function () {
-    return view('welcome');
+
+
+
+Route::get('pusher_test', function () {
+    return view('main');
 });
 
-
-Route::get('notification', function () {
-    return 'nice';
-})->middleware('hasNotificationsAccess:dashboard,nice');
