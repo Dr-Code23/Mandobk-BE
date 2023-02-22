@@ -30,7 +30,6 @@ class HumanResource extends Model
     {
         return Attribute::make(
             get: fn ($val) => $this->changeDateFormat($val, 'H:i'),
-            set: fn ($val) => $this->changeDateFormat($val, 'H:i')
         );
     }
 
@@ -38,7 +37,6 @@ class HumanResource extends Model
     {
         return Attribute::make(
             get: fn ($val) => $this->changeDateFormat($val, 'H:i'),
-            set: fn ($val) => $this->changeDateFormat($val, 'H:i')
         );
     }
 }

@@ -32,7 +32,7 @@ class TestNotification extends Notification implements ShouldBroadcast
      */
     public function via($notifiable)
     {
-        return ['broadcast'];
+        return ['database', 'broadcast'];
     }
 
     /**

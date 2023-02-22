@@ -32,6 +32,6 @@ Broadcast::channel(RegisterUserEvent::$channelName, function () {
 
 // newUserRegister Channel
 
-Broadcast::channel(RegisterUserEvent::$channelName, function ($user) {
+Broadcast::channel("orders.{id}", function ($user) {
     return in_array($user->role->name, config('notifications.newUserRegister'));
 });

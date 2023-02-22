@@ -19,7 +19,7 @@
             }
         });
 
-        var channel = pusher.subscribe('private-newUserRegister');
+        var channel = pusher.subscribe('orders/user/1');
 
         channel.bind('App\\Events\\RegisterUserEvent', function(data) {
             console.log(data);
