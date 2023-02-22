@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\PusherEvent;
 use App\Http\Controllers\Handler;
 use App\Http\Controllers\TestController;
 use BeyondCode\LaravelWebSockets\Facades\WebSocketsRouter;
@@ -19,3 +20,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('in', [TestController::class, 'index']);
 // Route::get('Internet', [TestController::class, 'index']);
+Route::get('pusher_test', function () {
+
+    return view('main');
+});
+
+Route::get('pusher_n', [TestController::class, 'index']);

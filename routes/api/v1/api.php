@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\PusherEvent;
 use App\Http\Controllers\Api\V1\Archive\ArchiveController;
 use App\Http\Controllers\Api\V1\Auth\AuthController;
 use App\Http\Controllers\Api\V1\Dashboard\HumanResourceController;
@@ -288,9 +289,9 @@ Route::get('paginate', function () {
     return Role::paginate(2);
 });
 Route::get('test', function () {
-    auth()->login(User::find(1));
     return view('welcome');
 });
+
 
 Route::get('notification', function () {
     return 'nice';

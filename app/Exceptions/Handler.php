@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use App\Traits\HttpResponse;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Exceptions\ThrottleRequestsException;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -15,16 +16,14 @@ class Handler extends ExceptionHandler
      *
      * @var array<class-string<\Throwable>, \Psr\Log\LogLevel::*>
      */
-    protected $levels = [
-    ];
+    protected $levels = [];
 
     /**
      * A list of the exception types that are not reported.
      *
      * @var array<int, class-string<\Throwable>>
      */
-    protected $dontReport = [
-    ];
+    protected $dontReport = [];
 
     /**
      * A list of the inputs that are never flashed to the session on validation exceptions.
@@ -59,14 +58,23 @@ class Handler extends ExceptionHandler
         // Handle Not Found Response
         $this->renderable(function (NotFoundHttpException $e, $req) {
             if ($req->is('v1/*')) {
-                $msg = $e->getMessage();
-                return $this->error($msg, 404, 'Not Found');
+
+                return $this->error($e->getMessage(), 404, 'Not Found');
             }
         });
         // Method not allowed
         $this->renderable(function (\Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException $e, $request) {
             if ($request->is('v1/*')) {
+
                 return $this->error(null, 405, $e->getMessage());
+            }
+        });
+
+        // Too Many Requests
+        $this->renderable(function (ThrottleRequestsException $e, $request) {
+            if ($request->is('v1/*')) {
+
+                return $this->error(null, 429, $e->getMessage());
             }
         });
     }
