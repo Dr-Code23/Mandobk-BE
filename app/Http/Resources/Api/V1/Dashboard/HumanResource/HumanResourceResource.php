@@ -28,6 +28,8 @@ class HumanResourceResource extends JsonResource
             'role_name' => $this->translateWord($this->role_name),
             'status' => $this->status == '0' ? $this->translateWord('attended')
                 : ($this->status == '1' ? $this->translateWord('absense') : $this->translateWord('holiday')),
+
+            'status_code' => $this->status,
             'date' => $this->date,
         ];
     }
