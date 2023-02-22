@@ -18,6 +18,13 @@ return new class extends Migration
             $table->enum('type', array_values(config('notifications.types')));
             $table->json('payload');
             $table->boolean('read')->default('0');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')
+                ->on('users')
+                ->references('id')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
+
             $table->timestamps();
         });
     }

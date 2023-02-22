@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\V1\Dashboard\MarktingController;
 use App\Http\Controllers\Api\V1\Dashboard\MonitorAndEvaluationController;
 use App\Http\Controllers\Api\V1\Dashboard\OrderManagementController;
 use App\Http\Controllers\Api\V1\Mobile\Auth\MobileAuthController;
+use App\Http\Controllers\Api\V1\Notifications\NotificationController;
 use App\Http\Controllers\Api\V1\PayMethod\PayMethodController;
 use App\Http\Controllers\Api\V1\Products\ProductController;
 use App\Http\Controllers\Api\V1\Profile\ProfileController;
@@ -115,6 +116,11 @@ Route::group(['middleware' => ['auth:api']], function () {
         }
     );
 
+    // Notifications
+
+    Route::group(['prefix' => 'notifications'], function () {
+        Route::get('', [NotificationController::class, 'index']);
+    });
     // Public Site Routes
     Route::group(['prefix' => 'site'], function () {
         // Company
@@ -196,6 +202,7 @@ Route::group(['middleware' => ['auth:api']], function () {
         );
     });
 
+    // Mobile
     Route::group(['prefix' => 'mobile'], function () {
         Route::post('login', [MobileAuthController::class, 'login'])
             ->withoutMiddleware('auth:api');
@@ -225,6 +232,7 @@ Route::group(['middleware' => ['auth:api']], function () {
         );
     });
 
+    // Dashboard
     Route::group(
         ['prefix' => 'dashboard'],
         function () {
@@ -295,4 +303,3 @@ Route::get('paginate', function () {
 Route::get('pusher_test', function () {
     return view('main');
 });
-

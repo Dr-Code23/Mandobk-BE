@@ -10,5 +10,6 @@ return [
     'logged_in' => 'User Logged In Successfully',
     'account_created' => 'Account created successfully , and sent to admin to review',
     'logged_out' => 'User Logged Out Successfully',
-    'not_data_to_show' => 'There is not data to show'
+    'not_data_to_show' => 'There is not data to show',
+    'deleted' => 'Deleted Successfully'
 ];
