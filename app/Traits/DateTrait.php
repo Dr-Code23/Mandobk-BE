@@ -20,4 +20,10 @@ trait DateTrait
 
         return date('Y-m-d', strtotime($date . ' +' . $days . ' days'));
     }
+
+
+    public function messageSentFrom(string $at)
+    {
+        return $at;
+    }
 }

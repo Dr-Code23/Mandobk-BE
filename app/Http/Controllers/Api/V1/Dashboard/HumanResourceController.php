@@ -73,6 +73,7 @@ class HumanResourceController extends Controller
 
     public function storeOrUpdate(HumanResourceRequest $request)
     {
+
         // Check if the user is not CEO
         $user = User::find($request->user_id)->join('roles', function ($join) {
             $join->on('roles.id', 'users.role_id')
@@ -81,8 +82,9 @@ class HumanResourceController extends Controller
             ->where('users.id', $request->user_id)
             ->first(['roles.name as role_name']);
         if ($user && $user->role_name != 'ceo') {
-            $fullName_Role = User::where('users.id', $request->user_id)->join('roles', 'roles.id', 'users.role_id')
-                ->select(['users.full_name', 'roles.id as role_id'])
+            $fullName_Role = User::where('users.id', $request->user_id)
+                ->join('roles', 'roles.id', 'users.role_id')
+                ->select(['users.full_name', 'roles.id as role_id', 'roles.name as role_name'])
                 ->first();
             if ($human_resource = HumanResource::where('date', $request->date)->where('user_id', $request->user_id)->first()) {
                 $anyChangeOccrued = false;
@@ -100,12 +102,12 @@ class HumanResourceController extends Controller
                 }
                 if ($anyChangeOccrued) {
                     $human_resource->update();
-                    $human_resource->full_name = $fullName_Role->full_name;
-
-                    return $this->success(new HumanResourceResource($human_resource), 'Resource Updated Successfully');
                 }
+                $human_resource->full_name = $fullName_Role->full_name;
+                $human_resource->role_name = $fullName_Role->role_name;
+                $human_resource->role_id = $fullName_Role->role_id;
 
-                return $this->noContentResponse();
+                return $this->success(new HumanResourceResource($human_resource), 'Resource Updated Successfully');
             }
             $human_resource = HumanResource::create([
                 'user_id' => $request->user_id,
@@ -115,9 +117,10 @@ class HumanResourceController extends Controller
                 'date' => $request->date,
             ]);
             $human_resource->full_name = $fullName_Role->full_name;
+            $human_resource->role_name = $fullName_Role->role_name;
             $human_resource->role_id = $fullName_Role->role_id;
-
-            return $this->success(new HumanResourceResource($human_resource), 'Resource Created Successfully');
+            // return $human_resource;
+            // return $this->success(new HumanResourceResource($human_resource), 'Resource Created Successfully');
         }
         return $this->notFoundResponse('User Not Found');
     }
