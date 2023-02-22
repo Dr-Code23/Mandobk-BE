@@ -119,9 +119,7 @@ class HumanResourceController extends Controller
             $human_resource->full_name = $fullName_Role->full_name;
             $human_resource->role_name = $fullName_Role->role_name;
             $human_resource->role_id = $fullName_Role->role_id;
-            // return $human_resource;
-            // return $this->success(new HumanResourceResource($human_resource), 'Resource Created Successfully');
         }
-        return $this->notFoundResponse('User Not Found');
+        return $this->success(new HumanResourceResource($human_resource), 'Resource Created Successfully');
     }
 }
