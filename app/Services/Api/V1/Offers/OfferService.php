@@ -109,7 +109,7 @@ class OfferService
 
         if (!$errors) {
             if ($offer->status != $request->status) {
-                $offer->status = $request->status;
+                $offer->status = $request->status . '';
                 $offer->update();
             }
             $offer->load($this->productRelation);

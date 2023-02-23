@@ -21,37 +21,31 @@ class OfferOrderController extends Controller
 
     public function index(Request $request)
     {
-        $type = $request->routeIs('order-company-show') ? '1' : '2';
-
-        $offers = Offer::join('products', 'products.id', 'offers.product_id')
-            ->where('offers.type', $type)
-            ->where(function ($query) use ($request) {
-                $duration = $request->input('type');
-                if ($duration == 'day') {
-                    $query->where('offers.offer_duration', '0');
-                } elseif ($duration == 'week') {
-                    $query->where('offers.offer_duration', '1');
-                } elseif ($duration == 'cheek') {
-                    $query->where('offers.offer_duration', '2');
-                }
-            })
-            ->where('offers.works_untill', '>=', date('Y-m-d'))
-            ->get([
-                'offers.id as id',
-                'products.com_name as com_name',
-                'products.sc_name as sc_name',
-                'offers.bonus as bonus',
-                'products.expire_date as expire_date',
-                'products.con as con',
-                'products.sel_price as sel_price',
-                'offers.offer_duration as duration',
-            ]);
-
+        $offers = Offer::with(['product', 'user'])
+            ->where('type', auth()->user()->role->name == 'storehouse' ? '1' : '2')
+            ->where('to', '>=', now())
+            ->get();
         return $this->resourceResponse(new OfferOrderCollection($offers));
     }
 
     public function order(OfferOrderRequest $request)
     {
+
+        $offer = Offer::with(['product' => function ($query) {
+            $query->select('id');
+            $query->withSum('product_details', 'qty');
+        }])
+            ->where('id', $request->offer_id)
+            ->where('to', '>=', now())
+            ->first();
+        return $offer;
+        if ($offer) {
+            if ($offer->type == (auth()->user()->role->name == 'storehouse' ? '1'
+                : (auth()->user()->role->name == 'pharmacy' ? '2' : null)
+            )) {
+            }
+        }
+        return $offer;
         // Check if the offer Belong to a company and is not expired
         $offer = Offer::join('products', 'products.id', 'offers.product_id')
             ->where('offers.id', $request->offer_id)
@@ -84,11 +78,11 @@ class OfferOrderController extends Controller
                     ]);
                 }
 
-                return $this->success(null, 'Order '.($updated ? 'Updated' : 'Made').' , waiting admin response');
+                return $this->success(null, 'Order ' . ($updated ? 'Updated' : 'Made') . ' , waiting admin response');
             }
 
             return $this->validation_errors([
-                'quantity' => $this->translateWord('quantity').' Cannot Be Greater than existing quantiy ('.$offer->qty.')',
+                'quantity' => $this->translateWord('quantity') . ' Cannot Be Greater than existing quantiy (' . $offer->qty . ')',
             ]);
         }
 

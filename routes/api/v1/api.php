@@ -261,8 +261,8 @@ Route::group(['middleware' => ['auth:api']], function () {
                 ['prefix' => 'human_resources', 'middleware' => ['hasHumanResourcePermissions']],
                 function () {
                     Route::get('', [HumanResourceController::class, 'index'])->name('human_resource_all');
-                    Route::get('{user}', [HumanResourceController::class, 'show'])->name('human_resource_one');
-                    Route::match(['POST', 'PUT'], '', [HumanResourceController::class, 'storeOrUpdate'])->name('human_resource_store');
+                    Route::get('{humanResource}', [HumanResourceController::class, 'show'])->name('human_resource_one');
+                    Route::match(['POST', 'PUT'], '', [HumanResourceController::class, 'storeOrUpdate'])->name('human_resource_store_update');
                 }
             );
 

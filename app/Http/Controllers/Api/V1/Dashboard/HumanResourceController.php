@@ -45,10 +45,11 @@ class HumanResourceController extends Controller
         return $this->resourceResponse(new HumanResourceCollection($users));
     }
 
-    public function show(User $user)
+    public function show(HumanResource $humanResource)
     {
         $user = User::join('roles', 'roles.id', 'users.role_id')
-            ->where('users.id', $user->id)
+            // ->where('users.id', $human->id)
+            ->where('human_resources.id', $humanResource->id)
             ->join('human_resources', 'human_resources.user_id', 'users.id')
             ->whereIn(config('roles_table_name') . 'name', config('roles.human_resources_roles'))
             ->select(
@@ -98,7 +99,7 @@ class HumanResourceController extends Controller
                 }
                 if ($human_resource->status != $request->status) {
                     $anyChangeOccrued = true;
-                    $human_resource->status = $request->status;
+                    $human_resource->status = (int)$request->status;
                 }
                 if ($anyChangeOccrued) {
                     $human_resource->update();
@@ -111,7 +112,7 @@ class HumanResourceController extends Controller
             }
             $human_resource = HumanResource::create([
                 'user_id' => $request->user_id,
-                'status' => $request->status,
+                'status' => (int)$request->status,
                 'departure' => $request->departure,
                 'attendance' => $request->attendance,
                 'date' => $request->date,

@@ -50,9 +50,15 @@ class OfferTest extends TestCase
     {
         $this->testLogin();
 
-        $offer = Offer::where('user_id', '8')
-            ->where('type', '1')
-            ->first();
+        $offer = Offer::create([
+            'user_id' => '8',
+            'product_id' => '1',
+            'from' => now(),
+            'to' => now(),
+            'type' => '1',
+            'status' => '1',
+            'pay_method' => '1'
+        ]);
         $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
             ->getJson(route('offer-one', ['offer' => $offer->id]));
 
