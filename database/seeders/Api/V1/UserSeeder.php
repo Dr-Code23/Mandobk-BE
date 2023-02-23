@@ -25,6 +25,7 @@ class UserSeeder extends Seeder
                 'password' => $roles[$i - 1],
                 'full_name' => $roles[$i - 1],
                 'status' => $this->isActive(),
+                'phone' => $i,
                 'role_id' => $i,
             ]);
         }
@@ -35,6 +36,7 @@ class UserSeeder extends Seeder
                 'password' => "user$i",
                 'full_name' => "user $i",
                 'role_id' => fake()->numberBetween(7, 12),
+                'phone' => 300 + $i,
                 'status' => fake()->numberBetween(1, 2) . ''
             ]);
         }
@@ -44,6 +46,7 @@ class UserSeeder extends Seeder
             'username' => 'customer',
             'password' => Hash::make('customer'),
             'full_name' => 'Customer',
+            'phone' => 10000,
             'role_id' => Role::where('name', 'customer')->value('id'),
         ]);
     }

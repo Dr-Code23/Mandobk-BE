@@ -10,6 +10,7 @@ use App\Traits\UserTrait;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
+use Illuminate\Facade\Str;
 use Tests\TestCase;
 
 class UserTest extends TestCase
@@ -50,6 +51,7 @@ class UserTest extends TestCase
                 'full_name' => fake()->name(),
                 'username' => fake()->name(),
                 'password' => fake()->password(),
+                'phone' => 'Google',
                 'role_id' => Role::where('name', 'company')->value('id')
             ]);
             $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())

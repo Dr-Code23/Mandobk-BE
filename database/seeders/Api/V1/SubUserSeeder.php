@@ -19,9 +19,10 @@ class SubUserSeeder extends Seeder
     {
         for ($i = 14; $i < 24; ++$i) {
             User::create([
-                'username' => 'sub_user_'.$i,
-                'password' => Hash::make('sub_user_'.$i),
-                'full_name' => 'sub_user_'.$i,
+                'username' => 'sub_user_' . $i,
+                'password' => Hash::make('sub_user_' . $i),
+                'full_name' => 'sub_user_' . $i,
+                'phone' => 1000 + $i,
                 'role_id' => Role::where('name', 'pharmacy_sub_user')->value('id'),
             ]);
 
