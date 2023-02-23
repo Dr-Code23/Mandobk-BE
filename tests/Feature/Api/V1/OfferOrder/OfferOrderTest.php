@@ -80,6 +80,7 @@ class OfferOrderTest extends TestCase
             'pay_method' => '1'
         ]);
 
+        info($offer);
         $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
             ->postJson(route('order-company-make', [
                 'offer_id' => $offer->id,

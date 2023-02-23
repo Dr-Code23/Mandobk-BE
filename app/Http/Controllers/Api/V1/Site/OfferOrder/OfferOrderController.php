@@ -26,7 +26,7 @@ class OfferOrderController extends Controller
             $query->withSum('product_details', 'qty');
         }, 'user'])
             ->where('type', auth()->user()->role->name == 'storehouse' ? '1' : '2')
-            ->where('to', '>=', now())
+            ->where('to', '>=', date('Y-m-d'))
             ->get();
         return $this->resourceResponse(new OfferOrderCollection($offers));
     }
@@ -40,7 +40,7 @@ class OfferOrderController extends Controller
         }])
             ->where('type', auth()->user()->role->name == 'storehouse' ? '1' : (auth()->user()->role->name == 'pharmacy' ? '2' : null))
             ->where('id', $request->offer_id)
-            ->where('to', '>=', now())
+            ->where('to', '>=', date('Y-m-d'))
             ->first();
         // return $offer;
         if ($offer) {
