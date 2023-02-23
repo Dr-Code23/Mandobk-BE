@@ -140,4 +140,33 @@ class ProductTest extends TestCase
             'barcode',
         ]);
     }
+
+    public function testGetProductsForDoctor()
+    {
+        $this->login(['username' => 'doctor', 'password' => 'doctor']);
+        Product::create(json_decode('{
+            "com_name" : "GoossgsssleGoogsles",
+            "sc_name" : "Googssssdssfassdfssssles",
+            "pur_price":"200",
+            "sel_price":"20",
+            "bonus" : "1",
+            "user_id" : "8",
+            "con" : "2",
+            "barcode" : "23021977",
+            "limited" : "1",
+            "role_id" : "1"
+        }', true));
+
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
+            ->getJson(route('v1-products-doctor'));
+        $this->writeAFileForTesting($this->path, 'GetProductsForDoctor', $response->getContent());
+        $response->assertSuccessful();
+
+        $response->assertJsonStructure([
+            'data' => [
+                '*' => ['id', 'scientific_name', 'limited']
+            ]
+        ]);
+    }
 }

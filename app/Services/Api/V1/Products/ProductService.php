@@ -161,11 +161,11 @@ class ProductService
     public function doctorProducts()
     {
 
-        return $this->resourceResponse(Product::whereIn(
+        return Product::whereIn(
             'role_id',
             $this->getRolesIdsByName(['ceo', 'data_entry']),
         )
-            ->get(['id', 'sc_name as scientific_name', 'limited']));
+            ->get(['id', 'sc_name as scientific_name', 'limited']);
     }
 
     //? For Testing Only

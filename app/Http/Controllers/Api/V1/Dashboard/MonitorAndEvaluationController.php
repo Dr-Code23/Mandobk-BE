@@ -23,15 +23,6 @@ class MonitorAndEvaluationController extends Controller
     use Translatable;
     use UserTrait;
 
-    /**
-     * Get Translated Content.
-     *
-     * @return array
-     */
-    public function lang_content()
-    {
-        return $this->resourceResponse($this->getWebTranslationFile('Dashboard/MonitorAndEvaluationTranslationFile'));
-    }
 
     public function index()
     {
@@ -140,12 +131,8 @@ class MonitorAndEvaluationController extends Controller
                 if ($anyChangeOccured) {
                     $user->update();
                     $user->role_name = $role->role_name;
-
-                    return $this->success(new MonitorAndEvaluationResrouce($user), 'User Updated Successfully');
                 }
-
-                // No Thing Changed so Return No Content Reponse
-                return $this->noContentResponse();
+                return $this->success(new MonitorAndEvaluationResrouce($user), 'User Updated Successfully');
             }
 
             return $this->validation_errors($this->translateErrorMessage('role', 'not_found'));

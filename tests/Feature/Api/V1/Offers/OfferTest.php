@@ -24,7 +24,6 @@ class OfferTest extends TestCase
     }
     public function testGetAllOffers()
     {
-        $this->testLogin();
         $this->login(['username' => 'company', 'password' => 'company']);
 
         $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())

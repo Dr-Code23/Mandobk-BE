@@ -86,7 +86,8 @@ Route::group(['middleware' => ['auth:api']], function () {
         function () {
             Route::get('doctor_products', [ProductController::class, 'doctorProducts'])
                 ->withoutMiddleware('hasProductPermissions')
-                ->middleware('hasDoctorPermissions');
+                ->middleware('hasDoctorPermissions')
+                ->name('v1-products-doctor');
             Route::get('', [ProductController::class, 'index'])->name('v1-products-all');
             Route::get('scientific_name', [ProductController::class, 'ScientificNamesSelect'])->name('v1-products-scientific');
             Route::get('commercial_name', [ProductController::class, 'CommercialNamesSelect'])->name('v1-products-commercial');
