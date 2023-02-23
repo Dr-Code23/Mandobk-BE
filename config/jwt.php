@@ -89,7 +89,7 @@ return [
     |
     */
 
-    'ttl' => null,
+    'ttl' => env('JWT_TTL'),
 
     /*
     |--------------------------------------------------------------------------
@@ -138,7 +138,7 @@ return [
     'required_claims' => [
         'iss',
         'iat',
-        // ! 'exp', remove this if we set ttl to null
+        'exp',
         'nbf',
         'sub',
         'jti',

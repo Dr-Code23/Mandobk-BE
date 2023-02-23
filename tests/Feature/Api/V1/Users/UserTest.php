@@ -10,7 +10,6 @@ use App\Traits\UserTrait;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
-use Illuminate\Facade\Str;
 use Tests\TestCase;
 
 class UserTest extends TestCase
@@ -67,5 +66,24 @@ class UserTest extends TestCase
                 $user->delete();
             }
         }
+    }
+
+    public function testGetAllUsersForSelect()
+    {
+        $this->login(['username' => 'company', 'password' => 'company']);
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
+            ->getJson(route('roles-storehouse-all'));
+        $response->assertSuccessful();
+
+
+        $this->login(['username' => 'storehouse', 'password' => 'storehouse']);
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
+            ->getJson(route('roles-pharmacy-all'));
+        $response->assertSuccessful();
+
+        $this->login(['username' => 'human_resource', 'password' => 'human_resource']);
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
+            ->getJson(route('roles-human_resource-all'));
+        $response->assertSuccessful();
     }
 }

@@ -24,6 +24,7 @@ class OfferTest extends TestCase
     }
     public function testGetAllOffers()
     {
+        $this->testLogin();
         $this->login(['username' => 'company', 'password' => 'company']);
 
         $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
@@ -47,6 +48,8 @@ class OfferTest extends TestCase
 
     public function testGetOneOffer()
     {
+        $this->testLogin();
+
         $offer = Offer::where('user_id', '8')
             ->where('type', '1')
             ->first();
@@ -71,7 +74,7 @@ class OfferTest extends TestCase
 
     public function testStoreOffer()
     {
-        Offer::latest('id')->first()->delete();
+        $this->testLogin();
 
         $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
             ->postJson(route('offer-store'), $this->getOfferData('product_id', Product::where('user_id', '8')->value('id')));
@@ -104,6 +107,7 @@ class OfferTest extends TestCase
 
     public function testDeleteOffer()
     {
+        $this->testLogin();
         $offer = Offer::where('user_id', '8')->first();
         info($offer);
         $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())

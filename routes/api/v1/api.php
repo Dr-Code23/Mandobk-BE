@@ -71,7 +71,8 @@ Route::group(['middleware' => ['auth:api']], function () {
                 ->name('roles-storehouse-all');
 
             Route::get('/human_resource', [UserController::class, 'getHumanResourceUsers'])
-                ->middleware('hasHumanResourcePermissions');
+                ->middleware('hasHumanResourcePermissions')
+                ->name('roles-human_resource-all');
 
             Route::get('/pharmacy', [UserController::class, 'getUsersForSelectBox'])
                 ->middleware(['hasStorehousePermissions'])
