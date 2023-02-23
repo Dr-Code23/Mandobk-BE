@@ -20,9 +20,11 @@ class OfferOrderController extends Controller
     use Translatable;
     use UserTrait;
 
-    public function index(Request $request)
+    public function index()
     {
-        $offers = Offer::with(['product', 'user'])
+        $offers = Offer::with(['product' => function ($query) {
+            $query->withSum('product_details', 'qty');
+        }, 'user'])
             ->where('type', auth()->user()->role->name == 'storehouse' ? '1' : '2')
             ->where('to', '>=', now())
             ->get();

@@ -23,7 +23,7 @@ class OfferOrderResource extends JsonResource
             'id' => $this->id,
             'date_from' => $this->from,
             'date_to' => $this->to,
-            'product' => new OfferOrderProductResource($this->whenLoaded('product')),
+            'product' => new OfferOrderProductResource($this->whenLoaded('product', $this->product)),
             'user' => new OfferOrderUserResource($this->whenLoaded('user'))
         ];
     }

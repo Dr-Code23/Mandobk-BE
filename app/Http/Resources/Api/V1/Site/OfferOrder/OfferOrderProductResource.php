@@ -18,6 +18,7 @@ class OfferOrderProductResource extends JsonResource
             'commercial_name' => $this->com_name,
             'scientific_name' => $this->sc_name,
             'concentrate' => $this->con,
+            'total_quantity' => $this->product_details_sum_qty,
         ];
     }
 }
