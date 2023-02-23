@@ -1,6 +1,5 @@
 <?php
 
-use App\Events\PusherEvent;
 use App\Http\Controllers\Api\V1\Archive\ArchiveController;
 use App\Http\Controllers\Api\V1\Auth\AuthController;
 use App\Http\Controllers\Api\V1\Dashboard\HumanResourceController;

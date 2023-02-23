@@ -12,6 +12,7 @@ use App\Traits\Translatable;
 use App\Traits\UserTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class OfferOrderController extends Controller
 {
@@ -35,42 +36,32 @@ class OfferOrderController extends Controller
             $query->select('id');
             $query->withSum('product_details', 'qty');
         }])
+            ->where('type', auth()->user()->role->name == 'storehouse' ? '1' : (auth()->user()->role->name == 'pharmacy' ? '2' : null))
             ->where('id', $request->offer_id)
             ->where('to', '>=', now())
             ->first();
-        return $offer;
+        // return $offer;
         if ($offer) {
-            if ($offer->type == (auth()->user()->role->name == 'storehouse' ? '1'
-                : (auth()->user()->role->name == 'pharmacy' ? '2' : null)
-            )) {
-            }
-        }
-        return $offer;
-        // Check if the offer Belong to a company and is not expired
-        $offer = Offer::join('products', 'products.id', 'offers.product_id')
-            ->where('offers.id', $request->offer_id)
-            ->where('works_untill', '>=', date('Y-m-d'))
-            ->where('offers.type', $request->routeIs('order-company-make') ? '1' : '2')
-            ->first([
-                'products.qty',
-                'offers.id as id',
-            ]);
-        if ($offer) {
-            $qty = (int) $request->qty;
+
+            $qty = (int) $request->quantity;
             $offer_order = OfferOrder::where('offer_id', $offer->id)
                 ->where('status', '1')
                 ->where('want_offer_id', Auth::id())
-                ->first(['id']);
-            $updated = false;
-            if ($offer->qty >= $request->quantity) {
-                // Everything is valid so add the data
+                ->first(['id', 'qty']);
 
-                // If The same order exists for the same user and it's pending update the quantity of it
+            if ($offer->product->product_details_sum_qty >= ($qty + ($offer_order ? $offer_order->qty : 0))) {
+
+                // Then Everything Is Valid
+
+                $updated = false;
+                // Everything is valid so add the data
+                // If The same order exists for the same user and it's pending , increase it's qty
                 if ($offer_order) {
-                    $offer_order->qty = $offer_order->qty + $qty;
+                    $offer_order->qty += $qty;
                     $offer_order->update();
                     $updated = true;
-                } else { // Check If an order exists with the same offer id with the same user
+                } else {
+                    // If not , create the order
                     OfferOrder::create([
                         'offer_id' => $request->offer_id,
                         'want_offer_id' => Auth::id(),
@@ -82,10 +73,10 @@ class OfferOrderController extends Controller
             }
 
             return $this->validation_errors([
-                'quantity' => $this->translateWord('quantity') . ' Cannot Be Greater than existing quantiy (' . $offer->qty . ')',
+                'quantity' => $this->translateWord('quantity') . ' Cannot Be Greater than existing quantiy ' . $offer->product->product_details_sum_qty,
             ]);
         }
 
-        return $this->notFoundResponse();
+        return $this->notFoundResponse('Offer Not Exists');
     }
 }
