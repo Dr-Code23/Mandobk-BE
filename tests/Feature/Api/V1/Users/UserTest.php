@@ -22,7 +22,7 @@ class UserTest extends TestCase
     public function testLogin(array $credentials = ['username' => 'ceo', 'password' => 'ceo'])
     {
         $response = $this->postJson(route('v1-login'), $credentials);
-        $response->assertStatus(Response::HTTP_OK);
+        $response->assertSuccessful();
         $this->setToken(json_decode($response->getContent())->data->token);
     }
 

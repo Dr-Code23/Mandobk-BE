@@ -101,7 +101,7 @@ class MonitorAndEvaluationController extends Controller
             return $this->validation_errors($this->translateErrorMessage('role', 'not_found'));
         }
 
-        return $this->error(null, msg: 'User '.__('validation.not_found'));
+        return $this->error(null, msg: 'User ' . __('validation.not_found'));
     }
 
     /**
@@ -157,12 +157,12 @@ class MonitorAndEvaluationController extends Controller
     public function destroy(User $user)
     {
         if ($user->id != Auth::id()) {
-            if (Role::where('id', $user->role_id)->whereIn('name', config('roles.monitor_roles'))->where('id', '!=', Auth::id())->first(['name'])) {
+            $user->load('role');
+            if (in_array($user->role->name,  config('roles.monitor_roles'))) {
                 $user->delete();
 
                 return $this->success(msg: 'User Deleted Successfully');
             }
-
             return $this->validation_errors($this->translateErrorMessage('role', 'not_found'));
         }
 

@@ -243,12 +243,11 @@ Route::group(['middleware' => ['auth:api']], function () {
             Route::group(
                 ['prefix' => 'monitor_and_evaluation', 'middleware' => ['hasMonitorAndEvaluationPermissions']],
                 function () {
-                    Route::get('view', [MonitorAndEvaluationController::class, 'lang_content', 'MonitorAndEvaluationController@lang_content']);
-                    Route::get('', [MonitorAndEvaluationController::class, 'index']);
-                    Route::get('/{user}', [MonitorAndEvaluationController::class, 'show']);
-                    Route::post('', [MonitorAndEvaluationController::class, 'store']);
-                    Route::put('/{user}', [MonitorAndEvaluationController::class, 'update']);
-                    Route::delete('/{user}', [MonitorAndEvaluationController::class, 'destroy']);
+                    Route::get('', [MonitorAndEvaluationController::class, 'index'])->name('monitor-all');
+                    Route::get('/{user}', [MonitorAndEvaluationController::class, 'show'])->name('monitor-one');
+                    Route::post('', [MonitorAndEvaluationController::class, 'store'])->name('monitor-store');
+                    Route::put('/{user}', [MonitorAndEvaluationController::class, 'update'])->name('monitor-update');
+                    Route::delete('/{user}', [MonitorAndEvaluationController::class, 'destroy'])->name('monitor-delete');
                 }
             );
 
