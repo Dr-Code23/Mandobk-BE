@@ -73,7 +73,7 @@ class MarktingController extends Controller
             $anyChangeOccured = false;
             if ($request->has('img')) {
                 // Delete The Old Image
-                if ($this->deleteImage('markting/'.$ad->img)) {
+                if ($this->deleteImage('markting/' . $ad->img)) {
                     // Store image
                     $image_name = explode('/', $request->file('img')->store('public/markting'));
                     $image_name = $image_name[count($image_name) - 1];
@@ -110,7 +110,7 @@ class MarktingController extends Controller
 
     public function destroy(Markting $ad)
     {
-        $this->deleteImage('markting/'.$ad->img);
+        $this->deleteImage('markting/' . $ad->img);
         $ad->delete();
 
         return $this->success(msg: 'Ad Deleted Successfully');

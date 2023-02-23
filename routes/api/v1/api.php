@@ -268,9 +268,9 @@ Route::group(['middleware' => ['auth:api']], function () {
             Route::group(
                 ['prefix' => 'markting', 'middleware' => ['hasMarktingPermissions']],
                 function () {
-                    Route::get('', [MarktingController::class, 'index']);
+                    Route::get('', [MarktingController::class, 'index'])->name('markting-all');
                     Route::post('', [MarktingController::class, 'store'])->name('markting_store');
-                    Route::get('{ad}', [MarktingController::class, 'show']);
+                    Route::get('{ad}', [MarktingController::class, 'show'])->name('markting-one');
                     Route::post('{ad}', [MarktingController::class, 'update'])->name('markting_update');
                     Route::delete('{ad}', [MarktingController::class, 'destroy']);
                 }

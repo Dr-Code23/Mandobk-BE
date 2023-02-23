@@ -61,6 +61,7 @@ trait FileOperationTrait
 
     public function deleteImage(string $path): bool
     {
+        if (!is_file(__DIR__ . '/../../storage/app/public/' . $path)) return true;
         if (is_file(__DIR__ . '/../../storage/app/public/' . $path)) {
             unlink(__DIR__ . '/../../storage/app/public/' . $path);
 
