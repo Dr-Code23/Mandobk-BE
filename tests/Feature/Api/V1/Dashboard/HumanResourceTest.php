@@ -43,7 +43,7 @@ class HumanResourceTest extends TestCase
         ]);
 
         $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
-            ->getJson(route('human_resource_one', ['humanResource' => $humanResource->user_id]));
+            ->getJson(route('human_resource_one', ['humanResource' => $humanResource->id]));
         $this->writeAFileForTesting($this->path, 'GetOneUser', $response->getContent());
 
         $response->assertSuccessful();

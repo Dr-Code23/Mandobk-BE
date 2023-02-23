@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class() extends Migration {
+return new class() extends Migration
+{
     /**
      * Run the migrations.
      *
@@ -20,7 +21,7 @@ return new class() extends Migration {
                 ->references('id')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->enum('status', [0, 1, 2])
+            $table->string('status')
                 ->comment('0 => Attended , 1 => Absense , 2=> Holiday');
             $table->date('date')->default(now());
             $table->time('attendance')->nullable();

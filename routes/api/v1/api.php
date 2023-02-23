@@ -90,8 +90,6 @@ Route::group(['middleware' => ['auth:api']], function () {
             Route::get('', [ProductController::class, 'index'])->name('v1-products-all');
             Route::get('scientific_name', [ProductController::class, 'ScientificNamesSelect'])->name('v1-products-scientific');
             Route::get('commercial_name', [ProductController::class, 'CommercialNamesSelect'])->name('v1-products-commercial');
-            // ! Remove It After Testing
-            Route::get('product_testing', [ProductService::class, 'testGetOneProduct'])->name('product_testing');
             Route::post('', [ProductController::class, 'storeOrUpdate'])->name('v1-products-store');
             Route::get('{product}', [ProductController::class, 'showWithoutDetails'])->name('v1-products-one');
         },

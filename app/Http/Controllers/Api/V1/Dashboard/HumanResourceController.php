@@ -99,7 +99,7 @@ class HumanResourceController extends Controller
                 }
                 if ($human_resource->status != $request->status) {
                     $anyChangeOccrued = true;
-                    $human_resource->status = (int)$request->status;
+                    $human_resource->status = (int) $request->status;
                 }
                 if ($anyChangeOccrued) {
                     $human_resource->update();

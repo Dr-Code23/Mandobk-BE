@@ -37,7 +37,7 @@ trait TestingTrait
         $data = [
             'product_id' => null,
             'start_date' => date('Y-m-d'),
-            'end_date' => now()->addDays(fake()->numberBetween(1, 100)),
+            'end_date' => date('Y-m-d', strtotime('+' . rand(1, 100) . 'Days')),
             'pay_method_id' => '1',
         ];
         if ($WantToTest) {
