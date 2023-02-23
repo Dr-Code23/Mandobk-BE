@@ -120,6 +120,11 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     Route::group(['prefix' => 'notifications'], function () {
         Route::get('', [NotificationController::class, 'index']);
+        Route::put('', [NotificationController::class, 'markAllAsRead']);
+        Route::delete('', [NotificationController::class, 'destroyAll']);
+        Route::patch('{notification}', [NotificationController::class, 'markAsRead']);
+        Route::get('{notification}', [NotificationController::class, 'show']);
+        Route::delete('{notification}', [NotificationController::class, 'destroy']);
     });
     // Public Site Routes
     Route::group(['prefix' => 'site'], function () {

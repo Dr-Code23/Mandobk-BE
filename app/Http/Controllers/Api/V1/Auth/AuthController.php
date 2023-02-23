@@ -50,11 +50,8 @@ class AuthController extends Controller
     public function signup(signUpRequest $req, AuthService $authService): JsonResponse
     {
         $added = $authService->signup($req);
-
-
-
+        $user = User::where('username', $req->username)->first();
         if ($added) {
-            $user = User::find(1)->first();
             RegisterUserEvent::dispatch($user);
             return $this->createdResponse(null, __('standard.account_created'));
         }

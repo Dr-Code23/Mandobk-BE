@@ -22,7 +22,7 @@ class RegisterUserEvent implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct(private $user)
+    public function __construct(public $user)
     {
         //
     }

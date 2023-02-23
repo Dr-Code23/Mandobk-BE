@@ -74,5 +74,6 @@ return [
     'start_date' => 'Start Date',
     'end_date' => 'End Date',
     'product_id' => 'Product',
-    'avatar' => 'Avatar'
+    'avatar' => 'Avatar',
+    'notification' => 'Notification'
 ];

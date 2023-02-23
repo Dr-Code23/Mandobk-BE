@@ -35,13 +35,12 @@ class signUpRequest extends FormRequest
     {
         return [
             'full_name' => ['required'],
-            'username' => ['required', 'regex:'.config('regex.username'), 'unique:users,username'],
-            'phone' => 'required',
+            'username' => ['required', 'regex:' . config('regex.username'), 'unique:users,username'],
+            'phone' => ['required', 'unique:users,phone'],
             'role' => ['required', new RoleExists()],
             'password' => [
                 'required',
-                RulesPassword::min(8)->
-                    mixedCase()
+                RulesPassword::min(8)->mixedCase()
                     ->numbers()
                     ->symbols(),
             ],

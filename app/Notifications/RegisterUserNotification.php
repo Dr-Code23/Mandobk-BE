@@ -3,13 +3,11 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class TestNotification extends Notification implements ShouldBroadcast
+class RegisterUserNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -19,7 +17,7 @@ class TestNotification extends Notification implements ShouldBroadcast
      * @return void
      */
     public function __construct(
-        private string $msg
+        private $user
     ) {
         //
     }
@@ -58,15 +56,10 @@ class TestNotification extends Notification implements ShouldBroadcast
     public function toArray($notifiable)
     {
         return [
-            //
+            'id' => $this->user->id,
+            'name' => $this->user->full_name,
+            'phone' => $this->user->phone,
+            'role' => $this->user->role->name,
         ];
-    }
-
-    public function toBroadcast($notifiable): BroadcastMessage
-    {
-        return new BroadcastMessage([
-            'id' => "This Message From Notifaction Class " . $notifiable->id,
-            'obj' => $this->msg,
-        ]);
     }
 }

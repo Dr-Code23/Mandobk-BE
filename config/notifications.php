@@ -1,7 +1,16 @@
 <?php
+
+use App\Notifications\RegisterUserNotification;
+
 return [
-    'types' => [
-        'newUserRegister' => '1',
+    // 'types' => [
+    //     'newUserRegister' => '1',
+    // ],
+    'newUserRegister' => ['ceo', 'data_entry', 'company'],
+    'messages' => [
+        RegisterUserNotification::class => 'New User Registered'
     ],
-    'newUserRegister' => ['ceo', 'data_entry', 'company']
+    'types' => [
+        RegisterUserNotification::class => 'register'
+    ]
 ];
