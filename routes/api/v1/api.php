@@ -280,8 +280,8 @@ Route::group(['middleware' => ['auth:api']], function () {
             Route::group(
                 ['prefix' => 'order_management', 'middleware' => ['hasOrderManagementPermissions']],
                 function () {
-                    Route::get('', [OrderManagementController::class, 'index']);
-                    Route::post('{order}', [OrderManagementController::class, 'acceptPendingOrders']);
+                    Route::get('', [OrderManagementController::class, 'index'])->name('management-all');
+                    Route::post('{order}', [OrderManagementController::class, 'acceptPendingOrders'])->name('management-accept');
                 }
             );
 
