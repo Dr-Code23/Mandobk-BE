@@ -71,10 +71,44 @@ class OfferTest extends TestCase
 
     public function testStoreOffer()
     {
+        Offer::latest('id')->first()->delete();
+
         $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
             ->postJson(route('offer-store'), $this->getOfferData('product_id', Product::where('user_id', '8')->value('id')));
         $this->writeAFileForTesting($this->path, 'StoreOffer', $response->getContent());
         $response->assertCreated();
-        Offer::latest('id')->first()->delete();
+    }
+
+    public function testUpdateOffer()
+    {
+        $offer = Offer::where('user_id', '8')->first();
+        info($offer);
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
+            ->putJson(route('offer-status', ['offer' => $offer->id]), ['status' => '1']);
+        $this->writeAFileForTesting($this->path, 'UpdateOffer', $response->getContent());
+        $response->assertSuccessful();
+
+        $response->assertJsonStructure([
+            'data' => [
+                'id',
+                'product_id',
+                'start_date',
+                'end_date',
+                'pay_method_id',
+                'status',
+            ],
+            'msg',
+            'code'
+        ]);
+    }
+
+    public function testDeleteOffer()
+    {
+        $offer = Offer::where('user_id', '8')->first();
+        info($offer);
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
+            ->deleteJson(route('offer-delete', ['offer' => $offer->id]));
+        $this->writeAFileForTesting($this->path, 'DeleteOffer', $response->getContent());
+        $response->assertSuccessful();
     }
 }

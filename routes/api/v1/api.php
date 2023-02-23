@@ -101,9 +101,9 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::group(['prefix' => 'offers', 'middleware' => ['App\Http\Middleware\hasOfferAccess']], function () {
         Route::get('', [OfferController::class, 'index'])->name('offer-all');
         Route::post('', [OfferController::class, 'store'])->name('offer-store');
+        Route::put('{offer}', [OfferController::class, 'changeOfferStatus'])->name('offer-status');
         Route::get('{offer}', [OfferController::class, 'show'])->name('offer-one');
-        Route::put('/{offer}', [OfferController::class, 'changeOfferStatus']);
-        Route::delete('/{offer}', [OfferController::class, 'destroy']);
+        Route::delete('{offer}', [OfferController::class, 'destroy'])->name('offer-delete');
     });
     // Sales
     Route::group(

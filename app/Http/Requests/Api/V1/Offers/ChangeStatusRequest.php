@@ -36,7 +36,7 @@ class ChangeStatusRequest extends FormRequest
     public function messages()
     {
         return [
-            'status.required' => $this->translateErrorMessage('status', 'requried'),
+            'status.required' => $this->translateErrorMessage('status', 'required'),
             'status.boolean' => $this->translateErrorMessage('status', 'boolean')
         ];
     }
