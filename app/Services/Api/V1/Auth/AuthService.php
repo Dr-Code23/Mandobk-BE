@@ -2,6 +2,7 @@
 
 namespace App\Services\Api\V1\Auth;
 
+use App\Http\Resources\Api\V1\Profile\ProfileResource;
 use App\Models\User;
 use App\Models\V1\Role;
 use App\Traits\RoleTrait;
@@ -48,7 +49,7 @@ class AuthService
      * @param boolean $isVisitor
      * @return array|null
      */
-    public function login($request, bool $isVisitor = false): array|null
+    public function login($request, bool $isVisitor = false)
     {
         // Check if the user exists
         if ($token = Auth::attempt($request->validated() + ['status' => $this->isActive()])) {
@@ -57,12 +58,14 @@ class AuthService
             if ($isVisitor && $this->roleNameIn(['visitor'])) $roleChecked = true;
             if (!$isVisitor && !$this->roleNameIn(['visitor'])) $roleChecked = true;
             if ($roleChecked) {
+
                 return [
                     'username' => $user->username,
                     'phone' => $user->phone,
                     'full_name' => $this->strLimit($user->full_name),
                     'role' => Role::where('id', $user->role_id)->value('name'),
                     'token' => $token,
+                    'avatar' => asset('/storage/users/' . ($user->avatar ? $user->avatar : 'user.png'))
                 ];
             }
             // Logout Wrong User
