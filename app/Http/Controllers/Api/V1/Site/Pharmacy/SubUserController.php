@@ -84,11 +84,8 @@ class SubUserController extends Controller
             }
             if ($anyChangeOccur) {
                 $subuser->update();
-
-                return $this->success(new SubUserResource($subuser), 'SubUser Updated Successfully');
             }
-
-            return $this->noContentResponse();
+            return $this->success(new SubUserResource($subuser), 'SubUser Updated Successfully');
         }
 
         return $this->notFoundResponse('SubUser not found');
