@@ -121,22 +121,6 @@ class RecipeController extends Controller
             )
                 ->first(['id', 'details', 'alias'])
             ) {
-                // If There is any products with random number , move it to archieve
-                // $move_to_archive = $request->input('move_products_to_archive_if_exists');
-                // var_dump($move_to_archive);
-                // die;
-                // if ($move_to_archive == true) {
-                //     if (!ArchiveController::moveFromRandomNumberProducts(new Request(), $request->input('random_number'))) {
-                //         $errors['move_to_archive'] = __('validation.operation_failed');
-                //     }
-
-                //     if ($errors) {
-                //         return $this->validation_errors($errors);
-                //     }
-                //     $recipe->details = [];
-                // }
-
-                // return $recipe->details;
                 $details = [];
                 $products_count = count($products);
                 for ($i = 0; $i < $products_count; ++$i) {

@@ -22,7 +22,7 @@ class VisitorRecipe extends Model
     {
         return Attribute::make(
             set: fn ($val) => json_encode($val),
-            get: fn ($val) => json_decode($val)
+            get: fn ($val) => json_decode($val, true)
         );
     }
 

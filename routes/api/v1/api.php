@@ -207,7 +207,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     // Mobile
     Route::group(['prefix' => 'mobile'], function () {
         Route::post('login', [MobileAuthController::class, 'login'])
-            ->withoutMiddleware('auth:api');
+            ->withoutMiddleware('auth:api')->name('mobile-login');
         Route::post('logout', [MobileAuthController::class, 'logout']);
 
         // Visitor
@@ -217,17 +217,15 @@ Route::group(['middleware' => ['auth:api']], function () {
                 Route::group(
                     ['prefix' => 'archive'],
                     function () {
-                        Route::get('', [ArchiveController::class, 'index']);
-                        Route::get('{archive}', [ArchiveController::class, 'show']);
-                        Route::post('', function (Request $request) {
-                            return ArchiveController::moveFromRandomNumberProducts($request);
-                        });
+                        Route::get('', [ArchiveController::class, 'index'])->name('archive-all');
+                        Route::get('{archive}', [ArchiveController::class, 'show'])->name('archive-one');
+                        Route::post('', [ArchiveController::class, 'moveFromRandomNumberProducts'])->name('archive-move');
                     }
                 );
                 Route::group(
                     ['prefix' => 'recipe'],
                     function () {
-                        Route::get('', [RecipeController::class, 'getAllRecipes']);
+                        Route::get('', [RecipeController::class, 'getAllRecipes'])->name('visitor-all-recipes');
                     }
                 );
             }

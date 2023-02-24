@@ -45,7 +45,8 @@ class ArchiveController extends Controller
      */
     public function show(Archive $archive)
     {
-        if (VisitorRecipe::where('visitor_id', Auth::id())->where('random_number', $archive->random_number)->first(['id'])) {
+        $randomNumberExists = VisitorRecipe::where('visitor_id', auth()->id())->where('random_number', $archive->random_number)->first(['id']);
+        if ($randomNumberExists) {
             return $this->resourceResponse(new ArchiveResource($archive));
         }
 
@@ -57,65 +58,56 @@ class ArchiveController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse|bool
      */
-    public static function moveFromRandomNumberProducts(Request $request, int $randomNumber = null)
+    public function moveFromRandomNumberProducts(Request $request)
     {
-        $archiveObject = new ArchiveController();
-        $random_number = $randomNumber != null ? $randomNumber : $request->input('random_number');
-        if ($randomNumber == null) {
-            $validator = Validator::make($request->all(), [
-                'random_number' => ['required', 'numeric'],
-            ], [
-                'random_number.required' => $archiveObject->translateErrorMessage('random_number', 'required'),
-                'random_number.numeric' => $archiveObject->translateErrorMessage('random_number', 'numeric'),
-            ]);
-        }
 
-        $visitor_recipe = VisitorRecipe::where('random_number', $random_number)->first(['id', 'details']);
+        $random_number = $request->input('random_number');
+
+        $validator = Validator::make($request->all(), [
+            'random_number' => ['required', 'numeric'],
+        ], [
+            'random_number.required' => $this->translateErrorMessage('random_number', 'required'),
+            'random_number.numeric' => $this->translateErrorMessage('random_number', 'numeric'),
+        ]);
+
+        if ($validator->fails()) return $this->validation_errors($validator->errors());
+
+        $visitor_recipe = VisitorRecipe::where('visitor_id', auth()->id())
+            ->where('random_number', $random_number)
+            ->first(['id', 'details']);
+
+        // return $visitor_recipe;
         if ($visitor_recipe) {
             // updateVisitorDetails
 
-            $visitor_details = $visitor_recipe->details;
+            // $visitor_details = $visitor_recipe->details;
 
-            if ($randomNumber == null) {
-                $visitor_recipe->details = [];
-                $visitor_recipe->update();
-            }
-
+            $archiveDetails = [];
             $archive = Archive::where('random_number', $random_number)->first(['id', 'details']);
+            // return $archive;
+            $visitorDetails = array_merge([], $visitor_recipe->details);
+            if ($visitorDetails) $archiveDetails[] = $visitorDetails;
             if ($archive) {
-                $archive_details = $archive->details;
-                if (!$archive_details) {
-                    $archive_details = [];
-                }
-
-                // ? To Prevent Apppending empty array
-                if ($visitor_details) {
-                    $archive_details[] = $visitor_details;
-                }
-                $archive->details = $archive_details;
-                $archive->update();
-                if ($randomNumber == null) {
-                    return $archiveObject->createdResponse(null, 'Products Added To Archive Successfully');
-                }
-
-                return true;
+                $archiveDetails = array_merge($archiveDetails, $archive->details);
+            }
+            if ($archive) {
+                if ($visitorDetails)
+                    $archive->update([
+                        'details' => $archiveDetails
+                    ]);
             } else {
                 Archive::create([
                     'random_number' => $random_number,
-                    'details' => [],
+                    'details' => $archiveDetails,
                 ]);
-                if ($randomNumber == null) {
-                    return $archiveObject->createdResponse(null, 'Products Added To Archive Successfully');
-                }
-
-                return true;
             }
-        }
-        if ($randomNumber == null) {
-            return $archiveObject->validation_errors($validator->errors());
-        }
+            if ($visitorDetails) {
+                $visitor_recipe->update(['details' => []]);
+            }
 
-        return false;
+            return $this->success(null, 'Products Moved To Archive Successfully');
+        }
+        return $this->validation_errors(['random_number' => ['Random Number Not Exists']]);
     }
 
     public function destroy(Archive $archive)
