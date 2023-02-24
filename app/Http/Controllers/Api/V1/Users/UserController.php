@@ -14,6 +14,7 @@ use App\Models\V1\VisitorRecipe;
 use App\Services\Api\V1\Users\UserService;
 use App\Traits\HttpResponse;
 use App\Traits\Translatable;
+use App\Traits\UserTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -22,7 +23,7 @@ class UserController extends Controller
 {
     use Translatable;
     use HttpResponse;
-
+    use UserTrait;
 
     public function getAllUsersInDashboardToApprove(UserService $userService)
     {
@@ -73,7 +74,8 @@ class UserController extends Controller
     {
         $visitor = User::create($request->validated() + [
             'role_id' => Role::where('name', 'visitor')->value('id'),
-            'full_name' => $request->name
+            'full_name' => $request->name,
+            'status' => '1'
         ]);
 
         $visitor_info = VisitorRecipe::create([

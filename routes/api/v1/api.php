@@ -186,9 +186,9 @@ Route::group(['middleware' => ['auth:api']], function () {
                 Route::group(
                     ['prefix' => 'recipe'],
                     function () {
-                        Route::get('', [RecipeController::class, 'getAllRecipes']);
-                        Route::get('visitor_recipe', [RecipeController::class, 'getProductsWithRandomNumber']);
-                        Route::post('visitor_recipe', [RecipeController::class, 'addRecipe']);
+                        Route::get('', [RecipeController::class, 'getAllRecipes'])->name('doctor-recipe-all');
+                        Route::get('visitor_recipe', [RecipeController::class, 'getProductsWithRandomNumber'])->name('doctor-visitor-products');
+                        Route::post('visitor_recipe', [RecipeController::class, 'addRecipe'])->name('doctor-recipe-add');
                     }
                 );
 
@@ -196,8 +196,8 @@ Route::group(['middleware' => ['auth:api']], function () {
                 Route::group(
                     ['prefix' => 'visitor'],
                     function () {
-                        Route::post('', [UserController::class, 'registerNewVisitor']);
-                        Route::post('forgot_random_number', [UserController::class, 'ForgotVisitorRandomNumber']);
+                        Route::post('', [UserController::class, 'registerNewVisitor'])->name('doctor-visitor-register');
+                        Route::post('forgot_random_number', [UserController::class, 'ForgotVisitorRandomNumber'])->name('doctor-visitor-forgot-random-number');
                     }
                 );
             }

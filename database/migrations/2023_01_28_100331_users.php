@@ -28,7 +28,7 @@ return new class() extends Migration
                 ->comment('0 => Deleted , 1=> Active , 2=> Frozen')
                 ->default('2'); // Default Frozen Account
             $table->string('full_name');
-            $table->string('phone')->nullable();
+            $table->string('phone')->nullable()->unique();
             // $table->string('email')->unique();
             $table->timestamps();
         });

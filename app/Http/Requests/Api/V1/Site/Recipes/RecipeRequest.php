@@ -32,7 +32,7 @@ class RecipeRequest extends FormRequest
         return [
             'products' => ['required', 'array'],
             'random_number' => ['required', 'numeric'],
-            'move_products_to_archive_if_exists' => ['sometimes', 'boolean'],
+            // 'move_products_to_archive_if_exists' => ['sometimes', 'boolean'],
             'products.*.product_id' => ['required', 'numeric'],
             'products.*.quantity' => ['required', 'numeric', 'min:1'],
         ];
@@ -43,7 +43,7 @@ class RecipeRequest extends FormRequest
         return [
             'random_number.required' => $this->translateErrorMessage('random_number', 'required'),
             'random_number.numeric' => $this->translateErrorMessage('random_number', 'numeric'),
-            'move_products_to_archive_if_exists.boolean' => $this->translateErrorMessage('move_products_to_archive_if_exists', 'boolean'),
+            // 'move_products_to_archive_if_exists.boolean' => $this->translateErrorMessage('move_products_to_archive_if_exists', 'boolean'),
             'products.required' => $this->translateErrorMessage('products', 'required'),
             'products.*.product_id.required' => $this->translateErrorMessage('product', 'required'),
             'products.*.product_id.numeric' => $this->translateErrorMessage('product', 'numeric'),

@@ -29,7 +29,7 @@ class RecipeController extends Controller
     use RoleTrait;
     use Translatable;
 
-    public function getAllRecipes(Request $request)
+    public function getAllRecipes()
     {
         $data = [];
         if ($this->getRoleNameForAuthenticatedUser() == 'visitor') {
@@ -69,9 +69,9 @@ class RecipeController extends Controller
 
     public function addRecipe(RecipeRequest $request)
     {
+
         $errors = [];
         $products = $request->input('products');
-
         // Store all limited products in that array
         $limited_products = [];
 
@@ -117,21 +117,24 @@ class RecipeController extends Controller
         if (is_numeric($request->input('random_number'))) {
             if ($recipe = VisitorRecipe::where(
                 'random_number',
-                $request->input('random_number'))
+                $request->input('random_number')
+            )
                 ->first(['id', 'details', 'alias'])
             ) {
                 // If There is any products with random number , move it to archieve
-                $move_to_archive = $request->input('move_products_to_archive_if_exists');
-                if ($move_to_archive == true) {
-                    if (!ArchiveController::moveFromRandomNumberProducts(new Request(), $request->input('random_number'))) {
-                        $errors['move_to_archive'] = __('validation.operation_failed');
-                    }
+                // $move_to_archive = $request->input('move_products_to_archive_if_exists');
+                // var_dump($move_to_archive);
+                // die;
+                // if ($move_to_archive == true) {
+                //     if (!ArchiveController::moveFromRandomNumberProducts(new Request(), $request->input('random_number'))) {
+                //         $errors['move_to_archive'] = __('validation.operation_failed');
+                //     }
 
-                    if ($errors) {
-                        return $this->validation_errors($errors);
-                    }
-                    $recipe->details = [];
-                }
+                //     if ($errors) {
+                //         return $this->validation_errors($errors);
+                //     }
+                //     $recipe->details = [];
+                // }
 
                 // return $recipe->details;
                 $details = [];
@@ -200,8 +203,12 @@ class RecipeController extends Controller
         $visitor_products = VisitorRecipe::where('random_number', $random_number)->first(['details']);
 
         if ($visitor_products) {
-            // Everything is valid
-            return $this->resourceResponse($visitor_products->details);
+            if (!$visitor_products->details)
+                // Everything is valid
+                return $this->resourceResponse($visitor_products->details);
+            return $this->validation_errors([
+                'random_number' => ['Random Number Has Old Products Associated With it , move it to archieve to continue']
+            ]);
         }
 
         return $this->notFoundResponse('Random Number Not Exists');
@@ -209,7 +216,6 @@ class RecipeController extends Controller
 
     private function moveProductsToArchive(int $random_number): bool
     {
-        $errors = [];
         if (is_numeric($random_number)) {
             $visitor_recipe = VisitorRecipe::where('random_number', $random_number)->first(['id', 'details']);
             if ($visitor_recipe) {
@@ -238,11 +244,3 @@ class RecipeController extends Controller
         return false;
     }
 }
-
-/*
-
-    Visitor_recipents
-
-    id doctor_id random_number_id details created_at updated_at
-
-*/
