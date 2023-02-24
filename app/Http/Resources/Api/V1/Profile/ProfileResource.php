@@ -23,6 +23,7 @@ class ProfileResource extends JsonResource
             'phone' => $this->phone,
             'role' => Role::where('id', $this->role_id)->value('name'),
             'avatar' => asset('storage/users/' . ($this->avatar ?? 'user.png')),
+            'password_changed' => $this->passwordChanged
         ];
     }
 }

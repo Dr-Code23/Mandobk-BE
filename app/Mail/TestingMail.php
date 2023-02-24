@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Mail\Api\V1;
+namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class AccountStatusMail extends Mailable
+class TestingMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -31,7 +32,8 @@ class AccountStatusMail extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'Account Status Mail',
+            from: new Address('jeffrey@example.com', 'Jeffrey Way'),
+            subject: 'Order Shipped',
         );
     }
 
@@ -43,7 +45,7 @@ class AccountStatusMail extends Mailable
     public function content()
     {
         return new Content(
-            view: 'view.name',
+            markdown: 'emails.test',
         );
     }
 

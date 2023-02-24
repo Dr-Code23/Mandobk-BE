@@ -3,8 +3,10 @@
 use App\Events\PusherEvent;
 use App\Http\Controllers\Handler;
 use App\Http\Controllers\TestController;
+use App\Mail\TestingMail;
 use BeyondCode\LaravelWebSockets\Facades\WebSocketsRouter;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Mail;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,3 +22,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('in', [TestController::class, 'index']);
 // Route::get('Internet', [TestController::class, 'index']);
+
+Route::get('mail', function () {
+    Mail::to('user@example.com')->send(new TestingMail());
+});

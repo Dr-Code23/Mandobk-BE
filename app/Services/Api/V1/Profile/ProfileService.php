@@ -5,7 +5,7 @@ namespace App\Services\Api\V1\Profile;
 use App\Models\User;
 use App\Traits\FileOperationTrait;
 use Illuminate\Support\Facades\Auth;
-use Hash;
+use Illuminate\Support\Facades\Hash;
 
 class ProfileService
 {
@@ -44,7 +44,9 @@ class ProfileService
         if ($anyChangeOccur)
             $user->update();
 
-        Auth::logout();
+        if ($passowrdChanged)
+            Auth::logout();
+        $user->password_changed = $passowrdChanged;
         return $user;
     }
 }
