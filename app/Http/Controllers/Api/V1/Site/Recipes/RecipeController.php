@@ -11,6 +11,7 @@ use App\Models\V1\DoctorVisit;
 use App\Models\V1\PharmacyVisit;
 use App\Models\V1\Product;
 use App\Models\V1\VisitorRecipe;
+use App\Services\Api\V1\Site\Recipe\RecipeService;
 use App\Traits\HttpResponse;
 use App\Traits\PaginationTrait;
 use App\Traits\RoleTrait;
@@ -226,5 +227,10 @@ class RecipeController extends Controller
         }
 
         return false;
+    }
+
+    public function getAllPharmacyRecipes(RecipeService $recipeService)
+    {
+        return $recipeService->getAllPharmacyRecipes();
     }
 }

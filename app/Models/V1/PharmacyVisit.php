@@ -28,4 +28,14 @@ class PharmacyVisit extends Model
     {
         return $this->belongsTo(User::class, 'pharmacy_id', 'id');
     }
+
+    public function visitor_recipe()
+    {
+        return $this->belongsTo(VisitorRecipe::class);
+    }
+
+    public function doctor_user()
+    {
+        return $this->belongsTo(User::class, 'doctor_id', 'id');
+    }
 }

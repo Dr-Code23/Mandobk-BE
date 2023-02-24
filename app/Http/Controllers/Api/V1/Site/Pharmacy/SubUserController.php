@@ -23,10 +23,10 @@ class SubUserController extends Controller
             new SubUserCollection(
                 SubUser::join('users', 'users.id', 'sub_users.sub_user_id')
                     ->where('sub_users.parent_id', Auth::id())
-                    // ->where('users.status', '1')
+                    ->where('users.status', '1')
                     ->get([
                         'users.id as id',
-                        'users.full_name as name',
+                        'users.full_name',
                         'users.username as username',
                         'users.created_at as created_at',
                         'users.updated_at as updated_at',
@@ -54,7 +54,7 @@ class SubUserController extends Controller
         $user = User::create([
             'full_name' => $request->input('name'),
             'username' => $request->input('username'),
-            'password' => Hash::make($request->input('password')),
+            'password' => $request->input('password'),
             'role_id' => Role::where('name', 'pharmacy_sub_user')->value('id'),
             'status' => '1',
         ]);
@@ -67,39 +67,39 @@ class SubUserController extends Controller
 
     public function update(SubUserRequest $request, User $subuser)
     {
-        // Create The User
-        if (SubUser::where('parent_id', Auth::id())->where('sub_user_id', $subuser->id)->value('id') && $subuser->status == '1') {
-            $anyChangeOccur = false;
-            if ($request->name != $subuser->full_name) {
-                $subuser->full_name = $request->name;
-                $anyChangeOccur = true;
+        if (SubUser::where('parent_id', auth()->id())->where('sub_user_id', $subuser->id)->value('id') && $subuser->status == '1')
+            if ($subuser->parent_id == auth()->id() && $subuser->status == '1') {
+
+                // Create The User
+                $anyChangeOccur = false;
+                if ($request->name != $subuser->full_name) {
+                    $subuser->full_name = $request->name;
+                    $anyChangeOccur = true;
+                }
+                if ($subuser->username != $request->username) {
+                    $subuser->username = $request->username;
+                    $anyChangeOccur = true;
+                }
+                if ($request->password && !Hash::check($request->password, $subuser->password)) {
+                    $subuser->password = $request->password;
+                    $anyChangeOccur = true;
+                }
+                if ($anyChangeOccur) {
+                    $subuser->update();
+                }
+                return $this->success(new SubUserResource($subuser), 'SubUser Updated Successfully');
             }
-            if ($subuser->username != $request->username) {
-                $subuser->username = $request->username;
-                $anyChangeOccur = true;
-            }
-            if ($request->password && !Hash::check($request->password, $subuser->password)) {
-                $subuser->password = Hash::make($request->password);
-                $anyChangeOccur = true;
-            }
-            if ($anyChangeOccur) {
-                $subuser->update();
-            }
-            return $this->success(new SubUserResource($subuser), 'SubUser Updated Successfully');
-        }
 
         return $this->notFoundResponse('SubUser not found');
     }
 
     public function destroy(User $subuser)
     {
-        if (SubUser::where('parent_id', Auth::id())->where('sub_user_id', $subuser->id)->value('id') && $subuser->status == '1') {
+        if (SubUser::where('parent_id', auth()->id())->where('sub_user_id', $subuser->id)->value('id') && $subuser->status == '1') {
             $subuser->status = '0';
             $subuser->update();
-
             return $this->success(null, 'SubUser Deleted Successfully');
         }
-
         return $this->notFoundResponse('SubUser not found');
     }
 }

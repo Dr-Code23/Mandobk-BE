@@ -17,6 +17,7 @@ class SubUserResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'name' => $this->full_name,
             'username' => $this->username,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

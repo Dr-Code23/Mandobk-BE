@@ -2,6 +2,7 @@
 
 namespace App\Models\V1;
 
+use App\Models\User;
 use App\Traits\DateTrait;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -39,5 +40,10 @@ class VisitorRecipe extends Model
         return Attribute::make(
             get: fn ($val) => $this->changeDateFormat($val, 'Y-m-d H:i'),
         );
+    }
+
+    public function visitor()
+    {
+        return $this->belongsTo(User::class, 'visitor_id', 'id');
     }
 }

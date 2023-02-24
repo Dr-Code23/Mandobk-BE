@@ -175,6 +175,10 @@ Route::group(['middleware' => ['auth:api']], function () {
                         Route::delete('{subuser}', [SubUserController::class, 'destroy']);
                     }
                 );
+
+                Route::group(['prefix' => 'recipes'], function () {
+                    Route::get('', [RecipeController::class, 'GetAllPharmacyRecipes']);
+                });
             }
         );
 
