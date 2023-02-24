@@ -23,7 +23,7 @@ class SubUserController extends Controller
             new SubUserCollection(
                 SubUser::join('users', 'users.id', 'sub_users.sub_user_id')
                     ->where('sub_users.parent_id', Auth::id())
-                    ->where('users.status', '1')
+                    // ->where('users.status', '1')
                     ->get([
                         'users.id as id',
                         'users.full_name as name',
@@ -56,6 +56,7 @@ class SubUserController extends Controller
             'username' => $request->input('username'),
             'password' => Hash::make($request->input('password')),
             'role_id' => Role::where('name', 'pharmacy_sub_user')->value('id'),
+            'status' => '1',
         ]);
 
         // Add SubUser To Pharmacy
