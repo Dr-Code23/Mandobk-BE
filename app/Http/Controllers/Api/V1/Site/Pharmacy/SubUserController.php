@@ -68,27 +68,27 @@ class SubUserController extends Controller
     public function update(SubUserRequest $request, User $subuser)
     {
         if (SubUser::where('parent_id', auth()->id())->where('sub_user_id', $subuser->id)->value('id') && $subuser->status == '1')
-            if ($subuser->parent_id == auth()->id() && $subuser->status == '1') {
 
-                // Create The User
-                $anyChangeOccur = false;
-                if ($request->name != $subuser->full_name) {
-                    $subuser->full_name = $request->name;
-                    $anyChangeOccur = true;
-                }
-                if ($subuser->username != $request->username) {
-                    $subuser->username = $request->username;
-                    $anyChangeOccur = true;
-                }
-                if ($request->password && !Hash::check($request->password, $subuser->password)) {
-                    $subuser->password = $request->password;
-                    $anyChangeOccur = true;
-                }
-                if ($anyChangeOccur) {
-                    $subuser->update();
-                }
-                return $this->success(new SubUserResource($subuser), 'SubUser Updated Successfully');
-            }
+
+            // Create The User
+            $anyChangeOccur = false;
+        if ($request->name != $subuser->full_name) {
+            $subuser->full_name = $request->name;
+            $anyChangeOccur = true;
+        }
+        if ($subuser->username != $request->username) {
+            $subuser->username = $request->username;
+            $anyChangeOccur = true;
+        }
+        if ($request->password && !Hash::check($request->password, $subuser->password)) {
+            $subuser->password = $request->password;
+            $anyChangeOccur = true;
+        }
+        if ($anyChangeOccur) {
+            $subuser->update();
+        }
+        return $this->success(new SubUserResource($subuser), 'SubUser Updated Successfully');
+
 
         return $this->notFoundResponse('SubUser not found');
     }
