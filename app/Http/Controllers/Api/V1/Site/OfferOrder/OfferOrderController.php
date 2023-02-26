@@ -59,7 +59,7 @@ class OfferOrderController extends Controller
                 // Everything is valid so add the data
                 // If The same order exists for the same user and it's pending , increase it's qty
                 if ($offer_order) {
-                    $offer_order->qty += $qty;
+                    $offer_order->qty = $qty;
                     $offer_order->update();
                     $updated = true;
                 } else {

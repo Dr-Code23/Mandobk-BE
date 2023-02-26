@@ -165,7 +165,7 @@ class ProductTest extends TestCase
 
         $response->assertJsonStructure([
             'data' => [
-                '*' => ['id', 'scientific_name', 'limited']
+                '*' => ['id', 'commercial_name', 'limited']
             ]
         ]);
     }
