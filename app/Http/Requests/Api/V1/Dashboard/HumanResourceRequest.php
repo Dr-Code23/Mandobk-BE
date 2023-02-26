@@ -33,7 +33,7 @@ class HumanResourceRequest extends FormRequest
             'status' => ['required', 'in:0,1,2'],
             'attendance' => ['required_if:status,0', 'date_format:H:i'],
             'departure' => ['required_if:status,0', 'date_format:H:i', 'after:attendance'],
-            'date' => ['required', 'date_format:Y-m-d', 'before_or_equal:date'],
+            'date' => ['required', 'date_format:Y-m-d', 'before_or_equal:today'],
         ];
     }
 
