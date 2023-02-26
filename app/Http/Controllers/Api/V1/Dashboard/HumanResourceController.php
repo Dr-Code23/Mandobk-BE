@@ -75,6 +75,15 @@ class HumanResourceController extends Controller
     public function storeOrUpdate(HumanResourceRequest $request)
     {
 
+        $departure = $request->departure;
+        $attendance = $request->attendance;
+        $date = $request->date;
+        $status = $request->status;
+
+        if ($status != 0) {
+            $departure = null;
+            $attendance = null;
+        }
         // Check if the user is not CEO
         $user = User::find($request->user_id)->join('roles', function ($join) {
             $join->on('roles.id', 'users.role_id')
@@ -89,15 +98,15 @@ class HumanResourceController extends Controller
                 ->first();
             if ($human_resource = HumanResource::where('date', $request->date)->where('user_id', $request->user_id)->first()) {
                 $anyChangeOccrued = false;
-                if ($human_resource->attendance != $request->attendance) {
+                if ($human_resource->attendance != $attendance) {
                     $anyChangeOccrued = true;
-                    $human_resource->attendance = $request->attendance;
+                    $human_resource->attendance = $attendance;
                 }
-                if ($human_resource->departure != $request->departure) {
+                if ($human_resource->departure != $departure) {
                     $anyChangeOccrued = true;
-                    $human_resource->departure = $request->departure;
+                    $human_resource->departure = $departure;
                 }
-                if ($human_resource->status != $request->status) {
+                if ($human_resource->status != $status) {
                     $anyChangeOccrued = true;
                     $human_resource->status = (int) $request->status;
                 }
@@ -112,9 +121,9 @@ class HumanResourceController extends Controller
             }
             $human_resource = HumanResource::create([
                 'user_id' => $request->user_id,
-                'status' => (int)$request->status,
-                'departure' => $request->departure,
-                'attendance' => $request->attendance,
+                'status' => (int)$status,
+                'departure' => $departure,
+                'attendance' => $attendance,
                 'date' => $request->date,
             ]);
             $human_resource->full_name = $fullName_Role->full_name;
