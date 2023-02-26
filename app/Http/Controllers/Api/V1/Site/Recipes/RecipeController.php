@@ -14,6 +14,7 @@ use App\Models\V1\Archive;
 use App\Models\V1\DoctorVisit;
 use App\Models\V1\PharmacyVisit;
 use App\Models\V1\Product;
+use App\Models\V1\ProductInfo;
 use App\Models\V1\VisitorRecipe;
 use App\Services\Api\V1\Site\Recipe\RecipeService;
 use App\Traits\HttpResponse;
@@ -252,42 +253,93 @@ class RecipeController extends Controller
     public function acceptVisitorRecipeFromPharmacy(PharmacyRecipeRequest $request, VisitorRecipe $recipe)
     {
         $recipeDetails = $recipe->details['products'] ?? [];
+        $recipeDetailsCount = count($recipeDetails);
+
+        $printVisitorRecipe = [];
         // return $recipeDetails;
         $errors = [];
+        $validProducts = [];
         $data = $request->data;
         for ($j = 0; $j < count($data); $j++) {
             $productFound = false;
-            for ($i = 0; $i < count($recipeDetails); $i++) {
+            for ($i = 0; $i < $recipeDetailsCount; $i++) {
                 if ($data[$j]['commercial_name'] == $recipeDetails[$i]['commercial_name']) {
                     // then Product In Visitor Cart
 
                     $productFound = true;
                     // Start validating the quantity
 
-                    $userProduct = Product::whereIn('com_name', [$data[$j]['commercial_name'], $data[$j]['alternative_commercial_name'] ?? null])
+                    $userProduct = Product::whereIn('com_name', [
+                        $data[$j]['commercial_name'],
+                        $data[$j]['alternative_commercial_name'] ?? null
+                    ])
                         ->whereIn('user_id', $this->getSubUsersForAuthenticatedUser())
-                        ->withSum('product_details', 'qty')
+                        ->withSum(
+                            [
+                                'product_details' => fn ($query) => $query->where('expire_date', '>', date('Y-m-d')),
+                            ],
+                            'qty'
+                        )
                         ->first();
-                    // return 'This is data';
+
                     if ($userProduct) {
+                        // Start Validation The Quantity
+                        if ($userProduct->product_details_sum_qty >= $data[$j]['quantity']) {
+                            // Then Everything Is Valid , start appending the products
+                            $validProducts[] = $userProduct;
+                        } else $errors[$j]['quantity'] = ['Quantity Is bigger Than Existing Qty Which is ' . $userProduct->product_details_sum_qty];
                     } else $errors[$j]['product'] = 'Product Not Found';
                     // break;
-                    return $userProduct;
                 }
             }
 
             if (!$productFound) $errors[$j]['product'] = 'Product Not Found in Visitor cart';
         }
 
-        // Validate The Quantity For Each Product
-        $i = 0;
-        foreach ($data as $product) {
-            $originalProduct = Product::where('com_name', $product['commercial_name'])->withSum('product_details', 'qty')->first();
-            if ($originalProduct) {
-            } else $errors[$i]['commercial_name'] = $this->translateErrorMessage('commercial_name', 'not_exists');
+        //! Very Bad Performace !
+        //O (N * M * K)
+        if (!$errors) {
+            for ($i = 0; $i < $recipeDetailsCount; $i++) {
+                for ($j = 0; $j < count($validProducts); $j++) {
+                    // Remove The Element From the Visitor Cart And Update User Product Quantity
+
+                    $productDetails = ProductInfo::where('product_id', $validProducts[$j]->id)
+                        ->latest('qty')
+                        ->where('expire_date', '>', date('Y-m-d'))
+                        ->get(['id', 'qty']);
+                    if ($productDetails) {
+                        $tmpVisitorProductQuantity = $recipeDetails[$i]['quantity'];
+                        for ($k = 0; $k < count($productDetails) && $tmpVisitorProductQuantity; $k++) {
+
+                            // If Product Has Enough Quantity , decreate Visitor Quantity
+                            if ($productDetails[$k]->qty >= $tmpVisitorProductQuantity) {
+                                $productDetails[$k]->qty -= $tmpVisitorProductQuantity;
+                                $tmpVisitorProductQuantity = 0;
+                            } else {
+                                $tmpVisitorProductQuantity -= $productDetails[$k]->qty;
+                                $productDetails[$k]->qty = 0;
+                            }
+                            // return $productDetails[$k];
+                            $productDetails[$k]->update();
+                        }
+                    } else $errors[$j]['quantity'] = ['Product Has No Details With Expire Date Bigger Than Today'];
+                }
+                if (!$errors) {
+                    $recipeDetails[$i]['taken'] = true;
+                    $printVisitorRecipe[] = $recipeDetails[$i];
+                    // Remove The item From Visitor Cart
+                    unset($recipeDetails[$i]);
+                    $recipeDetailsCount--;
+                }
+            }
+            if ($recipeDetailsCount == 0) {
+                // $recipe->update([
+                //     'details' => []
+                // ]);
+                // Everything Done Correctly , Return Valid Products For Printing
+                return $this->success($printVisitorRecipe);
+            }
         }
-
-
         return $this->validation_errors($errors);
     }
 }

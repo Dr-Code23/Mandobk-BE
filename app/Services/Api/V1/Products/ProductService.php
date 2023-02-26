@@ -197,7 +197,7 @@ class ProductService
             'role_id',
             $this->getRolesIdsByName(['ceo', 'data_entry']),
         )
-            ->get(['id', 'sc_name as scientific_name', 'limited']);
+            ->get(['id', 'com_name as commercial_name', 'limited']);
     }
 
     //? For Testing Only
