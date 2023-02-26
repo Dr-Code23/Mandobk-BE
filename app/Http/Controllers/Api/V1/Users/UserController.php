@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Api\V1\Users;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\Users\ChangeUserStatusRequest;
 use App\Http\Requests\Api\V1\Users\RegisterVisitorRequest;
+use App\Http\Requests\Api\V1\Visitor\AddRandomNumberForVisitor;
 use App\Http\Resources\Api\V1\Site\Doctor\VisitorAccount\VisitorAccountResource;
+use App\Http\Resources\Api\V1\Site\VisitorRecipe\VisitorRecipeResource;
 use App\Http\Resources\Api\V1\Users\UserCollection;
 use App\Http\Resources\Api\V1\Users\UserResource;
 use App\Models\User;
@@ -13,6 +15,7 @@ use App\Models\V1\Role;
 use App\Models\V1\VisitorRecipe;
 use App\Services\Api\V1\Users\UserService;
 use App\Traits\HttpResponse;
+use App\Traits\RoleTrait;
 use App\Traits\Translatable;
 use App\Traits\UserTrait;
 use Illuminate\Http\JsonResponse;
@@ -24,6 +27,7 @@ class UserController extends Controller
     use Translatable;
     use HttpResponse;
     use UserTrait;
+    use RoleTrait;
 
     public function getAllUsersInDashboardToApprove(UserService $userService)
     {
@@ -124,6 +128,33 @@ class UserController extends Controller
     }
 
 
+
+    public function addRandomNumberForVistior(AddRandomNumberForVisitor $request)
+    {
+        $visitor = User::where('username', $request->username)
+            ->where('role_id', $this->getRoleIdByName('visitor'))
+            ->first(['id', 'username']);
+
+        $errors = [];
+        if ($visitor) {
+            // Search In Visitor Recipes For Visitor
+
+            $recipe = VisitorRecipe::where('visitor_id', $visitor->id)
+                ->where('alias', $request->alias)->first(['id', 'alias']);
+            if (!$recipe) {
+                $newVisitorRecipe = VisitorRecipe::create([
+                    'visitor_id' => $visitor->id,
+                    'alias' => $request->alias,
+                    'random_number' => $this->generateRandomNumberForVisitor(),
+                    'details' => []
+                ]);
+
+                return $this->resourceResponse(new VisitorRecipeResource($newVisitorRecipe));
+            } else $errors['alias'] = ['Alias Already Exists'];
+        } else $errors['username'] = ['Username Not Exists'];
+
+        return $this->validation_errors($errors);
+    }
     public function getHumanResourceUsers(UserService $userService)
     {
         $users = $userService->getHumanResourceUsers();

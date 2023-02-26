@@ -75,5 +75,5 @@ return [
     'end_date' => 'End Date',
     'product_id' => 'Product',
     'avatar' => 'Avatar',
-    'notification' => 'Notification'
+    'notification' => 'Notification',
 ];

@@ -40,4 +40,9 @@ trait RoleTrait
 
         return $res;
     }
+
+    public function getRoleIdByName(string $name)
+    {
+        return Role::where('name', $name)->value('id');
+    }
 }

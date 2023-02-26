@@ -83,13 +83,31 @@ class ProductService
         $selling_price = $this->setPercisionForFloatString($request->selling_price);
         $bonus = $this->setPercisionForFloatString($request->bonus);
         $concentrate = $this->setPercisionForFloatString($request->concentrate);
+        $limited = 0;
 
+        // Check If DataEntry Has The Product Already
         // Store the barcode
         $barcode_value = $request->barcode;
+        // $adminProduct = Product::where(function ($query) use ($barcode_value, $commercial_name) {
+        //     $query->where('barcode', $barcode_value)
+        //         ->orWhere('com_name', $commercial_name);
+        // })
+        //     ->whereIn('role_id', $this->getRolesIdsByName(['ceo', 'data_entry']))
+        //     ->first([
+        //         'limited', 'sc_name', 'com_name'
+        //     ]);
 
+        // if ($adminProduct) {
+        //     $commercial_name = $adminProduct->com_name;
+        //     $scientific_name = $adminProduct->sc_name;
+        //     $limited = $adminProduct->limited;
+        // }
         if ($this->storeBarCodeSVG('products', $barcode_value, $barcode_value)) {
 
-            $product = Product::where('com_name', $commercial_name)
+            $product = Product::where(function ($query) use ($commercial_name, $barcode_value) {
+                $query->where('com_name', $commercial_name)
+                    ->orWhere('barcode', $barcode_value);
+            })
                 ->where(function ($query) {
                     if ($this->roleNameIn(['ceo', 'data_entry'])) $query->whereIn('role_id', $this->getRolesIdsByName(['ceo', 'data_entry']));
                     else  $query->whereIn('user_id', $this->getSubUsersForAuthenticatedUser());
@@ -104,8 +122,7 @@ class ProductService
                 'bonus' => $bonus,
                 'con' => $concentrate,
                 'barcode' => $barcode_value,
-                // 'original_total' => $purchase_price * $request->quantity,
-                'limited' => $request->limited ? 1 : 0,
+                'limited' => $limited,
                 'user_id' => Auth::id(),
                 'role_id' => $this->getAuthenticatedUserInformation()->role->id,
             ];
@@ -120,6 +137,21 @@ class ProductService
             }
 
 
+            // Update All Products To new Admin Values Only If Changed
+            if ($this->roleNameIn(['ceo', 'data_entry'])) {
+                Product::where('barcode', $barcode_value)->orWhere('com_name', $commercial_name)
+                    ->whereNotIn('role_id', $this->getRolesIdsByName(['ceo', 'data_entry']))
+                    ->where(function ($query) use ($commercial_name, $scientific_name, $limited) {
+                        $query->where('com_name', '!=', $commercial_name)
+                            ->orWhere('sc_name', '!=', $scientific_name)
+                            ->orWhere('limited', '!=', $limited);
+                    })
+                    ->update([
+                        'com_name' => $commercial_name,
+                        'sc_name' => $scientific_name,
+                        'limited' => $limited
+                    ]);
+            }
             $productInfo = ProductInfo::where('product_id', $product->id)
                 ->where('expire_date', $request->expire_date)
                 ->where('patch_number', $request->patch_number)

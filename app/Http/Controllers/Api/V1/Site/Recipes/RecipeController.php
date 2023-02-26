@@ -4,8 +4,12 @@ namespace App\Http\Controllers\Api\V1\Site\Recipes;
 
 use App\Http\Controllers\Api\V1\Archive\ArchiveController;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\V1\Site\Recipes\PharmacyRecipeRequest;
 use App\Http\Requests\Api\V1\Site\Recipes\RecipeRequest;
 use App\Http\Resources\Api\V1\Site\Recipe\RecipeCollection;
+use App\Http\Resources\Api\V1\Site\Recipe\RecipeResource;
+use App\Http\Resources\Api\V1\Site\Recipes\PharmacyRecipeCollection;
+use App\Http\Resources\Api\V1\Site\VisitorRecipe\VisitorRecipeResource;
 use App\Models\V1\Archive;
 use App\Models\V1\DoctorVisit;
 use App\Models\V1\PharmacyVisit;
@@ -137,6 +141,7 @@ class RecipeController extends Controller
                     $details['products'][$i]['scientific_name'] = $product_info->sc_name;
                     $details['products'][$i]['commercial_name'] = $product_info->com_name;
                     $details['products'][$i]['concentrate'] = $product_info->con;
+                    $details['products'][$i]['quantity'] = $products[$i]['quantity'];
                     $details['products'][$i]['taken'] = false;
                 }
                 $details['doctor_name'] = $this->getAuthenticatedUserInformation()->full_name;
@@ -199,38 +204,90 @@ class RecipeController extends Controller
         return $this->notFoundResponse('Random Number Not Exists');
     }
 
-    private function moveProductsToArchive(int $random_number): bool
-    {
-        if (is_numeric($random_number)) {
-            $visitor_recipe = VisitorRecipe::where('random_number', $random_number)->first(['id', 'details']);
-            if ($visitor_recipe) {
-                $visitor_details = $visitor_recipe->details;
-                $visitor_recipe->details = [];
-                $visitor_recipe->update();
-                $archive = Archive::where('random_number', $random_number)->first(['id', 'details']);
-                $new_details = $visitor_details;
-                if ($archive) {
-                    $new_details = array_merge($archive->details, $new_details);
-                    $archive->details = $new_details;
-                    $archive->update();
+    // private function moveProductsToArchive(int $random_number): bool
+    // {
+    //     if (is_numeric($random_number)) {
+    //         $visitor_recipe = VisitorRecipe::where('random_number', $random_number)->first(['id', 'details']);
+    //         if ($visitor_recipe) {
+    //             $visitor_details = $visitor_recipe->details;
+    //             $visitor_recipe->details = [];
+    //             $visitor_recipe->update();
+    //             $archive = Archive::where('random_number', $random_number)->first(['id', 'details']);
+    //             $new_details = $visitor_details;
+    //             if ($archive) {
+    //                 $new_details = array_merge($archive->details, $new_details);
+    //                 $archive->details = $new_details;
+    //                 $archive->update();
 
-                    return true;
-                } else {
-                    Archive::create([
-                        'random_number' => $random_number,
-                        'details' => $new_details,
-                    ]);
+    //                 return true;
+    //             } else {
+    //                 Archive::create([
+    //                     'random_number' => $random_number,
+    //                     'details' => $new_details,
+    //                 ]);
 
-                    return true;
-                }
-            }
-        }
+    //                 return true;
+    //             }
+    //         }
+    //     }
 
-        return false;
-    }
+    //     return false;
+    // }
 
     public function getAllPharmacyRecipes(RecipeService $recipeService)
     {
-        return $recipeService->getAllPharmacyRecipes();
+        return $this->resourceResponse(new PharmacyRecipeCollection($recipeService->getAllPharmacyRecipes()));
+    }
+
+    public function getProductsAssociatedWithRandomNumberForPharmacy(Request $request, RecipeService $recipeService)
+    {
+        $recipe = $recipeService->getProductsAssociatedWithRandomNumberForPharmacy($request);
+        if (is_bool($recipe) && $recipe == false)
+            return $this->notFoundResponse('Random Number Not Found');
+
+        return $this->resourceResponse(new VisitorRecipeResource($recipe));
+    }
+
+
+    public function acceptVisitorRecipeFromPharmacy(PharmacyRecipeRequest $request, VisitorRecipe $recipe)
+    {
+        $recipeDetails = $recipe->details['products'] ?? [];
+        // return $recipeDetails;
+        $errors = [];
+        $data = $request->data;
+        for ($j = 0; $j < count($data); $j++) {
+            $productFound = false;
+            for ($i = 0; $i < count($recipeDetails); $i++) {
+                if ($data[$j]['commercial_name'] == $recipeDetails[$i]['commercial_name']) {
+                    // then Product In Visitor Cart
+
+                    $productFound = true;
+                    // Start validating the quantity
+
+                    $userProduct = Product::whereIn('com_name', [$data[$j]['commercial_name'], $data[$j]['alternative_commercial_name'] ?? null])
+                        ->whereIn('user_id', $this->getSubUsersForAuthenticatedUser())
+                        ->withSum('product_details', 'qty')
+                        ->first();
+                    // return 'This is data';
+                    if ($userProduct) {
+                    } else $errors[$j]['product'] = 'Product Not Found';
+                    // break;
+                    return $userProduct;
+                }
+            }
+
+            if (!$productFound) $errors[$j]['product'] = 'Product Not Found in Visitor cart';
+        }
+
+        // Validate The Quantity For Each Product
+        $i = 0;
+        foreach ($data as $product) {
+            $originalProduct = Product::where('com_name', $product['commercial_name'])->withSum('product_details', 'qty')->first();
+            if ($originalProduct) {
+            } else $errors[$i]['commercial_name'] = $this->translateErrorMessage('commercial_name', 'not_exists');
+        }
+
+
+        return $this->validation_errors($errors);
     }
 }

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Resources\Api\V1\Site\VisitorRecipe;
+namespace App\Http\Resources\Api\V1\Site\Recipes;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class VisitorRecipeResource extends JsonResource
+class PharmacyRecipeResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,11 +14,6 @@ class VisitorRecipeResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            'id' => $this->id,
-            'alias' => $this->alias,
-            'random_number' => $this->random_number,
-            'details' => $this->details,
-        ];
+        return parent::toArray($request);
     }
 }

@@ -20,8 +20,6 @@ use App\Http\Controllers\Api\V1\Site\Recipes\RecipeController;
 use App\Http\Controllers\Api\V1\Site\Sales\SaleController;
 use App\Http\Controllers\Api\V1\Users\UserController;
 use App\Models\V1\Role;
-use App\Services\Api\V1\Products\ProductService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 // Roles
@@ -176,8 +174,10 @@ Route::group(['middleware' => ['auth:api']], function () {
                     }
                 );
 
+                Route::get('pharmacy_visits', [RecipeController::class, 'GetAllPharmacyRecipes']);
                 Route::group(['prefix' => 'recipes'], function () {
-                    Route::get('', [RecipeController::class, 'GetAllPharmacyRecipes']);
+                    Route::get('', [RecipeController::class, 'getProductsAssociatedWithRandomNumberForPharmacy']);
+                    Route::put('{recipe}', [RecipeController::class, 'acceptVisitorRecipeFromPharmacy']);
                 });
             }
         );
@@ -202,6 +202,7 @@ Route::group(['middleware' => ['auth:api']], function () {
                     function () {
                         Route::post('', [UserController::class, 'registerNewVisitor'])->name('doctor-visitor-register');
                         Route::post('forgot_random_number', [UserController::class, 'ForgotVisitorRandomNumber'])->name('doctor-visitor-forgot-random-number');
+                        Route::post('add_random_number', [UserController::class, 'addRandomNumberForVistior']);
                     }
                 );
             }

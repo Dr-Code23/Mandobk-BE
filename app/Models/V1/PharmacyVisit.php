@@ -21,21 +21,7 @@ class PharmacyVisit extends Model
     public function createdAt(): Attribute
     {
         return Attribute::make(
-            get: fn ($val) => $this->changeDateFormat($val, 'Y-m-d')
+            get: fn ($val) => $this->changeDateFormat($val, 'Y-m-d H:i')
         );
-    }
-    public function pharmacy_user()
-    {
-        return $this->belongsTo(User::class, 'pharmacy_id', 'id');
-    }
-
-    public function visitor_recipe()
-    {
-        return $this->belongsTo(VisitorRecipe::class);
-    }
-
-    public function doctor_user()
-    {
-        return $this->belongsTo(User::class, 'doctor_id', 'id');
     }
 }
