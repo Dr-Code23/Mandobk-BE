@@ -27,6 +27,7 @@ class OfferOrderController extends Controller
         }, 'user'])
             ->where('type', auth()->user()->role->name == 'storehouse' ? '1' : '2')
             ->where('to', '>=', date('Y-m-d'))
+            ->where('status', '1')
             ->get();
         return $this->resourceResponse(new OfferOrderCollection($offers));
     }
