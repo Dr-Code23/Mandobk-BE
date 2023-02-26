@@ -66,6 +66,7 @@ class MonitorAndEvaluationController extends Controller
                 'username' => $username,
                 'password' => Hash::make($req->password),
                 'role_id' => $req->role,
+                'status' => '1'
             ]);
             $user->role_name = $role->name;
 
