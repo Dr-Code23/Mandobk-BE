@@ -154,7 +154,7 @@ class ProductService
             }
             $productInfo = ProductInfo::where('product_id', $product->id)
                 ->where('expire_date', $request->expire_date)
-                ->where('patch_number', $request->patch_number)
+                ->orWhere('patch_number', $request->patch_number)
                 ->first();
             if ($productInfo) {
                 $productInfo->qty += $request->quantity;
