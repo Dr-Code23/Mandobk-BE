@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\Events\CustomerStatusEvent;
 use App\Events\RegisterUserEvent;
 use App\Events\TestingEvent;
 use App\Listeners\NotifyAdminForUserRegistration;
+use App\Listeners\TellCustomersAboutOrderStatus;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -25,6 +27,9 @@ class EventServiceProvider extends ServiceProvider
         RegisterUserEvent::class => [
             NotifyAdminForUserRegistration::class
         ],
+        CustomerStatusEvent::class => [
+            TellCustomersAboutOrderStatus::class
+        ]
     ];
 
     /**

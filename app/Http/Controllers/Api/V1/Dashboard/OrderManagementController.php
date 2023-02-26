@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Api\V1\Dashboard;
 
+use App\Events\CustomerStatusEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\V1\Dashboard\OrderManagement\OrderManagementCollection;
 use App\Http\Resources\Api\V1\Dashboard\OrderManagement\OrderManagementResource;
+use App\Models\V1\Offer;
 use App\Models\V1\OfferOrder;
 use App\Traits\HttpResponse;
 use App\Traits\Translatable;
@@ -72,9 +74,10 @@ class OrderManagementController extends Controller
                     'offer_orders.created_at as created_at',
                     'offers_users.full_name as offer_from_name',
                     'want_offer_users.full_name as offer_to_name',
+                    'want_offer_users.id as want_offer_id'
                 ])
                 ->first();
-
+            CustomerStatusEvent::dispatch($order, $order->want_offer_id);
             return $this->success(new OrderManagementResource($order), 'Status Changed Successfully');
         }
 

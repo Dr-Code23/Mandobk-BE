@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class RegisterUserNotification extends Notification implements ShouldQueue
+class OrderStatusNotification extends Notification
 {
     use Queueable;
 
@@ -17,7 +17,7 @@ class RegisterUserNotification extends Notification implements ShouldQueue
      * @return void
      */
     public function __construct(
-        private $user
+        private $order,
     ) {
         //
     }
@@ -55,11 +55,14 @@ class RegisterUserNotification extends Notification implements ShouldQueue
      */
     public function toArray($notifiable)
     {
+        $status = $this->order->status;
         return [
-            'id' => $this->user->id,
-            'name' => $this->user->full_name,
-            'phone' => $this->user->phone,
-            'role' => $this->user->role->name,
+            'order' => $this->order,
+            // 'id' => $this->order->id,
+            // 'status_code' => $status,
+            // 'status' => $status == 0 ? 'Rejected' : ($status == '1' ? 'Pending' : 'Approved'),
+            // 'from_date' => $this->order->offer->from,
+            // 'to_date' => $this->order->offer->to,
         ];
     }
 }

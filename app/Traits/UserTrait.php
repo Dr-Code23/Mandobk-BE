@@ -51,7 +51,7 @@ trait UserTrait
     {
         // If Authenticated User is a subuser and disabled , don't let him access data
         // But if a parent user want to access his data let him access
-        $user_id = $user_id ?? Auth::id();
+        $user_id = $user_id ?: Auth::id();
         $subusers = [];
 
         // Check If the user is a subuser

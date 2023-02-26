@@ -11,7 +11,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class RegisterUserEvent implements ShouldBroadcast
+class RegisterUserEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
     public static string $channelName = 'newUserRegister';

@@ -154,12 +154,14 @@ class RecipeController extends Controller
                     $recipe->update();
 
                     // Add This visit To the doctor
-                    DoctorVisit::create([
+                    $doctorRecipe = DoctorVisit::create([
                         'doctor_id' => Auth::id(),
                         'visitor_recipe_id' => $recipe->id,
                     ]);
 
-                    return $this->success(null, 'Recipe Sent Successfully');
+                    $doctorRecipe->alias = $recipe->alias;
+                    $doctorRecipe->created_at = date('Y-m-d H:i');
+                    return $this->success(new RecipeResource($doctorRecipe), 'Recipe Sent Successfully');
                 } else {
                     $errors['products'] = $this->translateErrorMessage('products', 'not_empty');
                 }
