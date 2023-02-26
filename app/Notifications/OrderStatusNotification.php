@@ -57,12 +57,14 @@ class OrderStatusNotification extends Notification
     {
         $status = $this->order->status;
         return [
-            'order' => $this->order,
-            // 'id' => $this->order->id,
-            // 'status_code' => $status,
-            // 'status' => $status == 0 ? 'Rejected' : ($status == '1' ? 'Pending' : 'Approved'),
-            // 'from_date' => $this->order->offer->from,
-            // 'to_date' => $this->order->offer->to,
+            'id' => $this->order->id,
+            'status' => $status == 0 ? 'Rejected' : ($status == '1' ? 'Pending' : 'Approved'),
+            'from_date' => $this->order->from_date,
+            'to_date' => $this->order->to_date,
+            'commercial_name' => $this->order->commercial_name,
+            'scientific_name' => $this->order->scientific_name,
+            'quantity' => $this->order->quantity,
+            'offer_from_name' => $this->order->offer_from_name,
         ];
     }
 }

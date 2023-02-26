@@ -317,7 +317,7 @@ class RecipeController extends Controller
                             // return $productDetails[$k];
                             $productDetails[$k]->update();
                         }
-                    } else $errors[$j]['quantity'][] = ['Product Has No Details With Expire Date Bigger Than Today'];
+                    } else $errors[$j]['quantity'][] = 'Product Has No Details With Expire Date Bigger Than Today';
                 }
                 if (!$errors) {
                     $recipeDetails[$i]['taken'] = true;

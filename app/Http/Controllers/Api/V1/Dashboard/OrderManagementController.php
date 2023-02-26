@@ -72,6 +72,8 @@ class OrderManagementController extends Controller
                     'offer_orders.qty as quantity',
                     'offer_orders.status as status',
                     'offer_orders.created_at as created_at',
+                    'offers.from as from_date',
+                    'offers.to as to_date',
                     'offers_users.full_name as offer_from_name',
                     'want_offer_users.full_name as offer_to_name',
                     'want_offer_users.id as want_offer_id'
