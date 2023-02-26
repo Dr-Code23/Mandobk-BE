@@ -83,7 +83,7 @@ class ProductService
         $selling_price = $this->setPercisionForFloatString($request->selling_price);
         $bonus = $this->setPercisionForFloatString($request->bonus);
         $concentrate = $this->setPercisionForFloatString($request->concentrate);
-        $limited = $request->limited;
+        $limited = $request->limited ? $request->limited : 0;
 
         // Check If DataEntry Has The Product Already
         // Store the barcode
