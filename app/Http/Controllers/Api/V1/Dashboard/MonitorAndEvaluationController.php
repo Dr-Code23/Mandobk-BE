@@ -64,7 +64,7 @@ class MonitorAndEvaluationController extends Controller
             $user = User::create([
                 'full_name' => $full_name,
                 'username' => $username,
-                'password' => Hash::make($req->password),
+                'password' => $req->password,
                 'role_id' => $req->role,
                 'status' => '1'
             ]);
@@ -121,7 +121,7 @@ class MonitorAndEvaluationController extends Controller
                 }
                 if ($req->has('password')) {
                     if (!Hash::check($req->password, $user->password)) {
-                        $user->password = Hash::make($req->password);
+                        $user->password = $req->password;
                         $anyChangeOccured = true;
                     }
                 }
