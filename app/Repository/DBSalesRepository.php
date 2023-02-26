@@ -49,7 +49,6 @@ class DBSalesRepository implements SalesRepositoryInterface
      */
     public function storeSale($request)
     {
-
         $products = $request->data;
         $uniqueProducts = [];
         $errors = [];
@@ -75,7 +74,10 @@ class DBSalesRepository implements SalesRepositoryInterface
 
         for ($i = 0; $i < $products_count; ++$i) {
             $productInfo = Product::where('id', $products[$i]['product_id'])
-                ->withSum('product_details', 'qty')
+                ->withSum(['product_details' => function ($query) {
+                    $query->where('expire_date', '>', date('Y-m-d'))
+                        ->where('qty', '>', 0);
+                }], 'qty')
                 ->first([
                     'com_name',
                     'sc_name',
@@ -113,13 +115,13 @@ class DBSalesRepository implements SalesRepositoryInterface
 
         // ? Send To Who ?
         $buyerId = null;
-
+        $loggedUserRole = $this->getRoleNameForAuthenticatedUser();
         if ($this->roleNameIn(['pharmacy', 'pharmacy_sub_user'])) {
             $buyerId = User::where('username', 'customer')->value('id');
-        } elseif ($this->getRoleNameForAuthenticatedUser() == 'company') {
+        } elseif ($loggedUserRole == 'company') {
             $buyerId = User::where('id', $request->buyer_id)
                 ->whereIn('role_id', $this->getRolesIdsByName(['storehouse']))->value('id');
-        } elseif ($this->getRoleNameForAuthenticatedUser() == 'storehouse') {
+        } elseif ($loggedUserRole == 'storehouse') {
             $buyerId = User::where('id', $request->buyer_id)
                 ->whereIn('role_id', $this->getRolesIdsByName(['pharmacy']))
                 ->value('id');
@@ -161,7 +163,7 @@ class DBSalesRepository implements SalesRepositoryInterface
                     $detail->qty = 0;
                 }
                 $detail->update();
-                $index++;
+                ++$index;
             }
 
             $totalSales += ($productInfo['selling_price'] * $productInfo['quantity']);

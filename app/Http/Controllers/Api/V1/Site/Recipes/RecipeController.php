@@ -10,11 +10,14 @@ use App\Http\Resources\Api\V1\Site\Recipe\RecipeCollection;
 use App\Http\Resources\Api\V1\Site\Recipe\RecipeResource;
 use App\Http\Resources\Api\V1\Site\Recipes\PharmacyRecipeCollection;
 use App\Http\Resources\Api\V1\Site\VisitorRecipe\VisitorRecipeResource;
+use App\Models\User;
 use App\Models\V1\Archive;
 use App\Models\V1\DoctorVisit;
 use App\Models\V1\PharmacyVisit;
 use App\Models\V1\Product;
 use App\Models\V1\ProductInfo;
+use App\Models\V1\Sale;
+use App\Models\V1\SubUser;
 use App\Models\V1\VisitorRecipe;
 use App\Services\Api\V1\Site\Recipe\RecipeService;
 use App\Traits\HttpResponse;
@@ -207,36 +210,6 @@ class RecipeController extends Controller
         return $this->notFoundResponse('Random Number Not Exists');
     }
 
-    // private function moveProductsToArchive(int $random_number): bool
-    // {
-    //     if (is_numeric($random_number)) {
-    //         $visitor_recipe = VisitorRecipe::where('random_number', $random_number)->first(['id', 'details']);
-    //         if ($visitor_recipe) {
-    //             $visitor_details = $visitor_recipe->details;
-    //             $visitor_recipe->details = [];
-    //             $visitor_recipe->update();
-    //             $archive = Archive::where('random_number', $random_number)->first(['id', 'details']);
-    //             $new_details = $visitor_details;
-    //             if ($archive) {
-    //                 $new_details = array_merge($archive->details, $new_details);
-    //                 $archive->details = $new_details;
-    //                 $archive->update();
-
-    //                 return true;
-    //             } else {
-    //                 Archive::create([
-    //                     'random_number' => $random_number,
-    //                     'details' => $new_details,
-    //                 ]);
-
-    //                 return true;
-    //             }
-    //         }
-    //     }
-
-    //     return false;
-    // }
-
     public function getAllPharmacyRecipes(RecipeService $recipeService)
     {
         return $this->resourceResponse(new PharmacyRecipeCollection($recipeService->getAllPharmacyRecipes()));
@@ -258,10 +231,25 @@ class RecipeController extends Controller
         $recipeDetailsCount = count($recipeDetails);
 
         $printVisitorRecipe = [];
-        // return $recipeDetails;
         $errors = [];
         $validProducts = [];
-        $data = $request->data;
+        $requestData = $request->data;
+
+        // Merge Repeated Products
+        $data = [];
+        foreach ($requestData as $product) {
+            $productFound = false;
+
+            for ($i = 0; $i < count($data); $i++) {
+                if ($product['commercial_name'] == $data[$i]['commercial_name']) {
+                    $data[$i]['quantity'] += $product['quantity'];
+                    $productFound = true;
+                }
+            }
+            if (!$productFound) $data[] = $product;
+        }
+
+        // return $data;
         for ($j = 0; $j < count($data); $j++) {
             $productFound = false;
             for ($i = 0; $i < $recipeDetailsCount; $i++) {
@@ -269,7 +257,6 @@ class RecipeController extends Controller
                     // then Product In Visitor Cart
 
                     $productFound = true;
-                    // Start validating the quantity
 
                     $userProduct = Product::whereIn('com_name', [
                         $data[$j]['commercial_name'],
@@ -285,62 +272,86 @@ class RecipeController extends Controller
                         ->first();
 
                     if ($userProduct) {
-                        // Start Validation The Quantity
                         if ($userProduct->product_details_sum_qty >= $data[$j]['quantity']) {
-                            // Then Everything Is Valid , start appending the products
-                            $validProducts[] = $userProduct;
-                        } else $errors[$j]['quantity'] = ['Quantity Is bigger Than Existing Qty Which is ' . $userProduct->product_details_sum_qty];
-                    } else $errors[$j]['product'] = 'Product Not Found';
+                            if ($data[$j]['quantity'] == $recipeDetails[$i]['quantity']) {
+                                // Then Everything Is Valid , start appending the products
+                                $validProducts[] = $userProduct;
+                            } else $errors[$j]['quantity'][] = 'Quantity Not Equal To Doctor Recipe Quantity';
+                        } else $errors[$j]['quantity'][] = 'Quantity Is bigger Than Existing Qty Which is ' . $userProduct->product_details_sum_qty;
+                    } else $errors[$j]['product'][] = 'Product Not Found';
                     // break;
                 }
             }
 
-            if (!$productFound) $errors[$j]['product'] = 'Product Not Found in Visitor cart';
+            if (!$productFound) $errors[$j]['product'][] = 'Product Not Found in Visitor cart';
         }
-
         //! Very Bad Performace !
         //O (N * M * K)
+
         if (!$errors) {
+            $saleDetails = [];
+            $saleTotal = 0;
             for ($i = 0; $i < $recipeDetailsCount; $i++) {
                 for ($j = 0; $j < count($validProducts); $j++) {
                     // Remove The Element From the Visitor Cart And Update User Product Quantity
 
                     $productDetails = ProductInfo::where('product_id', $validProducts[$j]->id)
                         ->latest('qty')
+                        ->where('qty', '>', 0)
                         ->where('expire_date', '>', date('Y-m-d'))
                         ->get(['id', 'qty']);
                     if ($productDetails) {
                         $tmpVisitorProductQuantity = $recipeDetails[$i]['quantity'];
-                        for ($k = 0; $k < count($productDetails) && $tmpVisitorProductQuantity; $k++) {
+                        for ($k = 0; $k < count($productDetails) && $tmpVisitorProductQuantity > 0; $k++) {
 
                             // If Product Has Enough Quantity , decreate Visitor Quantity
                             if ($productDetails[$k]->qty >= $tmpVisitorProductQuantity) {
+                                $saleTotal += ($tmpVisitorProductQuantity * $validProducts[$j]->sel_price);
                                 $productDetails[$k]->qty -= $tmpVisitorProductQuantity;
                                 $tmpVisitorProductQuantity = 0;
                             } else {
+                                $saleTotal += ($productDetails[$k]->qty * $validProducts[$j]->sel_price);
                                 $tmpVisitorProductQuantity -= $productDetails[$k]->qty;
                                 $productDetails[$k]->qty = 0;
                             }
                             // return $productDetails[$k];
                             $productDetails[$k]->update();
                         }
-                    } else $errors[$j]['quantity'] = ['Product Has No Details With Expire Date Bigger Than Today'];
+                    } else $errors[$j]['quantity'][] = ['Product Has No Details With Expire Date Bigger Than Today'];
                 }
                 if (!$errors) {
                     $recipeDetails[$i]['taken'] = true;
                     $printVisitorRecipe[] = $recipeDetails[$i];
+                    $saleDetails[] = [
+                        'commercial_name' => $userProduct->com_name,
+                        'scientific_name' => $userProduct->sc_name,
+                        'selling_price' => $userProduct->sel_price,
+                        'purchase_price' => $userProduct->pur_price,
+                        'quantity' => $recipeDetails[$i]['quantity']
+                    ];
                     // Remove The item From Visitor Cart
                     unset($recipeDetails[$i]);
                     $recipeDetailsCount--;
                 }
             }
-            if ($recipeDetailsCount == 0) {
-                // $recipe->update([
-                //     'details' => []
-                // ]);
-                // Everything Done Correctly , Return Valid Products For Printing
-                return $this->success($printVisitorRecipe);
+
+            $recipe->update([
+                'details' => $recipeDetailsCount == 0 ? [] : $recipeDetails
+            ]);
+
+            $fromId = auth()->id();
+            if ($this->getRoleNameForAuthenticatedUser() != 'pharmacy') {
+                $parentId = SubUser::where('sub_user_id', auth()->id())->value('parent_id');
+                if ($parentId) $fromId = $parentId;
             }
+            Sale::create([
+                'from_id' => $fromId,
+                'to_id' => User::where('username', 'customer')->value('id'),
+                'details' => $saleDetails,
+                'total' => $saleTotal,
+                'type' => '3'
+            ]);
+            return $this->success($printVisitorRecipe);
         }
         return $this->validation_errors($errors);
     }
