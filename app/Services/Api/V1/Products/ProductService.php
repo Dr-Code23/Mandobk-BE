@@ -199,13 +199,4 @@ class ProductService
         )
             ->get(['id', 'com_name as commercial_name', 'limited']);
     }
-
-    //? For Testing Only
-    public function testGetOneProduct()
-    {
-
-        $product = Product::where('id', 1)->first();
-
-        return $this->resourceResponse(new ProductResource($product));
-    }
 }
