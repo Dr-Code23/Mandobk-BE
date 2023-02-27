@@ -31,7 +31,6 @@ class AuthService
      */
     public function signup($request): User|string|array
     {
-
         // Check If Username Or Phone Exists
         $exists = User::where('username', $request->username)->orWhere('phone', $request->phone)
             ->first(['username', 'phone']);
