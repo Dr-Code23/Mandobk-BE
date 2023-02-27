@@ -353,7 +353,6 @@ class RecipeController extends Controller
             //     'details' => $recipeDetailsCount == 0 ? [] : $recipeDetails
             // ]);
 
-
             $fromId = auth()->id();
             if ($this->getRoleNameForAuthenticatedUser() != 'pharmacy') {
                 $parentId = SubUser::where('sub_user_id', auth()->id())->value('parent_id');
