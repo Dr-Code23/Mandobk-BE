@@ -137,6 +137,7 @@ class ProductService
             }
 
 
+
             // Update All Products To new Admin Values Only If Changed
             if ($this->roleNameIn(['ceo', 'data_entry'])) {
                 Product::where('barcode', $barcode_value)->orWhere('com_name', $commercial_name)
