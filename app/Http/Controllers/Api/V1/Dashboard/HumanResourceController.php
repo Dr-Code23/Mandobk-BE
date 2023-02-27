@@ -16,9 +16,20 @@ use Illuminate\Http\JsonResponse;
 
 class HumanResourceController extends Controller
 {
-    use Translatable;
-    use HttpResponse;
-    use DateTrait;
+    use Translatable, HttpResponse, DateTrait;
+
+    /**
+     * @var HumanResource
+     */
+    protected HumanResource $humanResourceModel;
+
+    /**
+     * @param HumanResource $humanResource
+     */
+    public function __construct(HumanResource $humanResource)
+    {
+        $this->humanResourceModel = $humanResource;
+    }
 
     /**
      * Show All Users For Human Resource
@@ -92,7 +103,6 @@ class HumanResourceController extends Controller
      */
     public function storeOrUpdate(HumanResourceRequest $request, HumanResourceService $humanResourceService): JsonResponse
     {
-
         $humanResource = $humanResourceService->storeOrUpdate($request);
         if ($humanResource != null) {
             return $this->success(new HumanResourceResource($humanResource), 'Resource Created Successfully');

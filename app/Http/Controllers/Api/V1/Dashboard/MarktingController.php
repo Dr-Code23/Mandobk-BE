@@ -15,9 +15,7 @@ use Illuminate\Http\JsonResponse;
 
 class MarktingController extends Controller
 {
-    use HttpResponse;
-    use StringTrait;
-    use FileOperationTrait;
+    use HttpResponse, StringTrait, FileOperationTrait;
 
     /**
      * Show All Ads

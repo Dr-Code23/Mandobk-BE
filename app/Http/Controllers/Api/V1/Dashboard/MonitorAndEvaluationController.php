@@ -7,27 +7,28 @@ use App\Http\Requests\Api\V1\Dashboard\MonitorAndEvaluationRequest;
 use App\Http\Resources\Api\V1\Dashboard\MonitorAndEvaluation\MonitorAndEvaluationCollection;
 use App\Http\Resources\Api\V1\Dashboard\MonitorAndEvaluation\MonitorAndEvaluationResrouce;
 use App\Models\User;
-use App\Models\V1\Role;
 use App\Services\Api\V1\Dashboard\MonitorAndEvaluationService;
 use App\Traits\HttpResponse;
 use App\Traits\StringTrait;
 use App\Traits\Translatable;
 use App\Traits\UserTrait;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 
 class MonitorAndEvaluationController extends Controller
 {
-    use HttpResponse;
-    use StringTrait;
-    use HttpResponse;
-    use Translatable;
-    use UserTrait;
+    use HttpResponse, StringTrait, HttpResponse, Translatable, UserTrait;
 
-    public function __construct(
-        private MonitorAndEvaluationService $monitorService
-    ) {
+    /**
+     * @var MonitorAndEvaluationService
+     */
+    protected MonitorAndEvaluationService $monitorService;
+
+    /**
+     * @param MonitorAndEvaluationService $monitorService
+     */
+    public function __construct(MonitorAndEvaluationService $monitorService)
+    {
+        $this->monitorService = $monitorService;
     }
 
     /**
@@ -37,12 +38,14 @@ class MonitorAndEvaluationController extends Controller
      */
     public function index(): JsonResponse
     {
-        return $this->resourceResponse(new MonitorAndEvaluationCollection($this->monitorService->index()));
+        return
+            $this->resourceResponse(new MonitorAndEvaluationCollection($this->monitorService->index()));
     }
 
     /**
      * Show One User.
      *
+     * @param User $user
      * @return JsonResponse
      */
     public function show(User $user): JsonResponse
@@ -50,13 +53,14 @@ class MonitorAndEvaluationController extends Controller
         $user = $this->monitorService->show($user);
 
         if ($user instanceof User) {
-
             return $this->resourceResponse(new MonitorAndEvaluationResrouce($user));
-        } else if (isset($user['role'])) return $this->validation_errors($user);
+
+        } elseif (isset($user['role'])) {
+            return $this->validation_errors($user);
+        }
+
         return $this->error($user);
     }
-
-
 
     /**
      * Store User For Admin
@@ -67,18 +71,22 @@ class MonitorAndEvaluationController extends Controller
     public function store(MonitorAndEvaluationRequest $request): JsonResponse
     {
         $newUser = $this->monitorService->store($request);
+
         if ($newUser instanceof User) {
-            return $this->success(new MonitorAndEvaluationResrouce($newUser), $this->translateSuccessMessage('user', 'created'));
+            return $this->success(
+                new MonitorAndEvaluationResrouce($newUser),
+                $this->translateSuccessMessage('user', 'created')
+            );
         }
 
         return $this->validation_errors($newUser);
     }
 
-
-
     /**
      * Update User
      *
+     * @param MonitorAndEvaluationRequest $req
+     * @param User $user
      * @return JsonResponse
      */
     public function update(MonitorAndEvaluationRequest $req, User $user): JsonResponse
@@ -101,6 +109,7 @@ class MonitorAndEvaluationController extends Controller
     public function destroy(User $user): JsonResponse
     {
         $deleted = $this->monitorService->destroy($user);
+
         if (is_bool($deleted) && $deleted) {
             return $this->success(msg: $this->translateSuccessMessage('user', 'deleted'));
         }
