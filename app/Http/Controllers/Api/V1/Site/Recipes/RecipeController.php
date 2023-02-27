@@ -349,9 +349,9 @@ class RecipeController extends Controller
                 }
             }
 
-            // $recipe->update([
-            //     'details' => $recipeDetailsCount == 0 ? [] : $recipeDetails
-            // ]);
+            $recipe->update([
+                'details' => $recipeDetailsCount == 0 ? [] : $recipeDetails
+            ]);
 
             $fromId = auth()->id();
             if ($this->getRoleNameForAuthenticatedUser() != 'pharmacy') {
