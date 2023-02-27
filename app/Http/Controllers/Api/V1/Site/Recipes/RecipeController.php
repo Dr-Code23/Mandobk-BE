@@ -80,7 +80,21 @@ class RecipeController extends Controller
     {
 
         $errors = [];
-        $products = $request->input('products');
+
+        // Merge Repeated Products
+        $uniqueProducts = [];
+        foreach ($request->input('products') as $product) {
+            $productFound = false;
+            for ($i = 0; $i < count($uniqueProducts); $i++) {
+                if ($product['product_id'] == $uniqueProducts[$i]['product_id']) {
+                    $uniqueProducts[$i]['quantity'] += $product['quantity'];
+                    $productFound = true;
+                    break;
+                }
+            }
+            if (!$productFound) $uniqueProducts[] = $product;
+        }
+        $products = $uniqueProducts;
         // Store all limited products in that array
         $limited_products = [];
 

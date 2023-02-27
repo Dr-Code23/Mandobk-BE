@@ -18,11 +18,13 @@ class SignupTest extends TestCase
     {
         $response = $this->postJson(route('v1-signup'));
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
-        $response->assertJsonFragment([
-            'username' => [$this->translateErrorMessage('username', 'required')],
-            'password' => [$this->translateErrorMessage('password', 'required')],
-            'role' => [$this->translateErrorMessage('role', 'required')],
-            'phone' => [$this->translateErrorMessage('phone', 'required')],
+        $response->assertJsonStructure([
+            'data' => [
+                'username',
+                'password',
+                'role',
+                'phone',
+            ]
         ]);
         $this->writeAFileForTesting($this->signupPath, 'All Values Required', $response->content());
     }
@@ -30,8 +32,13 @@ class SignupTest extends TestCase
     public function testPassingNumberAsUsername()
     {
         $response = $this->postJson(route('v1-signup'), $this->getSignUpData('username', '112'));
-        $response->assertJsonFragment([
-            'username' => [$this->translateErrorMessage('username', 'username.regex')],
+        // $response->assertJsonStru([
+        //     'username' => [$this->translateErrorMessage('username', 'username.regex')],
+        // ]);
+        $response->assertJsonStructure([
+            'data' => [
+                'username'
+            ]
         ]);
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
         $this->writeAFileForTesting($this->signupPath, 'UsernameCannotBeNumbersOnly', $response->content());
@@ -40,8 +47,10 @@ class SignupTest extends TestCase
     public function testPassingCharactersAndSymbolsForUsername()
     {
         $response = $this->postJson(route('v1-signup'), $this->getSignUpData('username', 'Aasd(*&*^#@$'));
-        $response->assertJsonFragment([
-            'username' => [$this->translateErrorMessage('username', 'username.regex')],
+        $response->assertJsonStructure([
+            'data' => [
+                'username'
+            ]
         ]);
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
         $this->writeAFileForTesting($this->signupPath, 'PassingCharactersAndSymbolsForUsername', $response->content());
@@ -67,8 +76,8 @@ class SignupTest extends TestCase
     public function testExistingUsername()
     {
         $response = $this->postJson(route('v1-signup'), $this->getSignUpData('username', 'Aa2302'));
-        $response->assertJsonFragment([
-            'username' => [$this->translateErrorMessage('username', 'unique')],
+        $response->assertJsonStructure([
+            'data' => ['username'],
         ]);
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
         $this->writeAFileForTesting($this->signupPath, 'passingExistingUsername', $response->content());

@@ -21,7 +21,7 @@ trait Translatable
 
     public function translateSuccessMessage(string $name, string $key): string
     {
-        return $this->translateErrorMessage($name, $key);
+        return  __('messages.' . $name) . ' ' . __('messages.' . $key);
     }
 
     /**
@@ -29,11 +29,11 @@ trait Translatable
      */
     public function translateErrorMessage(string $name, string $key): string
     {
-        return __('messages.'.$name).' '.__('validation.'.$key);
+        return __('messages.' . $name) . ' ' . __('validation.' . $key);
     }
 
     public function translateWord(string $word): string|null
     {
-        return __('messages.'.$word);
+        return __('messages.' . $word);
     }
 }

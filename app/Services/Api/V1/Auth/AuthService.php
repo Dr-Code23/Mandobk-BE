@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\V1\Role;
 use App\Traits\RoleTrait;
 use App\Traits\StringTrait;
+use App\Traits\Translatable;
 use App\Traits\UserTrait;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,6 +16,7 @@ class AuthService
     use StringTrait;
     use RoleTrait;
     use UserTrait;
+    use Translatable;
 
     public function __construct(
         protected User $userModel
@@ -25,21 +27,29 @@ class AuthService
      * Make Account For New User.
      *
      * @param $request
-     * @return bool
+     * @return User|string|array
      */
-    public function signup($request): bool
+    public function signup($request): User|string|array
     {
-        $roleName = Role::where('id', $request->role)->value('name');
 
-        // return $request->validated();
-        if (in_array($roleName, config('roles.signup_roles'))) {
-            // Valid Data
-            $this->userModel->create($request->validated() + ['role_id' => $request->role]);
-            return true;
+        // Check If Username Or Phone Exists
+        $exists = User::where('username', $request->username)->orWhere('phone', $request->phone)
+            ->first(['username', 'phone']);
+        if (!$exists) {
+            $roleName = $this->getRoleNameById($request->role);
+
+            if (in_array($roleName, config('roles.signup_roles'))) {
+                // Valid Data
+                $user = $this->userModel->create($request->validated() + ['role_id' => $request->role]);
+                return $user;
+            }
+
+            return  $this->translateErrorMessage('role', 'not_found');
+        } else {
+            if ($request->username == $exists->username) $error['username'][] = $this->translateErrorMessage('username', 'exists');
+            else $error['phone'][]  = $this->translateErrorMessage('phone', 'exists');
         }
-
-        // Role Is not found
-        return false;
+        return $error;
     }
 
     /**
