@@ -37,6 +37,7 @@ class AuthService
         if (!$exists) {
             $roleName = $this->getRoleNameById($request->role);
 
+
             if (in_array($roleName, config('roles.signup_roles'))) {
                 // Valid Data
                 $user = $this->userModel->create($request->validated() + ['role_id' => $request->role]);
