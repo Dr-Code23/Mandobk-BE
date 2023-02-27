@@ -17,24 +17,25 @@ class RegisterUserEvent
     public static string $channelName = 'newUserRegister';
     public array $payload;
 
+    public $user;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(public $user)
+    public function __construct($user)
     {
-        //
+        $this->user = $user;
     }
 
-    /**
-     * Get the channels the event should broadcast on.
-     *
-     * @return \Illuminate\Broadcasting\Channel|array
-     */
-    public function broadcastOn()
-    {
-        $this->payload = PrepareNotificationPayload::make('New User Registered', $this->user->created_at);
-        return new PrivateChannel(self::$channelName);
-    }
+    // /**
+    //  * Get the channels the event should broadcast on.
+    //  *
+    //  * @return \Illuminate\Broadcasting\Channel|array
+    //  */
+    // public function broadcastOn()
+    // {
+    //     $this->payload = PrepareNotificationPayload::make('New User Registered', $this->user->created_at);
+    //     return new PrivateChannel(self::$channelName);
+    // }
 }

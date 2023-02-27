@@ -224,7 +224,7 @@ Route::group(['middleware' => ['auth:api']], function () {
                     function () {
                         Route::get('', [ArchiveController::class, 'index'])->name('archive-all');
                         Route::get('{archive}', [ArchiveController::class, 'show'])->name('archive-one');
-                        Route::post('', [ArchiveController::class, 'moveFromRandomNumberProducts'])->name('archive-move');
+                        Route::post('', [ArchiveController::class, 'moveProductsToArchive'])->name('archive-move');
                     }
                 );
                 Route::group(

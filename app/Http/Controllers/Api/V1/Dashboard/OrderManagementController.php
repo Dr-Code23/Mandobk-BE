@@ -6,18 +6,21 @@ use App\Events\CustomerStatusEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\V1\Dashboard\OrderManagement\OrderManagementCollection;
 use App\Http\Resources\Api\V1\Dashboard\OrderManagement\OrderManagementResource;
-use App\Models\V1\Offer;
 use App\Models\V1\OfferOrder;
 use App\Traits\HttpResponse;
 use App\Traits\Translatable;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class OrderManagementController extends Controller
 {
-    use HttpResponse;
-    use Translatable;
+    use HttpResponse, Translatable;
 
-    public function index(Request $request)
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function index(Request $request): \Illuminate\Http\JsonResponse
     {
         return $this->resourceResponse(new OrderManagementCollection(
             OfferOrder::join(
@@ -50,7 +53,12 @@ class OrderManagementController extends Controller
         ));
     }
 
-    public function acceptPendingOrders(Request $request, OfferOrder $order)
+    /**
+     * @param Request $request
+     * @param OfferOrder $order
+     * @return \Illuminate\Http\JsonResponse|Response
+     */
+    public function acceptPendingOrders(Request $request, OfferOrder $order): Response|\Illuminate\Http\JsonResponse
     {
         if ($order->status == '1') {
             $order->status = $request->input('approve') ? '2' : '0';
@@ -77,9 +85,9 @@ class OrderManagementController extends Controller
                     'offers_users.full_name as offer_from_name',
                     'want_offer_users.full_name as offer_to_name',
                     'want_offer_users.id as want_offer_id'
-                ])
-                ->first();
+                ])->first();
             CustomerStatusEvent::dispatch($order, $order->want_offer_id);
+
             return $this->success(new OrderManagementResource($order), 'Status Changed Successfully');
         }
 

@@ -7,6 +7,7 @@ use App\Http\Requests\Api\V1\Dashboard\MarktingRequest;
 use App\Http\Resources\Api\V1\Dashboard\Markting\MarktingCollection;
 use App\Http\Resources\Api\V1\Dashboard\Markting\MarktingResource;
 use App\Models\V1\Markting;
+use App\Services\Api\V1\Dashboard\MarktingService;
 use App\Traits\FileOperationTrait;
 use App\Traits\HttpResponse;
 use App\Traits\StringTrait;
@@ -17,7 +18,7 @@ class MarktingController extends Controller
     use HttpResponse, StringTrait, FileOperationTrait;
 
     /**
-     * List All Ads For Markting Role.
+     * Show All Ads
      *
      * @return JsonResponse
      */
@@ -27,7 +28,7 @@ class MarktingController extends Controller
     }
 
     /**
-     * Fetch One Ad For Markting Role.
+     * Show One Ad
      *
      * @param Markting $ad
      * @return JsonResponse
@@ -38,86 +39,48 @@ class MarktingController extends Controller
     }
 
     /**
+     * Store Ad
+     *
      * @param MarktingRequest $request
+     * @param MarktingService $marktingService
      * @return JsonResponse
      */
-    public function store(MarktingRequest $request)
+    public function store(MarktingRequest $request, MarktingService $marktingService): JsonResponse
     {
-        $medicine_name = $this->sanitizeString($request->medicine_name);
-        $company_name = $this->sanitizeString($request->company_name);
-        $discount = $this->setPercisionForFloatString($request->discount);
-        // Check if the ad is already exists
-        if (!Markting::where('medicine_name', $medicine_name)->where('company_name', $company_name)->where('discount', $discount)->value('id')) {
-            // Store image
+        $ad = $marktingService->store($request);
 
-            // Change Directory Permissions To Show images
-            $image_name = explode('/', $request->file('img')->store('public/markting'));
-            $image_name = $image_name[count($image_name) - 1];
-            $ad = Markting::create([
-                'medicine_name' => $medicine_name,
-                'company_name' => $company_name,
-                'discount' => $discount,
-                'img' => $image_name,
-            ]);
-
+        if ($ad instanceof Markting) {
             return $this->success(new MarktingResource($ad), 'Ad Created Successfully');
         }
 
-        return $this->validation_errors(['ad' => 'The Same Ad Is Already exists']);
+        return $this->validation_errors($ad);
     }
 
     /**
+     * Update Ad
+     *
      * @param MarktingRequest $request
      * @param Markting $ad
-     * @return JsonResponse|\Illuminate\Http\Response
+     * @param MarktingService $marktingService
+     * @return JsonResponse
      */
-    public function update(MarktingRequest $request, Markting $ad)
+    public function update(MarktingRequest $request, Markting $ad, MarktingService $marktingService): JsonResponse
     {
-        $medicine_name = $this->sanitizeString($request->medicine_name);
-        $company_name = $this->sanitizeString($request->company_name);
-        $discount = $this->setPercisionForFloatString($request->discount);
-        // Check if the ad is already exists
-        if (!Markting::where('medicine_name', $medicine_name)->where('company_name', $company_name)->where('discount', $discount)->where('id', '!=', $ad->id)->first(['id'])) {
-            $image_name = null;
-            $anyChangeOccured = false;
-            if ($request->has('img')) {
-                // Delete The Old Image
-                if ($this->deleteImage('markting/' . $ad->img)) {
-                    // Store image
-                    $image_name = explode('/', $request->file('img')->store('public/markting'));
-                    $image_name = $image_name[count($image_name) - 1];
-                    $anyChangeOccured = true;
-                }
-            }
-            if ($ad->medicine_name != $medicine_name) {
-                $ad->medicine_name = $medicine_name;
-                $anyChangeOccured = true;
-            }
-            if ($ad->company_name != $company_name) {
-                $ad->company_name = $company_name;
-                $anyChangeOccured = true;
-            }
-            if ($ad->discount != $discount) {
-                $ad->discount = $discount;
-                $anyChangeOccured = true;
-            }
+        $ad = $marktingService->update($request, $ad);
 
-            if ($image_name) {
-                $ad->img = $image_name;
-            }
-            if ($anyChangeOccured) {
-                $ad->update();
+        if ($ad instanceof Markting)
+            return $this->success(new MarktingResource($ad), 'Ad Updated Successfully');
 
-                return $this->success(new MarktingResource($ad), 'Ad Updated Successfully');
-            }
-
-            return $this->noContentResponse();
-        }
-
-        return $this->validation_errors(['ad' => 'The Same Ad Is Already exists']);
+        return $this->validation_errors($ad);
     }
 
-    public function destroy(Markting $ad)
+    /**
+     * Delete Ad
+     *
+     * @param Markting $ad
+     * @return JsonResponse
+     */
+    public function destroy(Markting $ad): JsonResponse
     {
         $this->deleteImage('markting/' . $ad->img);
         $ad->delete();

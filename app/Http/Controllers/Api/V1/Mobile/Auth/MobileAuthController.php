@@ -14,8 +14,7 @@ use Illuminate\Support\Facades\Auth;
 
 class MobileAuthController extends Controller
 {
-    use HttpResponse;
-    use Translatable;
+    use HttpResponse, Translatable;
 
     /**
      * Login User
@@ -26,8 +25,8 @@ class MobileAuthController extends Controller
      */
     public function login(LoginRequest $request, AuthService $authService): JsonResponse
     {
-
         $user = $authService->login($request, true);
+
         if ($user)
             return $this->success($user, __('standard.logged_in'));
 

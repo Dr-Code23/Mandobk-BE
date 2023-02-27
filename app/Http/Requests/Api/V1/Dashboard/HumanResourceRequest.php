@@ -4,7 +4,9 @@ namespace App\Http\Requests\Api\V1\Dashboard;
 
 use App\Traits\HttpResponse;
 use App\Traits\Translatable;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\ValidationException;
 
 class HumanResourceRequest extends FormRequest
 {
@@ -37,8 +39,6 @@ class HumanResourceRequest extends FormRequest
         $rules =  [
             'user_id' => 'required',
             'status' => ['required', 'in:0,1,2'],
-            // 'attendance' => ['required_if:status,0', 'date_format:H:i'],
-            // 'departure' => ['required_if:status,0', 'date_format:H:i', 'after:attendance'],
             'date' => ['required', 'date_format:Y-m-d', 'before_or_equal:today'],
         ];
         if ($attendance) {
@@ -49,7 +49,12 @@ class HumanResourceRequest extends FormRequest
         return $rules;
     }
 
-    public function messages()
+    /**
+     * Custom Validaiton Messages
+     *
+     * @return array
+     */
+    public function messages(): array
     {
         return [
             'user_id.required' => $this->translateErrorMessage('user_id', 'required'),
@@ -64,8 +69,14 @@ class HumanResourceRequest extends FormRequest
         ];
     }
 
-    public function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
+    /**
+     * Custom Validation Response
+     *
+     * @param Validator $validator
+     * @throws ValidationException
+     */
+    public function failedValidation(Validator $validator): void
     {
-        throw new \Illuminate\Validation\ValidationException($validator, $this->validation_errors($validator->errors()));
+        throw new ValidationException($validator, $this->validation_errors($validator->errors()));
     }
 }

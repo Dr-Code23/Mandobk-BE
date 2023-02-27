@@ -4,6 +4,7 @@ namespace App\Http\Requests\Api\V1\Dashboard;
 
 use App\Traits\HttpResponse;
 use App\Traits\Translatable;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 
@@ -33,10 +34,19 @@ class MarktingRequest extends FormRequest
             'medicine_name' => ['required', 'not_regex:' . config('regex.not_fully_numbers_symbols')],
             'company_name' => ['required', 'not_regex:' . config('regex.not_fully_numbers_symbols')],
             'discount' => ['bail', 'required', 'numeric', 'between:0,100'],
-            'img' => [$this->routeIs('markting_store') ? 'required' : 'sometimes', 'mimes:png,svg,jpg,jpeg', 'max:2048'],
+            'img' => [
+                $this->routeIs('markting_store') ? 'required' : 'sometimes',
+                'mimes:png,svg,jpg,jpeg',
+                'max:2048'
+            ],
         ];
     }
 
+    /**
+     * Custom Messages
+     *
+     * @return array
+     */
     public function messages()
     {
         return [
@@ -52,7 +62,13 @@ class MarktingRequest extends FormRequest
         ];
     }
 
-    public function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
+    /**
+     * Custom Response
+     *
+     * @param Validator $validator
+     * @throws ValidationException
+     */
+    public function failedValidation(Validator $validator): void
     {
         throw new ValidationException($validator, $this->validation_errors($validator->errors()));
     }

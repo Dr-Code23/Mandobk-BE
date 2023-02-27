@@ -7,153 +7,113 @@ use App\Http\Requests\Api\V1\Dashboard\MonitorAndEvaluationRequest;
 use App\Http\Resources\Api\V1\Dashboard\MonitorAndEvaluation\MonitorAndEvaluationCollection;
 use App\Http\Resources\Api\V1\Dashboard\MonitorAndEvaluation\MonitorAndEvaluationResrouce;
 use App\Models\User;
-use App\Models\V1\Role;
+use App\Services\Api\V1\Dashboard\MonitorAndEvaluationService;
 use App\Traits\HttpResponse;
 use App\Traits\StringTrait;
 use App\Traits\Translatable;
 use App\Traits\UserTrait;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\JsonResponse;
 
 class MonitorAndEvaluationController extends Controller
 {
-    use HttpResponse;
-    use StringTrait;
-    use HttpResponse;
-    use Translatable;
-    use UserTrait;
+    use HttpResponse, StringTrait, HttpResponse, Translatable, UserTrait;
 
+    /**
+     * @var MonitorAndEvaluationService
+     */
+    protected MonitorAndEvaluationService $monitorService;
 
-    public function index()
+    /**
+     * @param MonitorAndEvaluationService $monitorService
+     */
+    public function __construct(MonitorAndEvaluationService $monitorService)
     {
-        // Monitor Collection Not Works Maybe because different models
-        return $this->resourceResponse(
-            new MonitorAndEvaluationCollection(
-                User::join('roles', 'roles.id', 'users.role_id')
-                    ->whereIn('roles.name', config('roles.monitor_roles'))
-                    ->where('users.id', '!=', Auth::id())
-                    ->select(
-                        [
-                            'users.id',
-                            'users.full_name',
-                            'users.username',
-                            'users.role_id',
-                            'roles.name as role_name',
-                            'users.created_at',
-                            'users.updated_at',
-                        ]
-                    )
-                    ->get()
-            )
-        );
+        $this->monitorService = $monitorService;
     }
 
     /**
-     * Summary of store.
+     * Show All Users For Monitor
      *
-     * @return \Illuminate\Http\JsonResponse|array
+     * @return JsonResponse
      */
-    public function store(MonitorAndEvaluationRequest $req)
+    public function index(): JsonResponse
     {
-        $full_name = $this->sanitizeString($req->full_name);
-        $username = $this->sanitizeString($req->username);
-
-        // Check if role belong to monitor
-        if ($role = Role::where('id', $req->role)->whereIn('name', config('roles.monitor_roles'))->first(['name'])) {
-            // Store Data
-            $user = User::create([
-                'full_name' => $full_name,
-                'username' => $username,
-                'password' => $req->password,
-                'role_id' => $req->role,
-                'status' => '1'
-            ]);
-            $user->role_name = $role->name;
-
-            return $this->success(new MonitorAndEvaluationResrouce($user), 'User Created Successfully');
-        }
-
-        return $this->validation_errors($this->translateErrorMessage('role', 'not_found'));
+        return
+            $this->resourceResponse(new MonitorAndEvaluationCollection($this->monitorService->index()));
     }
 
     /**
      * Show One User.
      *
-     * @return \Illuminate\Http\JsonResponse|array
+     * @param User $user
+     * @return JsonResponse
      */
-    public function show(User $user)
+    public function show(User $user): JsonResponse
     {
-        if ($user->id != Auth::id()) {
-            if ($role = Role::where('id', $user->role_id)->whereIn('name', config('roles.monitor_roles'))->first(['name'])) {
-                $user->role_name = $role->name;
+        $user = $this->monitorService->show($user);
 
-                return $this->resourceResponse(new MonitorAndEvaluationResrouce($user));
-            }
+        if ($user instanceof User) {
+            return $this->resourceResponse(new MonitorAndEvaluationResrouce($user));
 
-            return $this->validation_errors($this->translateErrorMessage('role', 'not_found'));
+        } elseif (isset($user['role'])) {
+            return $this->validation_errors($user);
         }
 
-        return $this->error(null, msg: 'User ' . __('validation.not_found'));
+        return $this->error($user);
     }
 
     /**
-     * Summary of update.
+     * Store User For Admin
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @param MonitorAndEvaluationRequest $request
+     * @return JsonResponse
      */
-    public function update(MonitorAndEvaluationRequest $req, User $user)
+    public function store(MonitorAndEvaluationRequest $request): JsonResponse
     {
-        if ($user->id != Auth::id()) {
-            $role = Role::where('id', $user->role_id)->whereIn('name', config('roles.monitor_roles'))->first(['name as role_name', 'id']);
+        $newUser = $this->monitorService->store($request);
 
-            if ($role) {
-                $full_name = $this->sanitizeString($req->full_name);
-                $username = $this->sanitizeString($req->username);
-
-                $anyChangeOccured = false;
-                if ($user->full_name != $full_name) {
-                    $user->full_name = $full_name;
-                    $anyChangeOccured = true;
-                }
-                if ($user->username != $username) {
-                    $user->username = $username;
-                    $anyChangeOccured = true;
-                }
-                if ($req->has('password')) {
-                    if (!Hash::check($req->password, $user->password)) {
-                        $user->password = $req->password;
-                        $anyChangeOccured = true;
-                    }
-                }
-                if ($user->role_id != $req->role) {
-                    $user->role_id = $req->role;
-                    $anyChangeOccured = true;
-                }
-                if ($anyChangeOccured) {
-                    $user->update();
-                    $user->role_name = $role->role_name;
-                }
-                return $this->success(new MonitorAndEvaluationResrouce($user), 'User Updated Successfully');
-            }
-
-            return $this->validation_errors($this->translateErrorMessage('role', 'not_found'));
+        if ($newUser instanceof User) {
+            return $this->success(
+                new MonitorAndEvaluationResrouce($newUser),
+                $this->translateSuccessMessage('user', 'created')
+            );
         }
 
-        return $this->notFoundResponse();
+        return $this->validation_errors($newUser);
     }
 
-    public function destroy(User $user)
+    /**
+     * Update User
+     *
+     * @param MonitorAndEvaluationRequest $req
+     * @param User $user
+     * @return JsonResponse
+     */
+    public function update(MonitorAndEvaluationRequest $req, User $user): JsonResponse
     {
-        if ($user->id != Auth::id()) {
-            $user->load('role');
-            if (in_array($user->role->name,  config('roles.monitor_roles'))) {
-                $user->delete();
+        $user = $this->monitorService->update($req, $user);
 
-                return $this->success(msg: 'User Deleted Successfully');
-            }
-            return $this->validation_errors($this->translateErrorMessage('role', 'not_found'));
+        if ($user instanceof User) {
+            return $this->success(new MonitorAndEvaluationResrouce($user), 'User Updated Successfully');
         }
 
-        return $this->notFoundResponse();
+        return $this->notFoundResponse(msg: $user);
+    }
+
+    /**
+     * Delete User
+     *
+     * @param User $user
+     * @return JsonResponse
+     */
+    public function destroy(User $user): JsonResponse
+    {
+        $deleted = $this->monitorService->destroy($user);
+
+        if (is_bool($deleted) && $deleted) {
+            return $this->success(msg: $this->translateSuccessMessage('user', 'deleted'));
+        }
+
+        return $this->notFoundResponse(msg: $deleted);
     }
 }

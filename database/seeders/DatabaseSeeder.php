@@ -44,6 +44,7 @@ class DatabaseSeeder extends Seeder
             // VisitorRecipeSeeder::class,
             // DoctorVisitsSeeder::class,
             // PharmacyVisitSeeder::class,
+
         ]);
     }
 }

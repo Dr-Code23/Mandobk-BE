@@ -3,15 +3,16 @@
 namespace App\Http\Controllers\Api\V1\Archive;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\V1\Archive\MoveProductToArchiveRequest;
 use App\Http\Resources\Api\V1\Archive\ArchiveCollection;
 use App\Http\Resources\Api\V1\Archive\ArchiveResource;
 use App\Models\V1\Archive;
 use App\Models\V1\VisitorRecipe;
+use App\Services\Api\V1\Archive\ArchiveService;
 use App\Traits\HttpResponse;
 use App\Traits\Translatable;
-use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 
 class ArchiveController extends Controller
 {
@@ -19,11 +20,11 @@ class ArchiveController extends Controller
     use Translatable;
 
     /**
-     * Undocumented function.
+     * Fetch All Products In Archive
      *
-     * @return mixed
+     * @return JsonResponse
      */
-    public function index()
+    public function index(): JsonResponse
     {
         return $this->resourceResponse(
             new ArchiveCollection(
@@ -41,9 +42,10 @@ class ArchiveController extends Controller
     /**
      * Show one archive history for one user.
      *
-     * @return \Illuminate\Http\JsonResponse|array
+     * @param Archive $archive
+     * @return JsonResponse
      */
-    public function show(Archive $archive)
+    public function show(Archive $archive): JsonResponse
     {
         $randomNumberExists = VisitorRecipe::where('visitor_id', auth()->id())->where('random_number', $archive->random_number)->first(['id']);
         if ($randomNumberExists) {
@@ -54,63 +56,30 @@ class ArchiveController extends Controller
     }
 
     /**
-     * Summary of moveFromRandomNumberProducts.
+     *  Move Products Associated With Random Number To Archive To Archive
      *
-     * @return \Illuminate\Http\JsonResponse|bool
+     * @param MoveProductToArchiveRequest $request
+     * @param ArchiveService $archiveService
+     * @return JsonResponse
      */
-    public function moveFromRandomNumberProducts(Request $request)
+    public function moveProductsToArchive(MoveProductToArchiveRequest $request, ArchiveService $archiveService): JsonResponse
     {
+        $archiveAdded = $archiveService->moveProductsToArchive($request);
 
-        $random_number = $request->input('random_number');
-
-        $validator = Validator::make($request->all(), [
-            'random_number' => ['required', 'numeric'],
-        ], [
-            'random_number.required' => $this->translateErrorMessage('random_number', 'required'),
-            'random_number.numeric' => $this->translateErrorMessage('random_number', 'numeric'),
-        ]);
-
-        if ($validator->fails()) return $this->validation_errors($validator->errors());
-
-        $visitor_recipe = VisitorRecipe::where('visitor_id', auth()->id())
-            ->where('random_number', $random_number)
-            ->first(['id', 'details']);
-
-        // return $visitor_recipe;
-        if ($visitor_recipe) {
-            // updateVisitorDetails
-
-            // $visitor_details = $visitor_recipe->details;
-
-            $archiveDetails = [];
-            $archive = Archive::where('random_number', $random_number)->first(['id', 'details']);
-            // return $archive;
-            $visitorDetails = array_merge([], $visitor_recipe->details);
-            if ($visitorDetails) $archiveDetails[] = $visitorDetails;
-            if ($archive) {
-                $archiveDetails = array_merge($archiveDetails, $archive->details);
-            }
-            if ($archive) {
-                if ($visitorDetails)
-                    $archive->update([
-                        'details' => $archiveDetails
-                    ]);
-            } else {
-                Archive::create([
-                    'random_number' => $random_number,
-                    'details' => $archiveDetails,
-                ]);
-            }
-            if ($visitorDetails) {
-                $visitor_recipe->update(['details' => []]);
-            }
-
+        if (is_bool($archiveAdded) && $archiveAdded) {
             return $this->success(null, 'Products Moved To Archive Successfully');
         }
-        return $this->validation_errors(['random_number' => ['Random Number Not Exists']]);
+
+        return $this->validation_errors($archiveAdded);
     }
 
-    public function destroy(Archive $archive)
+    /**
+     * Remove All Details Associated With Random Number From Archive
+     *
+     * @param Archive $archive
+     * @return JsonResponse
+     */
+    public function destroy(Archive $archive): JsonResponse
     {
         if (VisitorRecipe::where('visitor_id', Auth::id())->where('random_number', $archive->random_number)->first(['id'])) {
             $archive->delete();
@@ -118,6 +87,6 @@ class ArchiveController extends Controller
             return $this->success(null, 'Archive Deleted Successfully');
         }
 
-        return $this->notFoundResponse('This archive doesnot belong to authenticated user');
+        return $this->notFoundResponse('This archive does not belong to authenticated user');
     }
 }
