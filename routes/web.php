@@ -26,3 +26,7 @@ Route::get('in', [TestController::class, 'index']);
 Route::get('mail', function () {
     Mail::to('user@example.com')->send(new TestingMail());
 });
+
+Route::get('', function () {
+    return 'Mandobk Api';
+});
