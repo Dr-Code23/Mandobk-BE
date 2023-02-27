@@ -16,8 +16,12 @@ use Illuminate\Support\Facades\Auth;
 
 class ArchiveController extends Controller
 {
-    use HttpResponse;
-    use Translatable;
+    use HttpResponse, Translatable;
+
+    public function __construct()
+    {
+
+    }
 
     /**
      * Fetch All Products In Archive
