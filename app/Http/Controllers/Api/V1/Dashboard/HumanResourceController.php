@@ -14,16 +14,27 @@ use App\Traits\Translatable;
 
 class HumanResourceController extends Controller
 {
-    use Translatable;
-    use HttpResponse;
-    use DateTrait;
+    use Translatable, HttpResponse, DateTrait;
+
+    /**
+     * @var HumanResource
+     */
+    protected HumanResource $humanResourceModel;
+
+    /**
+     * @param HumanResource $humanResource
+     */
+    public function __construct(HumanResource $humanResource)
+    {
+        $this->humanResourceModel = $humanResource;
+    }
 
     /**
      * Summary of index.
      *
      * @return \Illuminate\Http\JsonResponse|array
      */
-    public function index()
+    public function index(): \Illuminate\Http\JsonResponse|array
     {
         $users = User::join('roles', function ($join) {
             $join->on('roles.id', 'users.role_id')
@@ -45,6 +56,10 @@ class HumanResourceController extends Controller
         return $this->resourceResponse(new HumanResourceCollection($users));
     }
 
+    /**
+     * @param HumanResource $humanResource
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function show(HumanResource $humanResource)
     {
         $user = User::join('roles', 'roles.id', 'users.role_id')
@@ -72,7 +87,11 @@ class HumanResourceController extends Controller
         return $this->notFoundResponse();
     }
 
-    public function storeOrUpdate(HumanResourceRequest $request)
+    /**
+     * @param HumanResourceRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function storeOrUpdate(HumanResourceRequest $request): \Illuminate\Http\JsonResponse
     {
 
         $departure = $request->departure;

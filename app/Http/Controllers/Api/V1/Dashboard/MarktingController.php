@@ -10,19 +10,18 @@ use App\Models\V1\Markting;
 use App\Traits\FileOperationTrait;
 use App\Traits\HttpResponse;
 use App\Traits\StringTrait;
+use Illuminate\Http\JsonResponse;
 
 class MarktingController extends Controller
 {
-    use HttpResponse;
-    use StringTrait;
-    use FileOperationTrait;
+    use HttpResponse, StringTrait, FileOperationTrait;
 
     /**
      * List All Ads For Markting Role.
      *
-     * @return array
+     * @return JsonResponse
      */
-    public function index()
+    public function index(): JsonResponse
     {
         return $this->resourceResponse(new MarktingCollection(Markting::all()));
     }
@@ -30,13 +29,18 @@ class MarktingController extends Controller
     /**
      * Fetch One Ad For Markting Role.
      *
-     * @return array
+     * @param Markting $ad
+     * @return JsonResponse
      */
-    public function show(Markting $ad)
+    public function show(Markting $ad): JsonResponse
     {
         return $this->resourceResponse(new MarktingResource($ad));
     }
 
+    /**
+     * @param MarktingRequest $request
+     * @return JsonResponse
+     */
     public function store(MarktingRequest $request)
     {
         $medicine_name = $this->sanitizeString($request->medicine_name);
@@ -62,6 +66,11 @@ class MarktingController extends Controller
         return $this->validation_errors(['ad' => 'The Same Ad Is Already exists']);
     }
 
+    /**
+     * @param MarktingRequest $request
+     * @param Markting $ad
+     * @return JsonResponse|\Illuminate\Http\Response
+     */
     public function update(MarktingRequest $request, Markting $ad)
     {
         $medicine_name = $this->sanitizeString($request->medicine_name);

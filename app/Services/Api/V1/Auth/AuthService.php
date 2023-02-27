@@ -2,7 +2,6 @@
 
 namespace App\Services\Api\V1\Auth;
 
-use App\Http\Resources\Api\V1\Profile\ProfileResource;
 use App\Models\User;
 use App\Models\V1\Role;
 use App\Traits\RoleTrait;
@@ -12,13 +11,25 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthService
 {
-    use StringTrait;
-    use RoleTrait;
-    use UserTrait;
+    use StringTrait, RoleTrait, UserTrait;
 
-    public function __construct(
-        protected User $userModel
-    ) {
+    /**
+     * @var User
+     */
+    protected User $userModel;
+
+    /**
+     * @var Role
+     */
+    protected Role $roleModel;
+
+    /**
+     * @param User $user
+     * @param Role $role
+     */
+    public function __construct(User $user, Role $role){
+        $this->userModel = $user;
+        $this->roleModel = $role;
     }
 
     /**
@@ -29,7 +40,8 @@ class AuthService
      */
     public function signup($request): bool
     {
-        $roleName = Role::where('id', $request->role)->value('name');
+        $roleName = $this->roleModel->query()
+            ->where('id', $request->role)->value('name');
 
         // return $request->validated();
         if (in_array($roleName, config('roles.signup_roles'))) {
@@ -49,7 +61,7 @@ class AuthService
      * @param boolean $isVisitor
      * @return array|null
      */
-    public function login($request, bool $isVisitor = false)
+    public function login($request, bool $isVisitor = false): ?array
     {
         // Check if the user exists
         if ($token = Auth::attempt($request->validated() + ['status' => $this->isActive()])) {
@@ -58,6 +70,8 @@ class AuthService
             if ($isVisitor && $this->roleNameIn(['visitor'])) $roleChecked = true;
             if (!$isVisitor && !$this->roleNameIn(['visitor'])) $roleChecked = true;
             if ($roleChecked) {
+
+// make this in resource
 
                 return [
                     'username' => $user->username,

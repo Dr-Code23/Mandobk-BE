@@ -16,8 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
 {
-    use HttpResponse;
-    use Translatable;
+    use HttpResponse, Translatable;
 
     /**
      * Login User.
@@ -28,8 +27,8 @@ class AuthController extends Controller
      */
     public function login(LoginRequest $request, AuthService $authService): mixed
     {
-
         $user = $authService->login($request, false);
+
         if ($user)
             return $this->success($user, __('standard.logged_in'));
 
