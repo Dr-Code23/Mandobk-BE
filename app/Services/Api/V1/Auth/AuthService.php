@@ -2,6 +2,7 @@
 
 namespace App\Services\Api\V1\Auth;
 
+use App\Http\Resources\Api\V1\Profile\ProfileResource;
 use App\Models\User;
 use App\Models\V1\Role;
 use App\Traits\RoleTrait;
@@ -12,32 +13,14 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthService
 {
-<<<<<<< HEAD
-    use StringTrait, RoleTrait, UserTrait;
-=======
     use StringTrait;
     use RoleTrait;
     use UserTrait;
     use Translatable;
->>>>>>> abb8fbeb550debcbc4e19c3bb7f619b8dd70ab0e
 
-    /**
-     * @var User
-     */
-    protected User $userModel;
-
-    /**
-     * @var Role
-     */
-    protected Role $roleModel;
-
-    /**
-     * @param User $user
-     * @param Role $role
-     */
-    public function __construct(User $user, Role $role){
-        $this->userModel = $user;
-        $this->roleModel = $role;
+    public function __construct(
+        protected User $userModel
+    ) {
     }
 
     /**
@@ -48,12 +31,6 @@ class AuthService
      */
     public function signup($request): User|string|array
     {
-<<<<<<< HEAD
-        $roleName = $this->roleModel->query()
-            ->where('id', $request->role)->value('name');
-=======
->>>>>>> abb8fbeb550debcbc4e19c3bb7f619b8dd70ab0e
-
         // Check If Username Or Phone Exists
         $exists = User::where('username', $request->username)->orWhere('phone', $request->phone)
             ->first(['username', 'phone']);
@@ -81,7 +58,7 @@ class AuthService
      * @param boolean $isVisitor
      * @return array|null
      */
-    public function login($request, bool $isVisitor = false): ?array
+    public function login($request, bool $isVisitor = false)
     {
         // Check if the user exists
         if ($token = Auth::attempt($request->validated() + ['status' => $this->isActive()])) {
@@ -90,8 +67,6 @@ class AuthService
             if ($isVisitor && $this->roleNameIn(['visitor'])) $roleChecked = true;
             if (!$isVisitor && !$this->roleNameIn(['visitor'])) $roleChecked = true;
             if ($roleChecked) {
-
-// make this in resource
 
                 return [
                     'username' => $user->username,
