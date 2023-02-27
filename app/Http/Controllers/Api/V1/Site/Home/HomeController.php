@@ -12,8 +12,7 @@ use App\Traits\UserTrait;
 
 class HomeController extends Controller
 {
-    use UserTrait;
-    use StringTrait;
+    use UserTrait, StringTrait;
 
     public function index()
     {
@@ -21,7 +20,8 @@ class HomeController extends Controller
         // return date('Y-m-d', strtotime('- 29 days'));
         $total_purchases = $total_sales =
             $daily_purchases = $daily_sales =
-            $monthly_purchases = $monthly_sales = 0;
+            $monthly_purchases = $monthly_sales =
+            $dailyProfits = $monthlyProfits = $totalProfits = 0;
 
         // Purchases
         foreach (Product::whereIn('user_id', $this->getSubUsersForAuthenticatedUser())
@@ -56,20 +56,26 @@ class HomeController extends Controller
             }
         }
 
+        $dailyProfits = $daily_sales - $daily_purchases;
+        $monthlyProfits = $monthly_sales - $monthly_purchases;
+        $totalProfits = $total_sales - $total_purchases;
+        if ($dailyProfits <= 0) $dailyProfits = 0;
+        if ($monthlyProfits <= 0) $monthlyProfits = 0;
+        if ($totalProfits <= 0) $totalProfits = 0;
         $home_info = [
             'daily_purchases' => $this->setPercisionForFloatString($daily_purchases, 2, '.', ','),
             'daily_sales' => $this->setPercisionForFloatString($daily_sales, 2, '.', ','),
-            'daily_profits' => $this->setPercisionForFloatString($daily_sales - $daily_purchases, 2, '.', ','),
+            'daily_profits' => $this->setPercisionForFloatString($dailyProfits, 2, '.', ','),
         ];
 
         // Check If the User Is A Pharmacy Sub User
         if (Role::where('name', 'pharmacy_sub_user')->value('id') != $this->getAuthenticatedUserInformation()->role_id) {
             $home_info['total_purchases'] = $this->setPercisionForFloatString($total_purchases, 2, '.', ',');
             $home_info['total_sales'] = $this->setPercisionForFloatString($total_sales, 2, '.', ',');
-            $home_info['total_profits'] = $this->setPercisionForFloatString($total_sales - $total_purchases, 2, '.', ',');
+            $home_info['total_profits'] = $this->setPercisionForFloatString($totalProfits, 2, '.', ',');
             $home_info['monthly_purchases'] = $this->setPercisionForFloatString($monthly_purchases, 2, '.', ',');
             $home_info['monthly_sales'] = $this->setPercisionForFloatString($monthly_sales, 2, '.', ',');
-            $home_info['monthly_profits'] = $this->setPercisionForFloatString($monthly_purchases - $monthly_sales, 2, '.', ',');
+            $home_info['monthly_profits'] = $this->setPercisionForFloatString($monthlyProfits, 2, '.', ',');
         }
         $home_info['products'] =
             new ProductCollection(

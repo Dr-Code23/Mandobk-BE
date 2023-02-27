@@ -10,6 +10,7 @@ use App\Models\V1\OfferOrder;
 use App\Services\Api\V1\Dashboard\OrderManagementService;
 use App\Traits\HttpResponse;
 use App\Traits\Translatable;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -22,7 +23,14 @@ class OrderManagementController extends Controller
         private OrderManagementService $orderManagementService
     ) {
     }
-    public function index(Request $request)
+
+    /**
+     * Show All Orders
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function index(Request $request): JsonResponse
     {
         return $this->resourceResponse(new OrderManagementCollection($this->orderManagementService->index($request)));
     }
@@ -30,41 +38,17 @@ class OrderManagementController extends Controller
     /**
      * @param Request $request
      * @param OfferOrder $order
-     * @return \Illuminate\Http\JsonResponse|Response
+     * @return JsonResponse
      */
-    public function acceptPendingOrders(Request $request, OfferOrder $order): Response|\Illuminate\Http\JsonResponse
+    public function acceptPendingOrders(Request $request, OfferOrder $order): JsonResponse
     {
-        if ($order->status == '1') {
-            $order->status = $request->input('approve') ? '2' : '0';
-            $order->update();
+        $order = $this->orderManagementService->acceptPendingOrders($request, $order);
 
-            $order = OfferOrder::where('offer_orders.id', $order->id)
-                ->join(
-                    'users as want_offer_users',
-                    'want_offer_users.id',
-                    'offer_orders.want_offer_id'
-                )
-                ->join('offers', 'offers.id', 'offer_orders.offer_id')
-                ->join('products', 'products.id', 'offers.product_id')
-                ->join('users as offers_users', 'offers_users.id', 'offers.user_id')
-                ->select([
-                    'offer_orders.id as id',
-                    'products.com_name as commercial_name',
-                    'products.pur_price as purchase_price',
-                    'offer_orders.qty as quantity',
-                    'offer_orders.status as status',
-                    'offer_orders.created_at as created_at',
-                    'offers.from as from_date',
-                    'offers.to as to_date',
-                    'offers_users.full_name as offer_from_name',
-                    'want_offer_users.full_name as offer_to_name',
-                    'want_offer_users.id as want_offer_id'
-                ])->first();
+        if ($order instanceof OfferOrder) {
             CustomerStatusEvent::dispatch($order, $order->want_offer_id);
 
-            return $this->success(new OrderManagementResource($order), 'Status Changed Successfully');
+            return $this->success(new OrderManagementResource($order), $this->translateSuccessMessage('order', 'updated'));
         }
-
-        return $this->noContentResponse();
+        return $this->notFoundResponse(msg: $this->translateErrorMessage('order', 'not_found'));
     }
 }

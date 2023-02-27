@@ -6,17 +6,18 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\V1\PayMethod\PayMethodCollection;
 use App\Models\V1\PayMethod;
 use App\Traits\HttpResponse;
+use Illuminate\Http\JsonResponse;
 
 class PayMethodController extends Controller
 {
     use HttpResponse;
 
     /**
-     * Summary of getAllPayMethods.
+     * Show All Payment Methods
      *
-     * @return array
+     * @return JsonResponse
      */
-    public function getAllPayMethods()
+    public function getAllPayMethods(): JsonResponse
     {
         return $this->ResourceResponse(new PayMethodCollection(PayMethod::all(['name', 'id'])));
     }

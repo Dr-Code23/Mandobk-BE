@@ -4,7 +4,6 @@ namespace App\Services\Api\V1\Products;
 
 use App\Http\Resources\Api\V1\Product\ProductCollection;
 use App\Http\Resources\Api\V1\Product\ProductDetails\ProductDetailsResource;
-use App\Http\Resources\Api\V1\Product\ProductResource;
 use App\Models\V1\Product;
 use App\Models\V1\ProductInfo;
 use App\Traits\GeneralTrait;
@@ -49,6 +48,8 @@ class ProductService
             ->get();
         return $this->resourceResponse(new ProductCollection($products));
     }
+
+
     /**
      * Fetch One Product With No Details
      *
@@ -76,7 +77,6 @@ class ProductService
 
     public function storeOrUpdate($request)
     {
-
         $commercial_name = $request->commercial_name;
         $scientific_name = $request->scientific_name;
         $purchase_price = $this->setPercisionForFloatString($request->purchase_price);
@@ -85,23 +85,9 @@ class ProductService
         $concentrate = $this->setPercisionForFloatString($request->concentrate);
         $limited = $request->limited ? $request->limited : 0;
 
-        // Check If DataEntry Has The Product Already
         // Store the barcode
         $barcode_value = $request->barcode;
-        // $adminProduct = Product::where(function ($query) use ($barcode_value, $commercial_name) {
-        //     $query->where('barcode', $barcode_value)
-        //         ->orWhere('com_name', $commercial_name);
-        // })
-        //     ->whereIn('role_id', $this->getRolesIdsByName(['ceo', 'data_entry']))
-        //     ->first([
-        //         'limited', 'sc_name', 'com_name'
-        //     ]);
 
-        // if ($adminProduct) {
-        //     $commercial_name = $adminProduct->com_name;
-        //     $scientific_name = $adminProduct->sc_name;
-        //     $limited = $adminProduct->limited;
-        // }
         if ($this->storeBarCodeSVG('products', $barcode_value, $barcode_value)) {
 
             $product = Product::where(function ($query) use ($commercial_name, $barcode_value) {
@@ -154,8 +140,10 @@ class ProductService
                     ]);
             }
             $productInfo = ProductInfo::where('product_id', $product->id)
-                ->where('expire_date', $request->expire_date)
-                ->orWhere('patch_number', $request->patch_number)
+                ->where(function ($query) use ($request) {
+                    $query->where('expire_date', $request->expire_date)
+                        ->orWhere('patch_number', $request->patch_number);
+                })
                 ->first();
             if ($productInfo) {
                 $productInfo->qty += $request->quantity;
@@ -167,7 +155,6 @@ class ProductService
                 'expire_date' => $request->expire_date,
                 'patch_number' => $request->patch_number
             ]);
-
             $product->detail = new ProductDetailsResource($productInfo);
             return $product;
         }

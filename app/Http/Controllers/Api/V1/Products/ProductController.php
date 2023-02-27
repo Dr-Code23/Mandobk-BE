@@ -17,10 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ProductController extends Controller
 {
-    use UserTrait;
-    use RoleTrait;
-    use Translatable;
-    use HttpResponse;
+    use UserTrait, RoleTrait, Translatable, HttpResponse;
     private ProductRepositoryInterface $productRepository;
 
     public function __construct(ProductRepositoryInterface $productRepository)

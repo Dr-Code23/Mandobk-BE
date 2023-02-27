@@ -14,8 +14,7 @@ use App\Traits\UserTrait;
 
 class CompanyOfferController extends Controller
 {
-    use UserTrait;
-    use Translatable;
+    use UserTrait, Translatable;
 
     public function __construct(
         protected OfferService $offerService,
