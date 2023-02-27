@@ -35,9 +35,9 @@ class signUpRequest extends FormRequest
     {
         return [
             'full_name' => ['required'],
-            'username' => ['required', 'regex:' . config('regex.username'), 'unique:users,username'],
-            'phone' => ['required', 'unique:users,phone'],
-            'role' => ['required', new RoleExists()],
+            'username' => ['required', 'regex:' . config('regex.username')],
+            'phone' => ['required'],
+            'role' => ['required'],
             'password' => [
                 'required',
                 RulesPassword::min(8)->mixedCase()
@@ -63,6 +63,6 @@ class signUpRequest extends FormRequest
 
     protected function failedValidation(Validator $validator)
     {
-        throw new \Illuminate\Validation\ValidationException($validator, $this->validation_errors([$validator->errors()]));
+        throw new \Illuminate\Validation\ValidationException($validator, $this->validation_errors($validator->errors()));
     }
 }

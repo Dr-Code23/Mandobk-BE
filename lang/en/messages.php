@@ -76,4 +76,8 @@ return [
     'product_id' => 'Product',
     'avatar' => 'Avatar',
     'notification' => 'Notification',
+    'user' => 'User',
+    'deleted' => 'Deleted Successfully',
+    'updated' => 'Updated Successfully',
+    'created' => 'Created Successfully'
 ];

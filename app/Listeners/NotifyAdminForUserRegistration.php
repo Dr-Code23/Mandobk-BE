@@ -4,12 +4,14 @@ namespace App\Listeners;
 
 use App\Models\User;
 use App\Notifications\RegisterUserNotification;
+use App\Traits\RoleTrait;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Notification;
 
 class NotifyAdminForUserRegistration
 {
+    use RoleTrait;
     /**
      * Create the event listener.
      *
@@ -28,18 +30,16 @@ class NotifyAdminForUserRegistration
      */
     public function handle($event)
     {
-        $admins = User::whereHas('role', function ($query) {
-            $query->whereIn('name', [
-                'ceo',
-                'monitor_and_evaluation',
-            ]);
-        })->get();
 
-        info($event->user);
-        // Notification::send()
-        Notification::send(
-            $admins,
-            new RegisterUserNotification($event->user)
-        );
+        $admins = User::whereIn('role_id', $this->getRolesIdsByName(['ceo']))
+            ->get();
+
+        Notification::send($admins, new RegisterUserNotification($event->user));
+        // foreach ($admins as $admin) {
+        //     $admin->notify(new RegisterUserNotification($event->user));
+        // }
+
+        // Make Instance of Notifications Class
+        // $registerNotifications = new RegisterUserNotification($event->user);
     }
 }

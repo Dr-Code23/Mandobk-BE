@@ -29,7 +29,7 @@ return new class() extends Migration
                 ->default('2'); // Default Frozen Account
             $table->string('full_name');
             $table->string('phone')->nullable()->unique();
-            // $table->string('email')->unique();
+            $table->string('email')->nullable()->unique();
             $table->timestamps();
         });
     }
