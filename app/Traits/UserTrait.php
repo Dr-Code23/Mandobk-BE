@@ -16,7 +16,7 @@ trait UserTrait
     /**
      * Check If The User Has A Specefic Permission.
      */
-    public function hasPermission(string $permissionName = null, bool $ExcludeCEO = false): bool
+    public function hasPermission(string $permissionName = null, string $ExcludeCEO = 'yes'): bool
     {
         $roleController = new RoleController();
         $role_name=$roleController->getRoleNameById(auth()->user()->role_id);
@@ -24,7 +24,7 @@ trait UserTrait
 //            ->first(['name'])->name;
         // $role_name = $this->getRoleNameById(auth()->id());
         $permissions = [];
-        if (!$ExcludeCEO) {
+        if ($ExcludeCEO == 'no') {
             $permissions[] = 'ceo';
         }
         if ($permissionName) {
@@ -32,7 +32,7 @@ trait UserTrait
             if(in_array($permissionName , ['pharmacy' , 'pharmacy_sub_user']))
                 $permissions += ['pharmacy' , 'pharmacy_sub_user'];
         }
-
+        info($permissions);
         return in_array($role_name, $permissions);
     }
 

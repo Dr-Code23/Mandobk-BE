@@ -19,7 +19,7 @@ class UserHasPermissions
      * @param bool $excludeCEO
      * @return JsonResponse|mixed
      */
-    public function handle(Request $request, Closure $next, string $roleName, bool $excludeCEO = true): mixed
+    public function handle(Request $request, Closure $next, string $roleName, string $excludeCEO = 'yes'): mixed
     {
         if (!$this->hasPermission($roleName, $excludeCEO)) {
             return $this->forbiddenResponse();

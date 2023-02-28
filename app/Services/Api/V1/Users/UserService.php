@@ -2,9 +2,11 @@
 
 namespace App\Services\Api\V1\Users;
 
+use App\Http\Resources\Api\V1\Site\Doctor\VisitorAccount\VisitorAccountResource;
+use App\Http\Resources\Api\V1\Site\VisitorRecipe\VisitorRecipeResource;
 use App\Models\User;
-use App\Models\V1\Role;
 use App\Models\V1\SubUser;
+use App\Models\V1\VisitorRecipe;
 use App\Traits\RoleTrait;
 
 class UserService
@@ -88,5 +90,83 @@ class UserService
     public function getHumanResourceUsers()
     {
         return User::whereIn('role_id', $this->getRolesIdsByName(config('roles.human_resources_roles')))->get(['id', 'full_name']);
+    }
+
+    public function registerNewVisitor($request){
+
+        $visitor = User::create($request->validated() + [
+                'role_id' => $this->getRoleIdByName('visitor'),
+                'full_name' => $request->name,
+                'status' => '1'
+            ]);
+
+        $visitorInfo = VisitorRecipe::create([
+            'visitor_id' => $visitor->id,
+            'alias' => $request->alias,
+            'details' => [],
+            'random_number' => $this->generateRandomNumberForVisitor(),
+        ]);
+
+        $visitorInfo->name = $request->name;
+        $visitorInfo->username = $request->username;
+        $visitorInfo->phone = $request->phone;
+
+        return $visitorInfo;
+    }
+
+
+    /**
+     * Restore Visitor Random Numbers
+     * @param $request
+     * @return array|bool
+     */
+    public function forgotVisitorRandomNumber($request): array|bool
+    {
+        $handle = $request->input('handle');
+        if (
+            $visitor = User::where(function ($query) use ($handle) {
+                $query->where('username', $handle)
+                    ->orWhere('phone', $handle);
+            })->first(['id'])
+        ) {
+            $randomNumbers = [];
+            $cnt = 0;
+            foreach (VisitorRecipe::where('visitor_id', $visitor->id)->get(['random_number', 'alias']) as $recipe) {
+                $randomNumbers[$cnt]['random_number'] = $recipe->random_number;
+                $randomNumbers[$cnt]['alias'] = $recipe->alias;
+                ++$cnt;
+            }
+
+            return $randomNumbers;
+        }
+
+        return false;
+    }
+
+
+    public function addRandomNumberForVistior($request){
+        $visitor = User::where('username', $request->username)
+            ->where('role_id', $this->getRoleIdByName('visitor'))
+            ->first(['id', 'username']);
+
+        $errors = [];
+        if ($visitor) {
+            // Search In Visitor Recipes For Visitor
+
+            $recipe = VisitorRecipe::where('visitor_id', $visitor->id)
+                ->where('alias', $request->alias)->first(['id', 'alias']);
+            if (!$recipe) {
+                $newVisitorRecipe = VisitorRecipe::create([
+                    'visitor_id' => $visitor->id,
+                    'alias' => $request->alias,
+                    'random_number' => $this->generateRandomNumberForVisitor(),
+                    'details' => []
+                ]);
+
+                return $this->resourceResponse(new VisitorRecipeResource($newVisitorRecipe));
+            } else $errors['alias'] = ['Alias Already Exists'];
+        } else $errors['username'] = ['Username Not Exists'];
+
+        return $this->validation_errors($errors);
     }
 }

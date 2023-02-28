@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1\Users;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\Users\ChangeUserStatusRequest;
+use App\Http\Requests\Api\V1\Users\ForgotVisitorRandomNumberRequest;
 use App\Http\Requests\Api\V1\Users\RegisterVisitorRequest;
 use App\Http\Requests\Api\V1\Visitor\AddRandomNumberForVisitor;
 use App\Http\Resources\Api\V1\Site\Doctor\VisitorAccount\VisitorAccountResource;
@@ -21,6 +22,7 @@ use App\Traits\UserTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
 {
@@ -29,6 +31,12 @@ class UserController extends Controller
     use UserTrait;
     use RoleTrait;
 
+
+    public function __construct(
+        private UserService $userService
+    ){
+
+    }
     public function getAllUsersInDashboardToApprove(UserService $userService)
     {
         $users = $userService->getAllUsersInDashboardToApprove();
@@ -74,63 +82,33 @@ class UserController extends Controller
         return $this->notFoundResponse('No Users To Show');
     }
 
-    public function registerNewVisitor(RegisterVisitorRequest $request)
+    /**
+     * Register new Visitor
+     * @param RegisterVisitorRequest $request
+     * @return JsonResponse
+     */
+    public function registerNewVisitor(RegisterVisitorRequest $request): JsonResponse
     {
-        $visitor = User::create($request->validated() + [
-            'role_id' => $this->getRoleIdByName('visitor'),
-            'full_name' => $request->name,
-            'status' => '1'
-        ]);
-
-        $visitor_info = VisitorRecipe::create([
-            'visitor_id' => $visitor->id,
-            'alias' => $request->alias,
-            'details' => [],
-            'random_number' => $this->generateRandomNumberForVisitor(),
-        ]);
-
-        $visitor_info->name = $request->name;
-        $visitor_info->username = $request->username;
-        $visitor_info->phone = $request->phone;
-
-        return $this->resourceResponse(new VisitorAccountResource($visitor_info));
+        return $this->resourceResponse(new VisitorAccountResource($this->userService->registerNewVisitor($request)));
     }
 
-    public function ForgotVisitorRandomNumber(Request $request)
+    /**
+     * Restore Visitor Random Numbers
+     * @param ForgotVisitorRandomNumberRequest $request
+     * @return JsonResponse
+     */
+    public function forgotVisitorRandomNumber(ForgotVisitorRandomNumberRequest $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'handle' => ['required'],
-        ], [
-            'handle.required' => $this->translateErrorMessage('handle', 'required'),
-        ]);
-        if ($validator->fails()) {
-            return $this->validation_errors($validator->errors());
+        $randomNumbers = $this->userService->forgotVisitorRandomNumber($request);
+        if(is_array($randomNumbers)){
+            return $this->resourceResponse($randomNumbers);
         }
-        $handle = $request->input('handle');
-        if (
-            $visitor = User::where(function ($query) use ($handle) {
-                $query->where('username', $handle)
-                    ->orWhere('phone', $handle);
-            })->first(['id'])
-        ) {
-            $data = [];
-            $cnt = 0;
-            foreach (VisitorRecipe::where('visitor_id', $visitor->id)->get(['random_number', 'alias']) as $recipe) {
-                $data[$cnt]['random_number'] = $recipe->random_number;
-                $data[$cnt]['alias'] = $recipe->alias;
-                ++$cnt;
-            }
-
-            return $this->resourceResponse($data);
-        }
-
-        return $this->notFoundResponse('There Is No User With That Handle');
+        return $this->notFoundResponse($this->translateErrorMessage('handle' , 'not_found'));
     }
-
-
 
     public function addRandomNumberForVistior(AddRandomNumberForVisitor $request)
     {
+        $randomNumber = $this->userService->addRandomNumberForVistior($request);
         $visitor = User::where('username', $request->username)
             ->where('role_id', $this->getRoleIdByName('visitor'))
             ->first(['id', 'username']);
