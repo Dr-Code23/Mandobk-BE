@@ -4,30 +4,37 @@ namespace App\Http\Middleware;
 
 use App\Traits\HttpResponse;
 use App\Traits\RoleTrait;
+use Closure;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
-class hasProductAccess
+class HasProductAccess
 {
-    use RoleTrait;
-    use HttpResponse;
+    use RoleTrait, HttpResponse;
 
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
+     * @param Request $request
+     * @param Closure $next
      *
-     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+     * @return Response|RedirectResponse|JsonResponse
      */
-    public function handle(Request $request, \Closure $next)
+    public function handle(Request $request, Closure $next): Response|JsonResponse|RedirectResponse
     {
-        if (!in_array($this->getRoleNameForAuthenticatedUser(), [
+        $array = [
             'ceo',
             'data_entry',
             'company',
             'storehouse',
             'pharmacy',
             'pharmacy_sub_user',
-        ])) {
+        ];
+
+        if (!in_array($this->getRoleNameForAuthenticatedUser(), $array)) {
+
             return $this->forbiddenResponse();
         }
 

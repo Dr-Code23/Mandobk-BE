@@ -18,9 +18,7 @@ use Illuminate\Support\Facades\DB;
 
 class OfferOrderController extends Controller
 {
-    use HttpResponse;
-    use Translatable;
-    use UserTrait;
+    use HttpResponse, Translatable, UserTrait;
 
     public function __construct(
         private OfferOrderService $offerOrderService

@@ -18,9 +18,24 @@ class ArchiveController extends Controller
 {
     use HttpResponse, Translatable;
 
-    public function __construct()
-    {
+    /**
+     * @var Archive
+     */
+    protected Archive $archiveModel;
 
+    /**
+     * @var VisitorRecipe
+     */
+    protected VisitorRecipe $visitorRecipeModel;
+
+    /**
+     * @param Archive $archive
+     * @param VisitorRecipe $visitorRecipe
+     */
+    public function __construct(Archive $archive, VisitorRecipe $visitorRecipe)
+    {
+        $this->archiveModel = $archive;
+        $this->visitorRecipeModel = $visitorRecipe;
     }
 
     /**
@@ -32,12 +47,12 @@ class ArchiveController extends Controller
     {
         return $this->resourceResponse(
             new ArchiveCollection(
-                Archive::whereIn('random_number', function ($query) {
+                $this->archiveModel->whereIn('random_number', function ($query) {
                     $query->select('random_number')
                         ->from(with(new VisitorRecipe())->getTable())
                         ->where('visitor_id', Auth::id());
                 })
-                    ->orderByDesc('updated_at')
+                    ->latest('updated_at')
                     ->get()
             )
         );
@@ -51,7 +66,7 @@ class ArchiveController extends Controller
      */
     public function show(Archive $archive): JsonResponse
     {
-        $randomNumberExists = VisitorRecipe::where('visitor_id', auth()->id())->where('random_number', $archive->random_number)->first(['id']);
+        $randomNumberExists = $this->visitorRecipeModel->where('visitor_id', auth()->id())->where('random_number', $archive->random_number)->first(['id']);
         if ($randomNumberExists) {
             return $this->resourceResponse(new ArchiveResource($archive));
         }
@@ -85,7 +100,8 @@ class ArchiveController extends Controller
      */
     public function destroy(Archive $archive): JsonResponse
     {
-        if (VisitorRecipe::where('visitor_id', Auth::id())->where('random_number', $archive->random_number)->first(['id'])) {
+        if ($this->visitorRecipeModel->where('visitor_id', Auth::id())->where('random_number', $archive->random_number)->first(['id'])) {
+
             $archive->delete();
 
             return $this->success(null, 'Archive Deleted Successfully');

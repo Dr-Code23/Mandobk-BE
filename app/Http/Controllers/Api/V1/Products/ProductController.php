@@ -77,7 +77,11 @@ class ProductController extends Controller
     public function destroy(Product $product): JsonResponse
     {
         $productDeleted = $this->productService->destroy($product);
-        if($productDeleted)return $this->success(null , $this->translateSuccessMessage('product' , 'deleted'));
+
+        if($productDeleted) {
+            return $this->success(null , $this->translateSuccessMessage('product' , 'deleted'));
+        }
+
         else return $this->notFoundResponse($this->translateErrorMessage('product' , 'not_exists'));
     }
 
@@ -86,9 +90,9 @@ class ProductController extends Controller
      * @param ProductService $productService
      * @return JsonResponse
      */
-    public function ScientificNamesSelect(ProductService $productService): JsonResponse
+    public function scientificNamesSelect(ProductService $productService): JsonResponse
     {
-        return $this->resourceResponse($productService->ScientificNamesSelect());
+        return $this->resourceResponse($productService->scientificNamesSelect());
     }
 
     /**
@@ -96,7 +100,7 @@ class ProductController extends Controller
      * @param ProductService $productService
      * @return JsonResponse
      */
-    public function CommercialNamesSelect(ProductService $productService): JsonResponse
+    public function commercialNamesSelect(ProductService $productService): JsonResponse
     {
         return $this->resourceResponse($productService->CommercialNamesSelect());
     }

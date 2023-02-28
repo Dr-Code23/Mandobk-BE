@@ -2,17 +2,16 @@
 
 namespace App\Http\Requests\Api\V1\Auth;
 
-use App\Rules\RoleExists;
 use App\Traits\HttpResponse;
 use App\Traits\Translatable;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password as RulesPassword;
+use Illuminate\Validation\ValidationException;
 
-class signUpRequest extends FormRequest
+class SignupRequest extends FormRequest
 {
-    use HttpResponse;
-    use Translatable;
+    use HttpResponse, Translatable;
 
     // protected $stopOnFirstFailure = true;
 
@@ -21,7 +20,7 @@ class signUpRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -31,7 +30,7 @@ class signUpRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'full_name' => ['required'],
@@ -47,7 +46,10 @@ class signUpRequest extends FormRequest
         ];
     }
 
-    public function messages()
+    /**
+     * @return array
+     */
+    public function messages(): array
     {
         return [
             'full_name.required' => $this->translateErrorMessage('full_name', 'required'),
@@ -61,8 +63,13 @@ class signUpRequest extends FormRequest
         ];
     }
 
-    protected function failedValidation(Validator $validator)
+    /**
+     * @param Validator $validator
+     * @return void
+     * @throws ValidationException
+     */
+    protected function failedValidation(Validator $validator): void
     {
-        throw new \Illuminate\Validation\ValidationException($validator, $this->validation_errors($validator->errors()));
+        throw new ValidationException($validator, $this->validation_errors($validator->errors()));
     }
 }

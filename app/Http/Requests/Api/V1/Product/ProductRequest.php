@@ -6,7 +6,9 @@ use App\Traits\HttpResponse;
 use App\Traits\RoleTrait;
 use App\Traits\Translatable;
 use App\Traits\UserTrait;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\ValidationException;
 
 class ProductRequest extends FormRequest
 {
@@ -20,9 +22,53 @@ class ProductRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
+    }
+
+    /**
+     * Return Custom Error Messages.
+     */
+    public function messages(): array
+    {
+        $messages = [
+            'limited.boolean' => $this->translateErrorMessage('limited', 'limited.boolean'),
+            'entry_date.date_format' =>
+                $this->translateErrorMessage('entry_date', 'entry_date.date.date_format'),
+            'expire_date.date_format' =>
+                $this->translateErrorMessage('expire_date', 'expire_date.date.date_format'),
+            'expire_date.after' => $this->translateErrorMessage('expire_date', 'after'),
+            'generate_another_bar_code' => $this->translateErrorMessage('bar_code', 'boolean'),
+            'quantity.regex' => $this->translateErrorMessage('quantity', 'quantity.regex'),
+        ];
+
+        // get all fields names
+        $required_keys = array_keys($this->rules());
+
+        // All Values Are Required
+        foreach ($required_keys as $key) {
+            $messages["$key.required"] = $this->translateErrorMessage($key, 'required');
+        }
+
+        // Numeric , between and regex validation messages
+        $regex_length_names = ['quantity', 'purchase_price', 'selling_price', 'bonus', 'patch_number', 'concentrate'];
+        foreach ($regex_length_names as $key) {
+            if ($key != 'patch_number') {
+                $messages["$key.numeric"] = $this->translateErrorMessage($key, 'numeric');
+                $messages["$key.min"] = $this->translateErrorMessage($key, 'min.numeric');
+            } else {
+                $messages["$key.regex"] = $this->translateErrorMessage($key, $key . '.regex');
+            }
+        }
+
+        // Max Length Data
+        $max_length_names = ['commercial_name', 'scientific_name'];
+        foreach ($max_length_names as $key) {
+            $messages["$key.max"] = $this->translateErrorMessage($key, "$key.max");
+        }
+
+        return $messages;
     }
 
     /**
@@ -61,50 +107,8 @@ class ProductRequest extends FormRequest
         return $rules;
     }
 
-    /**
-     * Return Custom Error Messages.
-     */
-    public function messages(): array
+    public function failedValidation(Validator $validator)
     {
-        $messages = [
-            'limited.boolean' => $this->translateErrorMessage('limited', 'limited.boolean'),
-            'entry_date.date_format' => $this->translateErrorMessage('entry_date', 'entry_date.date.date_format'),
-            'expire_date.date_format' => $this->translateErrorMessage('expire_date', 'expire_date.date.date_format'),
-            'expire_date.after' => $this->translateErrorMessage('expire_date', 'after'),
-            'generate_another_bar_code' => $this->translateErrorMessage('bar_code', 'boolean'),
-            'quantity.regex' => $this->translateErrorMessage('quantity', 'quantity.regex'),
-        ];
-
-        // get all fields names
-        $required_keys = array_keys($this->rules());
-
-        // All Values Are Required
-        foreach ($required_keys as $key) {
-            $messages["$key.required"] = $this->translateErrorMessage($key, 'required');
-        }
-
-        // Numeric , between and regex validation messages
-        $regex_length_names = ['quantity', 'purchase_price', 'selling_price', 'bonus', 'patch_number', 'concentrate'];
-        foreach ($regex_length_names as $key) {
-            if ($key != 'patch_number') {
-                $messages["$key.numeric"] = $this->translateErrorMessage($key, 'numeric');
-                $messages["$key.min"] = $this->translateErrorMessage($key, 'min.numeric');
-            } else {
-                $messages["$key.regex"] = $this->translateErrorMessage($key, $key . '.regex');
-            }
-        }
-
-        // Max Length Data
-        $max_length_names = ['commercial_name', 'scientific_name'];
-        foreach ($max_length_names as $key) {
-            $messages["$key.max"] = $this->translateErrorMessage($key, "$key.max");
-        }
-
-        return $messages;
-    }
-
-    public function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
-    {
-        throw new \Illuminate\Validation\ValidationException($validator, $this->validation_errors($validator->errors()));
+        throw new ValidationException($validator, $this->validation_errors($validator->errors()));
     }
 }

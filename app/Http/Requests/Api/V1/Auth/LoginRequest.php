@@ -6,20 +6,23 @@ use App\Traits\HttpResponse;
 use App\Traits\Translatable;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\ValidationException;
 
 class LoginRequest extends FormRequest
 {
-    use HttpResponse;
-    use Translatable;
+    use HttpResponse, Translatable;
+
+    /**
+     * @var bool
+     */
     protected $stopOnFirstFailure = false;
 
-    // protected $stopOnFirstFailure = true;
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -29,7 +32,7 @@ class LoginRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'username' => ['required'],
@@ -37,7 +40,10 @@ class LoginRequest extends FormRequest
         ];
     }
 
-    public function messages()
+    /**
+     * @return array
+     */
+    public function messages(): array
     {
         return [
             'username.required' => $this->translateErrorMessage('username', 'required'),
@@ -45,8 +51,13 @@ class LoginRequest extends FormRequest
         ];
     }
 
+    /**
+     * @param Validator $validator
+     * @return void
+     * @throws ValidationException
+     */
     public function failedValidation(Validator $validator)
     {
-        throw new \Illuminate\Validation\ValidationException($validator, $this->validation_errors($validator->errors()));
+        throw new ValidationException($validator, $this->validation_errors($validator->errors()));
     }
 }

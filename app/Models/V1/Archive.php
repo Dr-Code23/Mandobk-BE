@@ -7,20 +7,29 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @method whereIn(string $string, \Closure $param)
+ */
 class Archive extends Model
 {
     use HasFactory, DateTrait;
-    protected $table = 'archives';
+
+    /**
+     * @var string[]
+     */
     protected $fillable = [
         'details',
         'random_number'
     ];
 
+    /**
+     * @return Attribute
+     */
     protected function details(): Attribute
     {
         return Attribute::make(
-            set: fn ($val) => json_encode($val),
-            get: fn ($val) => json_decode($val, true)
+            get: fn ($val) => json_decode($val, true),
+            set: fn ($val) => json_encode($val)
         );
     }
 
@@ -32,6 +41,9 @@ class Archive extends Model
         );
     }
 
+    /**
+     * @return Attribute
+     */
     public function updatedAt(): Attribute
     {
         return Attribute::make(

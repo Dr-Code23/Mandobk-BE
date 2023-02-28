@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\V1\Auth;
 use App\Events\RegisterUserEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\Auth\LoginRequest;
-use App\Http\Requests\Api\V1\Auth\signUpRequest;
+use App\Http\Requests\Api\V1\Auth\SignupRequest;
 use App\Models\User;
 use App\Services\Api\V1\Auth\AuthService;
 use App\Traits\HttpResponse;
@@ -42,11 +42,11 @@ class AuthController extends Controller
     /**
      * Register New User.
      *
-     * @param signUpRequest $req
+     * @param SignupRequest $req
      * @param AuthService $authService
      * @return JsonResponse
      */
-    public function signup(signUpRequest $req, AuthService $authService): JsonResponse
+    public function signup(SignupRequest $req, AuthService $authService): JsonResponse
     {
         $user = $authService->signup($req);
 

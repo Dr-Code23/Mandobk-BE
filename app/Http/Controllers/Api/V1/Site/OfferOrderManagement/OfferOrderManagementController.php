@@ -10,9 +10,12 @@ use Illuminate\Http\Request;
 
 class OfferOrderManagementController extends Controller
 {
-    use HttpResponse;
-    use UserTrait;
-    public function index()
+    use HttpResponse, UserTrait;
+
+    /**
+     * @return mixed
+     */
+    public function index(): mixed
     {
         return OfferOrder::whereIn(
             'offer_orders.want_offer_id',

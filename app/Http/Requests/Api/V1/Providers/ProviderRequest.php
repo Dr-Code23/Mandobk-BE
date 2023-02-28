@@ -4,12 +4,15 @@ namespace App\Http\Requests\Api\V1\Providers;
 
 use App\Traits\HttpResponse;
 use App\Traits\Translatable;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\ValidationException;
 
 class ProviderRequest extends FormRequest
 {
     use Translatable;
     use HttpResponse;
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -27,20 +30,21 @@ class ProviderRequest extends FormRequest
      */
     public function rules()
     {
-        return[
+        return [
             'name' => ['required']
         ];
     }
 
-    public function messages(){
+    public function messages()
+    {
         return [
-            'name.required' => $this->translateErrorMessage('name' , 'required'),
-            'name.max' => $this->translateErrorMessage('name' , 'max.string')
+            'name.required' => $this->translateErrorMessage('name', 'required'),
+            'name.max' => $this->translateErrorMessage('name', 'max.string')
         ];
     }
 
-    public function failedValidation(\Illuminate\Contracts\Validation\Validator $validator){
-        throw new \Illuminate\Validation\ValidationException($validator, $this->validation_errors($validator->errors()));
+    public function failedValidation(Validator $validator)
+    {
+        throw new ValidationException($validator, $this->validation_errors($validator->errors()));
     }
 }
-;

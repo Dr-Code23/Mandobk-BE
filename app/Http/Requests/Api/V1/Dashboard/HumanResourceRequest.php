@@ -10,15 +10,14 @@ use Illuminate\Validation\ValidationException;
 
 class HumanResourceRequest extends FormRequest
 {
-    use Translatable;
-    use HttpResponse;
+    use Translatable, HttpResponse;
 
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -28,19 +27,23 @@ class HumanResourceRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(): array
     {
         $attendance = '';
+
         $departure = '';
+
         if ($this->status == '0') {
             $attendance = $departure = 'required|date_format:H:i';
             $departure .= '|after:attendance';
         }
-        $rules =  [
+
+        $rules = [
             'user_id' => 'required',
-            'status' => ['required', 'in:0,1,2'],
-            'date' => ['required', 'date_format:Y-m-d', 'before_or_equal:today'],
+            'status'  => ['required', 'in:0,1,2'],
+            'date'    => ['required', 'date_format:Y-m-d', 'before_or_equal:today'],
         ];
+
         if ($attendance) {
             $rules['attendance'] = $attendance;
             $rules['departure'] = $departure;

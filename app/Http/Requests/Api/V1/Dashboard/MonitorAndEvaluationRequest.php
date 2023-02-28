@@ -7,18 +7,18 @@ use App\Traits\Translatable;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password as RulesPassword;
+use Illuminate\Validation\ValidationException;
 
 class MonitorAndEvaluationRequest extends FormRequest
 {
-    use HttpResponse;
-    use Translatable;
+    use HttpResponse, Translatable;
 
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -28,17 +28,18 @@ class MonitorAndEvaluationRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(): array
     {
         // Check If The Process Is Update
         $except = '';
+
         if ($this->method() == 'PUT') {
-            $except = ','.$this->route('user')->id.',id';
+            $except = ',' . $this->route('user')->id . ',id';
         }
 
         return [
             'full_name' => ['required'],
-            'username' => ['bail', 'required', 'regex:'.config('regex.username'), 'unique:users,username'.$except],
+            'username' => ['bail', 'required', 'regex:' . config('regex.username'), 'unique:users,username' . $except],
             'role' => ['required'],
             'password' => [
                 $this->method() == 'post' ? 'required' : 'sometimes',
@@ -46,12 +47,14 @@ class MonitorAndEvaluationRequest extends FormRequest
                     ->mixedCase()
                     ->numbers()
                     ->symbols()
-                    ->uncompromised(3),
             ],
         ];
     }
 
-    public function messages()
+    /**
+     * @return array
+     */
+    public function messages(): array
     {
         return [
             'full_name.required' => $this->translateErrorMessage('full_name', 'required'),
@@ -63,8 +66,15 @@ class MonitorAndEvaluationRequest extends FormRequest
         ];
     }
 
-    protected function failedValidation(Validator $validator)
+    /**
+     * @param Validator $validator
+     * @return void
+     * @throws ValidationException
+     */
+    protected function failedValidation(Validator $validator): void
     {
-        throw new \Illuminate\Validation\ValidationException($validator, $this->validation_errors([$validator->errors()]));
+        throw new ValidationException(
+            $validator, $this->validation_errors([$validator->errors()])
+        );
     }
 }

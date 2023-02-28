@@ -9,8 +9,8 @@ use Illuminate\Http\JsonResponse;
 
 class RoleController extends Controller
 {
-    use HttpResponse;
-    use RoleTrait;
+    use HttpResponse, RoleTrait;
+
     /**
      * Signup Roles
      *

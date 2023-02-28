@@ -7,6 +7,7 @@ use App\Traits\DateTrait;
 class PrepareNotificationPayload
 {
     use DateTrait;
+
     public static function make(string $msg, string $fromDate)
     {
         $prepare = new PrepareNotificationPayload();

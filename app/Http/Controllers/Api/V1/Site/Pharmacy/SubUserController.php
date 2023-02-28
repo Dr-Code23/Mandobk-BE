@@ -7,23 +7,20 @@ use App\Http\Requests\Api\V1\Site\Pharmacy\SubUserRequest;
 use App\Http\Resources\Api\V1\Site\Pharmacy\SubUser\SubUserCollection;
 use App\Http\Resources\Api\V1\Site\Pharmacy\SubUser\SubUserResource;
 use App\Models\User;
-use App\Models\V1\Role;
-use App\Models\V1\SubUser;
 use App\Services\Api\V1\Site\SubUsers\SubUserService;
 use App\Traits\HttpResponse;
 use App\Traits\RoleTrait;
 use App\Traits\Translatable;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 
 class SubUserController extends Controller
 {
-    use HttpResponse, RoleTrait , Translatable;
+    use HttpResponse, RoleTrait, Translatable;
 
     public function __construct(
         private SubUserService $subUserService
-    ){
+    )
+    {
     }
 
     /**
@@ -44,11 +41,12 @@ class SubUserController extends Controller
     {
         $subUser = $this->subUserService->showOneSubUser($subUser);
 
-        if($subUser instanceof User){
+        if ($subUser instanceof User) {
 
             return $this->resourceResponse(new SubUserResource($subUser));
         }
-        return $this->notFoundResponse($this->translateErrorMessage('user' , 'not_found'));
+
+        return $this->notFoundResponse($this->translateErrorMessage('user', 'not_found'));
     }
 
     /**
@@ -58,7 +56,8 @@ class SubUserController extends Controller
      */
     public function storeSubUser(SubUserRequest $request): JsonResponse
     {
-        return $this->createdResponse(new SubUserResource($this->subUserService->storeSubUser($request)));
+        return $this
+            ->createdResponse(new SubUserResource($this->subUserService->storeSubUser($request)));
     }
 
     /**
@@ -69,12 +68,14 @@ class SubUserController extends Controller
      */
     public function updateSubUser(SubUserRequest $request, User $subUser): JsonResponse
     {
-        $subUser = $this->subUserService->updateSubUser($request , $subUser);
-        if($subUser instanceof User){
-            return $this->success(new SubUserResource($subUser), $this->translateSuccessMessage('user' , 'updated'));
+        $subUser = $this->subUserService->updateSubUser($request, $subUser);
+
+        if ($subUser instanceof User) {
+            return $this->success(new SubUserResource($subUser),
+                $this->translateSuccessMessage('user', 'updated'));
         }
 
-        return $this->notFoundResponse($this->translateErrorMessage('user' , 'not_found'));
+        return $this->notFoundResponse($this->translateErrorMessage('user', 'not_found'));
     }
 
     /**
@@ -85,9 +86,11 @@ class SubUserController extends Controller
     public function destroy(User $subUser): JsonResponse
     {
         $subUserDeleted = $this->subUserService->deleteSubUser($subUser);
-        if($subUserDeleted){
-            return $this->success(null, $this->translateSuccessMessage('user' , 'deleted'));
+
+        if ($subUserDeleted) {
+            return $this->success(null, $this->translateSuccessMessage('user', 'deleted'));
         }
-        return $this->notFoundResponse($this->translateErrorMessage('user' , 'not_found'));
+
+        return $this->notFoundResponse($this->translateErrorMessage('user', 'not_found'));
     }
 }

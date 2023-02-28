@@ -4,13 +4,14 @@ namespace App\Http\Requests\Api\V1\Offers;
 
 use App\Traits\HttpResponse;
 use App\Traits\Translatable;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 
 class ChangeStatusRequest extends FormRequest
 {
-    use Translatable;
-    use HttpResponse;
+    use Translatable, HttpResponse;
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -26,14 +27,14 @@ class ChangeStatusRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'status' => ['required', 'boolean']
         ];
     }
 
-    public function messages()
+    public function messages(): array
     {
         return [
             'status.required' => $this->translateErrorMessage('status', 'required'),
@@ -41,7 +42,7 @@ class ChangeStatusRequest extends FormRequest
         ];
     }
 
-    public function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
+    public function failedValidation(Validator $validator)
     {
         throw new ValidationException($validator, $this->validation_errors($validator->errors()));
     }

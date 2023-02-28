@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api\V1\Site\Recipes;
 
-use App\Http\Controllers\Api\V1\Archive\ArchiveController;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\Site\Recipes\PharmacyRecipeRequest;
 use App\Http\Requests\Api\V1\Site\Recipes\RecipeRequest;
@@ -11,7 +10,6 @@ use App\Http\Resources\Api\V1\Site\Recipe\RecipeResource;
 use App\Http\Resources\Api\V1\Site\Recipes\PharmacyRecipeCollection;
 use App\Http\Resources\Api\V1\Site\VisitorRecipe\VisitorRecipeResource;
 use App\Models\User;
-use App\Models\V1\Archive;
 use App\Models\V1\DoctorVisit;
 use App\Models\V1\PharmacyVisit;
 use App\Models\V1\Product;
@@ -25,20 +23,19 @@ use App\Traits\PaginationTrait;
 use App\Traits\RoleTrait;
 use App\Traits\Translatable;
 use App\Traits\UserTrait;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class RecipeController extends Controller
 {
-    use UserTrait;
-    use HttpResponse;
-    use Translatable;
-    use PaginationTrait;
-    use RoleTrait;
-    use Translatable;
+    use UserTrait, HttpResponse, Translatable, PaginationTrait, RoleTrait, Translatable;
 
-    public function getAllRecipes()
+    /**
+     * @return JsonResponse
+     */
+    public function getAllRecipes(): JsonResponse
     {
         $data = [];
         if ($this->getRoleNameForAuthenticatedUser() == 'visitor') {
@@ -76,7 +73,11 @@ class RecipeController extends Controller
         return $this->resourceResponse(new RecipeCollection($data));
     }
 
-    public function addRecipe(RecipeRequest $request)
+    /**
+     * @param RecipeRequest $request
+     * @return JsonResponse
+     */
+    public function addRecipe(RecipeRequest $request): JsonResponse
     {
 
         $errors = [];
@@ -111,8 +112,8 @@ class RecipeController extends Controller
 
             if (
                 $origial_product = Product::whereIn('role_id', $this->getRolesIdsByName(['ceo', 'data_entry']))
-                ->where('id', $product_id)
-                ->first(['id', 'limited'])
+                    ->where('id', $product_id)
+                    ->first(['id', 'limited'])
             ) {
                 // Check If the product is limited or not
                 if ($origial_product->limited) {
@@ -195,7 +196,7 @@ class RecipeController extends Controller
     /**
      * Summary of getProductsWithRandomNumber.
      *
-     * @return \Illuminate\Http\JsonResponse|array
+     * @return JsonResponse|array
      */
     public function getProductsWithRandomNumber(Request $request)
     {
@@ -238,8 +239,12 @@ class RecipeController extends Controller
         return $this->resourceResponse(new VisitorRecipeResource($recipe));
     }
 
-
-    public function acceptVisitorRecipeFromPharmacy(PharmacyRecipeRequest $request, VisitorRecipe $recipe)
+    /**
+     * @param PharmacyRecipeRequest $request
+     * @param VisitorRecipe $recipe
+     * @return JsonResponse
+     */
+    public function acceptVisitorRecipeFromPharmacy(PharmacyRecipeRequest $request, VisitorRecipe $recipe): JsonResponse
     {
         $recipeDetails = $recipe->details['products'] ?? [];
         $recipeDetailsCount = count($recipeDetails);
@@ -279,7 +284,7 @@ class RecipeController extends Controller
                         ->whereIn('user_id', $this->getSubUsersForUser())
                         ->withSum(
                             [
-                                'product_details' => fn ($query) => $query->where('expire_date', '>', date('Y-m-d')),
+                                'product_details' => fn($query) => $query->where('expire_date', '>', date('Y-m-d')),
                             ],
                             'qty'
                         )

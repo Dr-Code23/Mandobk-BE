@@ -4,7 +4,7 @@ namespace App\Http\Requests\Api\V1\Profile;
 
 use App\Traits\HttpResponse;
 use App\Traits\Translatable;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password as RulesPassword;
 use Illuminate\Validation\ValidationException as ValidationValidationException;
@@ -13,6 +13,7 @@ class ProfileRequest extends FormRequest
 {
     use Translatable;
     use HttpResponse;
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -40,11 +41,11 @@ class ProfileRequest extends FormRequest
                     ->symbols(),
             ],
             'avatar' => ['sometimes', 'image', 'mimes:png,jpg', 'max:2048'],
-            'phone' => ['required', 'unique:users,phone,' . Auth::id() . ',id', 'numeric']
+            'phone' => ['required', 'unique:users,phone,' . auth()->id() . ',id', 'numeric']
         ];
     }
 
-    public function messages()
+    public function messages(): array
     {
         return [
             'full_name.required' => $this->translateErrorMessage('full_name', 'required'),
@@ -57,7 +58,7 @@ class ProfileRequest extends FormRequest
         ];
     }
 
-    public function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
+    public function failedValidation(Validator $validator)
     {
         throw new ValidationValidationException($validator, $this->validation_errors($validator->errors()));
     }

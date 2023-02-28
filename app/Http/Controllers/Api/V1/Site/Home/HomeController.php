@@ -10,6 +10,7 @@ use Illuminate\Http\JsonResponse;
 class HomeController extends Controller
 {
     use HttpResponse;
+
     /**
      * Get Home Page Statistics To Show
      * @param GetHomeInfoAction $homeInfoAction

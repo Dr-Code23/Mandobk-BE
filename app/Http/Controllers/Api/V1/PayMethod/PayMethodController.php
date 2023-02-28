@@ -19,6 +19,6 @@ class PayMethodController extends Controller
      */
     public function getAllPayMethods(): JsonResponse
     {
-        return $this->ResourceResponse(new PayMethodCollection(PayMethod::all(['name', 'id'])));
+        return $this->resourceResponse(new PayMethodCollection(PayMethod::all(['name', 'id'])));
     }
 }

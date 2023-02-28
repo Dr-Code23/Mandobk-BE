@@ -12,16 +12,16 @@ use App\Traits\HttpResponse;
 use App\Traits\Translatable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class OrderManagementController extends Controller
 {
     use HttpResponse, Translatable;
 
-
-    public function __construct(
-        private OrderManagementService $orderManagementService
-    ) {
+    /**
+     * @param OrderManagementService $orderManagementService
+     */
+    public function __construct(private OrderManagementService $orderManagementService)
+    {
     }
 
     /**
@@ -49,6 +49,7 @@ class OrderManagementController extends Controller
 
             return $this->success(new OrderManagementResource($order), $this->translateSuccessMessage('order', 'updated'));
         }
+
         return $this->notFoundResponse(msg: $this->translateErrorMessage('order', 'not_found'));
     }
 }

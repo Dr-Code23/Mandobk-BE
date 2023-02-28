@@ -12,33 +12,45 @@ use App\Services\Api\V1\Offers\OfferService;
 use App\Traits\HttpResponse;
 use App\Traits\Translatable;
 use App\Traits\UserTrait;
+use Illuminate\Http\JsonResponse;
 
 class OfferController extends Controller
 {
-    use UserTrait;
-    use Translatable;
-    use HttpResponse;
+    use UserTrait, Translatable, HttpResponse;
 
     public function __construct(
         protected OfferService $offerService,
-    ) {
+    )
+    {
     }
 
-    public function index()
+    /**
+     * @return JsonResponse
+     */
+    public function index(): JsonResponse
     {
         return $this->resourceResponse(new OfferCollection($this->offerService->allOffers()));
     }
 
+    /**
+     * @param Offer $offer
+     * @return JsonResponse
+     */
     public function show(Offer $offer)
     {
         $offer = $this->offerService->show($offer);
-        if ($offer != null)
 
+        if ($offer != null){
             return $this->resourceResponse(new OfferResource($offer));
+        }
 
         return $this->notFoundResponse($this->translateErrorMessage('offer', 'not_exists'));
     }
 
+    /**
+     * @param OfferRequest $request
+     * @return JsonResponse
+     */
     public function store(OfferRequest $request)
     {
         $offer = $this->offerService->store($request);
@@ -51,7 +63,12 @@ class OfferController extends Controller
         return $this->createdResponse(new OfferResource($offer));
     }
 
-    public function changeOfferStatus(ChangeStatusRequest $request, Offer $offer)
+    /**
+     * @param ChangeStatusRequest $request
+     * @param Offer $offer
+     * @return JsonResponse
+     */
+    public function changeOfferStatus(ChangeStatusRequest $request, Offer $offer): JsonResponse
     {
         $offer = $this->offerService->changeOfferStatus($request, $offer);
 
@@ -62,11 +79,18 @@ class OfferController extends Controller
         return $this->success(new OfferResource($offer), 'Offer Updated Successfully');
     }
 
-
-    public function destroy(Offer $offer)
+    /**
+     * @param Offer $offer
+     * @return JsonResponse
+     */
+    public function destroy(Offer $offer): JsonResponse
     {
         $offer = $this->offerService->destroy($offer);
-        if ($offer) return $this->success(null, 'Offer Deleted Successfully');
+
+        if ($offer) {
+            return $this->success(null, 'Offer Deleted Successfully');
+        }
+
         return $this->notFoundResponse('Offer Not Found');
     }
 }

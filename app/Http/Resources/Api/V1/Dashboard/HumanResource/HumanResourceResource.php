@@ -6,6 +6,11 @@ use App\Traits\DateTrait;
 use App\Traits\Translatable;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @property mixed $id
+ * @property mixed $user_id
+ * @property mixed $full_name
+ */
 class HumanResourceResource extends JsonResource
 {
     use Translatable;

@@ -10,15 +10,14 @@ use Illuminate\Validation\ValidationException;
 
 class MarktingRequest extends FormRequest
 {
-    use Translatable;
-    use HttpResponse;
+    use Translatable, HttpResponse;
 
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -47,7 +46,7 @@ class MarktingRequest extends FormRequest
      *
      * @return array
      */
-    public function messages()
+    public function messages(): array
     {
         return [
             'medicine_name.required' => $this->translateErrorMessage('medicine_name', 'required'),

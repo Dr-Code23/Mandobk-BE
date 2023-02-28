@@ -8,19 +8,29 @@ use App\RepositoryInterface\SalesRepositoryInterface;
 
 class SaleController extends Controller
 {
-    private SalesRepositoryInterface $salesRepository;
+    protected SalesRepositoryInterface $salesRepository;
 
+    /**
+     * @param SalesRepositoryInterface $salesRepository
+     */
     public function __construct(SalesRepositoryInterface $salesRepository)
     {
         $this->salesRepository = $salesRepository;
     }
 
-    public function index()
+    /**
+     * @return mixed
+     */
+    public function index(): mixed
     {
         return $this->salesRepository->getAllSales();
     }
 
-    public function store(SaleRequest $request)
+    /**
+     * @param SaleRequest $request
+     * @return mixed
+     */
+    public function store(SaleRequest $request): mixed
     {
         return $this->salesRepository->storeSale($request);
     }
