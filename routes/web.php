@@ -4,6 +4,7 @@ use App\Events\PusherEvent;
 use App\Http\Controllers\Handler;
 use App\Http\Controllers\TestController;
 use App\Mail\TestingMail;
+use App\Models\User;
 use BeyondCode\LaravelWebSockets\Facades\WebSocketsRouter;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Mail;
@@ -28,6 +29,5 @@ Route::get('mail', function () {
 });
 
 Route::get('', function () {
-    // Hello
-    return view('welcome');
+    return User::all();
 });
