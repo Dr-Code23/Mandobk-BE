@@ -1,6 +1,7 @@
 <?php
 
 use App\Events\PusherEvent;
+use App\Http\Controllers\Api\V1\Roles\RoleController;
 use App\Http\Controllers\Handler;
 use App\Mail\TestingMail;
 use App\Models\User;
@@ -25,6 +26,4 @@ Route::get('mail', function () {
     Mail::to('user@example.com')->send(new TestingMail());
 });
 
-Route::get('', function () {
-    return User::all();
-});
+route::view('', 'welcome');
