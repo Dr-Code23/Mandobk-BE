@@ -73,7 +73,8 @@ class AuthService
                     'username' => $user->username,
                     'phone' => $user->phone,
                     'full_name' => $this->strLimit($user->full_name),
-                    'role' => Role::where('id', $user->role_id)->value('name'),
+                    // 'role' => Role::where('id', $user->role_id)->value('name'),
+                    'role' => $this->getRoleNameById($user->role_id),
                     'token' => $token,
                     'avatar' => asset('/storage/users/' . ($user->avatar ? $user->avatar : 'user.png'))
                 ];

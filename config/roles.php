@@ -45,4 +45,5 @@ return [
         'pharmacy' => 'IN',
         'pharmacy_sub_user' => 'IN',
     ],
+    'rolesHasSubUsers' => ['pharmacy']
 ];

@@ -21,7 +21,7 @@ class ProfileResource extends JsonResource
             'full_name' => $this->full_name,
             'username' => $this->username,
             'phone' => $this->phone,
-            'role' => $this->whenLoaded('role', Role::where('id', $this->role_id)->value('name')),
+            'role' => $this->whenLoaded('role', $this->getRoleNameById($this->role_id)),
             'avatar' => asset('storage/users/' . ($this->avatar ?? 'user.png')),
             'password_changed' => $this->passwordChanged
         ];

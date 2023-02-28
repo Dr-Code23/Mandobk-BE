@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\UserHasPermissions;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -64,17 +65,18 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'isAuthenticated' => \App\Http\Middleware\IsAuthenticated::class,
-        'hasDataEntryPermissions' => \App\Http\Middleware\HasDataEntryAccess::class,
-        'hasMonitorAndEvaluationPermissions' => \App\Http\Middleware\HasMonitorAndEvaluationAccess::class,
-        'hasHumanResourcePermissions' => \App\Http\Middleware\HasHumanResourceAccess::class,
-        'hasMarktingPermissions' => \App\Http\Middleware\HasMarktingAccess::class,
-        'hasCompanyPermissions' => \App\Http\Middleware\HasCompanyAccess::class,
-        'hasStorehousePermissions' => \App\Http\Middleware\HasStorehouseAccess::class,
-        'hasDoctorPermissions' => \App\Http\Middleware\HasDoctorAccess::class,
-        'hasVisitorPermissions' => \App\Http\Middleware\HasVisitorAccess::class,
-        'hasOrderManagementPermissions' => \App\Http\Middleware\HasOrderManagementAccess::class,
+        // 'hasDataEntryPermissions' => \App\Http\Middleware\HasDataEntryAccess::class,
+        // 'hasMonitorAndEvaluationPermissions' => \App\Http\Middleware\HasMonitorAndEvaluationAccess::class,
+        // 'hasHumanResourcePermissions' => \App\Http\Middleware\HasHumanResourceAccess::class,
+        // 'hasMarktingPermissions' => \App\Http\Middleware\HasMarktingAccess::class,
+        // 'hasCompanyPermissions' => \App\Http\Middleware\HasCompanyAccess::class,
+        // 'hasStorehousePermissions' => \App\Http\Middleware\HasStorehouseAccess::class,
+        // 'hasDoctorPermissions' => \App\Http\Middleware\HasDoctorAccess::class,
+        // 'hasVisitorPermissions' => \App\Http\Middleware\HasVisitorAccess::class,
+        // 'hasOrderManagementPermissions' => \App\Http\Middleware\HasOrderManagementAccess::class,
         'hasProductPermissions' => \App\Http\Middleware\HasProductAccess::class,
         'hasSalesPermissions' => \App\Http\Middleware\HasSalesAccess::class,
         'hasNotificationsAccess' => \App\Http\Middleware\hasNotificationAccess::class,
+        'userHasPermissions' => UserHasPermissions::class,
     ];
 }

@@ -6,33 +6,43 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\Product\ProductRequest;
 use App\Http\Resources\Api\V1\Product\ProductResource;
 use App\Models\V1\Product;
-use App\RepositoryInterface\ProductRepositoryInterface;
 use App\Services\Api\V1\Products\ProductService;
 use App\Traits\HttpResponse;
 use App\Traits\RoleTrait;
 use App\Traits\Translatable;
 use App\Traits\UserTrait;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 class ProductController extends Controller
 {
     use UserTrait, RoleTrait, Translatable, HttpResponse;
-    private ProductRepositoryInterface $productRepository;
 
-    public function __construct(ProductRepositoryInterface $productRepository)
-    {
-        $this->productRepository = $productRepository;
+    /**
+     * @param ProductService $productService
+     */
+    public function __construct(
+        private ProductService $productService
+    ){
     }
 
-    public function index(ProductService $productService)
+    /**
+     * Fetch All Products
+     * @return JsonResponse
+     */
+    public function index(): JsonResponse
     {
-        return $productService->fetchAllProducts();
+        return $this->productService->fetchAllProducts();
     }
 
-    public function showWithoutDetails(Product $product, ProductService $productService)
+    /**
+     * Show Product Without Fetching `ProductInfo` Relationship
+     * @param Product $product
+     * @return JsonResponse
+     */
+    public function showWithoutDetails(Product $product): JsonResponse
     {
-        $product = $productService->showOnProductWithoutDetails($product);
+        $product = $this->productService->showOnProductWithoutDetails($product);
 
         if ($product != null)
             return $this->resourceResponse(new ProductResource($product));
@@ -41,11 +51,16 @@ class ProductController extends Controller
     }
 
 
-    public function storeOrUpdate(ProductRequest $request, ProductService $productService)
+    /**
+     * Store Or Update Product For User
+     * @param ProductRequest $request
+     * @return JsonResponse
+     */
+    public function storeOrUpdate(ProductRequest $request): JsonResponse
     {
-        $product = $productService->storeOrUpdate($request);
+        $product = $this->productService->storeOrUpdate($request);
 
-        if (is_bool($product) && $product == false) return $this->error(
+        if (is_bool($product) && !$product) return $this->error(
             null,
             'Failed To Store Barcode',
             Response::HTTP_INTERNAL_SERVER_ERROR
@@ -54,22 +69,44 @@ class ProductController extends Controller
         return $this->resourceResponse(new ProductResource($product));
     }
 
-    public function destroy(Product $product)
+    /**
+     * Delete Product
+     * @param Product $product
+     * @return JsonResponse
+     */
+    public function destroy(Product $product): JsonResponse
     {
-        return $this->productRepository->deleteProduct($product);
+        $productDeleted = $this->productService->destroy($product);
+        if($productDeleted)return $this->success(null , $this->translateSuccessMessage('product' , 'deleted'));
+        else return $this->notFoundResponse($this->translateErrorMessage('product' , 'not_exists'));
     }
 
-    public function ScientificNamesSelect(ProductService $productService)
+    /**
+     * Fetch All Scientific Names For Select Box
+     * @param ProductService $productService
+     * @return JsonResponse
+     */
+    public function ScientificNamesSelect(ProductService $productService): JsonResponse
     {
         return $this->resourceResponse($productService->ScientificNamesSelect());
     }
 
-    public function CommercialNamesSelect(ProductService $productService)
+    /**
+     * Fetch All Commercial Names For Select Box
+     * @param ProductService $productService
+     * @return JsonResponse
+     */
+    public function CommercialNamesSelect(ProductService $productService): JsonResponse
     {
         return $this->resourceResponse($productService->CommercialNamesSelect());
     }
 
-    public function doctorProducts(ProductService $productService)
+    /**
+     * Fetch All Products For Doctor
+     * @param ProductService $productService
+     * @return JsonResponse
+     */
+    public function doctorProducts(ProductService $productService): JsonResponse
     {
         return $this->resourceResponse($productService->doctorProducts());
     }

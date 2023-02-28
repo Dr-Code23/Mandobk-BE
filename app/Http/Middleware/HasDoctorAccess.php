@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Traits\HttpResponse;
+use App\Traits\RoleTrait;
 use App\Traits\UserTrait;
 use Illuminate\Http\Request;
 
@@ -10,7 +11,6 @@ class hasDoctorAccess
 {
     use UserTrait;
     use HttpResponse;
-
     /**
      * Handle an incoming request.
      *

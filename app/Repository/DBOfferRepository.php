@@ -44,7 +44,7 @@ class DBOfferRepository implements OfferRepositoryInterface
                 $this->getAuthenticatedUserInformation()->role_id
             )
             ->first(['name'])->name == 'company' ? '1' : '2')
-            ->whereIn('offers.user_id', $this->getSubUsersForAuthenticatedUser())
+            ->whereIn('offers.user_id', $this->getSubUsersForUser())
             ->where(function ($query) use ($request) {
                 if ($request->has('type')) {
                     $type = $request->input('type');
@@ -87,7 +87,7 @@ class DBOfferRepository implements OfferRepositoryInterface
         $offer = $this->offerModel->where('offers.id', $offer->id)
             ->join('products', 'products.id', 'offers.product_id')
             ->where('type', $this->roleModel->where('id', $this->getAuthenticatedUserInformation()->role_id)->first(['name'])->name == 'company' ? '1' : '2')
-            ->whereIn('offers.user_id', $this->getSubUsersForAuthenticatedUser())
+            ->whereIn('offers.user_id', $this->getSubUsersForUser())
 
             ->first([
                 'offers.id as id',

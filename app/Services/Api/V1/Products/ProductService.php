@@ -32,7 +32,7 @@ class ProductService
 
         $products = Product::where(function ($query) {
             if (!$this->roleNameIn(['ceo', 'data_entry']))
-                $query->whereIn('products.user_id', $this->getSubUsersForAuthenticatedUser());
+                $query->whereIn('products.user_id', $this->getSubUsersForUser());
         })
             ->with(['product_details' => function ($query) {
                 $query->select(
@@ -61,14 +61,16 @@ class ProductService
         // return $product;
         $product = Product::where('id', $product->id)
             //? Should Use `whenLoaded` method in ProductResource To Prevent Showing Relationship
-            // ->without('product_details')
+//            // ->without('product_details')
             ->where(function ($query) {
-                if ($this->roleNameIn(['ceo', 'data_entry'])) $query->whereIn('role_id', $this->getRolesIdsByName(['ceo', 'data_entry']));
-                else  $query->whereIn('user_id', $this->getSubUsersForAuthenticatedUser());
+                if ($this->roleNameIn(['ceo', 'data_entry'])) {
+                    $query->whereIn('role_id', $this->getRolesIdsByName(['ceo', 'data_entry']));
+                }
+                else  $query->whereIn('user_id', $this->getSubUsersForUser());
             })
             ->withSum('product_details', 'qty')
             ->first();
-
+//        return $product;
         if ($product) {
             return $product;
         }
@@ -96,7 +98,7 @@ class ProductService
             })
                 ->where(function ($query) {
                     if ($this->roleNameIn(['ceo', 'data_entry'])) $query->whereIn('role_id', $this->getRolesIdsByName(['ceo', 'data_entry']));
-                    else  $query->whereIn('user_id', $this->getSubUsersForAuthenticatedUser());
+                    else  $query->whereIn('user_id', $this->getSubUsersForUser());
                 })
                 ->first();
 
@@ -161,12 +163,24 @@ class ProductService
 
         // Failed To Create Or Store the barcode
         return false;
-
-        // Either commercial Name or scientific_name exists
-
     }
 
 
+    /**
+     * Delete Product For User
+     * @param $product
+     * @return bool
+     */
+    public function destroy($product): bool
+    {
+        if (in_array($product->user_id, $this->getSubUsersForUser())) {
+            $this->deleteBarCode($product->barcode);
+            $product->delete();
+            return true;
+        }
+
+        return false;
+    }
     public function ScientificNamesSelect()
     {
         return Product::where('user_id', Auth::id())

@@ -16,7 +16,7 @@ class OfferOrderManagementController extends Controller
     {
         return OfferOrder::whereIn(
             'offer_orders.want_offer_id',
-            $this->getSubUsersForAuthenticatedUser()
+            $this->getSubUsersForUser()
         )
             ->join(
                 'users as want_offer_users',

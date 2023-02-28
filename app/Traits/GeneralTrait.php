@@ -3,7 +3,7 @@
 namespace App\Traits;
 
 use App\Models\V1\Role;
-use Cache;
+use Illuminate\Support\Facades\Cache;
 
 trait GeneralTrait
 {
@@ -11,14 +11,14 @@ trait GeneralTrait
     public function formatPatchNumber(string $val, int $roleId)
     {
         // Cache All Roles Ids
-        if (!Cache::get('all_roles')) {
-            $roles = [];
-            foreach (Role::all(['id', 'name']) as $role) {
-                $roles[$role->name] = $role->id;
-            }
-            Cache::set('all_roles', $roles);
-        }
-        $all_roles = Cache::get('all_roles');
+        // if (!Cache::get('all_roles')) {
+        //     $roles = [];
+        //     foreach (Role::all(['id', 'name']) as $role) {
+        //         $roles[$role->name] = $role->id;
+        //     }
+        //     Cache::set('all_roles', $roles);
+        // }
+        $all_roles = $this->getCachedRoles();
 
         // Return The Original Path Number For All Users Except Admins
 

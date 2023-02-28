@@ -7,24 +7,23 @@ use App\Http\Resources\Api\V1\Product\ProductCollection;
 use App\Models\V1\Product;
 use App\Models\V1\Role;
 use App\Models\V1\Sale;
+use App\Traits\RoleTrait;
 use App\Traits\StringTrait;
 use App\Traits\UserTrait;
 
 class HomeController extends Controller
 {
-    use UserTrait, StringTrait;
+    use UserTrait, StringTrait, RoleTrait;
 
     public function index()
     {
-        // Purchase Price
-        // return date('Y-m-d', strtotime('- 29 days'));
         $total_purchases = $total_sales =
             $daily_purchases = $daily_sales =
-            $monthly_purchases = $monthly_sales =
-            $dailyProfits = $monthlyProfits = $totalProfits = 0;
+            $monthly_purchases = $monthly_sales = 0;
 
+        $subUsers = $this->getSubUsersForUser();
         // Purchases
-        foreach (Product::whereIn('user_id', $this->getSubUsersForAuthenticatedUser())
+        foreach (Product::whereIn('user_id', $subUsers)
             ->get(['original_total as total', 'created_at']) as $product) {
             // product info
             $purchase = $product->total;
@@ -43,7 +42,7 @@ class HomeController extends Controller
         }
 
         // Sales
-        foreach (Sale::whereIn('from_id', $this->getSubUsersForAuthenticatedUser())
+        foreach (Sale::whereIn('from_id', $subUsers)
             ->select('total', 'created_at')->get() as $sale) {
             $sale_info = $sale->total;
             $total_sales += $sale->total;
@@ -56,12 +55,9 @@ class HomeController extends Controller
             }
         }
 
-        $dailyProfits = $daily_sales - $daily_purchases;
-        $monthlyProfits = $monthly_sales - $monthly_purchases;
-        $totalProfits = $total_sales - $total_purchases;
-        if ($dailyProfits <= 0) $dailyProfits = 0;
-        if ($monthlyProfits <= 0) $monthlyProfits = 0;
-        if ($totalProfits <= 0) $totalProfits = 0;
+        $dailyProfits = max($daily_sales - $daily_purchases , 0);
+        $monthlyProfits = max($monthly_sales - $monthly_purchases,0);
+        $totalProfits = max($total_sales - $total_purchases,0);
         $home_info = [
             'daily_purchases' => $this->setPercisionForFloatString($daily_purchases, 2, '.', ','),
             'daily_sales' => $this->setPercisionForFloatString($daily_sales, 2, '.', ','),
@@ -69,7 +65,7 @@ class HomeController extends Controller
         ];
 
         // Check If the User Is A Pharmacy Sub User
-        if (Role::where('name', 'pharmacy_sub_user')->value('id') != $this->getAuthenticatedUserInformation()->role_id) {
+        if ($this->getRoleIdByName('pharmacy_sub_user') != $this->getAuthenticatedUserInformation()->role_id) {
             $home_info['total_purchases'] = $this->setPercisionForFloatString($total_purchases, 2, '.', ',');
             $home_info['total_sales'] = $this->setPercisionForFloatString($total_sales, 2, '.', ',');
             $home_info['total_profits'] = $this->setPercisionForFloatString($totalProfits, 2, '.', ',');
@@ -81,7 +77,7 @@ class HomeController extends Controller
             new ProductCollection(
                 Product::whereIn(
                     'products.user_id',
-                    $this->getSubUsersForAuthenticatedUser()
+                    $subUsers
                 )
                     ->with('product_details')
                     ->limit(7)->get()

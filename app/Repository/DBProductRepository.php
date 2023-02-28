@@ -28,7 +28,7 @@ class DBProductRepository implements ProductRepositoryInterface
     {
         $products = Product::where(function ($query) {
             if (!$this->roleNameIn(['ceo', 'data_entry']))
-                $query->whereIn('products.user_id', $this->getSubUsersForAuthenticatedUser());
+                $query->whereIn('products.user_id', $this->getSubUsersForUser());
         })
             ->with(['product_details' => function ($query) {
                 $query->select(
@@ -55,7 +55,7 @@ class DBProductRepository implements ProductRepositoryInterface
         $product = Product::where('id', $product->id)
             //? Should Use `whenLoaded` method in ProductResource To Prevent Showing Relationship
             // ->without('product_details')
-            ->whereIn('user_id', $this->getSubUsersForAuthenticatedUser())
+            ->whereIn('user_id', $this->getSubUsersForUser())
             ->first();
 
         if ($product) {
@@ -69,7 +69,7 @@ class DBProductRepository implements ProductRepositoryInterface
         $product = Product::where('products.id', $product->id)
             ->where(function ($query) {
                 if (!$this->roleNameIn(['ceo', 'data_entry']))
-                    $query->whereIn('products.user_id', $this->getSubUsersForAuthenticatedUser());
+                    $query->whereIn('products.user_id', $this->getSubUsersForUser());
             })
             ->with(['product_details' => function ($query) {
                 $query->select(
@@ -107,7 +107,7 @@ class DBProductRepository implements ProductRepositoryInterface
                 $bind->where('com_name', $commercial_name);
                 $bind->where('sc_name', $scientific_name);
                 $bind->where('con', $concentrate);
-                $bind->whereIn('user_id', $this->getSubUsersForAuthenticatedUser());
+                $bind->whereIn('user_id', $this->getSubUsersForUser());
             })->first(['id'])
         ) {
             $product_exists = true;
@@ -179,8 +179,8 @@ class DBProductRepository implements ProductRepositoryInterface
         $concentrate = $this->setPercisionForFloatString($request->concentrate);
 
         $admin_roles = [
-            Role::where('name', 'ceo')->value('id'),
-            Role::where('name', 'data_entry')->value('id'),
+            $this->getRoleIdByName('ceo'),
+            $this->getRoleIdByName('data_entry'),
         ];
         // Check if either commercial name or scientific_name exists
         $product_exists = false;
@@ -189,7 +189,7 @@ class DBProductRepository implements ProductRepositoryInterface
                 $bind->where('com_name', $commercial_name);
                 $bind->where('sc_name', $scientific_name);
                 $bind->where('con', $concentrate);
-                $bind->whereIn('user_id', $this->getSubUsersForAuthenticatedUser());
+                $bind->whereIn('user_id', $this->getSubUsersForUser());
                 $bind->where('id', '!=', $product->id);
             })->first(['id'])
         ) {
@@ -283,7 +283,7 @@ class DBProductRepository implements ProductRepositoryInterface
      */
     public function deleteProduct($product)
     {
-        if (in_array($product->user_id, $this->getSubUsersForAuthenticatedUser())) {
+        if (in_array($product->user_id, $this->getSubUsersForUser())) {
             $this->deleteBarCode($product->barcode);
             $product->delete();
 

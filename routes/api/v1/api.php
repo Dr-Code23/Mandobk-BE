@@ -64,15 +64,15 @@ Route::group(['middleware' => ['auth:api']], function () {
         function () {
 
             Route::get('/storehouse', [UserController::class, 'getUsersForSelectBox'])
-                ->middleware(['hasCompanyPermissions'])
+                ->middleware(['userHasPermissions:company,true'])
                 ->name('roles-storehouse-all');
 
             Route::get('/human_resource', [UserController::class, 'getHumanResourceUsers'])
-                ->middleware('hasHumanResourcePermissions')
+                ->middleware('userHasPermissions:human_resource,false')
                 ->name('roles-human_resource-all');
 
             Route::get('/pharmacy', [UserController::class, 'getUsersForSelectBox'])
-                ->middleware(['hasStorehousePermissions'])
+                ->middleware(['userHasPermissions:storehouse,true'])
                 ->name('roles-pharmacy-all');
         }
     );
@@ -84,7 +84,7 @@ Route::group(['middleware' => ['auth:api']], function () {
         function () {
             Route::get('doctor_products', [ProductController::class, 'doctorProducts'])
                 ->withoutMiddleware('hasProductPermissions')
-                ->middleware('hasDoctorPermissions')
+                ->middleware('userHasPermissions:doctor,true')
                 ->name('v1-products-doctor');
             Route::get('', [ProductController::class, 'index'])->name('v1-products-all');
             Route::get('scientific_name', [ProductController::class, 'ScientificNamesSelect'])->name('v1-products-scientific');
@@ -126,14 +126,14 @@ Route::group(['middleware' => ['auth:api']], function () {
         // Company
 
         Route::group(
-            ['prefix' => 'company', 'middleware' => ['hasCompanyPermissions']],
+            ['prefix' => 'company', 'middleware' => ['userHasPermissions:company,true']],
             function () {
                 Route::get('', [HomeController::class, 'index']);
             }
         );
 
         // Storehouse
-        Route::group(['prefix' => 'storehouse', 'middleware' => ['hasStorehousePermissions']], function () {
+        Route::group(['prefix' => 'storehouse', 'middleware' => ['userHasPermissions:storehouse,true']], function () {
             Route::get('', [HomeController::class, 'index']);
 
             // Company Offers
@@ -149,7 +149,7 @@ Route::group(['middleware' => ['auth:api']], function () {
         // Pharmacy
 
         Route::group(
-            ['prefix' => 'pharmacy', 'namespace' => 'Pharmacy'],
+            ['prefix' => 'pharmacy', 'middleware' => 'userHasPermissions:pharmacy,true'],
             function () {
                 Route::get('', [HomeController::class, 'index']);
 
@@ -184,7 +184,7 @@ Route::group(['middleware' => ['auth:api']], function () {
 
         // Doctor
         Route::group(
-            ['prefix' => 'doctor', 'middleware' => 'hasDoctorPermissions'],
+            ['prefix' => 'doctor', 'middleware' => 'userHasPermissions:doctor,true'],
             function () {
                 // Recipe
                 Route::group(
@@ -217,7 +217,7 @@ Route::group(['middleware' => ['auth:api']], function () {
 
         // Visitor
         Route::group(
-            ['prefix' => 'visitor', 'middleware' => ['hasVisitorPermissions']],
+            ['prefix' => 'visitor', 'middleware' => ['userHasPermissions:visitor,true']],
             function () {
                 Route::group(
                     ['prefix' => 'archive'],
@@ -245,7 +245,7 @@ Route::group(['middleware' => ['auth:api']], function () {
             // Monitor And Evaluation
 
             Route::group(
-                ['prefix' => 'monitor_and_evaluation', 'middleware' => ['hasMonitorAndEvaluationPermissions']],
+                ['prefix' => 'monitor_and_evaluation', 'middleware' => ['userHasPermissions:monitor_and_evaluation,false']],
                 function () {
                     Route::get('', [MonitorAndEvaluationController::class, 'index'])->name('monitor-all');
                     Route::get('/{user}', [MonitorAndEvaluationController::class, 'show'])->name('monitor-one');
@@ -258,7 +258,7 @@ Route::group(['middleware' => ['auth:api']], function () {
             // Human Resources
 
             Route::group(
-                ['prefix' => 'human_resources', 'middleware' => ['hasHumanResourcePermissions']],
+                ['prefix' => 'human_resources', 'middleware' => ['userHasPermissions:human_resource,false']],
                 function () {
                     Route::get('', [HumanResourceController::class, 'index'])->name('human_resource_all');
                     Route::get('{humanResource}', [HumanResourceController::class, 'show'])->name('human_resource_one');
@@ -269,7 +269,7 @@ Route::group(['middleware' => ['auth:api']], function () {
             // Markting
 
             Route::group(
-                ['prefix' => 'markting', 'middleware' => ['hasMarktingPermissions']],
+                ['prefix' => 'markting', 'middleware' => ['userHasPermissions:markting,false']],
                 function () {
                     Route::get('', [MarktingController::class, 'index'])->name('markting-all');
                     Route::post('', [MarktingController::class, 'store'])->name('markting_store');
@@ -281,7 +281,7 @@ Route::group(['middleware' => ['auth:api']], function () {
 
             // Order Management
             Route::group(
-                ['prefix' => 'order_management', 'middleware' => ['hasOrderManagementPermissions']],
+                ['prefix' => 'order_management', 'middleware' => ['userHasPermissions:order_management,false']],
                 function () {
                     Route::get('', [OrderManagementController::class, 'index'])->name('management-all');
                     Route::post('{order}', [OrderManagementController::class, 'acceptPendingOrders'])->name('management-accept');
@@ -291,7 +291,7 @@ Route::group(['middleware' => ['auth:api']], function () {
 
             // User Management
 
-            Route::group(['prefix' => 'user_management'], function () {
+            Route::group(['prefix' => 'user_management', 'middleware' => ['userHasPermissions:ceo,false']], function () {
                 Route::get('', [UserController::class, 'getAllUsersInDashboardToApprove'])->name('dashboard-user-all');
                 Route::put('{user}', [UserController::class, 'changeUserStatus'])->name('dashboard-user-update');
             });

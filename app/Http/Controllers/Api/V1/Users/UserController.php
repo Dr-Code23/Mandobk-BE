@@ -77,7 +77,7 @@ class UserController extends Controller
     public function registerNewVisitor(RegisterVisitorRequest $request)
     {
         $visitor = User::create($request->validated() + [
-            'role_id' => Role::where('name', 'visitor')->value('id'),
+            'role_id' => $this->getRoleIdByName('visitor'),
             'full_name' => $request->name,
             'status' => '1'
         ]);

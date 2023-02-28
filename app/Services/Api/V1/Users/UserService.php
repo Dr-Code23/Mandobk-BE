@@ -50,7 +50,8 @@ class UserService
             if ($status != $user->status) {
                 $user->update(['status' => $status]);
             }
-            $roleName = Role::where('id', $user->role_id)->value('name');
+            // $roleName = Role::where('id', $user->role_id)->value('name');
+            $roleName = $this->getRoleNameById($user->role_id);
             $user->role = $roleName;
             return $user;
         }
@@ -74,8 +75,8 @@ class UserService
             $role_name = 'pharmacy';
         }
         if ($role_name) {
-            $role_id = Role::where('name', $role_name)->value('id');
-
+            // $role_id = Role::where('name', $role_name)->value('id');
+            $role_id = $this->getRoleIdByName($role_name);
             $users = User::where('role_id', $role_id)->get(['id', 'full_name']);
 
             return $users;

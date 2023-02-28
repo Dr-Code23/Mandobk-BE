@@ -6,7 +6,7 @@ use App\Models\V1\Product;
 use App\Traits\FileOperationTrait;
 use App\Traits\TestingTrait;
 use App\Traits\Translatable;
-use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
 class ProductTest extends TestCase

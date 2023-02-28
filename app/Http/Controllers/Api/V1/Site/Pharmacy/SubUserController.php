@@ -10,12 +10,13 @@ use App\Models\User;
 use App\Models\V1\Role;
 use App\Models\V1\SubUser;
 use App\Traits\HttpResponse;
+use App\Traits\RoleTrait;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class SubUserController extends Controller
 {
-    use HttpResponse;
+    use HttpResponse, RoleTrait;
 
     public function index()
     {
@@ -55,7 +56,7 @@ class SubUserController extends Controller
             'full_name' => $request->input('name'),
             'username' => $request->input('username'),
             'password' => $request->input('password'),
-            'role_id' => Role::where('name', 'pharmacy_sub_user')->value('id'),
+            'role_id' => $this->getRoleIdByName('pharmacy_sub_user'),
             'status' => '1',
         ]);
 

@@ -28,7 +28,7 @@ class DBSalesRepository implements SalesRepositoryInterface
     public function getAllSales()
     {
         $sales = Sale::join('users', 'sales.to_id', 'users.id')
-            ->whereIn('sales.from_id', $this->getSubUsersForAuthenticatedUser())
+            ->whereIn('sales.from_id', $this->getSubUsersForUser())
             ->get([
                 'sales.id as id',
                 'sales.from_id as from_id',
@@ -58,7 +58,7 @@ class DBSalesRepository implements SalesRepositoryInterface
 
         for ($i = 0; $i < $products_count; ++$i) {
             $products[$i]['product_exists'] = Product::where('id', $products[$i]['product_id'])
-                ->whereIn('user_id', $this->getSubUsersForAuthenticatedUser())
+                ->whereIn('user_id', $this->getSubUsersForUser())
                 ->first(['id'])
                 ? true : false;
         }

@@ -33,7 +33,7 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             UserSeeder::class,
             PayMethodSeeder::class,
-            // SubUserSeeder::class,
+             SubUserSeeder::class,
             // ProductSeeder::class,
             // ProductInfoSeeder::class,
             // HumanResourceSeeder::class,

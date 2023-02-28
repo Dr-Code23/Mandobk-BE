@@ -62,7 +62,7 @@ class RecipeController extends Controller
                     'doctor_visits.created_at as created_at',
                 ])->get();
         } elseif ($this->roleNameIn(['pharmacy', 'pharmacy_sub_user'])) {
-            $data = PharmacyVisit::whereIn('pharmacy_id', $this->getSubUsersForAuthenticatedUser())
+            $data = PharmacyVisit::whereIn('pharmacy_id', $this->getSubUsersForUser())
                 ->join('users', 'users.id', 'pharmacy_visits.pharmacy_id')
                 ->join('visitor_recipes', 'visitor_recipes.id', 'pharmacy_visits.visitor_recipe_id')
                 ->orderByDesc('pharmacy_visits.id')
@@ -276,7 +276,7 @@ class RecipeController extends Controller
                         $data[$j]['commercial_name'],
                         $data[$j]['alternative_commercial_name'] ?? null
                     ])
-                        ->whereIn('user_id', $this->getSubUsersForAuthenticatedUser())
+                        ->whereIn('user_id', $this->getSubUsersForUser())
                         ->withSum(
                             [
                                 'product_details' => fn ($query) => $query->where('expire_date', '>', date('Y-m-d')),
