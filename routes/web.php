@@ -28,5 +28,5 @@ Route::get('mail', function () {
 });
 
 Route::get('', function () {
-    return 'Mandobk Api';
+    return view('welcome')
 });
