@@ -28,5 +28,6 @@ Route::get('mail', function () {
 });
 
 Route::get('', function () {
+    // Hello
     return view('welcome');
 });
