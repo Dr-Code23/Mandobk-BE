@@ -14,7 +14,7 @@ trait UserTrait
 {
     use HttpResponse;
     /**
-     * Check If The User Has A Specefic Permission.
+     * Check If The User Has A Specific Permission.
      */
     public function hasPermission(string $permissionName = null, string $ExcludeCEO = 'yes'): bool
     {

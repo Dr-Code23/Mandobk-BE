@@ -2,8 +2,16 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\hasNotificationAccess;
+use App\Http\Middleware\hasProductAccess;
+use App\Http\Middleware\PreventRequestsDuringMaintenance;
+use App\Http\Middleware\TrimStrings;
+use App\Http\Middleware\TrustProxies;
 use App\Http\Middleware\UserHasPermissions;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
+use Illuminate\Foundation\Http\Middleware\ValidatePostSize;
+use Illuminate\Http\Middleware\HandleCors;
 
 class Kernel extends HttpKernel
 {
@@ -16,12 +24,12 @@ class Kernel extends HttpKernel
      */
     protected $middleware = [
         // \App\Http\Middleware\TrustHosts::class,
-        \App\Http\Middleware\TrustProxies::class,
-        \Illuminate\Http\Middleware\HandleCors::class,
-        \App\Http\Middleware\PreventRequestsDuringMaintenance::class,
-        \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
-        \App\Http\Middleware\TrimStrings::class,
-        \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        TrustProxies::class,
+        HandleCors::class,
+        PreventRequestsDuringMaintenance::class,
+        ValidatePostSize::class,
+        TrimStrings::class,
+        ConvertEmptyStringsToNull::class,
     ];
 
     /**
@@ -65,18 +73,9 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'isAuthenticated' => \App\Http\Middleware\IsAuthenticated::class,
-        // 'hasDataEntryPermissions' => \App\Http\Middleware\HasDataEntryAccess::class,
-        // 'hasMonitorAndEvaluationPermissions' => \App\Http\Middleware\HasMonitorAndEvaluationAccess::class,
-        // 'hasHumanResourcePermissions' => \App\Http\Middleware\HasHumanResourceAccess::class,
-        // 'hasMarktingPermissions' => \App\Http\Middleware\HasMarktingAccess::class,
-        // 'hasCompanyPermissions' => \App\Http\Middleware\HasCompanyAccess::class,
-        // 'hasStorehousePermissions' => \App\Http\Middleware\HasStorehouseAccess::class,
-        // 'hasDoctorPermissions' => \App\Http\Middleware\HasDoctorAccess::class,
-        // 'hasVisitorPermissions' => \App\Http\Middleware\HasVisitorAccess::class,
-        // 'hasOrderManagementPermissions' => \App\Http\Middleware\HasOrderManagementAccess::class,
-        'hasProductPermissions' => \App\Http\Middleware\HasProductAccess::class,
+        'hasProductPermissions' => hasProductAccess::class,
         'hasSalesPermissions' => \App\Http\Middleware\HasSalesAccess::class,
-        'hasNotificationsAccess' => \App\Http\Middleware\hasNotificationAccess::class,
+        'hasNotificationsAccess' => hasNotificationAccess::class,
         'userHasPermissions' => UserHasPermissions::class,
     ];
 }

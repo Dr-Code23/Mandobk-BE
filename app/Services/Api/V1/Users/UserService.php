@@ -2,12 +2,11 @@
 
 namespace App\Services\Api\V1\Users;
 
-use App\Http\Resources\Api\V1\Site\Doctor\VisitorAccount\VisitorAccountResource;
-use App\Http\Resources\Api\V1\Site\VisitorRecipe\VisitorRecipeResource;
 use App\Models\User;
 use App\Models\V1\SubUser;
 use App\Models\V1\VisitorRecipe;
 use App\Traits\RoleTrait;
+use Illuminate\Support\Collection;
 
 class UserService
 {
@@ -35,9 +34,9 @@ class UserService
      *
      * @param $request
      * @param $user
-     * @return mixed
+     * @return User|null|boolean
      */
-    public function changeUserStatus($request, $user): mixed
+    public function changeUserStatus($request, $user): User|null|bool
     {
         $status = $request->status;
         if (
@@ -65,9 +64,9 @@ class UserService
      * Get Users For SelectBox
      *
      * @param $request
-     * @return null|array
+     * @return null|Collection
      */
-    public function getUsersForSelectBox($request)
+    public function getUsersForSelectBox($request): Collection|null
     {
 
         $role_name = '';
@@ -79,9 +78,7 @@ class UserService
         if ($role_name) {
             // $role_id = Role::where('name', $role_name)->value('id');
             $role_id = $this->getRoleIdByName($role_name);
-            $users = User::where('role_id', $role_id)->get(['id', 'full_name']);
-
-            return $users;
+            return User::where('role_id', $role_id)->get(['id', 'full_name']);
         }
 
         return null;
@@ -144,7 +141,12 @@ class UserService
     }
 
 
-    public function addRandomNumberForVistior($request){
+    /**
+     * @param $request
+     * @return array|VisitorRecipe
+     */
+    public function addRandomNumberForVisitor($request): VisitorRecipe|array
+    {
         $visitor = User::where('username', $request->username)
             ->where('role_id', $this->getRoleIdByName('visitor'))
             ->first(['id', 'username']);
@@ -156,17 +158,15 @@ class UserService
             $recipe = VisitorRecipe::where('visitor_id', $visitor->id)
                 ->where('alias', $request->alias)->first(['id', 'alias']);
             if (!$recipe) {
-                $newVisitorRecipe = VisitorRecipe::create([
+                return VisitorRecipe::create([
                     'visitor_id' => $visitor->id,
                     'alias' => $request->alias,
                     'random_number' => $this->generateRandomNumberForVisitor(),
                     'details' => []
                 ]);
-
-                return $this->resourceResponse(new VisitorRecipeResource($newVisitorRecipe));
             } else $errors['alias'] = ['Alias Already Exists'];
         } else $errors['username'] = ['Username Not Exists'];
 
-        return $this->validation_errors($errors);
+        return $errors;
     }
 }

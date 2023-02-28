@@ -202,7 +202,7 @@ Route::group(['middleware' => ['auth:api']], function () {
                     function () {
                         Route::post('', [UserController::class, 'registerNewVisitor'])->name('doctor-visitor-register');
                         Route::post('forgot_random_number', [UserController::class, 'forgotVisitorRandomNumber'])->name('doctor-visitor-forgot-random-number');
-                        Route::post('add_random_number', [UserController::class, 'addRandomNumberForVistior']);
+                        Route::post('add_random_number', [UserController::class, 'addRandomNumberForVisitor']);
                     }
                 );
             }
