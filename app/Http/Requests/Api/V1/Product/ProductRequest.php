@@ -86,7 +86,7 @@ class ProductRequest extends FormRequest
         // Numeric , between and regex validation messages
         $regex_length_names = ['quantity', 'purchase_price', 'selling_price', 'bonus', 'patch_number', 'concentrate'];
         foreach ($regex_length_names as $key) {
-            if (!in_array($key, ['patch_number'])) {
+            if ($key != 'patch_number') {
                 $messages["$key.numeric"] = $this->translateErrorMessage($key, 'numeric');
                 $messages["$key.min"] = $this->translateErrorMessage($key, 'min.numeric');
             } else {

@@ -231,7 +231,7 @@ scl
 xmlcatalog
 sum
 nohup
-mariadb-show
+mariadb-showOneSubUser
 mcedit
 cp
 odbcinst

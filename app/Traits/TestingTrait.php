@@ -5,6 +5,7 @@ namespace App\Traits;
 use App\Models\V1\PayMethod;
 use Illuminate\Http\Response as HttpResponse;
 use Response;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 trait TestingTrait
 {
@@ -12,7 +13,7 @@ trait TestingTrait
     public function login(array $credentials = ['username' => 'company', 'password' => 'company'])
     {
         $response = $this->postJson(route('v1-login'), $credentials);
-        $response->assertStatus(HttpResponse::HTTP_OK);
+        $response->assertStatus(ResponseAlias::HTTP_OK);
         $this->setToken(json_decode($response->getContent())->data->token);
     }
 

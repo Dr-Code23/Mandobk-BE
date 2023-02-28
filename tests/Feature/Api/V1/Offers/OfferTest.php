@@ -8,6 +8,7 @@ use App\Traits\FileOperationTrait;
 use App\Traits\TestingTrait;
 use Illuminate\Http\Response as HttpResponse;
 use Response;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Tests\TestCase;
 
 class OfferTest extends TestCase
@@ -19,12 +20,12 @@ class OfferTest extends TestCase
     public function testLogin(array $credentials = ['username' => 'company', 'password' => 'company'])
     {
         $response = $this->postJson(route('v1-login'), $credentials);
-        $response->assertStatus(HttpResponse::HTTP_OK);
+        $response->assertStatus(ResponseAlias::HTTP_OK);
         $this->setToken(json_decode($response->getContent())->data->token);
     }
     public function testGetAllOffers()
     {
-        $this->login(['username' => 'company', 'password' => 'company']);
+        $this->login();
 
         $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
             ->getJson(route('offer-all'));
@@ -95,7 +96,7 @@ class OfferTest extends TestCase
         $this->testLogin();
 
         $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
-            ->postJson(route('offer-store'), $this->getOfferData('product_id', Product::where('user_id', '8')->value('id')));
+            ->postJson(route('offer-storeSubUser'), $this->getOfferData('product_id', Product::where('user_id', '8')->value('id')));
         $this->writeAFileForTesting($this->path, 'StoreOffer', $response->getContent());
         $response->assertCreated();
     }

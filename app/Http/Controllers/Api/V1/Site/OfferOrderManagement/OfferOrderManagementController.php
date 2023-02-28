@@ -40,7 +40,5 @@ class OfferOrderManagementController extends Controller
                 'want_offer_users.id as want_offer_id'
             ])
             ->get();
-
-        // return $this->resourceResponse()
     }
 }

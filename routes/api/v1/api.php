@@ -89,7 +89,7 @@ Route::group(['middleware' => ['auth:api']], function () {
             Route::get('', [ProductController::class, 'index'])->name('v1-products-all');
             Route::get('scientific_name', [ProductController::class, 'ScientificNamesSelect'])->name('v1-products-scientific');
             Route::get('commercial_name', [ProductController::class, 'CommercialNamesSelect'])->name('v1-products-commercial');
-            Route::post('', [ProductController::class, 'storeOrUpdate'])->name('v1-products-store');
+            Route::post('', [ProductController::class, 'storeOrUpdate'])->name('v1-products-storeSubUser');
             Route::get('{product}', [ProductController::class, 'showWithoutDetails'])->name('v1-products-one');
         },
     );
@@ -97,7 +97,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     // Offers
     Route::group(['prefix' => 'offers', 'middleware' => ['App\Http\Middleware\hasOfferAccess']], function () {
         Route::get('', [OfferController::class, 'index'])->name('offer-all');
-        Route::post('', [OfferController::class, 'store'])->name('offer-store');
+        Route::post('', [OfferController::class, 'store'])->name('offer-storeSubUser');
         Route::put('{offer}', [OfferController::class, 'changeOfferStatus'])->name('offer-status');
         Route::get('{offer}', [OfferController::class, 'show'])->name('offer-one');
         Route::delete('{offer}', [OfferController::class, 'destroy'])->name('offer-delete');
@@ -107,7 +107,7 @@ Route::group(['middleware' => ['auth:api']], function () {
         ['prefix' => 'sales', 'middleware' => ['auth:api', 'hasSalesPermissions']],
         function () {
             Route::get('', [SaleController::class, 'index'])->name('sales-all');
-            Route::post('', [SaleController::class, 'store'])->name('sales-store');
+            Route::post('', [SaleController::class, 'store'])->name('sales-storeSubUser');
         }
     );
 
@@ -140,7 +140,7 @@ Route::group(['middleware' => ['auth:api']], function () {
             Route::group(
                 ['prefix' => 'company_offers'],
                 function () {
-                    Route::get('', [OfferOrderController::class, 'index'])->name('order-company-show');
+                    Route::get('', [OfferOrderController::class, 'showAllOffers'])->name('order-company-showOneSubUser');
                     Route::post('', [OfferOrderController::class, 'order'])->name('order-company-make');
                 }
             );
@@ -157,7 +157,7 @@ Route::group(['middleware' => ['auth:api']], function () {
                 Route::group(
                     ['prefix' => 'storehouse_offers'],
                     function () {
-                        Route::get('', [OfferOrderController::class, 'index'])->name('order-storehouse-show');
+                        Route::get('', [OfferOrderController::class, 'showAllOffers'])->name('order-storehouse-showOneSubUser');
                         Route::post('', [OfferOrderController::class, 'order'])->name('order-storehouse-make');
                     }
                 );
@@ -166,11 +166,11 @@ Route::group(['middleware' => ['auth:api']], function () {
                 Route::group(
                     ['prefix' => 'sub_user'],
                     function () {
-                        Route::get('', [SubUserController::class, 'index']);
-                        Route::get('{subuser}', [SubUserController::class, 'show']);
-                        Route::post('', [SubUserController::class, 'store']);
-                        Route::put('{subuser}', [SubUserController::class, 'update']);
-                        Route::delete('{subuser}', [SubUserController::class, 'destroy']);
+                        Route::get('', [SubUserController::class, 'showAllSubUsers']);
+                        Route::post('', [SubUserController::class, 'storeSubUser']);
+                        Route::get('{subUser}', [SubUserController::class, 'showOneSubUser']);
+                        Route::put('{subUser}', [SubUserController::class, 'updateSubUser']);
+                        Route::delete('{subUser}', [SubUserController::class, 'destroy']);
                     }
                 );
 
@@ -249,8 +249,8 @@ Route::group(['middleware' => ['auth:api']], function () {
                 function () {
                     Route::get('', [MonitorAndEvaluationController::class, 'index'])->name('monitor-all');
                     Route::get('/{user}', [MonitorAndEvaluationController::class, 'show'])->name('monitor-one');
-                    Route::post('', [MonitorAndEvaluationController::class, 'store'])->name('monitor-store');
-                    Route::put('/{user}', [MonitorAndEvaluationController::class, 'update'])->name('monitor-update');
+                    Route::post('', [MonitorAndEvaluationController::class, 'store'])->name('monitor-storeSubUser');
+                    Route::put('/{user}', [MonitorAndEvaluationController::class, 'update'])->name('monitor-updateSubUser');
                     Route::delete('/{user}', [MonitorAndEvaluationController::class, 'destroy'])->name('monitor-delete');
                 }
             );
@@ -293,7 +293,7 @@ Route::group(['middleware' => ['auth:api']], function () {
 
             Route::group(['prefix' => 'user_management', 'middleware' => ['userHasPermissions:ceo,no']], function () {
                 Route::get('', [UserController::class, 'getAllUsersInDashboardToApprove'])->name('dashboard-user-all');
-                Route::put('{user}', [UserController::class, 'changeUserStatus'])->name('dashboard-user-update');
+                Route::put('{user}', [UserController::class, 'changeUserStatus'])->name('dashboard-user-updateSubUser');
             });
         }
     );

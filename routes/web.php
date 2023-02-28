@@ -20,8 +20,8 @@ use Illuminate\Support\Facades\Mail;
 */
 
 
-Route::get('in', [TestController::class, 'index']);
-// Route::get('Internet', [TestController::class, 'index']);
+Route::get('in', [TestController::class, 'showAllOffers']);
+// Route::get('Internet', [TestController::class, 'showAllOffers']);
 
 Route::get('mail', function () {
     Mail::to('user@example.com')->send(new TestingMail());

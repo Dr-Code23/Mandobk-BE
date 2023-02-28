@@ -31,7 +31,7 @@ class SubUserRequest extends FormRequest
     {
         $exists = 'unique:users,username';
         if ($this->method() == 'PUT') {
-            $exists .= ','.$this->route('subuser')->id.',id';
+            $exists .= ','.$this->route('subUser')->id.',id';
         }
 
         return [

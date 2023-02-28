@@ -52,7 +52,7 @@ class PharmacyRecipeRequest extends FormRequest
         $errors = $validator->errors()->toArray();
         $allErrors = [];
         foreach ($errors as $errorField => $errorContent) {
-            if (!in_array($errorField, ['data'])) {
+            if ($errorField != 'data') {
                 $errorFieldSeperated = explode('.', $errorField);
                 $allErrors[$errorFieldSeperated[1]][$errorFieldSeperated[2]] = $errorContent;
                 unset($errors[$errorField]);

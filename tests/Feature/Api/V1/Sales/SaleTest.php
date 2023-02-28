@@ -9,6 +9,7 @@ use App\Traits\TestingTrait;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Tests\TestCase;
 
 class SaleTest extends TestCase
@@ -20,7 +21,7 @@ class SaleTest extends TestCase
     public function testLogin(array $credentials = ['username' => 'company', 'password' => 'company'])
     {
         $response = $this->postJson(route('v1-login'), $credentials);
-        $response->assertStatus(Response::HTTP_OK);
+        $response->assertStatus(ResponseAlias::HTTP_OK);
         $this->setToken(json_decode($response->getContent())->data->token);
     }
 
@@ -75,7 +76,7 @@ class SaleTest extends TestCase
     //     ]);
     //     $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
     //         ->postJson(
-    //             route('sales-store'),
+    //             route('sales-storeSubUser'),
     //             [
     //                 'data' => [
     //                     'product_id' => $product->id,

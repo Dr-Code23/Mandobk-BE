@@ -14,15 +14,13 @@ trait FileOperationTrait
     public function getWebTranslationFile(string $file_name, string $locale = null): array
     {
         $locale = $locale ?? app()->getLocale();
-        $file_content = require_once __DIR__ . "/../../lang/$locale/" . config('app.web_v1') . "/$file_name.php";
-
-        return $file_content;
+        return require_once __DIR__ . "/../../lang/$locale/" . config('app.web_v1') . "/$file_name.php";
     }
 
     public function storeBarCodeSVG(string $directory, string $code, string $file_name): bool
     {
         $handle = fopen(__DIR__ . '/../../storage/app/public/' . $directory . '/' . $file_name . '.svg', 'w');
-        fwrite($handle, DNS1D::getBarcodeSVG("$code", 'CODABAR', 2, 30, showCode: true));
+        fwrite($handle, DNS1D::getBarcodeSVG("$code", 'CODABAR'));
         fclose($handle);
 
         return true;

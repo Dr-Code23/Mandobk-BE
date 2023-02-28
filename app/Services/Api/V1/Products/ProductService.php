@@ -85,7 +85,7 @@ class ProductService
         $selling_price = $this->setPercisionForFloatString($request->selling_price);
         $bonus = $this->setPercisionForFloatString($request->bonus);
         $concentrate = $this->setPercisionForFloatString($request->concentrate);
-        $limited = $request->limited ? $request->limited : 0;
+        $limited = $request->limited ?: 0;
 
         // Store the barcode
         $barcode_value = $request->barcode;

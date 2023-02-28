@@ -11,6 +11,7 @@ use App\Traits\Translatable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class MobileAuthController extends Controller
 {
@@ -33,7 +34,7 @@ class MobileAuthController extends Controller
         return $this->forbiddenResponse(
             __('standard.not_authorized'),
             null,
-            Response::HTTP_UNAUTHORIZED
+            ResponseAlias::HTTP_UNAUTHORIZED
         );
     }
 

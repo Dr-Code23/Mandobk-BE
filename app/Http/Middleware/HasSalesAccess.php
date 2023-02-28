@@ -26,7 +26,7 @@ class hasSalesAccess
             'pharmacy',
             'pharmacy_sub_user',
         ])) {
-            return $this->forbiddenResponse('You do not have permissions to show sales');
+            return $this->forbiddenResponse('You do not have permissions to showOneSubUser sales');
         }
 
         return $next($request);

@@ -74,7 +74,7 @@ class MonitorTest extends TestCase
     {
         User::where('username', 'Usernassmes')->delete();
         $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
-            ->postJson(route('monitor-store'), json_decode('{
+            ->postJson(route('monitor-storeSubUser'), json_decode('{
                 "full_name" : "Ahmed Mohamed",
                 "username": "Usernassmes",
                 "password" : "Password2302@",
@@ -104,7 +104,7 @@ class MonitorTest extends TestCase
 
         ]);
         $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
-            ->putJson(route('monitor-update', ['user' =>  $user->id]), json_decode('{
+            ->putJson(route('monitor-updateSubUser', ['user' =>  $user->id]), json_decode('{
                 "full_name" : "Ahmed Mohamed",
                 "username": "Usernassmes",
                 "password" : "Password2302@",

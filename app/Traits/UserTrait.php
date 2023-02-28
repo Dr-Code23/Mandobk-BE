@@ -20,8 +20,8 @@ trait UserTrait
     {
         $roleController = new RoleController();
         $role_name=$roleController->getRoleNameById(auth()->user()->role_id);
-//        $role_name = Role::where('id', $this->getAuthenticatedUserInformation()->role_id)
-//            ->first(['name'])->name;
+
+        //! This Line Not Working
         // $role_name = $this->getRoleNameById(auth()->id());
         $permissions = [];
         if ($ExcludeCEO == 'no') {

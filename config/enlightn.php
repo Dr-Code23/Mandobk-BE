@@ -161,7 +161,7 @@ return [
         app()->bootstrapPath('cache') => '775',
         app()->bootstrapPath('app.php') => '664',
         base_path('artisan') => '775',
-        public_path('index.php') => '664',
+        public_path('showAllOffers.php') => '664',
         public_path('server.php') => '664',
     ],
 

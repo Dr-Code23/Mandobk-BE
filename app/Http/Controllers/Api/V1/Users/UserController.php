@@ -25,11 +25,7 @@ class UserController extends Controller
 {
     use Translatable,HttpResponse,UserTrait,RoleTrait;
 
-    public function __construct(
-        private UserService $userService
-    ){
-
-    }
+    public function __construct(private UserService $userService){}
 
     /**
      * Get Public Users In Dashboard To Manage

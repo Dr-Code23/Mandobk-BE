@@ -15,7 +15,7 @@ class {{ class }} extends Controller
      * @param  \{{ namespacedParentModel }}  ${{ parentModelVariable }}
      * @return \Illuminate\Http\Response
      */
-    public function index({{ parentModel }} ${{ parentModelVariable }})
+    public function showAllOffers({{ parentModel }} ${{ parentModelVariable }})
     {
         //
     }
@@ -27,7 +27,7 @@ class {{ class }} extends Controller
      * @param  \{{ namespacedParentModel }}  ${{ parentModelVariable }}
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, {{ parentModel }} ${{ parentModelVariable }})
+    public function storeSubUser(Request $request, {{ parentModel }} ${{ parentModelVariable }})
     {
         //
     }
@@ -39,7 +39,7 @@ class {{ class }} extends Controller
      * @param  \{{ namespacedModel }}  ${{ modelVariable }}
      * @return \Illuminate\Http\Response
      */
-    public function show({{ parentModel }} ${{ parentModelVariable }}, {{ model }} ${{ modelVariable }})
+    public function showOneSubUser({{ parentModel }} ${{ parentModelVariable }}, {{ model }} ${{ modelVariable }})
     {
         //
     }
@@ -52,7 +52,7 @@ class {{ class }} extends Controller
      * @param  \{{ namespacedModel }}  ${{ modelVariable }}
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, {{ parentModel }} ${{ parentModelVariable }}, {{ model }} ${{ modelVariable }})
+    public function updateSubUser(Request $request, {{ parentModel }} ${{ parentModelVariable }}, {{ model }} ${{ modelVariable }})
     {
         //
     }

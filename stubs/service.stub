@@ -6,7 +6,7 @@ class {{class}}
     /*
         Simple Service Class
     */
-    public function index()
+    public function showAllOffers()
     {
         // Do Magic Here !
     }

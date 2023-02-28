@@ -10,6 +10,7 @@ use App\Traits\TestingTrait;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Tests\TestCase;
 
 class HumanResourceTest extends TestCase
@@ -21,7 +22,7 @@ class HumanResourceTest extends TestCase
     public function testLogin(array $credentials = ['username' => 'human_resource', 'password' => 'human_resource'])
     {
         $response = $this->postJson(route('v1-login'), $credentials);
-        $response->assertStatus(Response::HTTP_OK);
+        $response->assertStatus(ResponseAlias::HTTP_OK);
         $this->setToken(json_decode($response->getContent())->data->token);
     }
     public function testGetAllUsers()
@@ -66,7 +67,7 @@ class HumanResourceTest extends TestCase
             "attendance":"08:30",
             "departure":"11:08",
             "date" : "1992-01-26"
-            
+
         }', true));
 
         $this->writeAFileForTesting($this->path, 'StoreUser', $response->getContent());
@@ -90,7 +91,7 @@ class HumanResourceTest extends TestCase
                 "attendance":"08:30",
                 "departure":"11:08",
                 "date" : "1992-01-26"
-                
+
             }', true));
 
         $response->assertSuccessful();

@@ -5,6 +5,7 @@ namespace Api\V1\Auth;
 use App\Traits\FileOperationTrait;
 use App\Traits\TestingTrait;
 use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Tests\TestCase;
 
 class LoginTest extends TestCase
@@ -21,7 +22,7 @@ class LoginTest extends TestCase
         }
         $response->assertSee('Username Cannot Be Empty');
         $response->assertSee('Password Cannot Be Empty');
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+        $response->assertStatus(ResponseAlias::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     public function testLoginWithWrongCredentials()
@@ -31,7 +32,7 @@ class LoginTest extends TestCase
         if (config('test.store_response')) {
             $this->writeAFileForTesting($this->authPath, 'WrongCredentials', $response->content());
         }
-        $response->assertStatus(Response::HTTP_UNAUTHORIZED);
+        $response->assertStatus(ResponseAlias::HTTP_UNAUTHORIZED);
         $response->assertSee('Wrong Credentials');
     }
 
@@ -42,7 +43,7 @@ class LoginTest extends TestCase
         if (config('test.store_response')) {
             $this->writeAFileForTesting($this->authPath, 'LoggedInSuccessfully', $response->content());
         }
-        $response->assertStatus(Response::HTTP_OK);
+        $response->assertStatus(ResponseAlias::HTTP_OK);
 
         // Store The Token To use it operations want token
         $this->setToken(json_decode($response->getContent())->data->token);

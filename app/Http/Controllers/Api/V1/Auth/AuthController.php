@@ -27,7 +27,7 @@ class AuthController extends Controller
      */
     public function login(LoginRequest $request, AuthService $authService): mixed
     {
-        $user = $authService->login($request, false);
+        $user = $authService->login($request);
 
         if ($user)
             return $this->success($user, __('standard.logged_in'));

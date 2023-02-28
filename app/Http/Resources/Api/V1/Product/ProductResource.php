@@ -24,12 +24,12 @@ class ProductResource extends JsonResource
             'selling_price' => $this->sel_price,
             'bonus' => $this->bonus . '%',
             'concentrate' => $this->con,
-            'limited' => $this->limited ? true : false,
+            'limited' => (bool)$this->limited,
             'barcode' => $this->barcode ? asset('/storage/products/' . $this->barcode) . '.svg' : null,
             'product_details' => new ProductDetailsCollection($this->whenLoaded('product_details')),
         ];
         if ($request->is('ceo/*') || $request->is('ceo/') || $request->is('data_entry/*') || $request->is('data_entry/')) {
-            $resource['limited'] = $this->limited ? true : false;
+            $resource['limited'] = (bool)$this->limited;
         }
         if ($this->product_details_sum_qty) $resource['total_quantity'] = $this->product_details_sum_qty;
         if (isset($this->detail))

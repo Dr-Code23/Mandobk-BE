@@ -9,96 +9,85 @@ use App\Http\Resources\Api\V1\Site\Pharmacy\SubUser\SubUserResource;
 use App\Models\User;
 use App\Models\V1\Role;
 use App\Models\V1\SubUser;
+use App\Services\Api\V1\Site\SubUsers\SubUserService;
 use App\Traits\HttpResponse;
 use App\Traits\RoleTrait;
+use App\Traits\Translatable;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class SubUserController extends Controller
 {
-    use HttpResponse, RoleTrait;
+    use HttpResponse, RoleTrait , Translatable;
 
-    public function index()
-    {
-        return $this->resourceResponse(
-            new SubUserCollection(
-                SubUser::join('users', 'users.id', 'sub_users.sub_user_id')
-                    ->where('sub_users.parent_id', Auth::id())
-                    ->where('users.status', '1')
-                    ->get([
-                        'users.id as id',
-                        'users.full_name',
-                        'users.username as username',
-                        'users.created_at as created_at',
-                        'users.updated_at as updated_at',
-                    ])
-            )
-        );
+    public function __construct(
+        private SubUserService $subUserService
+    ){
     }
 
-    public function show(User $subuser)
+    /**
+     * Show All Sub Users
+     * @return JsonResponse
+     */
+    public function showAllSubUsers(): JsonResponse
     {
-        if (
-            SubUser::where('parent_id', Auth::id())
-            ->where('sub_user_id', $subuser->id)
-            ->value('id') && $subuser->status == '1'
-        ) {
-            return $this->resourceResponse(new SubUserResource($subuser));
+        return $this->resourceResponse(new SubUserCollection($this->subUserService->showAllSubUsers()));
+    }
+
+    /**
+     * Show One Sub User
+     * @param User $subUser
+     * @return JsonResponse
+     */
+    public function showOneSubUser(User $subUser): JsonResponse
+    {
+        $subUser = $this->subUserService->showOneSubUser($subUser);
+
+        if($subUser instanceof User){
+
+            return $this->resourceResponse(new SubUserResource($subUser));
+        }
+        return $this->notFoundResponse($this->translateErrorMessage('user' , 'not_found'));
+    }
+
+    /**
+     * Store Sub User
+     * @param SubUserRequest $request
+     * @return JsonResponse
+     */
+    public function storeSubUser(SubUserRequest $request): JsonResponse
+    {
+        return $this->createdResponse(new SubUserResource($this->subUserService->storeSubUser($request)));
+    }
+
+    /**
+     * Update SubUser
+     * @param SubUserRequest $request
+     * @param User $subUser
+     * @return JsonResponse
+     */
+    public function updateSubUser(SubUserRequest $request, User $subUser): JsonResponse
+    {
+        $subUser = $this->subUserService->updateSubUser($request , $subUser);
+        if($subUser instanceof User){
+            return $this->success(new SubUserResource($subUser), $this->translateSuccessMessage('user' , 'updated'));
         }
 
-        return $this->notFoundResponse('SubUser Not Found');
+        return $this->notFoundResponse($this->translateErrorMessage('user' , 'not_found'));
     }
 
-    public function store(SubUserRequest $request)
+    /**
+     * Delete Sub User
+     * @param User $subUser
+     * @return JsonResponse
+     */
+    public function destroy(User $subUser): JsonResponse
     {
-        // Create The User
-        $user = User::create([
-            'full_name' => $request->input('name'),
-            'username' => $request->input('username'),
-            'password' => $request->input('password'),
-            'role_id' => $this->getRoleIdByName('pharmacy_sub_user'),
-            'status' => '1',
-        ]);
-
-        // Add SubUser To Pharmacy
-        SubUser::create(['parent_id' => Auth::id(), 'sub_user_id' => $user->id]);
-
-        return $this->createdResponse(new SubUserResource($user));
-    }
-
-    public function update(SubUserRequest $request, User $subuser)
-    {
-        if (SubUser::where('parent_id', auth()->id())->where('sub_user_id', $subuser->id)->value('id') && $subuser->status == '1') {
-            // Create The User
-            $anyChangeOccur = false;
-            if ($request->name != $subuser->full_name) {
-                $subuser->full_name = $request->name;
-                $anyChangeOccur = true;
-            }
-            if ($subuser->username != $request->username) {
-                $subuser->username = $request->username;
-                $anyChangeOccur = true;
-            }
-            if ($request->password && !Hash::check($request->password, $subuser->password)) {
-                $subuser->password = $request->password;
-                $anyChangeOccur = true;
-            }
-            if ($anyChangeOccur) {
-                $subuser->update();
-            }
-            return $this->success(new SubUserResource($subuser), 'SubUser Updated Successfully');
+        $subUserDeleted = $this->subUserService->deleteSubUser($subUser);
+        if($subUserDeleted){
+            return $this->success(null, $this->translateSuccessMessage('user' , 'deleted'));
         }
-
-        return $this->notFoundResponse('SubUser not found');
-    }
-
-    public function destroy(User $subuser)
-    {
-        if (SubUser::where('parent_id', auth()->id())->where('sub_user_id', $subuser->id)->value('id') && $subuser->status == '1') {
-            $subuser->status = '0';
-            $subuser->update();
-            return $this->success(null, 'SubUser Deleted Successfully');
-        }
-        return $this->notFoundResponse('SubUser not found');
+        return $this->notFoundResponse($this->translateErrorMessage('user' , 'not_found'));
     }
 }

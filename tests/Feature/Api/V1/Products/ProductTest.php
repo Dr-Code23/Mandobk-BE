@@ -26,7 +26,7 @@ class ProductTest extends TestCase
     public function testStoreProduct()
     {
         $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
-            ->postJson(route('v1-products-store'));
+            ->postJson(route('v1-products-storeSubUser'));
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
         $response->assertJsonFragment([
             'commercial_name' => [$this->translateErrorMessage('commercial_name', 'required')],
@@ -47,7 +47,7 @@ class ProductTest extends TestCase
     public function testQuantity()
     {
         $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
-            ->postJson(route('v1-products-store'), $this->getProductsData('quantity', 'Google'));
+            ->postJson(route('v1-products-storeSubUser'), $this->getProductsData('quantity', 'Google'));
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
         $response->assertJsonFragment([
             'quantity' => [$this->translateErrorMessage('quantity', 'quantity.regex')],
@@ -61,7 +61,7 @@ class ProductTest extends TestCase
             $product->delete();
         }
         $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
-            ->postJson(route('v1-products-store'), $this->getProductsData());
+            ->postJson(route('v1-products-storeSubUser'), $this->getProductsData());
         $this->writeAFileForTesting($this->path, 'StoreProductSuccessfully', $response->getContent());
         $response->assertStatus(Response::HTTP_OK);
         Product::where('id', json_decode($response->getContent())->data->id)->delete();

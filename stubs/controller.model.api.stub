@@ -13,7 +13,7 @@ class {{ class }} extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function showAllOffers()
     {
         //
     }
@@ -24,7 +24,7 @@ class {{ class }} extends Controller
      * @param  \{{ namespacedStoreRequest }}  $request
      * @return \Illuminate\Http\Response
      */
-    public function store({{ storeRequest }} $request)
+    public function storeSubUser({{ storeRequest }} $request)
     {
         //
     }
@@ -35,7 +35,7 @@ class {{ class }} extends Controller
      * @param  \{{ namespacedModel }}  ${{ modelVariable }}
      * @return \Illuminate\Http\Response
      */
-    public function show({{ model }} ${{ modelVariable }})
+    public function showOneSubUser({{ model }} ${{ modelVariable }})
     {
         //
     }
@@ -47,7 +47,7 @@ class {{ class }} extends Controller
      * @param  \{{ namespacedModel }}  ${{ modelVariable }}
      * @return \Illuminate\Http\Response
      */
-    public function update({{ updateRequest }} $request, {{ model }} ${{ modelVariable }})
+    public function updateSubUser({{ updateRequest }} $request, {{ model }} ${{ modelVariable }})
     {
         //
     }

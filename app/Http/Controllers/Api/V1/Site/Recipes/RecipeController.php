@@ -232,7 +232,7 @@ class RecipeController extends Controller
     public function getProductsAssociatedWithRandomNumberForPharmacy(Request $request, RecipeService $recipeService)
     {
         $recipe = $recipeService->getProductsAssociatedWithRandomNumberForPharmacy($request);
-        if (is_bool($recipe) && $recipe == false)
+        if (is_bool($recipe) && !$recipe)
             return $this->notFoundResponse('Random Number Not Found');
 
         return $this->resourceResponse(new VisitorRecipeResource($recipe));
@@ -349,7 +349,7 @@ class RecipeController extends Controller
                 }
             }
 
-            // $recipe->update([
+            // $recipe->updateSubUser([
             //     'details' => $recipeDetailsCount == 0 ? [] : $recipeDetails
             // ]);
 

@@ -75,14 +75,14 @@ return [
 
     'statistics' => [
         /*
-         * This model will be used to store the statistics of the WebSocketsServer.
+         * This model will be used to storeSubUser the statistics of the WebSocketsServer.
          * The only requirement is that the model should extend
          * `WebSocketsStatisticsEntry` provided by this package.
          */
         'model' => \BeyondCode\LaravelWebSockets\Statistics\Models\WebSocketsStatisticsEntry::class,
 
         /**
-         * The Statistics Logger will, by default, handle the incoming statistics, store them
+         * The Statistics Logger will, by default, handle the incoming statistics, storeSubUser them
          * and then release them into the database on each interval defined below.
          */
         'logger' => BeyondCode\LaravelWebSockets\Statistics\Logger\HttpStatisticsLogger::class,
@@ -116,18 +116,18 @@ return [
          * certificate chain of issuers. The private key also may be contained
          * in a separate file specified by local_pk.
          */
-        'local_cert' => env('LARAVEL_WEBSOCKETS_SSL_LOCAL_CERT', null),
+        'local_cert' => env('LARAVEL_WEBSOCKETS_SSL_LOCAL_CERT'),
 
         /*
          * Path to local private key file on filesystem in case of separate files for
          * certificate (local_cert) and private key.
          */
-        'local_pk' => env('LARAVEL_WEBSOCKETS_SSL_LOCAL_PK', null),
+        'local_pk' => env('LARAVEL_WEBSOCKETS_SSL_LOCAL_PK'),
 
         /*
          * Passphrase for your local_cert file.
          */
-        'passphrase' => env('LARAVEL_WEBSOCKETS_SSL_PASSPHRASE', null),
+        'passphrase' => env('LARAVEL_WEBSOCKETS_SSL_PASSPHRASE'),
     ],
 
     /*

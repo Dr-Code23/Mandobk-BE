@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Traits\TestingTrait;
 use App\Traits\Translatable;
 use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Tests\TestCase;
 
 class SignupTest extends TestCase
@@ -17,7 +18,7 @@ class SignupTest extends TestCase
     public function testSignupWithNoPayload()
     {
         $response = $this->postJson(route('v1-signup'));
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+        $response->assertStatus(ResponseAlias::HTTP_UNPROCESSABLE_ENTITY);
         $response->assertJsonStructure([
             'data' => [
                 'username',
@@ -40,7 +41,7 @@ class SignupTest extends TestCase
                 'username'
             ]
         ]);
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+        $response->assertStatus(ResponseAlias::HTTP_UNPROCESSABLE_ENTITY);
         $this->writeAFileForTesting($this->signupPath, 'UsernameCannotBeNumbersOnly', $response->content());
     }
 
@@ -52,14 +53,14 @@ class SignupTest extends TestCase
                 'username'
             ]
         ]);
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+        $response->assertStatus(ResponseAlias::HTTP_UNPROCESSABLE_ENTITY);
         $this->writeAFileForTesting($this->signupPath, 'PassingCharactersAndSymbolsForUsername', $response->content());
     }
 
     public function testPasswordRules()
     {
         $response = $this->postJson(route('v1-signup'), $this->getSignUpData('password', 'google'));
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+        $response->assertStatus(ResponseAlias::HTTP_UNPROCESSABLE_ENTITY);
         $this->writeAFileForTesting($this->signupPath, 'passwordRules', $response->content());
     }
 
@@ -69,7 +70,7 @@ class SignupTest extends TestCase
             $user->delete();
         }
         $response = $this->postJson(route('v1-signup'), $this->getSignUpData());
-        $response->assertStatus(Response::HTTP_CREATED);
+        $response->assertStatus(ResponseAlias::HTTP_CREATED);
         $this->writeAFileForTesting($this->signupPath, 'passing', $response->content());
     }
 
@@ -79,7 +80,7 @@ class SignupTest extends TestCase
         $response->assertJsonStructure([
             'data' => ['username'],
         ]);
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+        $response->assertStatus(ResponseAlias::HTTP_UNPROCESSABLE_ENTITY);
         $this->writeAFileForTesting($this->signupPath, 'passingExistingUsername', $response->content());
         if ($user = User::where('username', 'Aa2302')->first('id')) {
             $user->delete();

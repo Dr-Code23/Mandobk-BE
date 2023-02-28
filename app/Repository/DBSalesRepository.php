@@ -57,10 +57,9 @@ class DBSalesRepository implements SalesRepositoryInterface
         $products_count = count($products);
 
         for ($i = 0; $i < $products_count; ++$i) {
-            $products[$i]['product_exists'] = Product::where('id', $products[$i]['product_id'])
+            $products[$i]['product_exists'] = (bool)Product::where('id', $products[$i]['product_id'])
                 ->whereIn('user_id', $this->getSubUsersForUser())
-                ->first(['id'])
-                ? true : false;
+                ->first(['id']);
         }
 
         for ($i = 0; $i <= $products_count; ++$i) {

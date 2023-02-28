@@ -59,7 +59,7 @@ class OrderManagementService
             $order->status = $request->input('approve') ? '2' : '0';
             $order->update();
 
-            $order = OfferOrder::where('offer_orders.id', $order->id)
+            return OfferOrder::where('offer_orders.id', $order->id)
                 ->join(
                     'users as want_offer_users',
                     'want_offer_users.id',
@@ -81,7 +81,6 @@ class OrderManagementService
                     'want_offer_users.full_name as offer_to_name',
                     'want_offer_users.id as want_offer_id'
                 ])->first();
-            return $order;
         }
         return null;
     }

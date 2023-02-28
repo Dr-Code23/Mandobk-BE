@@ -150,7 +150,7 @@ class DBOfferRepository implements OfferRepositoryInterface
                 $offer_duration = $request->offer_duration;
                 if (in_array($offer_duration, ['0', '1', '2'])) {
                     $pay_method = $request->pay_method;
-                    if (in_array($pay_method, ['1'])) {
+                    if ($pay_method == '1') {
                         // Check if the offer exists
                         // return $this->addDaysToDate($offer_duration == '0' ? 1 : ($offer_duration == '1' ? 7 : 1000));
                         $offer = $this->offerModel->create([
@@ -235,7 +235,7 @@ class DBOfferRepository implements OfferRepositoryInterface
                     $offer_duration = $request->offer_duration;
                     if (in_array($offer_duration, ['0', '1', '2'])) {
                         $pay_method = $request->pay_method;
-                        if (in_array($pay_method, ['1'])) {
+                        if ($pay_method == '1') {
                             $anyChangeOccured = false;
                             if ($offer->product_id != $request->product_id) {
                                 $offer->product_id = $request->product_id;

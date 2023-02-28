@@ -10,6 +10,7 @@ use App\Traits\UserTrait;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Tests\TestCase;
 
 class UserTest extends TestCase
@@ -38,8 +39,8 @@ class UserTest extends TestCase
     public function testchangeUserStatusWithWrongValue()
     {
         $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
-            ->putJson(route('dashboard-user-update', ['user' => '1']), ['status' => '3']);
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+            ->putJson(route('dashboard-user-updateSubUser', ['user' => '1']), ['status' => '3']);
+        $response->assertStatus(ResponseAlias::HTTP_UNPROCESSABLE_ENTITY);
         $this->writeAFileForTesting($this->path, 'changeUserStatusWithWrongValue', $response->getContent());
     }
 
@@ -54,8 +55,8 @@ class UserTest extends TestCase
                 'role_id' => Role::where('name', 'company')->value('id')
             ]);
             $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
-                ->putJson(route('dashboard-user-update', ['user' => $user->id]), ['status' => $status]);
-            $response->assertStatus(Response::HTTP_OK);
+                ->putJson(route('dashboard-user-updateSubUser', ['user' => $user->id]), ['status' => $status]);
+            $response->assertStatus(ResponseAlias::HTTP_OK);
             if ($status == $this->isDeleted()) $response->assertJsonFragment([
                 'msg' => __('standard.deleted')
             ]);
@@ -70,7 +71,7 @@ class UserTest extends TestCase
 
     public function testGetAllUsersForSelect()
     {
-        $this->login(['username' => 'company', 'password' => 'company']);
+        $this->login();
         $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
             ->getJson(route('roles-storehouse-all'));
         $response->assertSuccessful();

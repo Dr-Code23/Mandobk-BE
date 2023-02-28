@@ -230,7 +230,7 @@ return [
     | Show blacklisted token option
     |--------------------------------------------------------------------------
     |
-    | Specify if you want to show black listed token exception on the laravel logs.
+    | Specify if you want to showOneSubUser black listed token exception on the laravel logs.
     |
     */
 
@@ -291,7 +291,7 @@ return [
         | Storage Provider
         |--------------------------------------------------------------------------
         |
-        | Specify the provider that is used to store tokens in the blacklist.
+        | Specify the provider that is used to storeSubUser tokens in the blacklist.
         |
         */
 

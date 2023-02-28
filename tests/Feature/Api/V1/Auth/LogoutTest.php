@@ -5,6 +5,7 @@ namespace Tests\Feature\Api\V1\Auth;
 use App\Traits\FileOperationTrait;
 use App\Traits\TestingTrait;
 use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Tests\TestCase;
 
 class LogoutTest extends TestCase
@@ -15,7 +16,7 @@ class LogoutTest extends TestCase
     public function testLogoutWithNoAuthenticatedUser()
     {
         $response = $this->postJson(route('v1-logout'));
-        $response->assertStatus(Response::HTTP_UNAUTHORIZED);
+        $response->assertStatus(ResponseAlias::HTTP_UNAUTHORIZED);
     }
 
     public function testLogoutAuthenticatedUser()

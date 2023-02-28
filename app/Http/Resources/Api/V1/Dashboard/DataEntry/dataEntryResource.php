@@ -27,7 +27,7 @@ class dataEntryResource extends JsonResource
             'selling_price' => $this->sel_price,
             'bonus' => $this->bonus,
             'concentrate' => $this->con,
-            'limited' => $this->limited ? true : false,
+            'limited' => (bool)$this->limited,
             'patch_number' => $this->patch_number,
             'provider' => $this->provider,
             'barcode' => asset('storage/data_entry/'.$this->barcode).'.svg',

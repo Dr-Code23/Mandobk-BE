@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 
 use Illuminate\Console\Command;
+use Symfony\Component\Console\Command\Command as CommandAlias;
 use Touhidurabir\StubGenerator\Facades\StubGenerator;
 
 
@@ -43,7 +44,7 @@ class MakeServiceClass extends Command
         if (!is_dir(__DIR__ . '/../../Services/' . $path)) mkdir(__DIR__ . '/../../Services/' . $path, 0777, true);
         if (is_file(__DIR__ . '/../../Services/' . $path . '/' . $fileName . '.php')) {
             $this->error("\n" . '  Same service class is already exists in App\Http\Services\\' . $path . '\\' . $fileName . ".php\n");
-            return Command::FAILURE;
+            return CommandAlias::FAILURE;
         }
         StubGenerator::from(
             __DIR__ . '/../../../stubs/service.stub',
@@ -58,6 +59,6 @@ class MakeServiceClass extends Command
             ->ext('php')
             ->save();
         $this->info("\n Service Created Successfully in App\Http\Services\\" . $path . '\\' . $fileName . ".php\n");
-        return Command::SUCCESS;
+        return CommandAlias::SUCCESS;
     }
 }

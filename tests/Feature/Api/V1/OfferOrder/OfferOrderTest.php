@@ -27,7 +27,7 @@ class OfferOrderTest extends TestCase
     public function testGetAllOffersToOrder()
     {
         $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
-            ->getJson(route('order-company-show'));
+            ->getJson(route('order-company-showOneSubUser'));
         $this->writeAFileForTesting($this->path, 'GetAllOffers', $response->getContent());
         $response->assertSuccessful();
         $response->assertJsonStructure([

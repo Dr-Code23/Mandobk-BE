@@ -40,8 +40,7 @@ class AuthService
 
             if (in_array($roleName, config('roles.signup_roles'))) {
                 // Valid Data
-                $user = $this->userModel->create($request->validated() + ['role_id' => $request->role]);
-                return $user;
+                return $this->userModel->create($request->validated() + ['role_id' => $request->role]);
             }
 
             return  $this->translateErrorMessage('role', 'not_found');
@@ -73,10 +72,9 @@ class AuthService
                     'username' => $user->username,
                     'phone' => $user->phone,
                     'full_name' => $this->strLimit($user->full_name),
-                    // 'role' => Role::where('id', $user->role_id)->value('name'),
                     'role' => $this->getRoleNameById($user->role_id),
                     'token' => $token,
-                    'avatar' => asset('/storage/users/' . ($user->avatar ? $user->avatar : 'user.png'))
+                    'avatar' => asset('/storage/users/' . ($user->avatar ?: 'user.png'))
                 ];
             }
             // Logout Wrong User

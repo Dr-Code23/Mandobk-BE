@@ -36,14 +36,12 @@ class MarktingService
             // Change Directory Permissions To Show images
             $image_name = explode('/', $request->file('img')->store('public/markting'));
             $image_name = $image_name[count($image_name) - 1];
-            $ad = Markting::create([
+            return Markting::create([
                 'medicine_name' => $medicine_name,
                 'company_name' => $company_name,
                 'discount' => $discount,
                 'img' => $image_name,
             ]);
-
-            return $ad;
         }
         $errors['ad'][] = 'The Same Ad Is Already exists';
         return $errors;

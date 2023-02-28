@@ -45,13 +45,13 @@ class {{ class }}
     }
 
     /**
-     * Determine whether the user can update the model.
+     * Determine whether the user can updateSubUser the model.
      *
      * @param  \{{ namespacedUserModel }}  $user
      * @param  \{{ namespacedModel }}  ${{ modelVariable }}
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update({{ user }} $user, {{ model }} ${{ modelVariable }})
+    public function updateSubUser({{ user }} $user, {{ model }} ${{ modelVariable }})
     {
         //
     }

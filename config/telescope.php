@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'domain' => env('TELESCOPE_DOMAIN', null),
+    'domain' => env('TELESCOPE_DOMAIN'),
 
     /*
     |--------------------------------------------------------------------------
@@ -37,7 +37,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | This configuration options determines the storage driver that will
-    | be used to store Telescope's data. In addition, you may set any
+    | be used to storeSubUser Telescope's data. In addition, you may set any
     | custom options as needed by the particular driver you choose.
     |
     */

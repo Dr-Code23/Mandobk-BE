@@ -23,7 +23,7 @@ class {{ class }} extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function storeSubUser(Request $request)
     {
         abort(404);
     }
@@ -33,7 +33,7 @@ class {{ class }} extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function showOneSubUser()
     {
         //
     }
@@ -54,7 +54,7 @@ class {{ class }} extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function updateSubUser(Request $request)
     {
         //
     }
