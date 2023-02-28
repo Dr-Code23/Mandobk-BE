@@ -3,7 +3,7 @@
 namespace App\Http;
 
 use App\Http\Middleware\hasNotificationAccess;
-use App\Http\Middleware\hasProductAccess;
+use App\Http\Middleware\HasProductAccess;
 use App\Http\Middleware\PreventRequestsDuringMaintenance;
 use App\Http\Middleware\TrimStrings;
 use App\Http\Middleware\TrustProxies;
@@ -73,7 +73,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'isAuthenticated' => \App\Http\Middleware\IsAuthenticated::class,
-        'hasProductPermissions' => hasProductAccess::class,
+        'hasProductPermissions' => HasProductAccess::class,
         'hasSalesPermissions' => \App\Http\Middleware\HasSalesAccess::class,
         'hasNotificationsAccess' => hasNotificationAccess::class,
         'userHasPermissions' => UserHasPermissions::class,
