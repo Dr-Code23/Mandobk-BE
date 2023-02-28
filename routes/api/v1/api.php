@@ -305,3 +305,7 @@ Route::get('paginate', function () {
 Route::get('pusher_test', function () {
     return view('main');
 });
+
+Route::get('test', function () {
+    return "Good";
+});
