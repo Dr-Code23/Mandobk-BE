@@ -3,7 +3,7 @@
 use App\Http\Controllers\Api\V1\Archive\ArchiveController;
 use App\Http\Controllers\Api\V1\Auth\AuthController;
 use App\Http\Controllers\Api\V1\Dashboard\HumanResourceController;
-use App\Http\Controllers\Api\V1\Dashboard\MarktingController;
+use App\Http\Controllers\Api\V1\Dashboard\MarketingController;
 use App\Http\Controllers\Api\V1\Dashboard\MonitorAndEvaluationController;
 use App\Http\Controllers\Api\V1\Dashboard\OrderManagementController;
 use App\Http\Controllers\Api\V1\Mobile\Auth\MobileAuthController;
@@ -47,7 +47,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     // Change Profile Info
     Route::post('profile', [ProfileController::class, 'changeProfileInfo']);
     // Markting Offers
-    Route::get('markting_offers', [MarktingController::class, 'index']);
+    Route::get('markting_offers', [MarketingController::class, 'index']);
 
     // Pay Methods
     Route::group(
@@ -81,15 +81,21 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::group(
         ['middleware' => ['auth:api', 'hasProductPermissions'], 'prefix' => 'products'],
         function () {
+
             Route::get('doctor_products', [ProductController::class, 'doctorProducts'])
                 ->withoutMiddleware('hasProductPermissions')
                 ->middleware('userHasPermissions:doctor,yes')
                 ->name('v1-products-doctor');
+
             Route::get('', [ProductController::class, 'index'])->name('v1-products-all');
-            Route::get('scientific_name', [ProductController::class, 'ScientificNamesSelect'])->name('v1-products-scientific');
-            Route::get('commercial_name', [ProductController::class, 'CommercialNamesSelect'])->name('v1-products-commercial');
-            Route::post('', [ProductController::class, 'storeOrUpdate'])->name('v1-products-storeSubUser');
-            Route::get('{product}', [ProductController::class, 'showWithoutDetails'])->name('v1-products-one');
+            Route::get('scientific_name', [ProductController::class, 'ScientificNamesSelect'])
+                    ->name('v1-products-scientific');
+            Route::get('commercial_name', [ProductController::class, 'CommercialNamesSelect'])
+                    ->name('v1-products-commercial');
+            Route::post('', [ProductController::class, 'storeOrUpdate'])
+                    ->name('v1-products-storeSubUser');
+            Route::get('{product}', [ProductController::class, 'showWithoutDetails'])
+                    ->name('v1-products-one');
         },
     );
 
@@ -101,6 +107,7 @@ Route::group(['middleware' => ['auth:api']], function () {
         Route::get('{offer}', [OfferController::class, 'show'])->name('offer-one');
         Route::delete('{offer}', [OfferController::class, 'destroy'])->name('offer-delete');
     });
+
     // Sales
     Route::group(
         ['prefix' => 'sales', 'middleware' => ['auth:api', 'hasSalesPermissions']],
@@ -120,6 +127,7 @@ Route::group(['middleware' => ['auth:api']], function () {
         Route::get('{notification}', [NotificationController::class, 'show']);
         Route::delete('{notification}', [NotificationController::class, 'destroy']);
     });
+
     // Public Site Routes
     Route::group(['prefix' => 'site'], function () {
         // Company
@@ -163,7 +171,7 @@ Route::group(['middleware' => ['auth:api']], function () {
 
                 // Sub Users
                 Route::group(
-                    ['prefix' => 'sub_user'],
+                    ['prefix' => 'sub_user', 'middleware' => ['userHasNoPermission:pharmacy_sub_user']],
                     function () {
                         Route::get('', [SubUserController::class, 'showAllSubUsers']);
                         Route::post('', [SubUserController::class, 'storeSubUser']);
@@ -265,16 +273,16 @@ Route::group(['middleware' => ['auth:api']], function () {
                 }
             );
 
-            // Markting
+            // Marketing
 
             Route::group(
                 ['prefix' => 'markting', 'middleware' => ['userHasPermissions:markting,no']],
                 function () {
-                    Route::get('', [MarktingController::class, 'index'])->name('markting-all');
-                    Route::post('', [MarktingController::class, 'store'])->name('markting_store');
-                    Route::get('{ad}', [MarktingController::class, 'show'])->name('markting-one');
-                    Route::post('{ad}', [MarktingController::class, 'update'])->name('markting_update');
-                    Route::delete('{ad}', [MarktingController::class, 'destroy']);
+                    Route::get('', [MarketingController::class, 'index'])->name('markting-all');
+                    Route::post('', [MarketingController::class, 'store'])->name('markting_store');
+                    Route::get('{ad}', [MarketingController::class, 'show'])->name('markting-one');
+                    Route::post('{ad}', [MarketingController::class, 'update'])->name('markting_update');
+                    Route::delete('{ad}', [MarketingController::class, 'destroy']);
                 }
             );
 
@@ -283,7 +291,7 @@ Route::group(['middleware' => ['auth:api']], function () {
                 ['prefix' => 'order_management', 'middleware' => ['userHasPermissions:order_management,no']],
                 function () {
                     Route::get('', [OrderManagementController::class, 'index'])->name('management-all');
-                    Route::post('{order}', [OrderManagementController::class, 'acceptPendingOrders'])->name('management-accept');
+                    Route::post('{order}', [OrderManagementController::class, 'managePendingOrders'])->name('management-accept');
                 }
             );
 
@@ -302,10 +310,7 @@ Route::get('paginate', function () {
 });
 
 
-Route::get('pusher_test', function () {
-    return view('main');
-});
+//Route::get('pusher_test', function () {
+//    return view('main');
+//});
 
-Route::get('test', function () {
-    return "Good";
-});

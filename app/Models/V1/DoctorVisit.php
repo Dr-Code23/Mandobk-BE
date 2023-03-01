@@ -7,6 +7,22 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Models\V1\DoctorVisit
+ *
+ * @property int $id
+ * @property int $visitor_recipe_id
+ * @property int $doctor_id
+ * @property string $created_at
+ * @method static \Illuminate\Database\Eloquent\Builder|DoctorVisit newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|DoctorVisit newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|DoctorVisit query()
+ * @method static \Illuminate\Database\Eloquent\Builder|DoctorVisit whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DoctorVisit whereDoctorId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DoctorVisit whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DoctorVisit whereVisitorRecipeId($value)
+ * @mixin \Eloquent
+ */
 class DoctorVisit extends Model
 {
     use HasFactory;

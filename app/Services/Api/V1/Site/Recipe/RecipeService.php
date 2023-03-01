@@ -8,11 +8,16 @@ use App\Models\V1\PharmacyVisit;
 use App\Models\V1\VisitorRecipe;
 use App\Traits\HttpResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 class RecipeService
 {
     use HttpResponse;
-    public function getAllPharmacyRecipes()
+
+    /**
+     * @return Collection
+     */
+    public function getAllPharmacyRecipes(): Collection
     {
 
         return PharmacyVisit::join('visitor_recipes', 'visitor_recipes.id', 'pharmacy_visits.visitor_recipe_id')

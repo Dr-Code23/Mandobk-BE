@@ -55,6 +55,7 @@ class HumanResourceController extends Controller
                 'human_resources.departure',
                 'human_resources.attendance',
             ]);
+
         return $this->resourceResponse(new HumanResourceCollection($users));
     }
 
@@ -67,7 +68,6 @@ class HumanResourceController extends Controller
     public function show(HumanResource $humanResource): JsonResponse
     {
         $user = User::join('roles', 'roles.id', 'users.role_id')
-            // ->where('users.id', $human->id)
             ->where('human_resources.id', $humanResource->id)
             ->join('human_resources', 'human_resources.user_id', 'users.id')
             ->whereIn(
@@ -88,6 +88,7 @@ class HumanResourceController extends Controller
             )
             ->first();
         if ($user) {
+
             return $this->resourceResponse(new HumanResourceResource($user));
         }
 
@@ -101,12 +102,22 @@ class HumanResourceController extends Controller
      * @param HumanResourceService $humanResourceService
      * @return JsonResponse
      */
-    public function storeOrUpdate(HumanResourceRequest $request, HumanResourceService $humanResourceService): JsonResponse
+    public function storeOrUpdate(
+        HumanResourceRequest $request,
+        HumanResourceService $humanResourceService
+    ): JsonResponse
     {
         $humanResource = $humanResourceService->storeOrUpdate($request);
         if ($humanResource != null) {
-            return $this->success(new HumanResourceResource($humanResource), 'Resource Created Successfully');
+
+            return $this->success(
+                new HumanResourceResource($humanResource),
+                $this->translateSuccessMessage('user' , 'created')
+            );
         }
-        return $this->notFoundResponse('User Not Found');
+
+        return $this->notFoundResponse(
+            $this->translateErrorMessage('user' ,'not_found')
+        );
     }
 }

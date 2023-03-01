@@ -56,7 +56,7 @@ class LoginRequest extends FormRequest
      * @return void
      * @throws ValidationException
      */
-    public function failedValidation(Validator $validator)
+    public function failedValidation(Validator $validator): void
     {
         throw new ValidationException($validator, $this->validation_errors($validator->errors()));
     }

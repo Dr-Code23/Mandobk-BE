@@ -43,7 +43,7 @@ class AuthService
                 return $this->userModel->create($request->validated() + ['role_id' => $request->role]);
             }
 
-            return  $this->translateErrorMessage('role', 'not_found');
+            $error['role'][] = $this->translateErrorMessage('role', 'not_found');
         } else {
             if ($request->username == $exists->username) $error['username'][] = $this->translateErrorMessage('username', 'exists');
             else $error['phone'][]  = $this->translateErrorMessage('phone', 'exists');

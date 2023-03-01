@@ -7,6 +7,30 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Models\V1\Sale
+ *
+ * @property int $id
+ * @property int $from_id
+ * @property int $to_id
+ * @property string $details
+ * @property float $total
+ * @property string $type 1 => company_to_storehouse , 2=> storehouse_to_pharmacy , 3=> Pharmacy_to_visitor
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|Sale newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Sale newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Sale query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Sale whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Sale whereDetails($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Sale whereFromId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Sale whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Sale whereToId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Sale whereTotal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Sale whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Sale whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class Sale extends Model
 {
     use HasFactory;

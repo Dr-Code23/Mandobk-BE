@@ -35,7 +35,7 @@ class SignupRequest extends FormRequest
         return [
             'full_name' => ['required'],
             'username' => ['required', 'regex:' . config('regex.username')],
-            'phone' => ['required'],
+            'phone' => ['required' , 'numeric'],
             'role' => ['required'],
             'password' => [
                 'required',
@@ -54,6 +54,7 @@ class SignupRequest extends FormRequest
         return [
             'full_name.required' => $this->translateErrorMessage('full_name', 'required'),
             'phone.required' => $this->translateErrorMessage('phone', 'required'),
+            'phone.numeric' => $this->translateErrorMessage('phone' , 'numeric'),
             'role.required' => $this->translateErrorMessage('role', 'required'),
             'username.required' => $this->translateErrorMessage('username', 'required'),
             'password.required' => $this->translateErrorMessage('password', 'required'),

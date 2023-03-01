@@ -76,9 +76,16 @@ class MonitorAndEvaluationService
     {
 
         // Check if role belong to monitor
-        if ($role = Role::where('id', $request->role)->whereIn('name', config('roles.monitor_roles'))->first(['name'])) {
+        if ($role = Role::where('id', $request->role)
+            ->whereIn('name', config('roles.monitor_roles'))
+            ->first(['name'])
+        )
+        {
             // Store Data
-            $user = User::create($request->validated() + ['status' => '1', 'role_id' => $request->role]);
+            $user = User::create(
+                $request->validated() +
+                ['status' => '1', 'role_id' => $request->role]
+            );
             $user->role_name = $role->name;
 
             return $user;
@@ -93,37 +100,39 @@ class MonitorAndEvaluationService
      *
      * @param $request
      * @param $user
-     * @return User|string
+     * @return User|string|array
      */
-    public function update($request, $user): User|string
+    public function update($request, $user): User|string|array
     {
         if ($user->id != Auth::id()) {
-            $role = Role::where('id', $user->role_id)->whereIn('name', config('roles.monitor_roles'))->first(['name as role_name', 'id']);
+            $role = Role::where('id', $request->role)
+                ->whereIn('name', config('roles.monitor_roles'))
+                ->first(['name as role_name', 'id']);
 
             if ($role) {
                 $full_name = $this->sanitizeString($request->full_name);
                 $username = $this->sanitizeString($request->username);
 
-                $anyChangeOccured = false;
+                $anyChangeOccurred = false;
                 if ($user->full_name != $full_name) {
                     $user->full_name = $full_name;
-                    $anyChangeOccured = true;
+                    $anyChangeOccurred = true;
                 }
                 if ($user->username != $username) {
                     $user->username = $username;
-                    $anyChangeOccured = true;
+                    $anyChangeOccurred = true;
                 }
                 if ($request->has('password')) {
                     if (!Hash::check($request->password, $user->password)) {
                         $user->password = $request->password;
-                        $anyChangeOccured = true;
+                        $anyChangeOccurred = true;
                     }
                 }
                 if ($user->role_id != $request->role) {
                     $user->role_id = $request->role;
-                    $anyChangeOccured = true;
+                    $anyChangeOccurred = true;
                 }
-                if ($anyChangeOccured) {
+                if ($anyChangeOccurred) {
                     $user->update();
                     $user->role_name = $role->role_name;
                 }
@@ -131,7 +140,7 @@ class MonitorAndEvaluationService
                 return $user;
             }
 
-            $error = $this->translateErrorMessage('role', 'not_found');
+            $error['role'][] = $this->translateErrorMessage('role', 'not_found');
         } else $error = $this->translateErrorMessage('user', 'not_found');
 
         return $error;

@@ -7,6 +7,14 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Models\V1\CompanyOffer
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder|CompanyOffer newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|CompanyOffer newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|CompanyOffer query()
+ * @mixin \Eloquent
+ */
 class CompanyOffer extends Model
 {
     use HasFactory;

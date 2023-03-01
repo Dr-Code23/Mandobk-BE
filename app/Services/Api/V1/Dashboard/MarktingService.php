@@ -33,7 +33,6 @@ class MarktingService
         ) {
             // Store image
 
-            // Change Directory Permissions To Show images
             $image_name = explode('/', $request->file('img')->store('public/markting'));
             $image_name = $image_name[count($image_name) - 1];
             return Markting::create([
@@ -44,6 +43,7 @@ class MarktingService
             ]);
         }
         $errors['ad'][] = 'The Same Ad Is Already exists';
+
         return $errors;
     }
 
@@ -69,33 +69,33 @@ class MarktingService
                 ->first(['id'])
         ) {
             $image_name = null;
-            $anyChangeOccured = false;
+            $anyChangeOccurred = false;
             if ($request->has('img')) {
                 // Delete The Old Image
                 if ($this->deleteImage('markting/' . $ad->img)) {
                     // Store image
                     $image_name = explode('/', $request->file('img')->store('public/markting'));
                     $image_name = $image_name[count($image_name) - 1];
-                    $anyChangeOccured = true;
+                    $anyChangeOccurred = true;
                 }
             }
             if ($ad->medicine_name != $medicine_name) {
                 $ad->medicine_name = $medicine_name;
-                $anyChangeOccured = true;
+                $anyChangeOccurred = true;
             }
             if ($ad->company_name != $company_name) {
                 $ad->company_name = $company_name;
-                $anyChangeOccured = true;
+                $anyChangeOccurred = true;
             }
             if ($ad->discount != $discount) {
                 $ad->discount = $discount;
-                $anyChangeOccured = true;
+                $anyChangeOccurred = true;
             }
 
             if ($image_name) {
                 $ad->img = $image_name;
             }
-            if ($anyChangeOccured) {
+            if ($anyChangeOccurred) {
                 $ad->update();
             }
             return $ad;

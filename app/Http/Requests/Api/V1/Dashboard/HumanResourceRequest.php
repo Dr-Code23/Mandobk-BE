@@ -33,7 +33,7 @@ class HumanResourceRequest extends FormRequest
 
         $departure = '';
 
-        if ($this->status == '0') {
+        if ((int)$this->status == 0) {
             $attendance = $departure = 'required|date_format:H:i';
             $departure .= '|after:attendance';
         }
@@ -53,7 +53,7 @@ class HumanResourceRequest extends FormRequest
     }
 
     /**
-     * Custom Validaiton Messages
+     * Custom Validation Messages
      *
      * @return array
      */
@@ -62,13 +62,14 @@ class HumanResourceRequest extends FormRequest
         return [
             'user_id.required' => $this->translateErrorMessage('user_id', 'required'),
             'status.required' => $this->translateErrorMessage('status', 'required'),
-            'attendance.required_if' => $this->translateErrorMessage('attendance', 'human_resource.requried_if'),
             'attendance.date_format' => $this->translateErrorMessage('attendance', 'date_format'),
-            'departure.required_if' => $this->translateErrorMessage('departure', 'human_resource.requried_if'),
+            'attendance.required' => $this->translateErrorMessage('attendance', 'required'),
+            'departure.required' => $this->translateErrorMessage('departure', 'required'),
             'departure.date_format' => $this->translateErrorMessage('departure', 'date_format'),
             'departure.after' => $this->translateErrorMessage('departure', 'human_resource.after'),
             'date.required' => $this->translateErrorMessage('date', 'required'),
             'date.date_format' => $this->translateErrorMessage('date', 'date_format'),
+            'date.before_or_equal' => $this->translateErrorMessage('date' , 'before_or_equal')
         ];
     }
 

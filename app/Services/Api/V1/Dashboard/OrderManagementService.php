@@ -47,13 +47,13 @@ class OrderManagementService
     }
 
     /**
-     * Accept Pending Orders
+     * Manage Pending Orders
      *
      * @param $request
      * @param $order
      * @return OfferOrder|null
      */
-    public function acceptPendingOrders($request, $order): OfferOrder|null
+    public function managePendingOrders($request, $order): OfferOrder|null
     {
         if ($order->status == '1') {
             $order->status = $request->input('approve') ? '2' : '0';
@@ -82,6 +82,7 @@ class OrderManagementService
                     'want_offer_users.id as want_offer_id'
                 ])->first();
         }
+
         return null;
     }
 }

@@ -8,6 +8,29 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Models\V1\VisitorRecipe
+ *
+ * @property int $id
+ * @property int $visitor_id
+ * @property int $random_number
+ * @property string $alias
+ * @property string $details
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read User $visitor
+ * @method static \Illuminate\Database\Eloquent\Builder|VisitorRecipe newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|VisitorRecipe newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|VisitorRecipe query()
+ * @method static \Illuminate\Database\Eloquent\Builder|VisitorRecipe whereAlias($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|VisitorRecipe whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|VisitorRecipe whereDetails($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|VisitorRecipe whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|VisitorRecipe whereRandomNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|VisitorRecipe whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|VisitorRecipe whereVisitorId($value)
+ * @mixin \Eloquent
+ */
 class VisitorRecipe extends Model
 {
     use HasFactory;

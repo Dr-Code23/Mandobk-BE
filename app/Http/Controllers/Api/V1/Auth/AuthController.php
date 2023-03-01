@@ -23,9 +23,9 @@ class AuthController extends Controller
      *
      * @param LoginRequest $request
      * @param AuthService $authService
-     * @return JsonResponse|mixed
+     * @return JsonResponse
      */
-    public function login(LoginRequest $request, AuthService $authService): mixed
+    public function login(LoginRequest $request, AuthService $authService): JsonResponse
     {
         $user = $authService->login($request);
 
@@ -52,11 +52,11 @@ class AuthController extends Controller
 
         if ($user instanceof User) {
             RegisterUserEvent::dispatch($user);
+
             return $this->createdResponse(null, __('standard.account_created'));
-        } else if (is_array($user))
-            return $this->validation_errors($user);
-        else
-            return $this->notFoundResponse($user);
+        }
+
+        return $this->validation_errors($user);
     }
 
     /**

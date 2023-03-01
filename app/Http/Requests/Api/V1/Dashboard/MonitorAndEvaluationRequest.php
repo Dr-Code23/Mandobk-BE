@@ -39,7 +39,12 @@ class MonitorAndEvaluationRequest extends FormRequest
 
         return [
             'full_name' => ['required'],
-            'username' => ['bail', 'required', 'regex:' . config('regex.username'), 'unique:users,username' . $except],
+            'username' => [
+                'bail',
+                'required',
+                'regex:' . config('regex.username'),
+                'unique:users,username' . $except
+            ],
             'role' => ['required'],
             'password' => [
                 $this->method() == 'post' ? 'required' : 'sometimes',
@@ -74,7 +79,9 @@ class MonitorAndEvaluationRequest extends FormRequest
     protected function failedValidation(Validator $validator): void
     {
         throw new ValidationException(
-            $validator, $this->validation_errors([$validator->errors()])
+            $validator,
+            $this->validation_errors([$validator->errors()
+            ])
         );
     }
 }

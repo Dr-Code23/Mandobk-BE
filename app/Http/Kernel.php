@@ -7,6 +7,7 @@ use App\Http\Middleware\HasProductAccess;
 use App\Http\Middleware\PreventRequestsDuringMaintenance;
 use App\Http\Middleware\TrimStrings;
 use App\Http\Middleware\TrustProxies;
+use App\Http\Middleware\UserHasNoAccess;
 use App\Http\Middleware\UserHasPermissions;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
@@ -77,5 +78,6 @@ class Kernel extends HttpKernel
         'hasSalesPermissions' => \App\Http\Middleware\HasSalesAccess::class,
         'hasNotificationsAccess' => hasNotificationAccess::class,
         'userHasPermissions' => UserHasPermissions::class,
+        'userHasNoPermission' => UserHasNoAccess::class,
     ];
 }

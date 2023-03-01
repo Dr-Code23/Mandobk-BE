@@ -92,7 +92,7 @@ class OrderManagementTest extends TestCase
             'status' => '1'
         ]);
         $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
-            ->postJson(route('management-accept', ['order' => $order->id]), ['approve' => '2']);
+            ->postJson(route('management-accept', ['order' => $order->id]), ['approve' => '1']);
         $this->writeAFileForTesting($this->path, 'ChangeOrderStatus', $response->getContent());
         $response->assertSuccessful();
     }

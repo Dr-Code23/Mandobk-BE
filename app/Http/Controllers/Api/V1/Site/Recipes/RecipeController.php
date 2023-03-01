@@ -30,7 +30,8 @@ use Illuminate\Support\Facades\Validator;
 
 class RecipeController extends Controller
 {
-    use UserTrait, HttpResponse, Translatable, PaginationTrait, RoleTrait, Translatable;
+    use UserTrait, HttpResponse, Translatable,
+        PaginationTrait, RoleTrait, Translatable;
 
     /**
      * @return JsonResponse

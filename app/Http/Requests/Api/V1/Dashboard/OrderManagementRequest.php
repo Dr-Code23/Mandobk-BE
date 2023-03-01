@@ -37,7 +37,7 @@ class OrderManagementRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'approve.requried' => $this->translateErrorMessage('approve', 'required'),
+            'approve.required' => $this->translateErrorMessage('approve', 'required'),
             'approve.boolean' => $this->translateErrorMessage('approve', 'boolean'),
         ];
     }

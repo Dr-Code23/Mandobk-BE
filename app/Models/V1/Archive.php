@@ -8,7 +8,23 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
+ * App\Models\V1\Archive
+ *
  * @method whereIn(string $string, \Closure $param)
+ * @property int $id
+ * @property int $random_number
+ * @property string $details
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|Archive newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Archive newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Archive query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Archive whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Archive whereDetails($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Archive whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Archive whereRandomNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Archive whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 class Archive extends Model
 {

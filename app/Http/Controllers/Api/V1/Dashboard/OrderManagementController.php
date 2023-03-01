@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1\Dashboard;
 
 use App\Events\CustomerStatusEvent;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\V1\Dashboard\OrderManagementRequest;
 use App\Http\Resources\Api\V1\Dashboard\OrderManagement\OrderManagementCollection;
 use App\Http\Resources\Api\V1\Dashboard\OrderManagement\OrderManagementResource;
 use App\Models\V1\OfferOrder;
@@ -20,7 +21,9 @@ class OrderManagementController extends Controller
     /**
      * @param OrderManagementService $orderManagementService
      */
-    public function __construct(private OrderManagementService $orderManagementService)
+    public function __construct(
+        private OrderManagementService $orderManagementService
+    )
     {
     }
 
@@ -32,24 +35,40 @@ class OrderManagementController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        return $this->resourceResponse(new OrderManagementCollection($this->orderManagementService->index($request)));
+        return $this->resourceResponse(
+            new OrderManagementCollection(
+                $this->orderManagementService->index($request)
+            )
+        );
     }
 
     /**
+     * Manage Pending Orders
      * @param Request $request
      * @param OfferOrder $order
      * @return JsonResponse
      */
-    public function acceptPendingOrders(Request $request, OfferOrder $order): JsonResponse
+    public function managePendingOrders(OrderManagementRequest $request, OfferOrder $order): JsonResponse
     {
-        $order = $this->orderManagementService->acceptPendingOrders($request, $order);
+        $order = $this->orderManagementService->managePendingOrders($request, $order);
 
         if ($order instanceof OfferOrder) {
             CustomerStatusEvent::dispatch($order, $order->want_offer_id);
 
-            return $this->success(new OrderManagementResource($order), $this->translateSuccessMessage('order', 'updated'));
+            return $this->success(
+                new OrderManagementResource($order),
+                $this->translateSuccessMessage(
+                    'order',
+                    'updated'
+                )
+            );
         }
 
-        return $this->notFoundResponse(msg: $this->translateErrorMessage('order', 'not_found'));
+        return $this->notFoundResponse(
+            msg: $this->translateErrorMessage(
+                'order',
+                'not_found'
+            )
+        );
     }
 }

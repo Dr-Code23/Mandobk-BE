@@ -38,8 +38,9 @@ class MonitorAndEvaluationController extends Controller
      */
     public function index(): JsonResponse
     {
-        return
-            $this->resourceResponse(new MonitorAndEvaluationCollection($this->monitorService->index()));
+        return $this->resourceResponse(
+                new MonitorAndEvaluationCollection($this->monitorService->index())
+            );
     }
 
     /**
@@ -53,9 +54,11 @@ class MonitorAndEvaluationController extends Controller
         $user = $this->monitorService->show($user);
 
         if ($user instanceof User) {
+
             return $this->resourceResponse(new MonitorAndEvaluationResrouce($user));
 
         } elseif (isset($user['role'])) {
+
             return $this->validation_errors($user);
         }
 
@@ -73,7 +76,8 @@ class MonitorAndEvaluationController extends Controller
         $newUser = $this->monitorService->store($request);
 
         if ($newUser instanceof User) {
-            return $this->success(
+
+            return $this->createdResponse(
                 new MonitorAndEvaluationResrouce($newUser),
                 $this->translateSuccessMessage('user', 'created')
             );
@@ -94,7 +98,15 @@ class MonitorAndEvaluationController extends Controller
         $user = $this->monitorService->update($req, $user);
 
         if ($user instanceof User) {
-            return $this->success(new MonitorAndEvaluationResrouce($user), 'User Updated Successfully');
+
+            return $this->success(
+                new MonitorAndEvaluationResrouce($user),
+                'User Updated Successfully'
+            );
+        }
+        else if (is_array($user)) {
+
+            return $this->validation_errors($user);
         }
 
         return $this->notFoundResponse(msg: $user);
@@ -111,7 +123,10 @@ class MonitorAndEvaluationController extends Controller
         $deleted = $this->monitorService->destroy($user);
 
         if (is_bool($deleted) && $deleted) {
-            return $this->success(msg: $this->translateSuccessMessage('user', 'deleted'));
+
+            return $this->success(
+                msg: $this->translateSuccessMessage('user', 'deleted')
+            );
         }
 
         return $this->notFoundResponse(msg: $deleted);

@@ -2,7 +2,7 @@
 
 return [
     'commercial_name' => 'Commercial Name',
-    'scientific_name' => 'Scientefic Name',
+    'scientific_name' => 'Scientific Name',
     'quantity' => 'Quantity',
     'purchase_price' => 'Purchase Price',
     'selling_price' => 'Selling Price',
@@ -79,5 +79,7 @@ return [
     'user' => 'User',
     'deleted' => 'Deleted Successfully',
     'updated' => 'Updated Successfully',
-    'created' => 'Created Successfully'
+    'created' => 'Created Successfully',
+    'ad' => 'Ad',
+    'order' => 'Order',
 ];

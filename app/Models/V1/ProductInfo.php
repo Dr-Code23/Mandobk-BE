@@ -10,6 +10,30 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 
+/**
+ * App\Models\V1\ProductInfo
+ *
+ * @property int $id
+ * @property int $role_id
+ * @property int $product_id
+ * @property int $qty
+ * @property string $patch_number
+ * @property string $expire_date
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductInfo newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductInfo newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductInfo query()
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductInfo whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductInfo whereExpireDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductInfo whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductInfo wherePatchNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductInfo whereProductId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductInfo whereQty($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductInfo whereRoleId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductInfo whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class ProductInfo extends Model
 {
     use HasFactory;

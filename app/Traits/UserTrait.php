@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\V1\Role;
 use App\Models\V1\SubUser;
 use App\Models\V1\VisitorRecipe;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -36,9 +37,25 @@ trait UserTrait
         return in_array($role_name, $permissions);
     }
 
-    public function getAuthenticatedUserInformation()
+    /**
+     * Forbidden User To Access
+     * @param string $excluded
+     * @return bool
+     */
+    public function userHasNoPermissions(string $excluded): bool
     {
-        return Auth::user();
+        $roleController = new RoleController();
+        $role_name=$roleController->getRoleNameById(auth()->user()->role_id);
+        return $role_name == $excluded;
+    }
+
+    /**
+     * Get Logged User Information
+     * @return Authenticatable|null
+     */
+    public function getAuthenticatedUserInformation(): ?\Illuminate\Contracts\Auth\Authenticatable
+    {
+        return auth()->user();
     }
 
     public function getAuthenticatedUserId()

@@ -8,6 +8,24 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Models\V1\PharmacyVisit
+ *
+ * @property int $id
+ * @property int $visitor_recipe_id
+ * @property int $doctor_id
+ * @property int $pharmacy_id
+ * @property string $created_at
+ * @method static \Illuminate\Database\Eloquent\Builder|PharmacyVisit newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|PharmacyVisit newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|PharmacyVisit query()
+ * @method static \Illuminate\Database\Eloquent\Builder|PharmacyVisit whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PharmacyVisit whereDoctorId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PharmacyVisit whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PharmacyVisit wherePharmacyId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PharmacyVisit whereVisitorRecipeId($value)
+ * @mixin \Eloquent
+ */
 class PharmacyVisit extends Model
 {
     use HasFactory, DateTrait;

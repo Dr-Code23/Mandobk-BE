@@ -76,6 +76,7 @@ class HumanResourceService
 
             return $humanResource;
         }
+
         return null;
     }
 }
