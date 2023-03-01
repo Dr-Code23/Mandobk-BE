@@ -4,6 +4,7 @@ namespace App\Http\Requests\Api\V1\Offers;
 
 use App\Traits\HttpResponse;
 use App\Traits\Translatable;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 
@@ -17,7 +18,7 @@ class OfferRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -31,13 +32,23 @@ class OfferRequest extends FormRequest
     {
         return [
             'product_id'    => ['required'],
-            'start_date'    => ['required', 'date', 'date_format:Y-m-d', 'after_or_equal:today'],
-            'end_date'      => ['required', 'date', 'date_format:Y-m-d', 'after:start_date'],
+            'start_date'    => [
+                'required',
+                'date',
+                'date_format:Y-m-d',
+                'after_or_equal:today'
+            ],
+            'end_date'      => [
+                'required',
+                'date',
+                'date_format:Y-m-d',
+                'after:start_date'
+            ],
             'pay_method_id' => ['required'],
         ];
     }
 
-    public function messages()
+    public function messages(): array
     {
         $messages = [
             'start_date.after_or_equal' => $this->translateErrorMessage('start_date', 'after_or_equal'),
@@ -54,8 +65,16 @@ class OfferRequest extends FormRequest
         return $messages;
     }
 
-    public function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
+    /**
+     * @param Validator $validator
+     * @return void
+     * @throws ValidationException
+     */
+    public function failedValidation(Validator $validator): void
     {
-        throw new ValidationException($validator, $this->validation_errors($validator->errors()));
+        throw new ValidationException(
+            $validator,
+            $this->validation_errors($validator->errors())
+        );
     }
 }

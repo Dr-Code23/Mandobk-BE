@@ -4,8 +4,10 @@ namespace App\Http\Requests\Api\V1\Site\Pharmacy;
 
 use App\Traits\HttpResponse;
 use App\Traits\Translatable;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Validation\ValidationException;
 
 class SubUserRequest extends FormRequest
 {
@@ -17,7 +19,7 @@ class SubUserRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -27,7 +29,7 @@ class SubUserRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(): array
     {
         $exists = 'unique:users,username';
         if ($this->method() == 'PUT') {
@@ -35,7 +37,7 @@ class SubUserRequest extends FormRequest
         }
 
         return [
-            'name' => ['required'],
+            'name' => ['required' , 'max:255'],
             'username' => [
                 'required',
                 'regex:'.config('regex.username'),
@@ -53,7 +55,10 @@ class SubUserRequest extends FormRequest
         ];
     }
 
-    public function messages()
+    /**
+     * @return array
+     */
+    public function messages(): array
     {
         return [
             'name.required' => $this->translateErrorMessage('name', 'required'),
@@ -64,8 +69,16 @@ class SubUserRequest extends FormRequest
         ];
     }
 
-    public function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
+    /**
+     * @param Validator $validator
+     * @return void
+     * @throws ValidationException
+     */
+    public function failedValidation(Validator $validator): void
     {
-        throw new \Illuminate\Validation\ValidationException($validator, $this->validation_errors($validator->errors()));
+        throw new ValidationException(
+            $validator,
+            $this->validation_errors($validator->errors())
+        );
     }
 }

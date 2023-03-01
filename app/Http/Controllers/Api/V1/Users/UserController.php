@@ -33,11 +33,11 @@ class UserController extends Controller
      * Get Public Users In Dashboard To Manage
      * @return JsonResponse
      */
-    public function getAllUsersInDashboardToApprove(): JsonResponse
+    public function getAllUsersToManage(): JsonResponse
     {
         return $this->resourceResponse(
-            new UserCollection($this->userService->getAllUsersInDashboardToApprove()
-            ));
+            new UserCollection($this->userService->getAllUsersToManage())
+        );
     }
 
     /**
@@ -54,10 +54,12 @@ class UserController extends Controller
 
         //! Asserting that $user == true not working
         if (is_bool($user) && $user) {
+
             return $this->success(null, __('standard.deleted'));
         }
 
         if ($user != null) {
+
             return $this->success(new UserResource($user));
         }
 
@@ -75,6 +77,7 @@ class UserController extends Controller
         $users = $this->userService->getUsersForSelectBox($request);
 
         if ($users != null) {
+
             return $this->resourceResponse($users);
         }
 
@@ -90,7 +93,7 @@ class UserController extends Controller
     {
         return $this->resourceResponse(
             new VisitorAccountResource($this->userService->registerNewVisitor($request))
-            );
+        );
     }
 
     /**
@@ -103,10 +106,13 @@ class UserController extends Controller
         $randomNumbers = $this->userService->forgotVisitorRandomNumber($request);
 
         if (is_array($randomNumbers)) {
+
             return $this->resourceResponse($randomNumbers);
         }
 
-        return $this->notFoundResponse($this->translateErrorMessage('handle', 'not_found'));
+        return $this->notFoundResponse(
+            $this->translateErrorMessage('handle', 'not_found')
+        );
     }
 
     /**
@@ -119,7 +125,10 @@ class UserController extends Controller
         $randomNumber = $this->userService->addRandomNumberForVisitor($request);
 
         if ($randomNumber instanceof VisitorRecipe) {
-            return $this->resourceResponse(new VisitorRecipeResource($randomNumber));
+
+            return $this->resourceResponse(
+                new VisitorRecipeResource($randomNumber)
+            );
         }
 
         return $this->validation_errors($randomNumber);
@@ -131,6 +140,8 @@ class UserController extends Controller
      */
     public function getHumanResourceUsers(): JsonResponse
     {
-        return $this->resourceResponse($this->userService->getHumanResourceUsers());
+        return $this->resourceResponse(
+            $this->userService->getHumanResourceUsers()
+        );
     }
 }

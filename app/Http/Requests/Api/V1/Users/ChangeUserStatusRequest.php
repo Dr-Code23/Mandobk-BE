@@ -5,6 +5,7 @@ namespace App\Http\Requests\Api\V1\Users;
 use App\Traits\HttpResponse;
 use App\Traits\Translatable;
 use App\Traits\UserTrait;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 
@@ -18,7 +19,7 @@ class ChangeUserStatusRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -28,14 +29,23 @@ class ChangeUserStatusRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            'status' => ['required', 'in:' . $this->isActive() . ',' . $this->isFrozen() . ',' . $this->isDeleted()]
+            'status' => [
+                'required',
+                'in:'
+                . $this->isActive() . ','
+                . $this->isFrozen() . ','
+                . $this->isDeleted()
+            ]
         ];
     }
 
-    public function messages()
+    /**
+     * @return array
+     */
+    public function messages(): array
     {
         return [
             'status.required' => $this->translateErrorMessage('status', 'required'),
@@ -43,8 +53,16 @@ class ChangeUserStatusRequest extends FormRequest
         ];
     }
 
-    public function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
+    /**
+     * @param Validator $validator
+     * @return void
+     * @throws ValidationException
+     */
+    public function failedValidation(Validator $validator): void
     {
-        throw new ValidationException($validator, $this->validation_errors($validator->errors()));
+        throw new ValidationException(
+            $validator,
+            $this->validation_errors($validator->errors())
+        );
     }
 }

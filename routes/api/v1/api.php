@@ -39,7 +39,7 @@ Route::group(['prefix' => 'auth'], function () {
 
     // Logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('v1-logout')
-        ->middleware(['auth:api', 'isAuthenticated']);
+        ->middleware(['auth:api']);
 });
 
 Route::group(['middleware' => ['auth:api']], function () {
@@ -88,9 +88,9 @@ Route::group(['middleware' => ['auth:api']], function () {
                 ->name('v1-products-doctor');
 
             Route::get('', [ProductController::class, 'index'])->name('v1-products-all');
-            Route::get('scientific_name', [ProductController::class, 'ScientificNamesSelect'])
+            Route::get('scientific_name', [ProductController::class, 'scientificNamesSelect'])
                     ->name('v1-products-scientific');
-            Route::get('commercial_name', [ProductController::class, 'CommercialNamesSelect'])
+            Route::get('commercial_name', [ProductController::class, 'commercialNamesSelect'])
                     ->name('v1-products-commercial');
             Route::post('', [ProductController::class, 'storeOrUpdate'])
                     ->name('v1-products-storeSubUser');
@@ -291,7 +291,8 @@ Route::group(['middleware' => ['auth:api']], function () {
                 ['prefix' => 'order_management', 'middleware' => ['userHasPermissions:order_management,no']],
                 function () {
                     Route::get('', [OrderManagementController::class, 'index'])->name('management-all');
-                    Route::post('{order}', [OrderManagementController::class, 'managePendingOrders'])->name('management-accept');
+                    Route::post('{order}', [OrderManagementController::class, 'managePendingOrders'])
+                        ->name('management-accept');
                 }
             );
 
@@ -299,8 +300,10 @@ Route::group(['middleware' => ['auth:api']], function () {
             // User Management
 
             Route::group(['prefix' => 'user_management', 'middleware' => ['userHasPermissions:ceo,no']], function () {
-                Route::get('', [UserController::class, 'getAllUsersInDashboardToApprove'])->name('dashboard-user-all');
-                Route::put('{user}', [UserController::class, 'changeUserStatus'])->name('dashboard-user-updateSubUser');
+                Route::get('', [UserController::class, 'getAllUsersToManage'])
+                    ->name('dashboard-user-all');
+                Route::put('{user}', [UserController::class, 'changeUserStatus'])
+                    ->name('dashboard-user-updateSubUser');
             });
         }
     );

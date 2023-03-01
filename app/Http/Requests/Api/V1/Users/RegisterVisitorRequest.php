@@ -4,6 +4,7 @@ namespace App\Http\Requests\Api\V1\Users;
 
 use App\Traits\HttpResponse;
 use App\Traits\Translatable;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
@@ -17,7 +18,7 @@ class RegisterVisitorRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -27,12 +28,27 @@ class RegisterVisitorRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            'name' => ['bail', 'required', 'not_regex:' . config('regex.not_fully_numbers_symbols'), 'max:40'],
-            'username' => ['bail', 'required', 'regex:' . config('regex.username'), 'unique:users,username'],
-            'phone' => ['bail', 'required', 'numeric', 'unique:users,phone'],
+            'name' => [
+                'bail',
+                'required',
+                'not_regex:' . config('regex.not_fully_numbers_symbols'),
+                'max:255'
+            ],
+            'username' => [
+                'bail',
+                'required',
+                'regex:' . config('regex.username'),
+                'unique:users,username'
+            ],
+            'phone' => [
+                'bail',
+                'required',
+                'numeric',
+                'unique:users,phone'
+            ],
             'password' => [
                 'required',
                 Password::min(8)->mixedCase()
@@ -40,11 +56,18 @@ class RegisterVisitorRequest extends FormRequest
                     ->symbols()
                     ->uncompromised(3),
             ],
-            'alias' => ['bail', 'required', 'not_regex:' . config('regex.not_fully_numbers_symbols')],
+            'alias' => [
+                'bail',
+                'required',
+                'not_regex:' . config('regex.not_fully_numbers_symbols')
+            ],
         ];
     }
 
-    public function messages()
+    /**
+     * @return array
+     */
+    public function messages(): array
     {
         return [
             'name.required' => $this->translateErrorMessage('name', 'required'),
@@ -62,8 +85,16 @@ class RegisterVisitorRequest extends FormRequest
         ];
     }
 
-    public function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
+    /**
+     * @param Validator $validator
+     * @return void
+     * @throws ValidationException
+     */
+    public function failedValidation(Validator $validator): void
     {
-        throw new ValidationException($validator, $this->validation_errors($validator->errors()));
+        throw new ValidationException(
+            $validator,
+            $this->validation_errors($validator->errors())
+        );
     }
 }

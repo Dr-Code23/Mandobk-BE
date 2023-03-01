@@ -28,7 +28,60 @@ class ProductRequest extends FormRequest
     }
 
     /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, mixed>
+     */
+    public function rules(): array
+    {
+        $double = ['required', 'numeric', 'min:0.1'];
+        $rules = [
+            'commercial_name' => [
+                'required' ,
+                'max:255'
+            ],
+            'scientific_name' => [
+                'required' ,
+                'max:255'
+            ],
+            'quantity' => [
+                'required',
+                'regex:' . config('regex.integer')
+            ],
+            'concentrate' => $double,
+            'bonus' => $double,
+            'selling_price' => $double,
+            'purchase_price' => $double,
+            'patch_number' => [
+                'required' ,
+                'max:255'
+            ],
+            'expire_date' => [
+                'bail',
+                'required',
+                'date_format:Y-m-d', 'after:today'
+            ],
+        ];
+
+        if ($this->method() == 'POST') {
+            $rules['barcode'] = ['required', 'numeric'];
+        }
+
+        if ($this->roleNameIn(['ceo', 'data_entry'])) {
+            $rules['limited'] = ['required', 'boolean'];
+        }
+
+        if ($this->method() == 'PUT') {
+            $rules['barcode'] = ['sometimes', 'numeric'];
+        }
+
+        return $rules;
+    }
+
+
+    /**
      * Return Custom Error Messages.
+     * @return array
      */
     public function messages(): array
     {
@@ -52,7 +105,7 @@ class ProductRequest extends FormRequest
         }
 
         // Numeric , between and regex validation messages
-        $regex_length_names = ['quantity', 'purchase_price', 'selling_price', 'bonus', 'patch_number', 'concentrate'];
+        $regex_length_names = ['quantity', 'purchase_price', 'selling_price', 'bonus', 'patch_number', 'concentrate' , 'barcode'];
         foreach ($regex_length_names as $key) {
             if ($key != 'patch_number') {
                 $messages["$key.numeric"] = $this->translateErrorMessage($key, 'numeric');
@@ -71,44 +124,17 @@ class ProductRequest extends FormRequest
         return $messages;
     }
 
+
     /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, mixed>
+     * @param Validator $validator
+     * @return void
+     * @throws ValidationException
      */
-    public function rules()
+    public function failedValidation(Validator $validator): void
     {
-        $double = ['required', 'numeric', 'min:0.1'];
-        $rules = [
-            'commercial_name' => ['required'],
-            'scientific_name' => ['required'],
-            'quantity' => ['required', 'regex:' . config('regex.integer')],
-            'concentrate' => $double,
-            'bonus' => $double,
-            'selling_price' => $double,
-            'purchase_price' => $double,
-            'patch_number' => ['required'],
-            'expire_date' => ['bail', 'required', 'date_format:Y-m-d', 'after:today'],
-        ];
-
-        if ($this->method() == 'POST') {
-            $rules['barcode'] = ['required', 'numeric'];
-        }
-
-        if ($this->roleNameIn(['ceo', 'data_entry'])) {
-            $rules['limited'] = ['required', 'boolean'];
-        }
-
-        if ($this->method() == 'PUT') {
-            $rules['barcode'] = ['sometimes', 'numeric'];
-            // $rules['generate_another_bar_code'] = ['sometimes', 'boolean'];
-        }
-
-        return $rules;
-    }
-
-    public function failedValidation(Validator $validator)
-    {
-        throw new ValidationException($validator, $this->validation_errors($validator->errors()));
+        throw new ValidationException(
+            $validator,
+            $this->validation_errors($validator->errors())
+        );
     }
 }

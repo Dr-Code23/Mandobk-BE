@@ -32,11 +32,13 @@ class MarketingRequest extends FormRequest
         return [
             'medicine_name' => [
                 'required',
-                'not_regex:' . config('regex.not_fully_numbers_symbols')
+                'not_regex:' . config('regex.not_fully_numbers_symbols'),
+                'max:255'
             ],
             'company_name' => [
                 'required',
-                'not_regex:' . config('regex.not_fully_numbers_symbols')
+                'not_regex:' . config('regex.not_fully_numbers_symbols'),
+                'max:255'
             ],
             'discount' => ['bail', 'required', 'numeric', 'between:0,100'],
             'img' => [

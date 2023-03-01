@@ -4,7 +4,9 @@ namespace App\Http\Requests\Api\V1\Site\OfferOrder;
 
 use App\Traits\HttpResponse;
 use App\Traits\Translatable;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\ValidationException;
 
 class OfferOrderRequest extends FormRequest
 {
@@ -16,7 +18,7 @@ class OfferOrderRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -26,7 +28,7 @@ class OfferOrderRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'offer_id' => ['required', 'numeric'],
@@ -34,7 +36,10 @@ class OfferOrderRequest extends FormRequest
         ];
     }
 
-    public function messages()
+    /**
+     * @return array
+     */
+    public function messages(): array
     {
         return [
             'offer_id.required' => $this->translateErrorMessage('offer', 'required'),
@@ -45,8 +50,16 @@ class OfferOrderRequest extends FormRequest
         ];
     }
 
-    public function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
+    /**
+     * @param Validator $validator
+     * @return void
+     * @throws ValidationException
+     */
+    public function failedValidation(Validator $validator): void
     {
-        throw new \Illuminate\Validation\ValidationException($validator, $this->validation_errors($validator->errors()));
+        throw new ValidationException(
+            $validator,
+            $this->validation_errors($validator->errors())
+        );
     }
 }

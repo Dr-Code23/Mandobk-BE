@@ -38,7 +38,7 @@ class MonitorAndEvaluationRequest extends FormRequest
         }
 
         return [
-            'full_name' => ['required'],
+            'full_name' => ['required' , 'max:255'],
             'username' => [
                 'bail',
                 'required',

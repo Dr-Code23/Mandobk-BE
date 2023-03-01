@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\Api\V1\Site\Recipes;
 
-use App\Rules\HasCommercialName;
 use App\Traits\HttpResponse;
 use App\Traits\Translatable;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 
@@ -17,7 +17,7 @@ class PharmacyRecipeRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -27,27 +27,39 @@ class PharmacyRecipeRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'data' => ['required', 'array'],
-            'data.*.commercial_name' => ['required'],
+            'data.*.commercial_name' => ['required' , 'max:255'],
             'data.*.quantity' => ['required', 'numeric'],
-            'data.*.alternative_commercial_name' => ['sometimes']
+            'data.*.alternative_commercial_name' => ['sometimes' , 'max:255']
         ];
     }
 
-    public function messages()
+    /**
+     * @return array
+     */
+    public function messages(): array
     {
         return [
-            'data.required' => $this->translateErrorMessage('data', 'required'),
-            'data.array' => $this->translateErrorMessage('data', 'array'),
-            'data.*.commercial_name.required' => $this->translateErrorMessage('commercial_name', 'required'),
-            'data.*.quantity.numeric' => $this->translateErrorMessage('quantity', 'numeric'),
+            'data.required' =>
+                $this->translateErrorMessage('data', 'required'),
+            'data.array' =>
+                $this->translateErrorMessage('data', 'array'),
+            'data.*.commercial_name.required' =>
+                $this->translateErrorMessage('commercial_name', 'required'),
+            'data.*.quantity.numeric' =>
+                $this->translateErrorMessage('quantity', 'numeric'),
         ];
     }
 
-    public function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
+    /**
+     * @param Validator $validator
+     * @return void
+     * @throws ValidationException
+     */
+    public function failedValidation(Validator $validator): void
     {
         $errors = $validator->errors()->toArray();
         $allErrors = [];
@@ -59,6 +71,10 @@ class PharmacyRecipeRequest extends FormRequest
             }
         }
         $allErrors = array_merge($allErrors, $errors);
-        throw new ValidationException($validator, $this->validation_errors($allErrors));
+
+        throw new ValidationException(
+            $validator,
+            $this->validation_errors($allErrors)
+        );
     }
 }

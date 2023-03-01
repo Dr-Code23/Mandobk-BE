@@ -4,6 +4,7 @@ namespace App\Http\Requests\Api\V1\Visitor;
 
 use App\Traits\HttpResponse;
 use App\Traits\Translatable;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 
@@ -16,7 +17,7 @@ class AddRandomNumberForVisitor extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -26,23 +27,35 @@ class AddRandomNumberForVisitor extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'username' => ['required'],
             'alias' => ['required']
         ];
     }
-    public function messages()
+
+    /**
+     * @return array
+     */
+    public function messages(): array
     {
         return [
-            'username.requried' => $this->translateErrorMessage('username', 'required'),
+            'username.required' => $this->translateErrorMessage('username', 'required'),
             'alias.required' => $this->translateErrorMessage('alias', 'required')
         ];
     }
 
-    public function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
+    /**
+     * @param Validator $validator
+     * @return void
+     * @throws ValidationException
+     */
+    public function failedValidation(Validator $validator): void
     {
-        throw new ValidationException($validator, $this->validation_errors($validator->errors()));
+        throw new ValidationException(
+            $validator,
+            $this->validation_errors($validator->errors())
+        );
     }
 }

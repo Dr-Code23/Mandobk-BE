@@ -4,6 +4,7 @@ namespace App\Http\Requests\Api\V1\Site\Recipes;
 
 use App\Traits\HttpResponse;
 use App\Traits\Translatable;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 
@@ -17,7 +18,7 @@ class RecipeRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -27,23 +28,24 @@ class RecipeRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'products' => ['required', 'array'],
             'random_number' => ['required', 'numeric'],
-            // 'move_products_to_archive_if_exists' => ['sometimes', 'boolean'],
             'products.*.product_id' => ['required', 'numeric'],
             'products.*.quantity' => ['required', 'numeric', 'min:1'],
         ];
     }
 
-    public function messages()
+    /**
+     * @return array
+     */
+    public function messages(): array
     {
         return [
             'random_number.required' => $this->translateErrorMessage('random_number', 'required'),
             'random_number.numeric' => $this->translateErrorMessage('random_number', 'numeric'),
-            // 'move_products_to_archive_if_exists.boolean' => $this->translateErrorMessage('move_products_to_archive_if_exists', 'boolean'),
             'products.required' => $this->translateErrorMessage('products', 'required'),
             'products.*.product_id.required' => $this->translateErrorMessage('product', 'required'),
             'products.*.product_id.numeric' => $this->translateErrorMessage('product', 'numeric'),
@@ -53,7 +55,12 @@ class RecipeRequest extends FormRequest
         ];
     }
 
-    public function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
+    /**
+     * @param Validator $validator
+     * @return void
+     * @throws ValidationException
+     */
+    public function failedValidation(Validator $validator): void
     {
         $errors = $validator->errors()->toArray();
         $allErrors = [];
@@ -65,6 +72,10 @@ class RecipeRequest extends FormRequest
             }
         }
         $allErrors = array_merge($allErrors, $errors);
-        throw new ValidationException($validator, $this->validation_errors($allErrors));
+
+        throw new ValidationException(
+            $validator,
+            $this->validation_errors($allErrors)
+        );
     }
 }

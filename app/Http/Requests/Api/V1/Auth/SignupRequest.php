@@ -33,7 +33,7 @@ class SignupRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'full_name' => ['required'],
+            'full_name' => ['required','max:255'],
             'username' => ['required', 'regex:' . config('regex.username')],
             'phone' => ['required' , 'numeric'],
             'role' => ['required'],

@@ -10,6 +10,7 @@ use App\Traits\GeneralTrait;
 use App\Traits\RoleTrait;
 use App\Traits\Translatable;
 use App\Traits\UserTrait;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use DB;
 
@@ -97,8 +98,12 @@ class ProductService
                     ->orWhere('barcode', $barcode_value);
             })
                 ->where(function ($query) {
-                    if ($this->roleNameIn(['ceo', 'data_entry'])) $query->whereIn('role_id', $this->getRolesIdsByName(['ceo', 'data_entry']));
-                    else  $query->whereIn('user_id', $this->getSubUsersForUser());
+                    if ($this->roleNameIn(['ceo', 'data_entry'])) {
+                        $query->whereIn('role_id', $this->getRolesIdsByName(['ceo', 'data_entry']));
+                    }
+                    else {
+                        $query->whereIn('user_id', $this->getSubUsersForUser());
+                    }
                 })
                 ->first();
 
@@ -112,7 +117,7 @@ class ProductService
                 'barcode' => $barcode_value,
                 'limited' => $limited,
                 'user_id' => Auth::id(),
-                'role_id' => $this->getAuthenticatedUserInformation()->role->id,
+                'role_id' => auth()->user()->role_id,
             ];
             $originalTotal = $purchase_price * $request->quantity;
             if ($product) {
@@ -176,29 +181,41 @@ class ProductService
         if (in_array($product->user_id, $this->getSubUsersForUser())) {
             $this->deleteBarCode($product->barcode);
             $product->delete();
+
             return true;
         }
 
         return false;
     }
-    public function ScientificNamesSelect()
+
+    /**
+     * Scientific Names For Select Box
+     * @return Collection
+     */
+    public function ScientificNamesSelect(): Collection
     {
         return Product::where('user_id', Auth::id())
             ->get(['id', 'sc_name as scientific_name']);
     }
 
-    public function CommercialNamesSelect()
+    /**
+     * Commercial Names For Select Box
+     * @return Collection
+     */
+    public function CommercialNamesSelect(): Collection
     {
         return Product::where('user_id', Auth::id())->get(['id', 'com_name as commercial_name']);
     }
 
-    public function doctorProducts()
+    /**
+     * Fetch ALl Products For Doctor
+     * @return Collection
+     */
+    public function doctorProducts(): Collection
     {
-
         return Product::whereIn(
             'role_id',
             $this->getRolesIdsByName(['ceo', 'data_entry']),
-        )
-            ->get(['id', 'com_name as commercial_name', 'limited']);
+        )->get(['id', 'com_name as commercial_name', 'limited']);
     }
 }

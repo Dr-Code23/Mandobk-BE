@@ -19,7 +19,7 @@ class SaleRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -29,19 +29,21 @@ class SaleRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'data' => ['required', 'array'],
             'data.*.product_id' => ['required'],
-            // 'data.*.expire_date' => ['sometimes'],
             'data.*.selling_price' => ['required', 'numeric', 'min:1'],
             'data.*.quantity' => ['required', 'numeric', 'min:1'],
             'buyer_id' => ['required'],
         ];
     }
 
-    public function messages()
+    /**
+     * @return array
+     */
+    public function messages(): array
     {
         return [
             'data.required' => $this->translateErrorMessage('data', 'required'),
@@ -58,7 +60,12 @@ class SaleRequest extends FormRequest
         ];
     }
 
-    public function failedValidation(Validator $validator)
+    /**
+     * @param Validator $validator
+     * @return void
+     * @throws ValidationException
+     */
+    public function failedValidation(Validator $validator): void
     {
         $errors = $validator->errors()->toArray();
         $allErrors = [];
@@ -70,6 +77,10 @@ class SaleRequest extends FormRequest
             }
         }
         $allErrors = array_merge($allErrors, $errors);
-        throw new ValidationException($validator, $this->validation_errors($allErrors));
+
+        throw new ValidationException(
+            $validator,
+            $this->validation_errors($allErrors)
+        );
     }
 }

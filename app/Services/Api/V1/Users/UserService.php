@@ -12,7 +12,12 @@ class UserService
 {
 
     use RoleTrait;
-    public function getAllUsersInDashboardToApprove()
+
+    /**
+     * Get All Public Users To Manage In Dashboard
+     * @return Collection
+     */
+    public function getAllUsersToManage(): Collection
     {
         return User::whereIn('role_id', $this->getRolesIdsByName(config('roles.signup_roles')))
             ->whereNotIn('users.id', function ($query) {
@@ -46,14 +51,15 @@ class UserService
             // Delete User And Return Success Message
             if ($status == $this->isDeleted()) {
                 $user->delete();
+
                 return true;
             }
             if ($status != $user->status) {
-                $user->update(['status' => $status]);
+                $user->update(['status' => $status.'']);
+                info($user);
             }
-            // $roleName = Role::where('id', $user->role_id)->value('name');
-            $roleName = $this->getRoleNameById($user->role_id);
-            $user->role = $roleName;
+            $user->role = $this->getRoleNameById($user->role_id);;
+
             return $user;
         }
 
@@ -68,7 +74,6 @@ class UserService
      */
     public function getUsersForSelectBox($request): Collection|null
     {
-
         $role_name = '';
         if ($request->routeIs('roles-storehouse-all')) {
             $role_name = 'storehouse';

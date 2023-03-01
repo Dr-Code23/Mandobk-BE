@@ -44,8 +44,10 @@ class ProductController extends Controller
     {
         $product = $this->productService->showOnProductWithoutDetails($product);
 
-        if ($product != null)
+        if ($product != null) {
+
             return $this->resourceResponse(new ProductResource($product));
+        }
 
         return $this->notFoundResponse($this->translateErrorMessage('product', 'not_exists'));
     }
@@ -92,7 +94,7 @@ class ProductController extends Controller
      */
     public function scientificNamesSelect(ProductService $productService): JsonResponse
     {
-        return $this->resourceResponse($productService->scientificNamesSelect());
+        return $this->resourceResponse($productService->ScientificNamesSelect());
     }
 
     /**

@@ -17,7 +17,7 @@ class ForgotVisitorRandomNumberRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -27,22 +27,33 @@ class ForgotVisitorRandomNumberRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            'handle' => ['required'],
+            'handle' => ['required' , 'max:255'],
         ];
     }
 
-    public function messages()
+    /**
+     * @return array
+     */
+    public function messages(): array
     {
         return [
             'handle.required' => $this->translateErrorMessage('handle', 'required'),
         ];
     }
 
-    public function failedValidation(Validator $validator)
+    /**
+     * @param Validator $validator
+     * @return void
+     * @throws ValidationException
+     */
+    public function failedValidation(Validator $validator): void
     {
-        throw new ValidationException($validator , $this->validation_errors($validator->errors()));
+        throw new ValidationException(
+            $validator ,
+            $this->validation_errors($validator->errors())
+        );
     }
 }

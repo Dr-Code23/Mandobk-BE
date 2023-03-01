@@ -19,7 +19,7 @@ class ProfileRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -29,10 +29,10 @@ class ProfileRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            'full_name' => ['required'],
+            'full_name' => ['required' , 'max:255'],
             'password' => [
                 'sometimes',
                 RulesPassword::min(8)
@@ -40,11 +40,23 @@ class ProfileRequest extends FormRequest
                     ->numbers()
                     ->symbols(),
             ],
-            'avatar' => ['sometimes', 'image', 'mimes:png,jpg', 'max:2048'],
-            'phone' => ['required', 'unique:users,phone,' . auth()->id() . ',id', 'numeric']
+            'avatar' => [
+                'sometimes',
+                'image',
+                'mimes:png,jpg',
+                'max:2048'
+            ],
+            'phone' => [
+                'required',
+                'unique:users,phone,' . auth()->id() . ',id',
+                'numeric'
+            ]
         ];
     }
 
+    /**
+     * @return array
+     */
     public function messages(): array
     {
         return [
@@ -58,8 +70,16 @@ class ProfileRequest extends FormRequest
         ];
     }
 
-    public function failedValidation(Validator $validator)
+    /**
+     * @param Validator $validator
+     * @return void
+     * @throws ValidationValidationException
+     */
+    public function failedValidation(Validator $validator): void
     {
-        throw new ValidationValidationException($validator, $this->validation_errors($validator->errors()));
+        throw new ValidationValidationException(
+            $validator,
+            $this->validation_errors($validator->errors())
+        );
     }
 }
