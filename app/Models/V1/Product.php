@@ -4,8 +4,12 @@ namespace App\Models\V1;
 
 use App\Traits\DateTrait;
 use App\Traits\RoleTrait;
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * App\Models\V1\Product
@@ -23,25 +27,25 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $original_total
  * @property int $limited
  * @property string $created_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\V1\ProductInfo> $product_details
+ * @property-read Collection<int, ProductInfo> $product_details
  * @property-read int|null $product_details_count
- * @method static \Illuminate\Database\Eloquent\Builder|Product newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Product newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Product query()
- * @method static \Illuminate\Database\Eloquent\Builder|Product whereBarcode($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Product whereBonus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Product whereComName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Product whereCon($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Product whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Product whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Product whereLimited($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Product whereOriginalTotal($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Product wherePurPrice($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Product whereRoleId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Product whereScName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Product whereSelPrice($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Product whereUserId($value)
- * @mixin \Eloquent
+ * @method static Builder|Product newModelQuery()
+ * @method static Builder|Product newQuery()
+ * @method static Builder|Product query()
+ * @method static Builder|Product whereBarcode($value)
+ * @method static Builder|Product whereBonus($value)
+ * @method static Builder|Product whereComName($value)
+ * @method static Builder|Product whereCon($value)
+ * @method static Builder|Product whereCreatedAt($value)
+ * @method static Builder|Product whereId($value)
+ * @method static Builder|Product whereLimited($value)
+ * @method static Builder|Product whereOriginalTotal($value)
+ * @method static Builder|Product wherePurPrice($value)
+ * @method static Builder|Product whereRoleId($value)
+ * @method static Builder|Product whereScName($value)
+ * @method static Builder|Product whereSelPrice($value)
+ * @method static Builder|Product whereUserId($value)
+ * @mixin Eloquent
  */
 class Product extends Model
 {
@@ -66,7 +70,7 @@ class Product extends Model
     ];
 
 
-    public function product_details()
+    public function product_details(): HasMany
     {
         return $this->hasMany(ProductInfo::class);
     }

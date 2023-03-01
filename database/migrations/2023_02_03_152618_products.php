@@ -11,7 +11,7 @@ return new class() extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
@@ -30,16 +30,16 @@ return new class() extends Migration
                 ->cascadeOnDelete();
 
             $table->string('com_name'); // Commercial Name
-            $table->string('sc_name'); // Scientefic Name
+            $table->string('sc_name'); // Scientific Name
             $table->unsignedDouble('pur_price'); // Purchasing price
             $table->unsignedDouble('sel_price'); // Selling Price
             $table->unsignedDouble('bonus'); // Bonus
             $table->unsignedDouble('con'); // Concentrate
             $table->string('barcode'); // Bar Code
 
-            /* 
-                Used To Find Total Purchases For That Product if 
-                the total quantity changed in sale operation for example 
+            /*
+                Used To Find Total Purchases For That Product if
+                the total quantity changed in sale operation for example
             */
             $table->string('original_total')->nullable();
             $table->boolean('limited')->default(false); // Limited Exchange
@@ -53,7 +53,7 @@ return new class() extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('products');
     }

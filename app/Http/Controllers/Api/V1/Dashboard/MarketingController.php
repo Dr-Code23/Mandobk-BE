@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\Dashboard\MarketingRequest;
 use App\Http\Resources\Api\V1\Dashboard\Markting\MarktingCollection;
 use App\Http\Resources\Api\V1\Dashboard\Markting\MarktingResource;
-use App\Models\V1\Markting;
+use App\Models\V1\Marketing;
 use App\Services\Api\V1\Dashboard\MarktingService;
 use App\Traits\FileOperationTrait;
 use App\Traits\HttpResponse;
@@ -25,16 +25,16 @@ class MarketingController extends Controller
      */
     public function index(): JsonResponse
     {
-        return $this->resourceResponse(new MarktingCollection(Markting::all()));
+        return $this->resourceResponse(new MarktingCollection(Marketing::all()));
     }
 
     /**
      * Show One Ad
      *
-     * @param Markting $ad
+     * @param Marketing $ad
      * @return JsonResponse
      */
-    public function show(Markting $ad): JsonResponse
+    public function show(Marketing $ad): JsonResponse
     {
         return $this->resourceResponse(new MarktingResource($ad));
     }
@@ -50,7 +50,7 @@ class MarketingController extends Controller
     {
         $ad = $marketingService->store($request);
 
-        if ($ad instanceof Markting) {
+        if ($ad instanceof Marketing) {
 
             return $this->createdResponse(
                 new MarktingResource($ad),
@@ -65,15 +65,15 @@ class MarketingController extends Controller
      * Update Ad
      *
      * @param MarketingRequest $request
-     * @param Markting $ad
+     * @param Marketing $ad
      * @param MarktingService $marketingService
      * @return JsonResponse
      */
-    public function update(MarketingRequest $request, Markting $ad, MarktingService $marketingService): JsonResponse
+    public function update(MarketingRequest $request, Marketing $ad, MarktingService $marketingService): JsonResponse
     {
         $ad = $marketingService->update($request, $ad);
 
-        if ($ad instanceof Markting) {
+        if ($ad instanceof Marketing) {
 
             return $this->success(
                 new MarktingResource($ad),
@@ -87,10 +87,10 @@ class MarketingController extends Controller
     /**
      * Delete Ad
      *
-     * @param Markting $ad
+     * @param Marketing $ad
      * @return JsonResponse
      */
-    public function destroy(Markting $ad): JsonResponse
+    public function destroy(Marketing $ad): JsonResponse
     {
         $this->deleteImage('markting/' . $ad->img);
         $ad->delete();

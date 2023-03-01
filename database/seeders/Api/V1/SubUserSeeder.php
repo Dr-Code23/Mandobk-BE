@@ -15,7 +15,7 @@ class SubUserSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         SubUser::create([
             'parent_id' => 9,

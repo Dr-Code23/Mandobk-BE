@@ -40,7 +40,7 @@ return [
     'data_entry' => 'Data Entry',
     'monitor_and_evaluation' => 'Monitor And Evaluation',
     'order_management' => 'Order Management',
-    'markting' => 'Markting',
+    'markting' => 'Marketing',
     'human_resource' => 'Human Resource',
     'company' => 'Company',
     'pharmacy' => 'Pharmacy',

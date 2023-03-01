@@ -15,7 +15,7 @@ class VisitorRecipeSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         for ($i = 1; $i <= 50; ++$i) {
             VisitorRecipe::create([

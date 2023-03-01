@@ -11,7 +11,7 @@ return new class() extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('visitor_recipes', function (Blueprint $table) {
             $table->id();
@@ -34,16 +34,8 @@ return new class() extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('visitor_recipes');
     }
 };
-
-/*
-
-    id visitor_id random_number details
-    id doctor_id visitor_recipe_id created_at updated_at
-
-
-*/

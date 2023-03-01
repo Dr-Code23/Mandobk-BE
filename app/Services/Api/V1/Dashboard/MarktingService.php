@@ -2,7 +2,7 @@
 
 namespace App\Services\Api\V1\Dashboard;
 
-use App\Models\V1\Markting;
+use App\Models\V1\Marketing;
 use App\Traits\FileOperationTrait;
 use App\Traits\StringTrait;
 use Illuminate\Http\JsonResponse;
@@ -15,9 +15,9 @@ class MarktingService
      * Add New Ad
      *
      * @param $request
-     * @return Markting|array
+     * @return Marketing|array
      */
-    public function store($request): Markting|array
+    public function store($request): Marketing|array
     {
         $medicine_name = $request->medicine_name;
         $company_name = $request->company_name;
@@ -26,7 +26,7 @@ class MarktingService
         $errors = [];
         // Check if the ad is already exists
         if (
-            !Markting::where('medicine_name', $medicine_name)
+            !Marketing::where('medicine_name', $medicine_name)
                 ->where('company_name', $company_name)
                 ->where('discount', $discount)
                 ->value('id')
@@ -35,7 +35,7 @@ class MarktingService
 
             $image_name = explode('/', $request->file('img')->store('public/markting'));
             $image_name = $image_name[count($image_name) - 1];
-            return Markting::create([
+            return Marketing::create([
                 'medicine_name' => $medicine_name,
                 'company_name' => $company_name,
                 'discount' => $discount,
@@ -52,17 +52,17 @@ class MarktingService
      * Update Ad
      *
      * @param $request
-     * @param Markting $ad
-     * @return Markting|array
+     * @param Marketing $ad
+     * @return Marketing|array
      */
-    public function update($request, $ad): Markting|array
+    public function update($request, $ad): Marketing|array
     {
         $medicine_name = $request->medicine_name;
         $company_name = $request->company_name;
         $discount = $this->setPercisionForFloatString($request->discount);
         // Check if the ad is already exists
         if (
-            !Markting::where('medicine_name', $medicine_name)
+            !Marketing::where('medicine_name', $medicine_name)
                 ->where('company_name', $company_name)
                 ->where('discount', $discount)
                 ->where('id', '!=', $ad->id)

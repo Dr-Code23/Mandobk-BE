@@ -40,7 +40,6 @@ class CompanyOffer extends Model
     {
         return Attribute::make(
             get: fn ($val) => $this->changeDateFormat($val, 'Y-m-d'),
-            set: fn ($val) => $this->changeDateFormat($val, 'Y-m-d')
         );
     }
 

@@ -2,20 +2,20 @@
 
 namespace Database\Seeders\Api\V1;
 
-use App\Models\V1\Markting;
+use App\Models\V1\Marketing;
 use Illuminate\Database\Seeder;
 
-class MarktingSeeder extends Seeder
+class MarketingSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         for ($i = 0; $i < 10; ++$i) {
-            Markting::create([
+            Marketing::create([
                 'medicine_name' => fake()->name(),
                 'company_name' => fake()->name(),
                 'discount' => fake()->numberBetween(0, 100),

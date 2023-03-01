@@ -3,6 +3,8 @@
 namespace App\Models\V1;
 
 use App\Traits\DateTrait;
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,18 +15,19 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property int $parent_id
  * @property int $sub_user_id
- * @method static \Illuminate\Database\Eloquent\Builder|SubUser newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|SubUser newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|SubUser query()
- * @method static \Illuminate\Database\Eloquent\Builder|SubUser whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SubUser whereParentId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SubUser whereSubUserId($value)
- * @mixin \Eloquent
+ * @method static Builder|SubUser newModelQuery()
+ * @method static Builder|SubUser newQuery()
+ * @method static Builder|SubUser query()
+ * @method static Builder|SubUser whereId($value)
+ * @method static Builder|SubUser whereParentId($value)
+ * @method static Builder|SubUser whereSubUserId($value)
+ * @mixin Eloquent
  */
 class SubUser extends Model
 {
     use HasFactory;
     use DateTrait;
+
     public $timestamps = false;
     protected $fillable = [
         'parent_id',
@@ -34,13 +37,14 @@ class SubUser extends Model
     protected function createdAt(): Attribute
     {
         return Attribute::make(
-            get: fn ($val) => $this->changeDateFormat($val, 'Y-m-d')
+            get: fn($val) => $this->changeDateFormat($val, 'Y-m-d')
         );
     }
+
     protected function updatedAt(): Attribute
     {
         return Attribute::make(
-            get: fn ($val) => $this->changeDateFormat($val, 'Y-m-d')
+            get: fn($val) => $this->changeDateFormat($val, 'Y-m-d')
         );
     }
 }

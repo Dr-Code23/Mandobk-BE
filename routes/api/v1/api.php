@@ -46,7 +46,7 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     // Change Profile Info
     Route::post('profile', [ProfileController::class, 'changeProfileInfo']);
-    // Markting Offers
+    // Marketing Offers
     Route::get('markting_offers', [MarketingController::class, 'index']);
 
     // Pay Methods
@@ -88,12 +88,16 @@ Route::group(['middleware' => ['auth:api']], function () {
                 ->name('v1-products-doctor');
 
             Route::get('', [ProductController::class, 'index'])->name('v1-products-all');
+
             Route::get('scientific_name', [ProductController::class, 'scientificNamesSelect'])
                     ->name('v1-products-scientific');
+
             Route::get('commercial_name', [ProductController::class, 'commercialNamesSelect'])
                     ->name('v1-products-commercial');
+
             Route::post('', [ProductController::class, 'storeOrUpdate'])
                     ->name('v1-products-storeSubUser');
+
             Route::get('{product}', [ProductController::class, 'showWithoutDetails'])
                     ->name('v1-products-one');
         },
@@ -101,19 +105,31 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     // Offers
     Route::group(['prefix' => 'offers', 'middleware' => ['App\Http\Middleware\hasOfferAccess']], function () {
-        Route::get('', [OfferController::class, 'index'])->name('offer-all');
-        Route::post('', [OfferController::class, 'store'])->name('offer-storeSubUser');
-        Route::put('{offer}', [OfferController::class, 'changeOfferStatus'])->name('offer-status');
-        Route::get('{offer}', [OfferController::class, 'show'])->name('offer-one');
-        Route::delete('{offer}', [OfferController::class, 'destroy'])->name('offer-delete');
+        Route::get('', [OfferController::class, 'index'])
+            ->name('offer-all');
+
+        Route::post('', [OfferController::class, 'store'])
+            ->name('offer-storeSubUser');
+
+        Route::put('{offer}', [OfferController::class, 'changeOfferStatus'])
+            ->name('offer-status');
+
+        Route::get('{offer}', [OfferController::class, 'show'])
+            ->name('offer-one');
+
+        Route::delete('{offer}', [OfferController::class, 'destroy'])
+            ->name('offer-delete');
     });
 
     // Sales
     Route::group(
         ['prefix' => 'sales', 'middleware' => ['auth:api', 'hasSalesPermissions']],
         function () {
-            Route::get('', [SaleController::class, 'index'])->name('sales-all');
-            Route::post('', [SaleController::class, 'store'])->name('sales-storeSubUser');
+            Route::get('', [SaleController::class, 'index'])
+                ->name('sales-all');
+
+            Route::post('', [SaleController::class, 'store'])
+                ->name('sales-storeSubUser');
         }
     );
 
@@ -164,8 +180,11 @@ Route::group(['middleware' => ['auth:api']], function () {
                 Route::group(
                     ['prefix' => 'storehouse_offers'],
                     function () {
-                        Route::get('', [OfferOrderController::class, 'showAllOffers'])->name('order-storehouse-showOneSubUser');
-                        Route::post('', [OfferOrderController::class, 'order'])->name('order-storehouse-make');
+                        Route::get('', [OfferOrderController::class, 'showAllOffers'])
+                            ->name('order-storehouse-showOneSubUser');
+
+                        Route::post('', [OfferOrderController::class, 'order'])
+                            ->name('order-storehouse-make');
                     }
                 );
 
@@ -182,6 +201,7 @@ Route::group(['middleware' => ['auth:api']], function () {
                 );
 
                 Route::get('pharmacy_visits', [RecipeController::class, 'GetAllPharmacyRecipes']);
+
                 Route::group(['prefix' => 'recipes'], function () {
                     Route::get('', [RecipeController::class, 'getProductsAssociatedWithRandomNumberForPharmacy']);
                     Route::put('{recipe}', [RecipeController::class, 'acceptVisitorRecipeFromPharmacy']);
@@ -197,9 +217,14 @@ Route::group(['middleware' => ['auth:api']], function () {
                 Route::group(
                     ['prefix' => 'recipe'],
                     function () {
-                        Route::get('', [RecipeController::class, 'getAllRecipes'])->name('doctor-recipe-all');
-                        Route::get('visitor_recipe', [RecipeController::class, 'getProductsWithRandomNumber'])->name('doctor-visitor-products');
-                        Route::post('visitor_recipe', [RecipeController::class, 'addRecipe'])->name('doctor-recipe-add');
+                        Route::get('', [RecipeController::class, 'getAllRecipes'])
+                            ->name('doctor-recipe-all');
+
+                        Route::get('visitor_recipe', [RecipeController::class, 'getProductsWithRandomNumber'])
+                            ->name('doctor-visitor-products');
+
+                        Route::post('visitor_recipe', [RecipeController::class, 'addRecipe'])
+                            ->name('doctor-recipe-add');
                     }
                 );
 
@@ -207,8 +232,12 @@ Route::group(['middleware' => ['auth:api']], function () {
                 Route::group(
                     ['prefix' => 'visitor'],
                     function () {
-                        Route::post('', [UserController::class, 'registerNewVisitor'])->name('doctor-visitor-register');
-                        Route::post('forgot_random_number', [UserController::class, 'forgotVisitorRandomNumber'])->name('doctor-visitor-forgot-random-number');
+                        Route::post('', [UserController::class, 'registerNewVisitor'])
+                            ->name('doctor-visitor-register');
+
+                        Route::post('forgot_random_number', [UserController::class, 'forgotVisitorRandomNumber'])
+                            ->name('doctor-visitor-forgot-random-number');
+
                         Route::post('add_random_number', [UserController::class, 'addRandomNumberForVisitor']);
                     }
                 );
@@ -220,6 +249,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::group(['prefix' => 'mobile'], function () {
         Route::post('login', [MobileAuthController::class, 'login'])
             ->withoutMiddleware('auth:api')->name('mobile-login');
+
         Route::post('logout', [MobileAuthController::class, 'logout']);
 
         // Visitor
@@ -229,15 +259,21 @@ Route::group(['middleware' => ['auth:api']], function () {
                 Route::group(
                     ['prefix' => 'archive'],
                     function () {
-                        Route::get('', [ArchiveController::class, 'index'])->name('archive-all');
-                        Route::get('{archive}', [ArchiveController::class, 'show'])->name('archive-one');
-                        Route::post('', [ArchiveController::class, 'moveProductsToArchive'])->name('archive-move');
+                        Route::get('', [ArchiveController::class, 'index'])
+                            ->name('archive-all');
+
+                        Route::get('{archive}', [ArchiveController::class, 'show'])
+                            ->name('archive-one');
+
+                        Route::post('', [ArchiveController::class, 'moveProductsToArchive'])
+                            ->name('archive-move');
                     }
                 );
                 Route::group(
                     ['prefix' => 'recipe'],
                     function () {
-                        Route::get('', [RecipeController::class, 'getAllRecipes'])->name('visitor-all-recipes');
+                        Route::get('', [RecipeController::class, 'getAllRecipes'])
+                            ->name('visitor-all-recipes');
                     }
                 );
             }
@@ -252,13 +288,25 @@ Route::group(['middleware' => ['auth:api']], function () {
             // Monitor And Evaluation
 
             Route::group(
-                ['prefix' => 'monitor_and_evaluation', 'middleware' => ['userHasPermissions:monitor_and_evaluation,no']],
+                [
+                    'prefix' => 'monitor_and_evaluation',
+                    'middleware' => ['userHasPermissions:monitor_and_evaluation,no']
+                ],
                 function () {
-                    Route::get('', [MonitorAndEvaluationController::class, 'index'])->name('monitor-all');
-                    Route::get('/{user}', [MonitorAndEvaluationController::class, 'show'])->name('monitor-one');
-                    Route::post('', [MonitorAndEvaluationController::class, 'store'])->name('monitor-storeSubUser');
-                    Route::put('/{user}', [MonitorAndEvaluationController::class, 'update'])->name('monitor-updateSubUser');
-                    Route::delete('/{user}', [MonitorAndEvaluationController::class, 'destroy'])->name('monitor-delete');
+                    Route::get('', [MonitorAndEvaluationController::class, 'index'])
+                        ->name('monitor-all');
+
+                    Route::get('/{user}', [MonitorAndEvaluationController::class, 'show'])
+                        ->name('monitor-one');
+
+                    Route::post('', [MonitorAndEvaluationController::class, 'store'])
+                        ->name('monitor-storeSubUser');
+
+                    Route::put('/{user}', [MonitorAndEvaluationController::class, 'update'])
+                        ->name('monitor-updateSubUser');
+
+                    Route::delete('/{user}', [MonitorAndEvaluationController::class, 'destroy'])
+                        ->name('monitor-delete');
                 }
             );
 
@@ -267,9 +315,14 @@ Route::group(['middleware' => ['auth:api']], function () {
             Route::group(
                 ['prefix' => 'human_resources', 'middleware' => ['userHasPermissions:human_resource,no']],
                 function () {
-                    Route::get('', [HumanResourceController::class, 'index'])->name('human_resource_all');
-                    Route::get('{humanResource}', [HumanResourceController::class, 'show'])->name('human_resource_one');
-                    Route::match(['POST', 'PUT'], '', [HumanResourceController::class, 'storeOrUpdate'])->name('human_resource_store_update');
+                    Route::get('', [HumanResourceController::class, 'index'])
+                        ->name('human_resource_all');
+
+                    Route::get('{humanResource}', [HumanResourceController::class, 'show'])
+                        ->name('human_resource_one');
+
+                    Route::match(['POST', 'PUT'], '', [HumanResourceController::class, 'storeOrUpdate'])
+                        ->name('human_resource_store_update');
                 }
             );
 
@@ -302,6 +355,7 @@ Route::group(['middleware' => ['auth:api']], function () {
             Route::group(['prefix' => 'user_management', 'middleware' => ['userHasPermissions:ceo,no']], function () {
                 Route::get('', [UserController::class, 'getAllUsersToManage'])
                     ->name('dashboard-user-all');
+
                 Route::put('{user}', [UserController::class, 'changeUserStatus'])
                     ->name('dashboard-user-updateSubUser');
             });

@@ -30,10 +30,13 @@ class TellCustomersAboutOrderStatus
      * @param  object  $event
      * @return void
      */
-    public function handle($event)
+    public function handle($event): void
     {
-        $users = User::whereIn('id', $this->getSubUsersForUser($event->userId))->get(['id']);
-        info($users);
+        $users = User::whereIn(
+            'id',
+            $this->getSubUsersForUser($event->userId)
+        )->get(['id']);
+
         Notification::send(
             $users,
             new OrderStatusNotification($event->order)

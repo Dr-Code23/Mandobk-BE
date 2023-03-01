@@ -11,7 +11,7 @@ return new class() extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('offers', function (Blueprint $table) {
             $table->id();
@@ -28,6 +28,7 @@ return new class() extends Migration
                 ->references('id')
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
+
             $table->date('from')->default(now());
             $table->date('to');
             $table->unsignedBigInteger('pay_method');
@@ -43,7 +44,7 @@ return new class() extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('offers');
     }

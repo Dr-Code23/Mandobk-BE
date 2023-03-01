@@ -4,9 +4,12 @@ namespace App\Models\V1;
 
 use App\Models\User;
 use App\Traits\DateTrait;
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * App\Models\V1\HumanResource
@@ -18,21 +21,22 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $attendance
  * @property string|null $departure
  * @property-read User $user
- * @method static \Illuminate\Database\Eloquent\Builder|HumanResource newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|HumanResource newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|HumanResource query()
- * @method static \Illuminate\Database\Eloquent\Builder|HumanResource whereAttendance($value)
- * @method static \Illuminate\Database\Eloquent\Builder|HumanResource whereDate($value)
- * @method static \Illuminate\Database\Eloquent\Builder|HumanResource whereDeparture($value)
- * @method static \Illuminate\Database\Eloquent\Builder|HumanResource whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|HumanResource whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|HumanResource whereUserId($value)
- * @mixin \Eloquent
+ * @method static Builder|HumanResource newModelQuery()
+ * @method static Builder|HumanResource newQuery()
+ * @method static Builder|HumanResource query()
+ * @method static Builder|HumanResource whereAttendance($value)
+ * @method static Builder|HumanResource whereDate($value)
+ * @method static Builder|HumanResource whereDeparture($value)
+ * @method static Builder|HumanResource whereId($value)
+ * @method static Builder|HumanResource whereStatus($value)
+ * @method static Builder|HumanResource whereUserId($value)
+ * @mixin Eloquent
  */
 class HumanResource extends Model
 {
     use HasFactory;
     use DateTrait;
+
     public $timestamps = false;
     protected $fillable = [
         'user_id',
@@ -42,7 +46,7 @@ class HumanResource extends Model
         'departure',
     ];
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
@@ -50,14 +54,14 @@ class HumanResource extends Model
     public function departure(): Attribute
     {
         return Attribute::make(
-            get: fn ($val) => $this->changeDateFormat($val, 'H:i'),
+            get: fn($val) => $this->changeDateFormat($val, 'H:i'),
         );
     }
 
     public function attendance(): Attribute
     {
         return Attribute::make(
-            get: fn ($val) => $this->changeDateFormat($val, 'H:i'),
+            get: fn($val) => $this->changeDateFormat($val, 'H:i'),
         );
     }
 }

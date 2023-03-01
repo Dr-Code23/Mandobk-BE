@@ -53,7 +53,6 @@ class Archive extends Model
     {
         return Attribute::make(
             get: fn ($val) => $this->changeDateFormat($val, 'Y-m-d H:i'),
-            set: fn ($val) => $this->changeDateFormat($val, 'Y-m-d H:i')
         );
     }
 
@@ -64,7 +63,6 @@ class Archive extends Model
     {
         return Attribute::make(
             get: fn ($val) => $this->changeDateFormat($val, 'Y-m-d H:i'),
-            set: fn ($val) => $this->changeDateFormat($val, 'Y-m-d H:i')
         );
     }
 }

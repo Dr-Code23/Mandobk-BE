@@ -14,7 +14,7 @@ class SaleSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         // Company To Storehouse
         Sale::create([

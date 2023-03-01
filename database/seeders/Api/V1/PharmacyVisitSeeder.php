@@ -12,7 +12,7 @@ class PharmacyVisitSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         for ($i = 0; $i < 10; ++$i) {
             PharmacyVisit::create([

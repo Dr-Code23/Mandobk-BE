@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Api\V1\Dashboard;
 
-use App\Models\V1\Markting;
+use App\Models\V1\Marketing;
 use App\Traits\FileOperationTrait;
 use App\Traits\TestingTrait;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -16,7 +16,7 @@ class MarktingTest extends TestCase
     use TestingTrait;
     use FileOperationTrait;
 
-    private string $path = 'Dashboard/Markting/';
+    private string $path = 'Dashboard/Marketing/';
     public function testLogin(array $credentials = ['username' => 'markting', 'password' => 'markting'])
     {
         $response = $this->postJson(route('v1-login'), $credentials);
@@ -27,7 +27,7 @@ class MarktingTest extends TestCase
     public function testGetAllAds()
     {
 
-        Markting::create([
+        Marketing::create([
             'medicine_name' => fake()->name(),
             'company_name' => fake()->name(),
             'discount' => rand(1, 100),
@@ -52,7 +52,7 @@ class MarktingTest extends TestCase
     public function testGetOneAd()
     {
 
-        $ad = Markting::create([
+        $ad = Marketing::create([
             'medicine_name' => fake()->name(),
             'company_name' => fake()->name(),
             'discount' => rand(1, 100),
@@ -97,7 +97,7 @@ class MarktingTest extends TestCase
     }
     public function testUpdateAd()
     {
-        $ad = Markting::create([
+        $ad = Marketing::create([
             'medicine_name' => fake()->name(),
             'company_name' => fake()->name(),
             'discount' => rand(1, 100),
@@ -127,7 +127,7 @@ class MarktingTest extends TestCase
     }
     public function testDeleteAd()
     {
-        $ad = Markting::create([
+        $ad = Marketing::create([
             'medicine_name' => fake()->name(),
             'company_name' => fake()->name(),
             'discount' => rand(1, 100),

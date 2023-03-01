@@ -12,7 +12,7 @@ class PayMethodSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         PayMethod::create([
             'name' => 'cash',

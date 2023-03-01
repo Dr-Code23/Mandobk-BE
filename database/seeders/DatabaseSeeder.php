@@ -6,7 +6,7 @@ namespace Database\Seeders;
 
 use Database\Seeders\Api\V1\DoctorVisitsSeeder;
 use Database\Seeders\Api\V1\HumanResourceSeeder;
-use Database\Seeders\Api\V1\MarktingSeeder;
+use Database\Seeders\Api\V1\MarketingSeeder;
 use Database\Seeders\Api\V1\OfferOrderSeeder;
 use Database\Seeders\Api\V1\OfferSeeder;
 use Database\Seeders\Api\V1\PayMethodSeeder;
@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         $this->call([
             RoleSeeder::class,
@@ -38,13 +38,12 @@ class DatabaseSeeder extends Seeder
             // ProductInfoSeeder::class,
             // HumanResourceSeeder::class,
             // SaleSeeder::class,
-            // MarktingSeeder::class,
+            // MarketingSeeder::class,
             // OfferSeeder::class,
             // OfferOrderSeeder::class,
             // VisitorRecipeSeeder::class,
             // DoctorVisitsSeeder::class,
             // PharmacyVisitSeeder::class,
-
         ]);
     }
 }
