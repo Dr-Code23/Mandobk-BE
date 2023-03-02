@@ -1,0 +1,10 @@
+<?php
+namespace {{nameSpace}};
+
+class {{className}}
+{
+    public function index(): string
+    {
+        return 'Hello World';
+    }
+}
