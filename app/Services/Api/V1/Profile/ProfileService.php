@@ -16,7 +16,7 @@ class ProfileService
         $data = $request->validated();
         $user = Auth::user();
         $anyChangeOccur = false;
-        $passowrdChanged = false;
+        $passwordChanged = false;
         if ($request->has('avatar')) {
             // Delete The Old Avatar First
             if ($user->avatar) {
@@ -38,15 +38,17 @@ class ProfileService
             if (!Hash::check($data['password'], $user->password)) {
                 $user->password = $data['password'];
                 $anyChangeOccur = true;
-                $passowrdChanged = true;
+                $passwordChanged = true;
             }
         }
-        if ($anyChangeOccur)
+        if ($anyChangeOccur) {
             $user->update();
+        }
 
-        if ($passowrdChanged)
+        if ($passwordChanged) {
             Auth::logout();
-        $user->password_changed = $passowrdChanged;
+        }
+        $user->password_changed = $passwordChanged;
         return $user;
     }
 }

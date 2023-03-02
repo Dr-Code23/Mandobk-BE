@@ -1,0 +1,51 @@
+<?php
+
+namespace App\Console\Commands;
+
+use Illuminate\Console\Command;
+
+class {{ class }} extends Command
+{
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = '{{ command }}';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Command description';
+
+    /**
+     * Execute the console command.
+     *
+     * @return int
+     */
+    public function handle()
+    {
+        // Check If the Directory Exists
+        $directoryPath = __DIR__.'/../../../'.'{{nameSpace}}';
+        if(!is_dir($directoryPath){
+            mkdir($directoryPath , 0777 , true);
+
+            // Change Directory Permissions To Work On Linux
+            chmod($directoryPath , 0777);
+        }
+       $handle = fopen(__DIR__.'/../../../{{nameSpace}}/{{className}}.php' , 'w');
+       fwrite(
+            $handle,
+            str_replace(
+                {{stubClassName}},
+                {{className}},
+                file_get_contents(__DIR__.'/../../../'.'{{stubFile}}.stub')
+            )
+       );
+       fclose($handle);
+
+       // Done !
+    }
+}

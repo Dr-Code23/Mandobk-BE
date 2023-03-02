@@ -23,7 +23,7 @@ class ProfileResource extends JsonResource
             'phone' => $this->phone,
             'role' => $this->whenLoaded('role', $this->getRoleNameById($this->role_id)),
             'avatar' => asset('storage/users/' . ($this->avatar ?? 'user.png')),
-            'password_changed' => $this->passwordChanged
+            'password_changed' => $this->password_changed
         ];
         if (isset($this->token)) $resource['token'] = $this->token;
         return $resource;

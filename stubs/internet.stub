@@ -1,7 +1,8 @@
 <?php
-namespace Facebook;
 
-class {{className}}
+namespace in;
+
+class {{stubClassName}}
 {
     public function index(): string
     {

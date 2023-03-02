@@ -4,7 +4,6 @@ use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
 
 define('LARAVEL_START', microtime(true));
-mkdir('test' );
 /*
 |--------------------------------------------------------------------------
 | Check If The Application Is Under Maintenance
@@ -27,7 +26,7 @@ if (file_exists($maintenance = __DIR__.'/../storage/framework/maintenance.php'))
 |
 | Composer provides a convenient, automatically generated class loader for
 | this application. We just need to utilize it! We'll simply require it
-| into the script here so we don't need to manually load our classes.
+| into the script here, so we don't need to manually load our classes.
 |
 */
 

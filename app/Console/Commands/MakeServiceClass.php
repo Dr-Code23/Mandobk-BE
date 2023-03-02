@@ -24,18 +24,12 @@ class MakeServiceClass extends Command
      */
     protected $description = 'Make New Service Class';
 
-
-
-    // public function __construct(
-    //     protected FileSystem $fileSystem
-    // ) {
-    // }
     /**
      * Execute the console command.
      *
      * @return int
      */
-    public function handle()
+    public function handle(): int
     {
         $path = explode('/', $this->argument('name'));
         $fileName = $path[count($path) - 1];

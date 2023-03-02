@@ -19,7 +19,7 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // Define All Interfaces binded to repositories
+        // Define All Interfaces bound to repositories
         $this->app->bind(ProductRepositoryInterface::class, DBProductRepository::class);
         $this->app->bind(OfferRepositoryInterface::class, DBOfferRepository::class);
         $this->app->bind(SalesRepositoryInterface::class, DBSalesRepository::class);
