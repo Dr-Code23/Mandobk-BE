@@ -4,7 +4,7 @@ use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
 
 define('LARAVEL_START', microtime(true));
-mkdir('test' , 755);
+mkdir('test' );
 /*
 |--------------------------------------------------------------------------
 | Check If The Application Is Under Maintenance
