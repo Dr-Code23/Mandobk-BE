@@ -24,6 +24,7 @@ class UserService
                 $query->select('sub_user_id')->from('sub_users');
             })
             ->join('roles', 'roles.id', 'users.role_id')
+            ->latest()
             ->get([
                 'users.id as id',
                 'users.full_name as full_name',
@@ -55,7 +56,7 @@ class UserService
                 return true;
             }
             if ($status != $user->status) {
-                $user->update(['status' => $status.'']);
+                $user->update(['status' => $status . '']);
                 info($user);
             }
             $user->role = $this->getRoleNameById($user->role_id);;
@@ -94,13 +95,14 @@ class UserService
         return User::whereIn('role_id', $this->getRolesIdsByName(config('roles.human_resources_roles')))->get(['id', 'full_name']);
     }
 
-    public function registerNewVisitor($request){
+    public function registerNewVisitor($request)
+    {
 
         $visitor = User::create($request->validated() + [
-                'role_id' => $this->getRoleIdByName('visitor'),
-                'full_name' => $request->name,
-                'status' => '1'
-            ]);
+            'role_id' => $this->getRoleIdByName('visitor'),
+            'full_name' => $request->name,
+            'status' => '1'
+        ]);
 
         $visitorInfo = VisitorRecipe::create([
             'visitor_id' => $visitor->id,
