@@ -21,7 +21,8 @@ class UserService
     {
         return User::whereIn('role_id', $this->getRolesIdsByName(config('roles.signup_roles')))
             ->whereNotIn('users.id', function ($query) {
-                $query->select('sub_user_id')->from('sub_users');
+                $query->select('sub_user_id')
+                    ->from('sub_users');
             })
             ->join('roles', 'roles.id', 'users.role_id')
             ->latest()
@@ -31,6 +32,7 @@ class UserService
                 'users.username as username',
                 'roles.name as role',
                 'users.status as status',
+                'users.phone as phone',
                 'users.created_at as created_at'
             ]);
     }
