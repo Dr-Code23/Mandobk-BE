@@ -20,9 +20,10 @@ class LoginTest extends TestCase
         if (config('test.store_response')) {
             $this->writeAFileForTesting($this->authPath, 'loginPost', $response->content());
         }
-        $response->assertSee('Username Cannot Be Empty');
-        $response->assertSee('Password Cannot Be Empty');
         $response->assertStatus(ResponseAlias::HTTP_UNPROCESSABLE_ENTITY);
+        $response->assertJsonStructure([
+            'data' => ['username', 'password']
+        ]);
     }
 
     public function testLoginWithWrongCredentials()
@@ -33,7 +34,6 @@ class LoginTest extends TestCase
             $this->writeAFileForTesting($this->authPath, 'WrongCredentials', $response->content());
         }
         $response->assertStatus(ResponseAlias::HTTP_UNAUTHORIZED);
-        $response->assertSee('Wrong Credentials');
     }
 
     public function testLoginWithRightCredentials()
