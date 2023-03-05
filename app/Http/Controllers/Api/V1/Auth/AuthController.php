@@ -29,11 +29,16 @@ class AuthController extends Controller
     {
         $user = $authService->login($request);
 
-        if ($user)
+        $msg = __('standard.not_authorized');
+        if (is_bool($user) && !$user) {
+            $msg = 'Your Account Is Detactive , Contanct With Admin';
+        }
+        if (is_array($user)) {
             return $this->success($user, __('standard.logged_in'));
+        }
 
         return $this->forbiddenResponse(
-            __('standard.not_authorized'),
+            $msg,
             null,
             Response::HTTP_UNAUTHORIZED
         );

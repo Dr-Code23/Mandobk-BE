@@ -32,7 +32,10 @@ class AuthService
     public function signup($request): User|string|array
     {
         // Check If Username Or Phone Exists
-        $exists = User::where('username', $request->username)->orWhere('phone', $request->phone)
+        $exists = User::where(
+            'username',
+            $request->username
+        )->orWhere('phone', $request->phone)
             ->first(['username', 'phone']);
         if (!$exists) {
             $roleName = $this->getRoleNameById($request->role);
@@ -56,13 +59,21 @@ class AuthService
      *
      * @param $request
      * @param boolean $isVisitor
-     * @return array|null
+     * @return array|null|bool
      */
-    public function login($request, bool $isVisitor = false)
+    public function login($request, bool $isVisitor = false): bool|null|array
     {
         // Check if the user exists
-        if ($token = Auth::attempt($request->validated() + ['status' => $this->isActive()])) {
+        if ($token = Auth::attempt($request->validated())) {
             $user = Auth::user();
+            if ($user->status == '2') {
+                auth()->logout();
+
+                return false;
+            }
+            if ($user->status == '0') {
+                return null;
+            }
             $roleChecked = false;
             if ($isVisitor && $this->roleNameIn(['visitor'])) $roleChecked = true;
             if (!$isVisitor && !$this->roleNameIn(['visitor'])) $roleChecked = true;
