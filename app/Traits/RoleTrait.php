@@ -104,10 +104,15 @@ trait RoleTrait
      */
     public function getRoleNameForUser($userId = null): string
     {
-        if (!$userId) $roleName = $this->getRoleNameForAuthenticatedUser();
+        if (!$userId) {
+            $roleName = $this->getRoleNameForAuthenticatedUser();
+        }
         else {
             $cachedRoles = $this->getCachedRoles();
-            $roleName = $cachedRoles[User::where('id' , $userId)->value('role_id')];
+            $roleName = $cachedRoles[
+                User::where('id' , $userId)
+                    ->value('role_id')
+            ];
         }
         return $roleName;
     }

@@ -19,6 +19,7 @@ use Illuminate\Notifications\DatabaseNotificationCollection;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\HigherOrderCollectionProxy;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\PersonalAccessToken;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
@@ -68,6 +69,11 @@ class User extends Authenticatable implements JWTSubject
     use HasFactory;
     use Notifiable;
     use DateTrait;
+
+    /**
+     * @var HigherOrderCollectionProxy|mixed
+     */
+    public mixed $unreadNotifications;
 
     /**
      * The attributes that are mass assignable.

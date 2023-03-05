@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\V1\Dashboard\MarketingController;
 use App\Http\Controllers\Api\V1\Dashboard\MonitorAndEvaluationController;
 use App\Http\Controllers\Api\V1\Dashboard\OrderManagementController;
 use App\Http\Controllers\Api\V1\Mobile\Auth\MobileAuthController;
+use App\Http\Controllers\Api\V1\Notifications\CustomNotificationController;
 use App\Http\Controllers\Api\V1\Notifications\NotificationController;
 use App\Http\Controllers\Api\V1\PayMethod\PayMethodController;
 use App\Http\Controllers\Api\V1\Products\ProductController;
@@ -19,6 +20,7 @@ use App\Http\Controllers\Api\V1\Site\Pharmacy\SubUserController;
 use App\Http\Controllers\Api\V1\Site\Recipes\RecipeController;
 use App\Http\Controllers\Api\V1\Site\Sales\SaleController;
 use App\Http\Controllers\Api\V1\Users\UserController;
+use App\Models\V1\CustomNotification;
 use App\Models\V1\Role;
 use Illuminate\Support\Facades\Route;
 
@@ -144,6 +146,9 @@ Route::group(['middleware' => ['auth:api']], function () {
         Route::delete('{notification}', [NotificationController::class, 'destroy']);
     });
 
+    Route::group(['prefix' => 'custom_notifications'] , function(){
+        Route::get('' , [CustomNotificationController::class , 'index']);
+    });
     // Public Site Routes
     Route::group(['prefix' => 'site'], function () {
         // Company

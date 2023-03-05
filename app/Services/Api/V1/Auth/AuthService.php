@@ -89,7 +89,7 @@ class AuthService
                 ];
             }
             // Logout Wrong User
-            Auth::logout();
+            auth()->logout();
         }
 
         return null;

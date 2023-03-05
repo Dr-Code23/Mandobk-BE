@@ -34,16 +34,16 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             PayMethodSeeder::class,
              SubUserSeeder::class,
-            // ProductSeeder::class,
-            // ProductInfoSeeder::class,
+//            ProductSeeder::class,
+//            ProductInfoSeeder::class,
             // HumanResourceSeeder::class,
             // SaleSeeder::class,
             // MarketingSeeder::class,
             // OfferSeeder::class,
             // OfferOrderSeeder::class,
-            // VisitorRecipeSeeder::class,
-            // DoctorVisitsSeeder::class,
-            // PharmacyVisitSeeder::class,
+//             VisitorRecipeSeeder::class,
+//             DoctorVisitsSeeder::class,
+//             PharmacyVisitSeeder::class,
         ]);
     }
 }

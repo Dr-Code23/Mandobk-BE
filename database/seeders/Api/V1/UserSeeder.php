@@ -30,16 +30,16 @@ class UserSeeder extends Seeder
             ]);
         }
 
-        // for ($i = 0; $i < 200; $i++) {
-        //     User::create([
-        //         'username' => "user$i",
-        //         'password' => "user$i",
-        //         'full_name' => "user $i",
-        //         'role_id' => fake()->numberBetween(7, 12),
-        //         'phone' => 300 + $i,
-        //         'status' => fake()->numberBetween(1, 2) . ''
-        //     ]);
-        // }
+//         for ($i = 1; $i <= 1000; ++$i) {
+//             User::create([
+//                 'username' => 'test' . $i,
+//                 'password' => 'test',
+//                 'full_name' => 'test',
+//                 'status' => '1',
+//                 'phone' => null,
+//                 'role_id' => $i % 12 + ($i % 12 == 0 ? 1 : 0),
+//             ]);
+//         }
         // Add Customer User
 
         User::create([
