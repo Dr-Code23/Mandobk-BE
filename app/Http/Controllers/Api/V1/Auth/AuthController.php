@@ -32,6 +32,7 @@ class AuthController extends Controller
         $msg = __('standard.not_authorized');
         if (is_bool($user) && !$user) {
             $msg = 'Your Account Is Detactive , Contanct With Admin';
+            $msg = __('standard.detactive');
         }
         if (is_array($user)) {
             return $this->success($user, __('standard.logged_in'));

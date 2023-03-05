@@ -11,5 +11,6 @@ return [
     'account_created' => 'Account created successfully , and sent to admin to review',
     'logged_out' => 'User Logged Out Successfully',
     'not_data_to_show' => 'There is not data to showOneSubUser',
-    'deleted' => 'Deleted Successfully'
+    'deleted' => 'Deleted Successfully',
+    'detactive' => 'Your Account Is Detactive , Contanct With Admin'
 ];
