@@ -18,7 +18,12 @@ class RoleController extends Controller
      */
     public function getSignUpRoles(): JsonResponse
     {
-        return $this->resourceResponse($this->getRoleDetailsFromArrayByName(config('roles.signup_roles')));
+        return $this->resourceResponse(
+            $this->getRoleDetailsFromArrayByName(
+                config('roles.signup_roles') ,
+                true
+            )
+        );
     }
 
     /**
@@ -28,7 +33,12 @@ class RoleController extends Controller
      */
     public function getHumanResourceRoles(): JsonResponse
     {
-        return $this->resourceResponse($this->getRoleDetailsFromArrayByName(config('roles.human_resource_roles')));
+        return $this->resourceResponse(
+            $this->getRoleDetailsFromArrayByName(
+                config('roles.human_resource_roles'),
+                true
+            )
+        );
     }
 
     /**
@@ -38,7 +48,12 @@ class RoleController extends Controller
      */
     public function monitorAndEvaluationRoles(): JsonResponse
     {
-        return $this->resourceResponse($this->getRoleDetailsFromArrayByName(config('roles.monitor_roles')));
+        return $this->resourceResponse(
+            $this->getRoleDetailsFromArrayByName(
+                config('roles.monitor_roles'),
+                true
+            )
+        );
     }
 
 }

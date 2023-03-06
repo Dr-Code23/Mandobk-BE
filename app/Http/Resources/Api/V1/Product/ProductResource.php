@@ -23,7 +23,7 @@ class ProductResource extends JsonResource
             'purchase_price' => $this->pur_price,
             'selling_price' => $this->sel_price,
             'bonus' => $this->bonus . '%',
-            'concentrate' => $this->con,
+            'concentrate' => $this->con . '%',
             'limited' => (bool)$this->limited,
             'barcode' => $this->barcode ? asset('/storage/products/' . $this->barcode) . '.svg' : null,
             'product_details' => new ProductDetailsCollection($this->whenLoaded('product_details')),

@@ -77,9 +77,10 @@ trait RoleTrait
     /**
      * Get Role Details From Array By Name
      * @param array $roles
+     * @param bool $translateRoleName
      * @return Collection
      */
-    public function getRoleDetailsFromArrayByName(array $roles): Collection
+    public function getRoleDetailsFromArrayByName(array $roles , bool $translateRoleName = false): Collection
     {
         $allRoles = $this->getCachedRoles();
         $res = [];
@@ -88,7 +89,7 @@ trait RoleTrait
             foreach ($allRoles as $id => $name) {
                 if ($wantedRole == $name) {
                     $res[$cnt]['id'] = $id;
-                    $res[$cnt]['name'] = $name;
+                    $res[$cnt]['name'] = $translateRoleName ? __('messages.'.$name) : $name;
                 }
             }
             $cnt++;
