@@ -9,7 +9,8 @@ return [
     // ],
     'newUserRegister' => ['ceo', 'data_entry', 'company'],
     'messages' => [
-        RegisterUserNotification::class => 'New User Registered'
+        RegisterUserNotification::class => 'New User Registered',
+        OrderStatusNotification::class => 'An Action Take On Your Order'
     ],
     'types' => [
         RegisterUserNotification::class => 'register',

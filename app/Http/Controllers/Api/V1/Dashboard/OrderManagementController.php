@@ -44,7 +44,7 @@ class OrderManagementController extends Controller
 
     /**
      * Manage Pending Orders
-     * @param Request $request
+     * @param OrderManagementRequest $request
      * @param OfferOrder $order
      * @return JsonResponse
      */
