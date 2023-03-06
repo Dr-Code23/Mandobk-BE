@@ -1,5 +1,6 @@
 <?php
 
+use App\Notifications\OrderStatusNotification;
 use App\Notifications\RegisterUserNotification;
 
 return [
@@ -11,6 +12,7 @@ return [
         RegisterUserNotification::class => 'New User Registered'
     ],
     'types' => [
-        RegisterUserNotification::class => 'register'
+        RegisterUserNotification::class => 'register',
+        OrderStatusNotification::class , 'order'
     ]
 ];
