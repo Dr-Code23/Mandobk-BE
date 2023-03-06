@@ -13,6 +13,6 @@ return [
     ],
     'types' => [
         RegisterUserNotification::class => 'register',
-        OrderStatusNotification::class , 'order'
+        OrderStatusNotification::class => 'order'
     ]
 ];
