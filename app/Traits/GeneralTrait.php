@@ -23,9 +23,9 @@ trait GeneralTrait
         // Return The Original Path Number For All Users Except Admins
 
         if ($this->roleNameIn(['ceo', 'data_entry'])) {
-            foreach ($all_roles as $role_name => $role_id) {
-                if ($role_id == $roleId) {
-                    return config('roles.role_patch_number_symbol.' . $role_name) . '-' . $val;
+            foreach ($all_roles as $loopRoleId => $loopRoleName) {
+                if ($loopRoleId == $roleId) {
+                    return config('roles.role_patch_number_symbol.' . $loopRoleName) . '-' . $val;
                 }
             }
         }
