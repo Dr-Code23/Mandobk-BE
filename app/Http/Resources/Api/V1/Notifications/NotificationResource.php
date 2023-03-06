@@ -21,7 +21,7 @@ class NotificationResource extends JsonResource
             'data' => $this->data ?? [],
             'msg' => config('notifications.messages')[$this->type],
             'read' => $this->read_at != null,
-            'type' => config('notifications.types')[$this->type],
+            'type' => config('notifications.types')[$this->type] ?? null,
             'since' => $this->messageSentFrom($this->created_at)
         ];
     }
