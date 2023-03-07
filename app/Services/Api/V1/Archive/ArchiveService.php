@@ -8,7 +8,7 @@ use App\Models\V1\VisitorRecipe;
 
 class ArchiveService
 {
-    public function moveProductsToArchive($request)
+    public function moveProductsToArchive($request): bool|array
     {
 
         $random_number = $request->input('random_number');
@@ -20,23 +20,29 @@ class ArchiveService
 
         // return $visitor_recipe;
         if ($visitor_recipe) {
+
+
             // updateVisitorDetails
 
             // $visitor_details = $visitor_recipe->details;
 
-            $archiveDetails = [];
+//            $archiveDetails = [];
             $archive = Archive::where('random_number', $random_number)->first(['id', 'details']);
-            // return $archive;
-            $visitorDetails = array_merge([], $visitor_recipe->details);
-            if ($visitorDetails) $archiveDetails[] = $visitorDetails;
+
+//            $visitorDetails = array_merge([], $visitor_recipe->details);
+            $visitorDetails = $visitor_recipe->details;
+            $archiveDetails = $visitorDetails;
+//            if ($visitorDetails) $archiveDetails[] = $visitorDetails;
+//            if ($archive) {
+//                $archiveDetails = array_merge($archiveDetails, $archive->details);
+//            }
             if ($archive) {
-                $archiveDetails = array_merge($archiveDetails, $archive->details);
-            }
-            if ($archive) {
-                if ($visitorDetails)
+                if ($visitorDetails) {
                     $archive->update([
-                        'details' => $archiveDetails
+                        'details' => $visitorDetails
                     ]);
+                    info($archive);
+                }
             } else {
                 Archive::create([
                     'random_number' => $random_number,

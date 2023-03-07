@@ -43,6 +43,7 @@ class RecipeController extends Controller
             // then it's a visitor
             $data = VisitorRecipe::where('visitor_id', Auth::id())
                 ->orderByDesc('id')
+                ->where('details' , '!=' , '[]')
                 ->get([
                     'random_number',
                     'alias',
@@ -171,7 +172,6 @@ class RecipeController extends Controller
                     $recipe->details = $details;
 
                     $recipe->update();
-
                     // Add This visit To the doctor
                     $doctorRecipe = DoctorVisit::create([
                         'doctor_id' => Auth::id(),

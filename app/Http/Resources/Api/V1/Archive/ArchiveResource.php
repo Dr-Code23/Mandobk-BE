@@ -18,7 +18,8 @@ class ArchiveResource extends JsonResource
             'id' => $this->id,
             'alias' => $this->alias,
             'random_number' => $this->random_number,
-            'products' => $this->details,
+            'products' => $this->details['products'],
+            'doctor_name' => $this->details['doctor_name'],
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
