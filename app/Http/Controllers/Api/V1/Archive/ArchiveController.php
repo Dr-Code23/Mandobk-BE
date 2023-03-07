@@ -47,13 +47,25 @@ class ArchiveController extends Controller
     {
         return $this->resourceResponse(
             new ArchiveCollection(
-                $this->archiveModel->whereIn('random_number', function ($query) {
+                $this->archiveModel->whereIn('archives.random_number', function ($query) {
                     $query->select('random_number')
                         ->from(with(new VisitorRecipe())->getTable())
                         ->where('visitor_id', Auth::id());
                 })
-                    ->latest('updated_at')
-                    ->get()
+                    ->latest('archives.updated_at')
+                    ->join(
+                        'visitor_recipes' ,
+                        'visitor_recipes.random_number' ,
+                        'archives.random_number'
+                    )
+                    ->get([
+                        'archives.id as id',
+                        'visitor_recipes.alias as alias',
+                        'archives.details as details',
+                        'archives.random_number as random_number',
+                        'archives.created_at',
+                        'archives.updated_at',
+                    ])
             )
         );
     }

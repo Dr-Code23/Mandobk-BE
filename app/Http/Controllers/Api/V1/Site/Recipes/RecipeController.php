@@ -161,7 +161,7 @@ class RecipeController extends Controller
                     $details['products'][$i]['scientific_name'] = $product_info->sc_name;
                     $details['products'][$i]['commercial_name'] = $product_info->com_name;
                     $details['products'][$i]['concentrate'] = $product_info->con;
-                    $details['products'][$i]['quantity'] = $products[$i]['quantity'];
+                    $details['products'][$i]['quantity'] = $products[$i]['quantity'].'';
                     $details['products'][$i]['taken'] = false;
                 }
                 $details['doctor_name'] = $this->getAuthenticatedUserInformation()->full_name;
@@ -305,7 +305,7 @@ class RecipeController extends Controller
 
             if (!$productFound) $errors[$j]['product'][] = 'Product Not Found in Visitor cart';
         }
-        //! Very Bad Performace !
+        //! Very Bad Performance !
         //O (N * M * K)
 
         if (!$errors) {
