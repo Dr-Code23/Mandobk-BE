@@ -22,7 +22,8 @@ class RecipeResource extends JsonResource
         if ($this->getRoleNameForAuthenticatedUser() == 'visitor') {
             $resource['alias'] = $this->alias;
             $resource['random_number'] = $this->random_number;
-            $resource['details'] = $this->details;
+            $resource['products'] = $this->details['products'] ?? [];
+            $resource['doctor_name'] = $this->details['doctor_name'] ?? null;
             $resource['updated_at'] = $this->updated_at;
         } elseif ($this->roleNameIn(['pharmacy', 'pharmacy_sub_user'])) {
             $resource['visitor_name'] = $this->alias;
