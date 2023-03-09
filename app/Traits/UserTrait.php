@@ -72,7 +72,8 @@ trait UserTrait
 
 
     /**
-     * Get Sub Users For User
+     * Get Sub Users For User Or For Logged User If $user_id = null
+     *
      * @param int|null $user_id
      * @return array
      */

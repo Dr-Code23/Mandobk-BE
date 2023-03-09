@@ -30,7 +30,7 @@ class ProductController extends Controller
      * Fetch All Products
      * @return JsonResponse
      */
-    public function index(): JsonResponse
+    public function index()
     {
         return $this->productService->fetchAllProducts();
     }

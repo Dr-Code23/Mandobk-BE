@@ -43,7 +43,7 @@ class RecipeController extends Controller
             // then it's a visitor
             $data = VisitorRecipe::where('visitor_id', Auth::id())
                 ->orderByDesc('id')
-                ->where('details' , '!=' , '[]')
+                ->where('details', '!=', '[]')
                 ->get([
                     'random_number',
                     'alias',
@@ -163,7 +163,7 @@ class RecipeController extends Controller
                     $details['products'][$i]['scientific_name'] = $product_info->sc_name;
                     $details['products'][$i]['commercial_name'] = $product_info->com_name;
                     $details['products'][$i]['concentrate'] = $product_info->con;
-                    $details['products'][$i]['quantity'] = $products[$i]['quantity'].'';
+                    $details['products'][$i]['quantity'] = $products[$i]['quantity'] . '';
                     $details['products'][$i]['taken'] = false;
                 }
                 $details['doctor_name'] = $this->getAuthenticatedUserInformation()->full_name;
@@ -232,11 +232,12 @@ class RecipeController extends Controller
         return $this->resourceResponse(new PharmacyRecipeCollection($recipeService->getAllPharmacyRecipes()));
     }
 
-    public function getProductsAssociatedWithRandomNumberForPharmacy(Request $request, RecipeService $recipeService): JsonResponse
+    public function getProductsAssociatedWithRandomNumberForPharmacy(RecipeService $recipeService): JsonResponse
     {
-        $recipe = $recipeService->getProductsAssociatedWithRandomNumberForPharmacy($request);
-        if (is_bool($recipe) && !$recipe)
+        $recipe = $recipeService->getProductsAssociatedWithRandomNumberForPharmacy();
+        if (is_bool($recipe) && !$recipe) {
             return $this->notFoundResponse('Random Number Not Found');
+        }
 
         return $this->resourceResponse(new VisitorRecipeResource($recipe));
     }
@@ -246,11 +247,10 @@ class RecipeController extends Controller
      * @param VisitorRecipe $recipe
      * @return JsonResponse
      */
-    public function acceptVisitorRecipeFromPharmacy(PharmacyRecipeRequest $request, VisitorRecipe $recipe): JsonResponse
+    public function acceptVisitorRecipeFromPharmacy(PharmacyRecipeRequest $request, VisitorRecipe $recipe)
     {
         $recipeDetails = $recipe->details['products'] ?? [];
         $recipeDetailsCount = count($recipeDetails);
-
         $printVisitorRecipe = [];
         $errors = [];
         $validProducts = [];
@@ -270,23 +270,35 @@ class RecipeController extends Controller
             if (!$productFound) $data[] = $product;
         }
 
-        // return $data;
+//        return $data;
+
         for ($j = 0; $j < count($data); $j++) {
             $productFound = false;
             for ($i = 0; $i < $recipeDetailsCount; $i++) {
-                if ($data[$j]['commercial_name'] == $recipeDetails[$i]['commercial_name']) {
-                    // then Product In Visitor Cart
 
+
+                $commercialName = $data[$j]['commercial_name'] ?? null;
+                // Check If Doctor Recipe Product Name equal pharmacy product name
+                if ($recipeDetails[$i]['commercial_name'] == $commercialName) {
                     $productFound = true;
 
-                    $userProduct = Product::whereIn('com_name', [
-                        $data[$j]['commercial_name'],
-                        $data[$j]['alternative_commercial_name'] ?? null
-                    ])
+                    // Check If We Retrieved The Product Before (DP)
+                    $userProduct = null;
+
+                    for ($k = 0; $k < count($validProducts); $k++) {
+                        if ($validProducts[$k]->com_name == $commercialName) {
+                            $userProduct = $validProducts[$k];
+                            break;
+                        }
+                    }
+
+                    if (!$userProduct) $userProduct = Product::where('com_name', $commercialName)
                         ->whereIn('user_id', $this->getSubUsersForUser())
                         ->withSum(
                             [
-                                'product_details' => fn($query) => $query->where('expire_date', '>', date('Y-m-d')),
+                                'product_details' => function ($query) {
+                                    $query->where('expire_date', '>', date('Y-m-d'));
+                                },
                             ],
                             'qty'
                         )
@@ -294,20 +306,27 @@ class RecipeController extends Controller
 
                     if ($userProduct) {
                         if ($userProduct->product_details_sum_qty >= $data[$j]['quantity']) {
+                            if($recipeDetails[$i]['commercial_name'] == $data[$j]['commercial_name'])echo 'NIce';
                             if ($data[$j]['quantity'] == $recipeDetails[$i]['quantity']) {
                                 // Then Everything Is Valid , start appending the products
                                 $validProducts[] = $userProduct;
-                            } else $errors[$j]['quantity'][] = 'Quantity Not Equal To Doctor Recipe Quantity';
+                            } else {
+//                                return $data[$j];
+                                return $recipeDetails[$i];
+                                $errors[$j]['quantity'][] = 'Quantity Not Equal To Doctor Recipe Quantity';
+                            }
                         } else $errors[$j]['quantity'][] = 'Quantity Is bigger Than Existing Qty Which is ' . $userProduct->product_details_sum_qty;
-                    } else $errors[$j]['product'][] = 'Product Not Found';
-                    // break;
+                    } else $errors[$j]['product'][] = 'Product Not Found In Pharmacy Products';
+                     break;
                 }
             }
 
             if (!$productFound) $errors[$j]['product'][] = 'Product Not Found in Visitor cart';
         }
+        //return $errors;
         //! Very Bad Performance !
         //O (N * M * K)
+
 
         if (!$errors) {
             $saleDetails = [];
@@ -321,6 +340,7 @@ class RecipeController extends Controller
                         ->where('qty', '>', 0)
                         ->where('expire_date', '>', date('Y-m-d'))
                         ->get(['id', 'qty']);
+
                     if ($productDetails) {
                         $tmpVisitorProductQuantity = $recipeDetails[$i]['quantity'];
                         for ($k = 0; $k < count($productDetails) && $tmpVisitorProductQuantity > 0; $k++) {
@@ -330,6 +350,8 @@ class RecipeController extends Controller
                                 $saleTotal += ($tmpVisitorProductQuantity * $validProducts[$j]->sel_price);
                                 $productDetails[$k]->qty -= $tmpVisitorProductQuantity;
                                 $tmpVisitorProductQuantity = 0;
+                                $productDetails[$k]->update();
+                                break;
                             } else {
                                 $saleTotal += ($productDetails[$k]->qty * $validProducts[$j]->sel_price);
                                 $tmpVisitorProductQuantity -= $productDetails[$k]->qty;
@@ -356,10 +378,9 @@ class RecipeController extends Controller
                 }
             }
 
-            // $recipe->updateSubUser([
-            //     'details' => $recipeDetailsCount == 0 ? [] : $recipeDetails
-            // ]);
-
+            $recipe->update([
+                'details' => $recipeDetailsCount == 0 ? [] : $recipeDetails
+            ]);
 
             $fromId = auth()->id();
             if ($this->getRoleNameForAuthenticatedUser() != 'pharmacy') {
@@ -378,3 +399,30 @@ class RecipeController extends Controller
         return $this->validation_errors($errors);
     }
 }
+
+
+/*
+    1 - Visitor Has These Details
+
+        -- com_name => Google
+        -- quantity => 20
+
+        -- com_name => Internet
+        -- quantity => 30
+
+
+    2 - And Pharmacy Sent
+
+        -- com_name => Google
+        -- quantity => 20
+        -- Alternative => Mohamed
+
+        -- com_name => Internet
+        -- quantity => 30
+        -- Alternative => Mohamed
+
+    3 - And Pharmacy Has One Product
+
+        -- com_name => Mohamed
+        -- Quantity => 50
+*/

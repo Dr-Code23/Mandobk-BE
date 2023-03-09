@@ -16,7 +16,7 @@ class OfferOrderController extends Controller
     use HttpResponse, Translatable, UserTrait;
 
     public function __construct(
-        private OfferOrderService $offerOrderService
+        private readonly OfferOrderService $offerOrderService
     )
     {
     }

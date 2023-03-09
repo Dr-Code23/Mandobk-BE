@@ -25,12 +25,6 @@ class OfferOrderService
         'pharmacy_sub_user' => '3'
     ];
 
-    private string $roleName;
-
-    public function __construct()
-    {
-        $this->roleName = $this->getRoleNameForUser();
-    }
 
     /**
      * Show All Offers Made By Other Users To Order
@@ -39,7 +33,7 @@ class OfferOrderService
      */
     public function showAllOffers(): Collection
     {
-
+        $roleName = $this->getRoleNameForUser();
         return Offer::with
         (
             [
@@ -50,7 +44,7 @@ class OfferOrderService
                 'user:id,full_name'
             ]
         )
-            ->where('type', '!=', $this->excludeCurrentRole[$this->roleName])
+            ->where('type', '!=', $this->excludeCurrentRole[$roleName])
             ->where('to', '>=', date('Y-m-d'))
             ->where('status', '1')
             ->get();
@@ -64,13 +58,13 @@ class OfferOrderService
      */
     public function order($request): string|array
     {
-
+        $roleName = $this->getRoleNameForUser();
         $error = [];
         $offer = Offer::with(['product' => function ($query) {
             $query->select('id');
             $query->withSum('product_details', 'qty');
         }])
-            ->where('type', '!=', $this->excludeCurrentRole[$this->roleName])
+            ->where('type', '!=', $this->excludeCurrentRole[$roleName])
             ->where('id', $request->offer_id)
             ->where('to', '>=', date('Y-m-d'))
             ->first();
