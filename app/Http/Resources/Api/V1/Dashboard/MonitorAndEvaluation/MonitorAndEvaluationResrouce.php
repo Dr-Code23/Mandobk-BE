@@ -3,7 +3,10 @@
 namespace App\Http\Resources\Api\V1\Dashboard\MonitorAndEvaluation;
 
 use App\Traits\DateTrait;
+use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use JsonSerializable;
 
 class MonitorAndEvaluationResrouce extends JsonResource
 {
@@ -12,11 +15,11 @@ class MonitorAndEvaluationResrouce extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      *
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
+     * @return array|Arrayable|JsonSerializable
      */
-    public function toArray($request)
+    public function toArray($request): array|JsonSerializable|Arrayable
     {
         return [
             'id' => $this->id,

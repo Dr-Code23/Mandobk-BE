@@ -97,34 +97,35 @@ class RecipeController extends Controller
             }
             if (!$productFound) $uniqueProducts[] = $product;
         }
+
         $products = $uniqueProducts;
         // Store all limited products in that array
-        $limited_products = [];
+        $limitedProducts = [];
 
         // Check For Products If Exists In Admin
         // ! foreach don't add value to array !
         // foreach ($products as $product) {
         // }
-        $product_count = count($products);
-        for ($i = 0; $i < $product_count; ++$i) {
-            // Validte only coming product
+        $productsCount = count($products);
+        for ($i = 0; $i < $productsCount; ++$i) {
+            // Validate only coming product
 
-            $product_id = $products[$i]['product_id'];
+            $productId = $products[$i]['product_id'];
             // Now We Can check for products with the same id
 
             if (
-                $origial_product = Product::whereIn('role_id', $this->getRolesIdsByName(['ceo', 'data_entry']))
-                    ->where('id', $product_id)
+                $originalProduct = Product::whereIn('role_id', $this->getRolesIdsByName(['ceo', 'data_entry']))
+                    ->where('id', $productId)
                     ->first(['id', 'limited'])
             ) {
                 // Check If the product is limited or not
-                if ($origial_product->limited) {
-                    if (!in_array($i, $limited_products)) {
+                if ($originalProduct->limited) {
+                    if (!in_array($i, $limitedProducts)) {
                         // Check if the product quantity is more than 1 in limited products
                         if ($products[$i]['quantity'] != 1) {
                             $errors['products'][$i]['limited_products_with_big_quantity'][] = $this->translateErrorMessage('product', 'limited_products_with_big_quantity');
                         }
-                        $limited_products[] = $i;
+                        $limitedProducts[] = $i;
                     } else {
                         $errors['products'][$i]['limited'][] = $this->translateErrorMessage('product', 'limited');
                     }
@@ -148,8 +149,8 @@ class RecipeController extends Controller
                 ->first(['id', 'details', 'alias'])
             ) {
                 $details = [];
-                $products_count = count($products);
-                for ($i = 0; $i < $products_count; ++$i) {
+                $productsCount = count($products);
+                for ($i = 0; $i < $productsCount; ++$i) {
                     $product = $products[$i];
 
                     $product_info = Product::where('id', $product['product_id'])->first(
@@ -199,7 +200,7 @@ class RecipeController extends Controller
      *
      * @return JsonResponse|array
      */
-    public function getProductsWithRandomNumber(Request $request)
+    public function getProductsWithRandomNumber(Request $request): JsonResponse|array
     {
         $validator = Validator::make($request->all(), [
             'random_number' => ['required', 'numeric'],
@@ -226,12 +227,12 @@ class RecipeController extends Controller
         return $this->notFoundResponse('Random Number Not Exists');
     }
 
-    public function getAllPharmacyRecipes(RecipeService $recipeService)
+    public function getAllPharmacyRecipes(RecipeService $recipeService): JsonResponse
     {
         return $this->resourceResponse(new PharmacyRecipeCollection($recipeService->getAllPharmacyRecipes()));
     }
 
-    public function getProductsAssociatedWithRandomNumberForPharmacy(Request $request, RecipeService $recipeService)
+    public function getProductsAssociatedWithRandomNumberForPharmacy(Request $request, RecipeService $recipeService): JsonResponse
     {
         $recipe = $recipeService->getProductsAssociatedWithRandomNumberForPharmacy($request);
         if (is_bool($recipe) && !$recipe)
@@ -324,7 +325,7 @@ class RecipeController extends Controller
                         $tmpVisitorProductQuantity = $recipeDetails[$i]['quantity'];
                         for ($k = 0; $k < count($productDetails) && $tmpVisitorProductQuantity > 0; $k++) {
 
-                            // If Product Has Enough Quantity , decreate Visitor Quantity
+                            // If Product Has Enough Quantity , decrease Visitor Quantity
                             if ($productDetails[$k]->qty >= $tmpVisitorProductQuantity) {
                                 $saleTotal += ($tmpVisitorProductQuantity * $validProducts[$j]->sel_price);
                                 $productDetails[$k]->qty -= $tmpVisitorProductQuantity;

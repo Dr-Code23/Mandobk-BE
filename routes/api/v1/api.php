@@ -151,6 +151,14 @@ Route::group(['middleware' => ['auth:api']], function () {
     });
     // Public Site Routes
     Route::group(['prefix' => 'site'], function () {
+
+        // Offer Orders
+
+        Route::group(['prefix' => 'offer_order'] , function(){
+            Route::get('' , [OfferOrderController::class , 'showAllOffers']);
+            Route::post('' , [OfferOrderController::class , 'order']);
+        });
+
         // Company
 
         Route::group(

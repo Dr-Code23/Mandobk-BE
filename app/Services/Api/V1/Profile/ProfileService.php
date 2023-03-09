@@ -26,7 +26,7 @@ class ProfileService
             $user->avatar = $imagePath;
             $anyChangeOccur = true;
         }
-        if ($user->full_name != $data['full_name']) {
+        if ($user->full_name != $data['full_name'] . '') {
             $user->full_name = $data['full_name'];
             $anyChangeOccur = true;
         }

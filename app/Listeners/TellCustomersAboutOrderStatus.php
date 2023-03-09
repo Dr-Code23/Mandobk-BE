@@ -6,14 +6,13 @@ use App\Models\User;
 use App\Notifications\OrderStatusNotification;
 use App\Traits\RoleTrait;
 use App\Traits\UserTrait;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Notification;
 
 class TellCustomersAboutOrderStatus
 {
     use UserTrait;
     use RoleTrait;
+
     /**
      * Create the event listener.
      *
@@ -27,7 +26,7 @@ class TellCustomersAboutOrderStatus
     /**
      * Handle the event.
      *
-     * @param  object  $event
+     * @param object $event
      * @return void
      */
     public function handle($event): void

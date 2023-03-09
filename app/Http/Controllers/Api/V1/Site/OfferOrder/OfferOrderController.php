@@ -40,11 +40,15 @@ class OfferOrderController extends Controller
     public function order(OfferOrderRequest $request): JsonResponse
     {
         $order = $this->offerOrderService->order($request);
+
         if (is_string($order) && $order) {
             return $this->success(null, $order);
         } else if (isset($order['offer_not_found'])) {
-            return $this->notFoundResponse($this->translateErrorMessage('offer', 'not_found'));
+            return $this->notFoundResponse(
+                $this->translateErrorMessage('offer', 'not_found')
+            );
         }
+
         return $this->validation_errors($order);
     }
 }

@@ -4,7 +4,10 @@ namespace App\Http\Resources\Api\V1\Dashboard\HumanResource;
 
 use App\Traits\DateTrait;
 use App\Traits\Translatable;
+use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use JsonSerializable;
 
 /**
  * @property mixed $id
@@ -19,11 +22,11 @@ class HumanResourceResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      *
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
+     * @return array|Arrayable|JsonSerializable
      */
-    public function toArray($request)
+    public function toArray($request): array|JsonSerializable|Arrayable
     {
         return [
             'id' => $this->id,

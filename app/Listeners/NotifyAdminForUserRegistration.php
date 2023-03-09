@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Notification;
 class NotifyAdminForUserRegistration
 {
     use RoleTrait;
+
     /**
      * Create the event listener.
      *
@@ -23,7 +24,7 @@ class NotifyAdminForUserRegistration
     /**
      * Handle the event.
      *
-     * @param  object  $event
+     * @param object $event
      * @return void
      */
     public function handle($event): void
