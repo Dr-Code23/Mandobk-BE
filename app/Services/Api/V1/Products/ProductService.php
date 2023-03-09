@@ -46,7 +46,9 @@ class ProductService
                     'created_at',
                 );
             }])
+            ->withSum('product_details' , 'qty')
             ->get();
+        //return $products;
         return $this->resourceResponse(new ProductCollection($products));
     }
 
