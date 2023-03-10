@@ -34,7 +34,7 @@ class Authenticate extends Middleware
      */
     public function handle($request, \Closure $next, ...$guards)
     {
-
+        info('This Message From Middleware');
         $this->authenticate($request, $guards);
 
         if (Auth::user()->status != $this->isActive()) {

@@ -81,6 +81,7 @@ class GetHomeInfoAction{
                     $subUsers
                 )
                     ->with('product_details')
+                    ->withSum('product_details' , 'qty')
                     ->limit(7)->get()
             );
         return $homeInfo;

@@ -25,7 +25,6 @@ class OfferOrderService
         'pharmacy_sub_user' => '3'
     ];
 
-
     /**
      * Show All Offers Made By Other Users To Order
      *
@@ -60,6 +59,7 @@ class OfferOrderService
     {
         $roleName = $this->getRoleNameForUser();
         $error = [];
+
         $offer = Offer::with(['product' => function ($query) {
             $query->select('id');
             $query->withSum('product_details', 'qty');
@@ -68,7 +68,7 @@ class OfferOrderService
             ->where('id', $request->offer_id)
             ->where('to', '>=', date('Y-m-d'))
             ->first();
-        // return $offer;
+
         if ($offer) {
             $qty = (int)$request->quantity;
             $offerOrder = OfferOrder::where('offer_id', $offer->id)

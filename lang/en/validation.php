@@ -31,7 +31,7 @@ return [
         'string' => 'must be between :min and :max characters.',
     ],
     'boolean' => 'Can Be True , false , 0 or 1',
-    'confirmed' => 'confirmation does not match.',
+    'confirmed' => 'and repeat password not matching',
     'current_password' => 'The password is incorrect.',
     'date' => 'is not a valid date.',
     'date_equals' => 'must be a date equal to :date.',

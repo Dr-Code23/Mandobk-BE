@@ -42,6 +42,7 @@ class SignupRequest extends FormRequest
                 RulesPassword::min(8)->mixedCase()
                     ->numbers()
                     ->symbols(),
+                'confirmed'
             ],
         ];
     }
@@ -58,6 +59,7 @@ class SignupRequest extends FormRequest
             'role.required' => $this->translateErrorMessage('role', 'required'),
             'username.required' => $this->translateErrorMessage('username', 'required'),
             'password.required' => $this->translateErrorMessage('password', 'required'),
+            'password.confirmed' => $this->translateErrorMessage('password' , 'confirmed'),
             'full_name.max' => $this->translateErrorMessage('full_name', 'max.string'),
             'username.regex' => $this->translateErrorMessage('username', 'username.regex'),
             'username.unique' => $this->translateErrorMessage('username', 'unique'),

@@ -30,7 +30,6 @@ class ProductService
      */
     public function fetchAllProducts()
     {
-
         $products = Product::where(function ($query) {
             if (!$this->roleNameIn(['ceo', 'data_entry']))
                 $query->whereIn('products.user_id', $this->getSubUsersForUser());
@@ -164,6 +163,7 @@ class ProductService
                 'expire_date' => $request->expire_date,
                 'patch_number' => $request->patch_number
             ]);
+            $product->loadSum('product_details' , 'qty');
             $product->detail = new ProductDetailsResource($productInfo);
             return $product;
         }

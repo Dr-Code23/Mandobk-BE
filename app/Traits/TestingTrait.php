@@ -23,6 +23,7 @@ trait TestingTrait
             'username' => 'Aa2302',
             'full_name' => 'TestName',
             'password' => 'Aa234!#!1',
+            'password_confirmation' => 'Aa234!#!1',
             'phone' => '123123',
             'role' => '8',
         ];

@@ -32,8 +32,6 @@ class PharmacyRecipeRequest extends FormRequest
         return [
             'data' => ['required', 'array'],
             'data.*.commercial_name' => ['required' , 'max:255'],
-            'data.*.quantity' => ['required', 'numeric'],
-            'data.*.alternative_commercial_name' => ['sometimes' , 'max:255']
         ];
     }
 
@@ -48,9 +46,7 @@ class PharmacyRecipeRequest extends FormRequest
             'data.array' =>
                 $this->translateErrorMessage('data', 'array'),
             'data.*.commercial_name.required' =>
-                $this->translateErrorMessage('commercial_name', 'required'),
-            'data.*.quantity.numeric' =>
-                $this->translateErrorMessage('quantity', 'numeric'),
+                $this->translateErrorMessage('commercial_name', 'required')
         ];
     }
 

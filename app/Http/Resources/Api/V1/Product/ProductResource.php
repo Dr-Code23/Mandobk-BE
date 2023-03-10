@@ -28,15 +28,14 @@ class ProductResource extends JsonResource
             'bonus' => $this->bonus . '%',
             'concentrate' => $this->con . '%',
             'limited' => (bool)$this->limited,
+            'total_quantity' => $this->whenHas('product_details_sum_qty',$this->product_details_sum_qty),
+            'detail' => $this->whenHas('detail',$this->detail),
             'barcode' => $this->barcode ? asset('/storage/products/' . $this->barcode) . '.svg' : null,
             'product_details' => new ProductDetailsCollection($this->whenLoaded('product_details')),
         ];
         if ($request->is('ceo/*') || $request->is('ceo/') || $request->is('data_entry/*') || $request->is('data_entry/')) {
             $resource['limited'] = (bool)$this->limited;
         }
-        if ($this->product_details_sum_qty) $resource['total_quantity'] = $this->product_details_sum_qty;
-        if (isset($this->detail))
-            $resource['detail'] = $this->detail;
         return $resource;
     }
 }

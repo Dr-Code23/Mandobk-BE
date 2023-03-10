@@ -31,7 +31,7 @@ return [
         'string' => 'يجب ان يكون ما بين :min و :max حروف.',
     ],
     'boolean' => 'يجب ان يكون قيمه منطقيه صحيحه',
-    'confirmed' => 'confirmation does not match.',
+    'confirmed' => 'وتاكيد كلمه السر غير متطابقين',
     'current_password' => 'The password is incorrect.',
     'date' => 'ليس تاريخ صحيح',
     'date_equals' => 'يحب ان  يساوي :date.',

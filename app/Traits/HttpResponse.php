@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Symfony\Component\HttpFoundation\Response;
 
 trait HttpResponse
@@ -109,22 +110,30 @@ trait HttpResponse
         ], $code);
     }
 
-    public function forbiddenResponse($msg = 'You do not have permissions to access this resource', $data = null, $code = Response::HTTP_FORBIDDEN)
+    /**
+     * Return Forbidden Response
+     *
+     * @param string $msg
+     * @param null $data
+     * @param int $code
+     * @return JsonResponse
+     */
+    public function forbiddenResponse(string $msg = 'You do not have permissions to access this resource', $data = null, int $code = Response::HTTP_FORBIDDEN): JsonResponse
     {
         return $this->error($data, $code, $msg);
     }
 
-    public function noContentResponse()
+    public function noContentResponse(): \Illuminate\Http\Response
     {
         return response()->noContent();
     }
 
-    public function notFoundResponse(string $msg = 'Not Found', array|null $data = null, int $code = Response::HTTP_NOT_FOUND)
+    public function notFoundResponse(string $msg = 'Not Found', array|null $data = null, int $code = Response::HTTP_NOT_FOUND): JsonResponse
     {
         return $this->error($data, $code, $msg);
     }
 
-    public function createdResponse(array|null|\Illuminate\Http\Resources\Json\JsonResource $data, string $msg = 'Resource Created Successfully', int $code = Response::HTTP_CREATED)
+    public function createdResponse(array|null|JsonResource $data, string $msg = 'Resource Created Successfully', int $code = Response::HTTP_CREATED): JsonResponse
     {
         return response()->json([
             'data' => $data,

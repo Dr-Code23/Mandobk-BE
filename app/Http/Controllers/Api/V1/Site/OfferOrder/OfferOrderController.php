@@ -13,13 +13,10 @@ use Illuminate\Http\JsonResponse;
 
 class OfferOrderController extends Controller
 {
-    use HttpResponse, Translatable, UserTrait;
-
-    public function __construct(
+    use HttpResponse, Translatable, UserTrait;public function __construct(
         private readonly OfferOrderService $offerOrderService
     )
-    {
-    }
+    {}
 
     /**
      * Show All Offers

@@ -8,12 +8,13 @@ use App\Http\Requests\Api\V1\Site\Recipes\RecipeRequest;
 use App\Http\Resources\Api\V1\Site\Recipe\RecipeCollection;
 use App\Http\Resources\Api\V1\Site\Recipe\RecipeResource;
 use App\Http\Resources\Api\V1\Site\Recipes\PharmacyRecipeCollection;
+use App\Http\Resources\Api\V1\Site\Sales\SaleResource;
 use App\Http\Resources\Api\V1\Site\VisitorRecipe\VisitorRecipeResource;
 use App\Models\User;
+use App\Models\V1\Archive;
 use App\Models\V1\DoctorVisit;
 use App\Models\V1\PharmacyVisit;
 use App\Models\V1\Product;
-use App\Models\V1\ProductInfo;
 use App\Models\V1\Sale;
 use App\Models\V1\SubUser;
 use App\Models\V1\VisitorRecipe;
@@ -25,6 +26,7 @@ use App\Traits\Translatable;
 use App\Traits\UserTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
@@ -198,6 +200,7 @@ class RecipeController extends Controller
     /**
      * Summary of getProductsWithRandomNumber.
      *
+     * @param Request $request
      * @return JsonResponse|array
      */
     public function getProductsWithRandomNumber(Request $request): JsonResponse|array
@@ -220,7 +223,7 @@ class RecipeController extends Controller
                 // Everything is valid
                 return $this->resourceResponse($visitor_products->details);
             return $this->validation_errors([
-                'random_number' => ['Random Number Has Old Products Associated With it , move it to archieve to continue']
+                'random_number' => ['Random Number Has Old Products Associated With it , move it to archive to continue']
             ]);
         }
 
@@ -245,184 +248,241 @@ class RecipeController extends Controller
     /**
      * @param PharmacyRecipeRequest $request
      * @param VisitorRecipe $recipe
-     * @return JsonResponse
+     * @return JsonResponse|Response
      */
-    public function acceptVisitorRecipeFromPharmacy(PharmacyRecipeRequest $request, VisitorRecipe $recipe)
+    public function acceptVisitorRecipeFromPharmacy(PharmacyRecipeRequest $request, VisitorRecipe $recipe): JsonResponse|Response
     {
-        $recipeDetails = $recipe->details['products'] ?? [];
-        $recipeDetailsCount = count($recipeDetails);
-        $printVisitorRecipe = [];
-        $errors = [];
-        $validProducts = [];
-        $requestData = $request->data;
+        if (isset($recipe->details['products']) && isset($recipe->details['doctor_name'])) {
 
-        // Merge Repeated Products
-        $data = [];
-        foreach ($requestData as $product) {
-            $productFound = false;
+            $doctorName = $recipe->details['doctor_name'];
+            $recipeId = $recipe->id;
+            $randomNumber = $recipe->random_number;
+            $productsWantToTake = $request->input('data');
+            $errors = [];
 
-            for ($i = 0; $i < count($data); $i++) {
-                if ($product['commercial_name'] == $data[$i]['commercial_name']) {
-                    $data[$i]['quantity'] += $product['quantity'];
-                    $productFound = true;
+            // TODO Remove The Duplicates From Incoming Data
+            $uniqueRequestProducts = [];
+            foreach ($productsWantToTake as $product) {
+                $productExists = false;
+                for ($i = 0; $i < count($uniqueRequestProducts); $i++) {
+                    if ($uniqueRequestProducts[$i] == $product['commercial_name']) {
+                        $productExists = true;
+                        break;
+                    }
                 }
+                if (!$productExists) $uniqueRequestProducts[] = $product['commercial_name'];
+
             }
-            if (!$productFound) $data[] = $product;
-        }
+            // Getting Visitor Recipe Products
+            $visitorProducts = $recipe->details['products'] ?? [];
 
-//        return $data;
+            //TODO Checking If The Visitor Has The Product In His Cart
+            $visitorCommercialNames = [];
+            foreach ($visitorProducts as $product) {
+                $visitorCommercialNames[] = $product['commercial_name'];
+            }
 
-        for ($j = 0; $j < count($data); $j++) {
-            $productFound = false;
-            for ($i = 0; $i < $recipeDetailsCount; $i++) {
+            $cnt = 0;
+            foreach ($uniqueRequestProducts as $uniqueProduct) {
+                if (!in_array($uniqueProduct, $visitorCommercialNames)) {
+                    $errors[$cnt]['products'] = 'Product Not Exists In Visitor Recipe';
+                }
+                $cnt++;
+            }
 
 
-                $commercialName = $data[$j]['commercial_name'] ?? null;
-                // Check If Doctor Recipe Product Name equal pharmacy product name
-                if ($recipeDetails[$i]['commercial_name'] == $commercialName) {
-                    $productFound = true;
+            if (!$errors) {
 
-                    // Check If We Retrieved The Product Before (DP)
-                    $userProduct = null;
+                //TODO Get The Products For Pharmacy
 
-                    for ($k = 0; $k < count($validProducts); $k++) {
-                        if ($validProducts[$k]->com_name == $commercialName) {
-                            $userProduct = $validProducts[$k];
-                            break;
+                //Fetch All The Products To Validate
+                $pharmacyProducts = Product::whereIn('com_name', $uniqueRequestProducts)
+                    ->with(['product_details' => function ($query) {
+                        $query->select(['id', 'product_id', 'qty'])
+                            ->latest('qty')
+                            ->where('expire_date', '>', date('Y-m-d'))
+                            ->where('qty', '>', 0);
+                    }])
+                    ->whereIn('user_id', $this->getSubUsersForUser())
+                    ->select(['id', 'com_name', 'sel_price', 'pur_price', 'sc_name'])
+                    ->withSum(
+                        [
+                            'product_details' => function ($query) {
+
+                                $query->where('expire_date', '>', date('Y-m-d'));
+                            }
+                        ], 'qty'
+                    )
+                    //! Putting Selected Items In get() not working !
+                    ->get();
+
+                //TODO Check If All Products Exists For Pharmacy
+
+                $existingPharmacyCommercialNames = [];
+                foreach ($pharmacyProducts as $pharmacyProduct) {
+                    $existingPharmacyCommercialNames[] = $pharmacyProduct->com_name;
+                }
+
+                //TODO Loop Coming Products To Check If All Of It Have Been Fetched Or not
+                $cnt = 0;
+                foreach ($uniqueRequestProducts as $uniqueRequestProduct) {
+                    if (!in_array($uniqueRequestProduct, $existingPharmacyCommercialNames)) {
+                        $errors[$cnt]['product'] = 'Pharmacy Product not exists';
+                    }
+                    $cnt++;
+                }
+
+                if (!$errors) {
+                    // So All Products Exists With Enough Quantity
+
+                    //TODO Continue Accepting The Recipe
+
+                    $takenDetails = [];
+                    $totalSales = 0;
+                    for ($i = 0; $i < count($visitorProducts); $i++) {
+
+                        $visitorCommercialName = $visitorProducts[$i]['commercial_name'];
+                        if (in_array($visitorCommercialName, $existingPharmacyCommercialNames)) {
+
+
+                            //TODO Validate If The Product Has Enough Quantity
+
+                            for ($j = 0; $j < count($pharmacyProducts); $j++) {
+                                if ($pharmacyProducts[$j]->com_name == $visitorProducts[$i]['commercial_name']) {
+                                    if (
+                                        $pharmacyProducts[$j]->product_details_sum_qty
+                                        < $visitorProducts[$i]['quantity']
+                                    ) {
+                                        $errors[$j]['product'] =
+                                            'Product Has Quantity Less Visitor Quantity Which Is ' . $visitorProducts[$i]['quantity'];
+                                    }
+                                }
+                            }
+                            if (!$errors) {
+                                // Check If We Can Accept All The Quantity
+                                //TODO Get The Current Product To Deal With
+                                $pharmacyProduct = null;
+
+                                for ($j = 0; $j < count($pharmacyProducts); $j++) {
+                                    if ($pharmacyProducts[$j]->com_name == $visitorCommercialName) {
+                                        $pharmacyProduct = $pharmacyProducts[$j];
+                                        break;
+                                    }
+                                }
+
+                                // Decrease Details Only If It Has Enough Quantity
+
+
+                                //TODO Loop Over Product Details To Decrease The Quantity
+                                $tmpVisitorQuantity = $visitorProducts[$i]['quantity'];
+                                $pharmacyProductDetailsCount = count($pharmacyProduct->product_details);
+
+                                for ($j = 0; $j < $pharmacyProductDetailsCount && $tmpVisitorQuantity; $j++) {
+
+                                    if ($pharmacyProduct->product_details[$j]->qty >= $tmpVisitorQuantity) {
+                                        $pharmacyProduct->product_details[$j]->qty -= $tmpVisitorQuantity;
+                                        $tmpVisitorQuantity = 0;
+                                    } else {
+                                        $tmpVisitorQuantity -= $pharmacyProduct->product_details[$j]->qty;
+                                        $pharmacyProduct->product_details[$j]->qty = 0;
+                                    }
+                                    $pharmacyProduct->product_details[$j]->save();
+                                }
+                                $takenDetails[] = $pharmacyProduct->com_name;
+                                $totalSales += ($visitorProducts[$i]['quantity'] * $pharmacyProduct->sel_price);
+                            }
                         }
                     }
 
-                    if (!$userProduct) $userProduct = Product::where('com_name', $commercialName)
-                        ->whereIn('user_id', $this->getSubUsersForUser())
-                        ->withSum(
-                            [
-                                'product_details' => function ($query) {
-                                    $query->where('expire_date', '>', date('Y-m-d'));
-                                },
-                            ],
-                            'qty'
-                        )
-                        ->first();
-
-                    if ($userProduct) {
-                        if ($userProduct->product_details_sum_qty >= $data[$j]['quantity']) {
-                            if($recipeDetails[$i]['commercial_name'] == $data[$j]['commercial_name'])echo 'NIce';
-                            if ($data[$j]['quantity'] == $recipeDetails[$i]['quantity']) {
-                                // Then Everything Is Valid , start appending the products
-                                $validProducts[] = $userProduct;
+                    if (!$errors) {
+                        //TODO Start Removing The Products From Visitor Cart
+                        $saleProducts = [];
+                        $archiveDetails = ['products' => []];
+                        $existingProducts = ['products' => []];
+                        $takenProductsQuantities = [];
+                        foreach ($visitorProducts as $visitorProduct) {
+                            if (!in_array($visitorProduct['commercial_name'], $takenDetails)) {
+                                $existingProducts['products'][] = $visitorProduct;
                             } else {
-//                                return $data[$j];
-                                return $recipeDetails[$i];
-                                $errors[$j]['quantity'][] = 'Quantity Not Equal To Doctor Recipe Quantity';
+                                $visitorProduct['taken'] = true;
+                                $archiveDetails['products'][] = $visitorProduct;
+                                $takenProductsQuantities[$visitorProduct['commercial_name']] = $visitorProduct['quantity'];
                             }
-                        } else $errors[$j]['quantity'][] = 'Quantity Is bigger Than Existing Qty Which is ' . $userProduct->product_details_sum_qty;
-                    } else $errors[$j]['product'][] = 'Product Not Found In Pharmacy Products';
-                     break;
-                }
-            }
-
-            if (!$productFound) $errors[$j]['product'][] = 'Product Not Found in Visitor cart';
-        }
-        //return $errors;
-        //! Very Bad Performance !
-        //O (N * M * K)
-
-
-        if (!$errors) {
-            $saleDetails = [];
-            $saleTotal = 0;
-            for ($i = 0; $i < $recipeDetailsCount; $i++) {
-                for ($j = 0; $j < count($validProducts); $j++) {
-                    // Remove The Element From the Visitor Cart And Update User Product Quantity
-
-                    $productDetails = ProductInfo::where('product_id', $validProducts[$j]->id)
-                        ->latest('qty')
-                        ->where('qty', '>', 0)
-                        ->where('expire_date', '>', date('Y-m-d'))
-                        ->get(['id', 'qty']);
-
-                    if ($productDetails) {
-                        $tmpVisitorProductQuantity = $recipeDetails[$i]['quantity'];
-                        for ($k = 0; $k < count($productDetails) && $tmpVisitorProductQuantity > 0; $k++) {
-
-                            // If Product Has Enough Quantity , decrease Visitor Quantity
-                            if ($productDetails[$k]->qty >= $tmpVisitorProductQuantity) {
-                                $saleTotal += ($tmpVisitorProductQuantity * $validProducts[$j]->sel_price);
-                                $productDetails[$k]->qty -= $tmpVisitorProductQuantity;
-                                $tmpVisitorProductQuantity = 0;
-                                $productDetails[$k]->update();
-                                break;
-                            } else {
-                                $saleTotal += ($productDetails[$k]->qty * $validProducts[$j]->sel_price);
-                                $tmpVisitorProductQuantity -= $productDetails[$k]->qty;
-                                $productDetails[$k]->qty = 0;
-                            }
-                            // return $productDetails[$k];
-                            $productDetails[$k]->update();
                         }
-                    } else $errors[$j]['quantity'][] = 'Product Has No Details With Expire Date Bigger Than Today';
-                }
-                if (!$errors) {
-                    $recipeDetails[$i]['taken'] = true;
-                    $printVisitorRecipe[] = $recipeDetails[$i];
-                    $saleDetails[] = [
-                        'commercial_name' => $userProduct->com_name,
-                        'scientific_name' => $userProduct->sc_name,
-                        'selling_price' => $userProduct->sel_price,
-                        'purchase_price' => $userProduct->pur_price,
-                        'quantity' => $recipeDetails[$i]['quantity']
-                    ];
-                    // Remove The item From Visitor Cart
-                    unset($recipeDetails[$i]);
-                    $recipeDetailsCount--;
+
+                        foreach ($pharmacyProducts as $pharmacyProduct) {
+                            if (in_array($pharmacyProduct->com_name, $takenDetails)) {
+                                $saleProducts[] = [
+                                    'commercial_name' => $pharmacyProduct->com_name,
+                                    'scientific_name' => $pharmacyProduct->sc_name,
+                                    'quantity' => $takenProductsQuantities[$pharmacyProduct->com_name],
+                                    'selling_price' => $pharmacyProduct->sel_price,
+                                    'purchase_price' => $pharmacyProduct->pur_price,
+                                ];
+                            }
+                        }
+                        //TODO Add Sales To Pharmacy
+
+                        $fromId = auth()->id();
+                        if ($this->getRoleNameForAuthenticatedUser() != 'pharmacy') {
+                            $parentId = SubUser::where('sub_user_id', $fromId)->value('parent_id');
+                            if ($parentId) $fromId = $parentId;
+                        }
+
+                        //TODO Update The Recipe
+                        $recipe->details = $existingProducts['products'] ?: [];
+                        $recipe->save();
+
+                        //TODO Add To Sales
+                        $saleDetails = Sale::create([
+                            'from_id' => $fromId,
+                            'to_id' => User::where('username', 'customer')->value('id'),
+                            'details' => $saleProducts,
+                            'total' => $totalSales,
+                            'type' => '3'
+                        ]);
+
+                        //TODO Add Purchased Products To Archive
+                        $archiveDetails['doctor_name'] = $doctorName;
+
+                        Archive::updateOrCreate(['random_number' =>$randomNumber], [
+                            'random_number' => $recipe->random_number,
+                            'details' => $archiveDetails
+                        ]);
+
+                        //TODO Create Pharmacy Visit For That Visit
+                        PharmacyVisit::create([
+                            'visitor_recipe_id' => $recipeId,
+                            'doctor_id' => DoctorVisit::where('visitor_recipe_id', $recipeId)->value('doctor_id'),
+                            'pharmacy_id' => $fromId,
+                        ]);
+                        $saleDetails->full_name = 'Customer';
+
+                        return $this->createdResponse(new SaleResource($saleDetails));
+                    }
                 }
             }
 
-            $recipe->update([
-                'details' => $recipeDetailsCount == 0 ? [] : $recipeDetails
-            ]);
-
-            $fromId = auth()->id();
-            if ($this->getRoleNameForAuthenticatedUser() != 'pharmacy') {
-                $parentId = SubUser::where('sub_user_id', auth()->id())->value('parent_id');
-                if ($parentId) $fromId = $parentId;
-            }
-            Sale::create([
-                'from_id' => $fromId,
-                'to_id' => User::where('username', 'customer')->value('id'),
-                'details' => $saleDetails,
-                'total' => $saleTotal,
-                'type' => '3'
-            ]);
-            return $this->success($printVisitorRecipe);
+            return $this->validation_errors($errors);
         }
-        return $this->validation_errors($errors);
+
+        return $this->noContentResponse();
     }
 }
 
 
 /*
-    1 - Visitor Has These Details
+ - What We Want to Do :
 
-        -- com_name => Google
-        -- quantity => 20
+    -- 1 Catch The Products From The Request And Validate it (Done)
 
-        -- com_name => Internet
-        -- quantity => 30
+    -- 2 Remove The Duplicates From Incoming Request (Done)
 
+    -- 3 Get The Visitor Recipe Products
 
-    2 - And Pharmacy Sent
+    -- 4 Checking If The Visitor Has The Product
 
-        -- com_name => Google
-        -- quantity => 20
-        -- Alternative => Mohamed
+    --5 Check If Pharmacy Own The Product
 
-        -- com_name => Internet
-        -- quantity => 30
-        -- Alternative => Mohamed
-
-    3 - And Pharmacy Has One Product
-
-        -- com_name => Mohamed
-        -- Quantity => 50
+    --6 We Want To Check If The Pharmacy Has All Products Sent With Enough Quantity
 */
