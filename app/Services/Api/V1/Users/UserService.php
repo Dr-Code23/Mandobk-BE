@@ -131,7 +131,7 @@ class UserService
         $handle = $request->input('handle');
         if (
             $visitor = User::where(function ($query) use ($handle) {
-                $query->orWhere('phone', $handle);
+                $query->Where('phone', $handle);
             })->first(['id'])
         ) {
             $randomNumbers = [];
