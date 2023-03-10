@@ -28,6 +28,7 @@ class MonitorAndEvaluationService
         return User::join('roles', 'roles.id', 'users.role_id')
             ->whereIn('roles.name', config('roles.monitor_roles'))
             ->where('users.id', '!=', Auth::id())
+            ->where('status' , $this->isActive())
             ->select(
                 [
                     'users.id',
@@ -51,7 +52,7 @@ class MonitorAndEvaluationService
     public function show($user): User|array
     {
         $errors = [];
-        if ($user->id != Auth::id()) {
+        if ($user->id != Auth::id() && $user->status == $this->isActive()) {
             if (
                 $role = Role::where('id', $user->role_id)
                 ->whereIn('name', config('roles.monitor_roles'))->first(['name'])
@@ -104,7 +105,7 @@ class MonitorAndEvaluationService
      */
     public function update($request, $user): User|string|array
     {
-        if ($user->id != Auth::id()) {
+        if ($user->id != Auth::id() && $user->status == $this->isActive()) {
             $role = Role::where('id', $request->role)
                 ->whereIn('name', config('roles.monitor_roles'))
                 ->first(['name as role_name', 'id']);
@@ -154,10 +155,11 @@ class MonitorAndEvaluationService
      */
     public function destroy($user): bool|string
     {
-        if ($user->id != Auth::id()) {
+        if ($user->id != Auth::id() && $user->status == $this->isActive()) {
             $user->load('role');
             if (in_array($user->role->name,  config('roles.monitor_roles'))) {
-                $user->delete();
+                $user->status = $this->isDeleted();
+                $user->save();
 
                 return true;
             }
