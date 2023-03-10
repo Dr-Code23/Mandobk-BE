@@ -92,12 +92,12 @@ class UserService
         return null;
     }
 
-    public function getHumanResourceUsers()
+    public function getHumanResourceUsers(): Collection
     {
         return User::whereIn('role_id', $this->getRolesIdsByName(config('roles.human_resources_roles')))->get(['id', 'full_name']);
     }
 
-    public function registerNewVisitor($request)
+    public function registerNewVisitor($request): \Illuminate\Database\Eloquent\Model|VisitorRecipe
     {
 
         $visitor = User::create($request->validated() + [
@@ -131,8 +131,7 @@ class UserService
         $handle = $request->input('handle');
         if (
             $visitor = User::where(function ($query) use ($handle) {
-                $query->where('username', $handle)
-                    ->orWhere('phone', $handle);
+                $query->orWhere('phone', $handle);
             })->first(['id'])
         ) {
             $randomNumbers = [];
