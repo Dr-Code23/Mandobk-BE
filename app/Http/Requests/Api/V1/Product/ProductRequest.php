@@ -41,7 +41,7 @@ class ProductRequest extends FormRequest
                 'max:255'
             ],
             'scientific_name' => [
-                'required' ,
+                'sometimes',
                 'max:255'
             ],
             'quantity' => [
