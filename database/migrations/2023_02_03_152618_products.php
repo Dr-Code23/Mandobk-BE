@@ -30,7 +30,7 @@ return new class() extends Migration
                 ->cascadeOnDelete();
 
             $table->string('com_name'); // Commercial Name
-            $table->string('sc_name'); // Scientific Name
+            $table->string('sc_name')->nullable(); // Scientific Name
             $table->unsignedDouble('pur_price'); // Purchasing price
             $table->unsignedDouble('sel_price'); // Selling Price
             $table->unsignedDouble('bonus'); // Bonus

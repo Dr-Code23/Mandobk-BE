@@ -143,7 +143,7 @@ trait UserTrait
     }
 
     /**
-     * Undocumented function
+     * Return Deleted Status
      *
      * @return string
      */
@@ -152,6 +152,11 @@ trait UserTrait
         return '0';
     }
 
+    /**
+     * Return Frozen Status
+     *
+     * @return string
+     */
     public function isFrozen(): string
     {
         return '2';
