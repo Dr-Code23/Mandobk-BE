@@ -28,6 +28,7 @@ class ProductResource extends JsonResource
             'bonus' => $this->bonus . '%',
             'concentrate' => $this->con . '%',
             'limited' => (bool)$this->limited,
+            'limited_changed' => $this->whenHas('limited_changed'),
             'total_quantity' => $this->whenHas('product_details_sum_qty',$this->product_details_sum_qty),
             'detail' => $this->whenHas('detail',$this->detail),
             'barcode' => $this->barcode ? asset('/storage/products/' . $this->barcode) . '.svg' : null,

@@ -61,6 +61,18 @@ use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
  * @method static Builder|User whereStatus($value)
  * @method static Builder|User whereUpdatedAt($value)
  * @method static Builder|User whereUsername($value)
+ * @property-read Collection<int, HumanResource> $HumanResources
+ * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
+ * @property-read Collection<int, PersonalAccessToken> $tokens
+ * @property-read Collection<int, HumanResource> $HumanResources
+ * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
+ * @property-read Collection<int, PersonalAccessToken> $tokens
+ * @property-read Collection<int, HumanResource> $HumanResources
+ * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
+ * @property-read Collection<int, PersonalAccessToken> $tokens
+ * @property-read Collection<int, HumanResource> $HumanResources
+ * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
+ * @property-read Collection<int, PersonalAccessToken> $tokens
  * @mixin Eloquent
  */
 class User extends Authenticatable implements JWTSubject

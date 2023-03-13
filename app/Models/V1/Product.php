@@ -45,6 +45,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static Builder|Product whereScName($value)
  * @method static Builder|Product whereSelPrice($value)
  * @method static Builder|Product whereUserId($value)
+ * @property int|null $new_limited_value
+ * @method static Builder|Product whereNewLimitedValue($value)
  * @mixin Eloquent
  */
 class Product extends Model
@@ -65,6 +67,7 @@ class Product extends Model
         'limited',
         'barcode',
         'original_total',
+        'new_limited_value',
         'role_id',
         'created_at'
     ];

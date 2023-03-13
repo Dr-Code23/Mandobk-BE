@@ -36,7 +36,7 @@ return new class() extends Migration
             $table->unsignedDouble('bonus'); // Bonus
             $table->unsignedDouble('con'); // Concentrate
             $table->string('barcode'); // Bar Code
-
+            $table->unsignedTinyInteger('new_limited_value')->nullable();
             /*
                 Used To Find Total Purchases For That Product if
                 the total quantity changed in sale operation for example

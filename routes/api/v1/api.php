@@ -100,6 +100,9 @@ Route::group(['middleware' => ['auth:api']], function () {
             Route::post('', [ProductController::class, 'storeOrUpdate'])
                     ->name('v1-products-storeSubUser');
 
+            Route::patch('update_limited/{id}' , [ProductController::class , 'updateLimitedExchange'])
+                ->whereNumber(['id']);
+
             Route::get('{product}', [ProductController::class, 'showWithoutDetails'])
                     ->name('v1-products-one');
         },

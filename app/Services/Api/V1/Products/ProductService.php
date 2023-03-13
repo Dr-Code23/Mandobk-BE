@@ -10,9 +10,9 @@ use App\Traits\GeneralTrait;
 use App\Traits\RoleTrait;
 use App\Traits\Translatable;
 use App\Traits\UserTrait;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
-use DB;
 
 class ProductService
 {
@@ -26,9 +26,9 @@ class ProductService
     /**
      * Undocumented function
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function fetchAllProducts()
+    public function fetchAllProducts(): JsonResponse
     {
         $products = Product::where(function ($query) {
             if (!$this->roleNameIn(['ceo', 'data_entry']))
@@ -118,19 +118,31 @@ class ProductService
                 'barcode' => $barcode_value,
                 'limited' => $limited,
                 'user_id' => Auth::id(),
+                'new_limited_value' => null,
                 'role_id' => auth()->user()->role_id,
             ];
             $originalTotal = $purchase_price * $request->quantity;
             if ($product) {
+                //TODO Determine If User Changed Limited Exchange
+                $limitedChanged = false;
+
+                if($product->limited != $limited){
+                    $inputs['new_limited_value'] = $limited;
+                    $limited = $product->limited;
+                    $limitedChanged = true;
+                }
+
                 $originalTotal += $product->original_total;
                 $inputs['original_total'] = $originalTotal;
                 $product->update($inputs);
+
+                $product->limited_changed = $limitedChanged;
+
             } else {
                 $inputs['original_total'] = $originalTotal;
                 $product = Product::create($inputs);
+
             }
-
-
 
             // Update All Products To new Admin Values Only If Changed
             if ($this->roleNameIn(['ceo', 'data_entry'])) {
@@ -153,6 +165,7 @@ class ProductService
                         ->orWhere('patch_number', $request->patch_number);
                 })
                 ->first();
+
             if ($productInfo) {
                 $productInfo->qty += $request->quantity;
                 $productInfo->update();
@@ -165,6 +178,7 @@ class ProductService
             ]);
             $product->loadSum('product_details' , 'qty');
             $product->detail = new ProductDetailsResource($productInfo);
+            info($product);
             return $product;
         }
 
@@ -219,5 +233,38 @@ class ProductService
             'role_id',
             $this->getRolesIdsByName(['ceo', 'data_entry']),
         )->get(['id', 'com_name as commercial_name', 'limited']);
+    }
+
+    /**
+     * Change Limited Exchange Status For Product
+     *
+     * @param int $productId
+     * @return Product|bool
+     */
+    public function updateLimitedExchange(int $productId): Product|bool
+    {
+        $product = Product::where('id' , $productId)
+            ->first(['id' , 'limited' , 'new_limited_value' , 'user_id' , 'role_id']);
+
+        if($product){
+            if(
+                in_array($product->role_id,$this->getRolesIdsByName(['ceo' , 'data_entry']))
+                || in_array($product->user_id , $this->getSubUsersForUser($product->user_id))
+            ){
+
+                if (in_array($product->new_limited_value , ['0' , '1'])){
+                    $confirmChanging = request('change');
+                    info($confirmChanging);
+                    if($confirmChanging == 'true'){
+                        $product->limited = $product->new_limited_value;
+                    }
+                    $product->new_limited_value = null;
+                    $product->save();
+                }
+                return $product;
+            }
+        }
+        // if Product Not Found
+        return false;
     }
 }

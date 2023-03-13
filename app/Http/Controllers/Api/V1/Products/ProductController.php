@@ -30,7 +30,7 @@ class ProductController extends Controller
      * Fetch All Products
      * @return JsonResponse
      */
-    public function index()
+    public function index(): JsonResponse
     {
         return $this->productService->fetchAllProducts();
     }
@@ -115,5 +115,28 @@ class ProductController extends Controller
     public function doctorProducts(ProductService $productService): JsonResponse
     {
         return $this->resourceResponse($productService->doctorProducts());
+    }
+
+    /**
+     * Confirm Updating Limited Exchange
+     *
+     * @param int $productId
+     * @param ProductService $productService
+     * @return JsonResponse
+     */
+    public function updateLimitedExchange(int $productId , ProductService $productService): JsonResponse
+    {
+        $product = $productService->updateLimitedExchange($productId);
+
+        if(is_bool($product) && !$product){
+            return $this->notFoundResponse(
+                $this->translateErrorMessage('product' , 'not_found')
+            );
+        }
+
+        return $this->success(
+            ['limited' => (bool)$product->limited] ,
+            $this->translateSuccessMessage('limited' , 'updated')
+        );
     }
 }
