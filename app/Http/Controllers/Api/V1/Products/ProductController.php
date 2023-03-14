@@ -135,7 +135,10 @@ class ProductController extends Controller
         }
 
         return $this->success(
-            ['limited' => (bool)$product->limited] ,
+            [
+                'id' => $product->id,
+                'limited' => (bool)$product->limited
+            ] ,
             $this->translateSuccessMessage('limited' , 'updated')
         );
     }
