@@ -52,8 +52,8 @@ class MonitorTest extends TestCase
             'role_id' => 3,
             'username' => fake()->name(),
             'password' => 'Usernassmes',
-            'full_name' => fake()->name()
-
+            'full_name' => fake()->name(),
+            'status' => '1',
         ]);
         $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
             ->getJson(route('monitor-one', ['user' => $user->id]));
@@ -100,8 +100,8 @@ class MonitorTest extends TestCase
             'role_id' => 3,
             'username' => fake()->name(),
             'password' => 'Usernassmes',
-            'full_name' => fake()->name()
-
+            'full_name' => fake()->name(),
+            'status' => '1',
         ]);
         $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
             ->putJson(route('monitor-updateSubUser', ['user' =>  $user->id]), json_decode('{
@@ -129,8 +129,8 @@ class MonitorTest extends TestCase
             'role_id' => 3,
             'username' => fake()->name(),
             'password' => 'Usernassmes',
-            'full_name' => fake()->name()
-
+            'full_name' => fake()->name(),
+            'status' => '1',
         ]);
         $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
             ->deleteJson(route('monitor-delete', ['user' => $user->id]));

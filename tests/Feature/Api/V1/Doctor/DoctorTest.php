@@ -186,7 +186,8 @@ class DoctorTest extends TestCase
             'full_name' => fake()->name(),
             'username' => fake()->userName(),
             'password' => fake()->name(),
-            'role_id' => Role::where('name', 'visitor')->value('id')
+            'role_id' => Role::where('name', 'visitor')->value('id'),
+            'phone' => '23021977777'
         ]);
 
         $visitorRecipe = VisitorRecipe::create([
@@ -197,7 +198,7 @@ class DoctorTest extends TestCase
         ]);
 
         $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
-            ->postJson(route('doctor-visitor-forgot-random-number', ['handle' => $visitor->username]));
+            ->postJson(route('doctor-visitor-forgot-random-number', ['handle' => $visitor->phone]));
         $this->writeAFileForTesting($this->path, 'RestoreRandomNumbersForVisitor', $response->getContent());
         $response->assertSuccessful();
         // ! Are U Kidden Me !
