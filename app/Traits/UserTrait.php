@@ -33,7 +33,7 @@ trait UserTrait
             if(in_array($permissionName , ['pharmacy' , 'pharmacy_sub_user']))
                 $permissions += ['pharmacy' , 'pharmacy_sub_user'];
         }
-        info($permissions);
+
         return in_array($role_name, $permissions);
     }
 

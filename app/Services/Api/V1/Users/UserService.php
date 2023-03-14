@@ -59,7 +59,7 @@ class UserService
             }
             if ($status != $user->status) {
                 $user->update(['status' => $status . '']);
-                info($user);
+
             }
             $user->role = $this->getRoleNameById($user->role_id);;
 

@@ -41,7 +41,6 @@ class ArchiveService
                     $archive->update([
                         'details' => $visitorDetails
                     ]);
-                    info($archive);
                 }
             } else {
                 Archive::create([

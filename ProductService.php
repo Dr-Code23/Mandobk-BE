@@ -178,7 +178,7 @@ class ProductService
             ]);
             $product->loadSum('product_details' , 'qty');
             $product->detail = new ProductDetailsResource($productInfo);
-
+            info($product);
             return $product;
         }
 
@@ -254,7 +254,7 @@ class ProductService
 
                 if (in_array($product->new_limited_value , ['0' , '1'])){
                     $confirmChanging = request('change');
-
+                    info($confirmChanging);
                     if($confirmChanging == 'true'){
                         $product->limited = $product->new_limited_value;
                     }
