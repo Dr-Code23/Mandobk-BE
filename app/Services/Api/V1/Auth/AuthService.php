@@ -61,22 +61,25 @@ class AuthService
      * @param boolean $isVisitor
      * @return array|null|bool
      */
-    public function login($request, bool $isVisitor = false): bool|null|array
+    public function login($request, bool $isVisitor = false): string|array
     {
         // Check if the user exists
-        if ($token = Auth::attempt($request->validated())) {
+        if ($token = Auth::attempt($request->validated()))
+        {
             $user = Auth::user();
+
+            // Frozen User
             if ($user->status == '2') {
                 auth()->logout();
 
-                return false;
+                return 'frozen';
             }
+
+            // Delete User
             if ($user->status == '0') {
-                return null;
+                return 'deleted';
             }
             $roleChecked = false;
-//            if ($isVisitor && $this->roleNameIn(['visitor'])) $roleChecked = true;
-//            if (!$isVisitor && !$this->roleNameIn(['visitor'])) $roleChecked = true;
 
             if(
                 ($isVisitor && $this->roleNameIn(['visitor']))
@@ -95,10 +98,9 @@ class AuthService
                     'avatar' => asset('/storage/users/' . ($user->avatar ?: 'user.png'))
                 ];
             }
-            // Logout Wrong User
-            auth()->logout();
+
         }
 
-        return null;
+        return 'wrong';
     }
 }

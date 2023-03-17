@@ -27,22 +27,22 @@ class AuthController extends Controller
      */
     public function login(LoginRequest $request, AuthService $authService): JsonResponse
     {
-        $user = $authService->login($request);
+        $response = $authService->login($request);
 
         $msg = __('messages.wrong_credentials');
 
-        if (is_bool($user) && !$user) {
-            $msg = __('messages.detective');
-        }
-        if (is_array($user)) {
-            return $this->success($user, __('standard.logged_in'));
+        if (is_array($response)) {
+            return $this->success($response, __('standard.logged_in'));
         }
 
-        return $this->forbiddenResponse(
-            $msg,
-            null,
-            Response::HTTP_UNAUTHORIZED
-        );
+        if($response == 'frozen'){
+            $msg = __('messages.detective');
+        }
+        else if (in_array($response , ['deleted' , 'wrong'])){
+            $msg = __('messages.wrong_credentials');
+        }
+
+        return $this->forbiddenResponse($msg , code:Response::HTTP_UNAUTHORIZED);
     }
 
     /**
