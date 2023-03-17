@@ -29,7 +29,8 @@ class AuthController extends Controller
     {
         $user = $authService->login($request);
 
-        $msg = __('messages.not_authenticated');
+        $msg = __('messages.wrong_credentials');
+
         if (is_bool($user) && !$user) {
             $msg = __('messages.detective');
         }

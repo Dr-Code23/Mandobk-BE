@@ -83,6 +83,6 @@ return [
     'ad' => 'Ad',
     'order' => 'Order',
     'not_authenticated' => 'Your are not authenticated',
-    'detactive' => 'تم الغاء تفعيل حسابك, برجاء التواصل مع المسئول',
-
+    'detective' => 'Your Account Is detective , contact With Admin',
+    'wrong_credentials' => 'Wrong Credentials',
 ];

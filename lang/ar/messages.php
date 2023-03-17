@@ -83,6 +83,7 @@ return [
     'ad' => 'الاعلان',
     'order' => 'الطلب',
     'not_authenticated' => 'انت لست مسجل دخول',
-    'detective' => 'Your Account Is detective , contact With Admin',
+    'detective' => 'تم الغاء تفعيل حسابك, برجاء التواصل مع المسئول',
     'forbidden' => 'You do not have permissions to access this resource',
+    'wrong_credentials' => 'بيانات خاطئه'
 ];

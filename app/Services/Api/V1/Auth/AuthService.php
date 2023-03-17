@@ -75,8 +75,15 @@ class AuthService
                 return null;
             }
             $roleChecked = false;
-            if ($isVisitor && $this->roleNameIn(['visitor'])) $roleChecked = true;
-            if (!$isVisitor && !$this->roleNameIn(['visitor'])) $roleChecked = true;
+//            if ($isVisitor && $this->roleNameIn(['visitor'])) $roleChecked = true;
+//            if (!$isVisitor && !$this->roleNameIn(['visitor'])) $roleChecked = true;
+
+            if(
+                ($isVisitor && $this->roleNameIn(['visitor']))
+                || (!$isVisitor && !$this->roleNameIn(['visitor']))
+            ){
+                $roleChecked = true;
+            }
             if ($roleChecked) {
 
                 return [
