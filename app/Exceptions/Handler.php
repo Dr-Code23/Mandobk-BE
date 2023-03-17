@@ -6,6 +6,7 @@ use App\Traits\HttpResponse;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Exceptions\ThrottleRequestsException;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
@@ -50,8 +51,8 @@ class Handler extends ExceptionHandler
         $this->renderable(function (\Illuminate\Auth\AuthenticationException $e, $req) {
             // Check if the route in api
             if ($req->is('v1/*')) {
-                // Return anauthenticated user response from HttpResponse Trait
-                return $this->unauthenticatedResponse('You are not authenticated');
+                // Return unauthenticated user response from HttpResponse Trait
+                return $this->unauthenticatedResponse(__('messages.not_authenticated'));
             }
         });
 
@@ -63,7 +64,7 @@ class Handler extends ExceptionHandler
             }
         });
         // Method not allowed
-        $this->renderable(function (\Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException $e, $request) {
+        $this->renderable(function (MethodNotAllowedHttpException $e, $request) {
             if ($request->is('v1/*')) {
 
                 return $this->error(null, 405, $e->getMessage());

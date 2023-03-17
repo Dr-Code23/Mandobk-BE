@@ -137,7 +137,7 @@ class RecipeController extends Controller
             }
         }
         if ($errors) {
-            return $this->validation_errors($errors);
+            return $this->validationErrorsResponse($errors);
         }
 
         // Everything is valid so , Check Random Number Have old products or not
@@ -194,7 +194,7 @@ class RecipeController extends Controller
             $errors['random_number'][] = $this->translateErrorMessage('random_number', 'invalid');
         }
 
-        return $this->validation_errors($errors);
+        return $this->validationErrorsResponse($errors);
     }
 
     /**
@@ -212,7 +212,7 @@ class RecipeController extends Controller
             'random_number.numeric' => $this->translateErrorMessage('random_number', 'numeric'),
         ]);
         if ($validator->fails()) {
-            return $this->validation_errors($validator->errors());
+            return $this->validationErrorsResponse($validator->errors());
         }
         $random_number = $request->input('random_number');
         // valid data
@@ -222,7 +222,7 @@ class RecipeController extends Controller
             if (!$visitor_products->details)
                 // Everything is valid
                 return $this->resourceResponse($visitor_products->details);
-            return $this->validation_errors([
+            return $this->validationErrorsResponse([
                 'random_number' => ['Random Number Has Old Products Associated With it , move it to archive to continue']
             ]);
         }
@@ -463,7 +463,7 @@ class RecipeController extends Controller
                 }
             }
 
-            return $this->validation_errors($errors);
+            return $this->validationErrorsResponse($errors);
         }
 
         return $this->noContentResponse();

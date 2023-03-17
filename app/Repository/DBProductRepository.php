@@ -160,7 +160,7 @@ class DBProductRepository implements ProductRepositoryInterface
             $payload['product'] = $this->translateErrorMessage('product', 'exists');
         }
 
-        return $this->validation_errors($payload);
+        return $this->validationErrorsResponse($payload);
     }
 
     /**
@@ -271,7 +271,7 @@ class DBProductRepository implements ProductRepositoryInterface
             $payload['product_exists'] = $this->translateErrorMessage('product', 'exists');
         }
 
-        return $this->validation_errors($payload);
+        return $this->validationErrorsResponse($payload);
     }
 
     /**

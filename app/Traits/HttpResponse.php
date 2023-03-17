@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Symfony\Component\HttpFoundation\Response;
@@ -60,7 +61,7 @@ trait HttpResponse
      *
      * @param mixed $data
      */
-    public function validation_errors($data = null, int $code = Response::HTTP_UNPROCESSABLE_ENTITY, string $msg = 'validation errors'): JsonResponse
+    public function validationErrorsResponse($data = null, int $code = Response::HTTP_UNPROCESSABLE_ENTITY, string $msg = 'validation errors'): JsonResponse
     {
         return response()->json([
             'data' => $data,
@@ -70,7 +71,7 @@ trait HttpResponse
         ], $code);
     }
 
-    public function unauthenticatedResponse(string $msg = 'You Are not authenticated', int $code = Response::HTTP_UNAUTHORIZED, $data = null)
+    public function unauthenticatedResponse(string $msg = 'You Are not authenticated', int $code = Response::HTTP_UNAUTHORIZED, $data = null): JsonResponse
     {
         return response()->json([
             'data' => $data,
@@ -85,11 +86,11 @@ trait HttpResponse
      *
      * @return never
      *
-     * @throws \Illuminate\Auth\AuthenticationException
+     * @throws AuthenticationException
      */
     public function throwNotAuthenticated()
     {
-        throw new \Illuminate\Auth\AuthenticationException();
+        throw new AuthenticationException();
     }
 
     /**
@@ -118,8 +119,9 @@ trait HttpResponse
      * @param int $code
      * @return JsonResponse
      */
-    public function forbiddenResponse(string $msg = 'You do not have permissions to access this resource', $data = null, int $code = Response::HTTP_FORBIDDEN): JsonResponse
+    public function forbiddenResponse(string $msg = null, $data = null, int $code = Response::HTTP_FORBIDDEN): JsonResponse
     {
+        $msg  = $msg ?: __('messages.forbidden');
         return $this->error($data, $code, $msg);
     }
 

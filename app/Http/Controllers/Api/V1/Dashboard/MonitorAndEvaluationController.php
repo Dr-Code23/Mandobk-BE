@@ -59,7 +59,7 @@ class MonitorAndEvaluationController extends Controller
 
         } elseif (isset($user['role'])) {
 
-            return $this->validation_errors($user);
+            return $this->validationErrorsResponse($user);
         }
 
         return $this->error($user);
@@ -83,7 +83,7 @@ class MonitorAndEvaluationController extends Controller
             );
         }
 
-        return $this->validation_errors($newUser);
+        return $this->validationErrorsResponse($newUser);
     }
 
     /**
@@ -106,7 +106,7 @@ class MonitorAndEvaluationController extends Controller
         }
         else if (is_array($user)) {
 
-            return $this->validation_errors($user);
+            return $this->validationErrorsResponse($user);
         }
 
         return $this->notFoundResponse(msg: $user);

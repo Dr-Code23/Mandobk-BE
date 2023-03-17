@@ -52,7 +52,7 @@ class MobileAuthController extends Controller
             return $this->success($user, __('standard.account_created'));
         }
 
-        return $this->validation_errors([
+        return $this->validationErrorsResponse([
             'role' => __('standard.role_name') . ' ' . __('standard.not_found'),
         ]);
     }

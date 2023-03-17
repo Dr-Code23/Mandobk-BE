@@ -79,7 +79,7 @@ class ProfileRequest extends FormRequest
     {
         throw new ValidationValidationException(
             $validator,
-            $this->validation_errors($validator->errors())
+            $this->validationErrorsResponse($validator->errors())
         );
     }
 }

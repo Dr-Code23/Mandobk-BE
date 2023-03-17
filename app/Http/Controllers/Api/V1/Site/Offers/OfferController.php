@@ -57,7 +57,7 @@ class OfferController extends Controller
 
         if (isset($offer['error'])) {
             unset($offer['error']);
-            return $this->validation_errors($offer);
+            return $this->validationErrorsResponse($offer);
         }
 
         return $this->createdResponse(new OfferResource($offer));

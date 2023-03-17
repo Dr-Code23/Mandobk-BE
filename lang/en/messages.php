@@ -82,4 +82,7 @@ return [
     'created' => 'Created Successfully',
     'ad' => 'Ad',
     'order' => 'Order',
+    'not_authenticated' => 'Your are not authenticated',
+    'detactive' => 'تم الغاء تفعيل حسابك, برجاء التواصل مع المسئول',
+
 ];

@@ -80,7 +80,7 @@ class SaleRequest extends FormRequest
 
         throw new ValidationException(
             $validator,
-            $this->validation_errors($allErrors)
+            $this->validationErrorsResponse($allErrors)
         );
     }
 }

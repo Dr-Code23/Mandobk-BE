@@ -58,7 +58,7 @@ class MarketingController extends Controller
             );
         }
 
-        return $this->validation_errors($ad);
+        return $this->validationErrorsResponse($ad);
     }
 
     /**
@@ -81,7 +81,7 @@ class MarketingController extends Controller
             );
         }
 
-        return $this->validation_errors($ad);
+        return $this->validationErrorsResponse($ad);
     }
 
     /**

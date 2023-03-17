@@ -131,7 +131,7 @@ class UserController extends Controller
             );
         }
 
-        return $this->validation_errors($randomNumber);
+        return $this->validationErrorsResponse($randomNumber);
     }
 
     /**

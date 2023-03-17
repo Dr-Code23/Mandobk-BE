@@ -101,7 +101,7 @@ class ArchiveController extends Controller
             return $this->success(null, 'Products Moved To Archive Successfully');
         }
 
-        return $this->validation_errors($archiveAdded);
+        return $this->validationErrorsResponse($archiveAdded);
     }
 
     /**

@@ -46,7 +46,7 @@ class ChangeStatusRequest extends FormRequest
     {
         throw new ValidationException(
             $validator,
-            $this->validation_errors($validator->errors())
+            $this->validationErrorsResponse($validator->errors())
         );
     }
 }

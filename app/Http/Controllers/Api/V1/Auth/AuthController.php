@@ -29,10 +29,9 @@ class AuthController extends Controller
     {
         $user = $authService->login($request);
 
-        $msg = __('standard.not_authorized');
+        $msg = __('messages.not_authenticated');
         if (is_bool($user) && !$user) {
-            $msg = 'Your Account Is Detactive , Contanct With Admin';
-            $msg = __('standard.detactive');
+            $msg = __('messages.detective');
         }
         if (is_array($user)) {
             return $this->success($user, __('standard.logged_in'));
@@ -62,7 +61,7 @@ class AuthController extends Controller
             return $this->createdResponse(null, __('standard.account_created'));
         }
 
-        return $this->validation_errors($user);
+        return $this->validationErrorsResponse($user);
     }
 
     /**

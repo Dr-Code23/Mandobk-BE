@@ -46,6 +46,6 @@ class OfferOrderController extends Controller
             );
         }
 
-        return $this->validation_errors($order);
+        return $this->validationErrorsResponse($order);
     }
 }

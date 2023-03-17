@@ -73,6 +73,6 @@ class SignupRequest extends FormRequest
      */
     protected function failedValidation(Validator $validator): void
     {
-        throw new ValidationException($validator, $this->validation_errors($validator->errors()));
+        throw new ValidationException($validator, $this->validationErrorsResponse($validator->errors()));
     }
 }

@@ -133,7 +133,7 @@ class DBSalesRepository implements SalesRepositoryInterface
             $errors['buyer_id'] = $this->translateErrorMessage('the_buyer', 'not_exists');
         }
         if ($errors) {
-            return $this->validation_errors($errors);
+            return $this->validationErrorsResponse($errors);
         }
 
         $totalSales = 0;

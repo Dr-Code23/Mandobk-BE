@@ -195,7 +195,7 @@ class DBOfferRepository implements OfferRepositoryInterface
             $errors['product_id'] = $this->translateErrorMessage('product', 'not_exists');
         }
 
-        return $this->validation_errors($errors);
+        return $this->validationErrorsResponse($errors);
     }
 
     /**
@@ -292,7 +292,7 @@ class DBOfferRepository implements OfferRepositoryInterface
                 $errors['product_id'] = $this->translateErrorMessage('product', 'not_exists');
             }
 
-            return $this->validation_errors($errors);
+            return $this->validationErrorsResponse($errors);
         }
 
         return $this->notFoundResponse();

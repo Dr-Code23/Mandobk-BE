@@ -82,4 +82,7 @@ return [
     'created' => 'تم اضافته بنجاح',
     'ad' => 'الاعلان',
     'order' => 'الطلب',
+    'not_authenticated' => 'انت لست مسجل دخول',
+    'detective' => 'Your Account Is detective , contact With Admin',
+    'forbidden' => 'You do not have permissions to access this resource',
 ];
