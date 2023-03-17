@@ -42,7 +42,10 @@ class AuthController extends Controller
             $msg = __('messages.wrong_credentials');
         }
 
-        return $this->forbiddenResponse($msg , code:Response::HTTP_UNAUTHORIZED);
+        return $this->forbiddenResponse(
+            $msg ,
+            code:Response::HTTP_UNAUTHORIZED
+        );
     }
 
     /**
