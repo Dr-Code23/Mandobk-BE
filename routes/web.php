@@ -27,3 +27,5 @@ Route::get('mail', function () {
 });
 
 route::view('', 'welcome');
+
+
