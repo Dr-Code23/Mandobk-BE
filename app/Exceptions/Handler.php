@@ -5,13 +5,13 @@ namespace App\Exceptions;
 use App\Traits\HttpResponse;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Exceptions\ThrottleRequestsException;
-use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
     use HttpResponse;
+
     /**
      * A list of exception types with their corresponding custom log levels.
      *
@@ -59,14 +59,12 @@ class Handler extends ExceptionHandler
         // Handle Not Found Response
         $this->renderable(function (NotFoundHttpException $e, $req) {
             if ($req->is('v1/*')) {
-
                 return $this->error($e->getMessage(), 404, 'Not Found');
             }
         });
         // Method not allowed
         $this->renderable(function (MethodNotAllowedHttpException $e, $request) {
             if ($request->is('v1/*')) {
-
                 return $this->error(null, 405, $e->getMessage());
             }
         });
@@ -74,7 +72,6 @@ class Handler extends ExceptionHandler
         // Too Many Requests
         $this->renderable(function (ThrottleRequestsException $e, $request) {
             if ($request->is('v1/*')) {
-
                 return $this->error(null, 429, $e->getMessage());
             }
         });

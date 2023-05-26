@@ -5,7 +5,6 @@ namespace App\Http;
 use App\Http\Middleware\hasNotificationAccess;
 use App\Http\Middleware\HasProductAccess;
 use App\Http\Middleware\PreventRequestsDuringMaintenance;
-use App\Http\Middleware\TestMiddleware;
 use App\Http\Middleware\TrimStrings;
 use App\Http\Middleware\TrustProxies;
 use App\Http\Middleware\UserHasNoAccess;

@@ -11,11 +11,13 @@ use Illuminate\Database\Eloquent\Model;
  * App\Models\V1\Archive
  *
  * @method whereIn(string $string, \Closure $param)
+ *
  * @property int $id
  * @property int $random_number
  * @property string $details
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Archive newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Archive newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Archive query()
@@ -24,6 +26,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Archive whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Archive whereRandomNumber($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Archive whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 class Archive extends Model
@@ -35,12 +38,9 @@ class Archive extends Model
      */
     protected $fillable = [
         'details',
-        'random_number'
+        'random_number',
     ];
 
-    /**
-     * @return Attribute
-     */
     protected function details(): Attribute
     {
         return Attribute::make(
@@ -56,9 +56,6 @@ class Archive extends Model
         );
     }
 
-    /**
-     * @return Attribute
-     */
     public function updatedAt(): Attribute
     {
         return Attribute::make(

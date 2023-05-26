@@ -26,7 +26,6 @@ class NotificationTypeExists implements InvokableRule
         $type = $value;
         $type = config('notifications.types')[$type];
         if ($type) {
-
             $type = 'Google';
             // Check If User Is Admin User
         }

@@ -18,14 +18,8 @@ class HumanResourceController extends Controller
 {
     use Translatable, HttpResponse, DateTrait;
 
-    /**
-     * @var HumanResource
-     */
     protected HumanResource $humanResourceModel;
 
-    /**
-     * @param HumanResource $humanResource
-     */
     public function __construct(HumanResource $humanResource)
     {
         $this->humanResourceModel = $humanResource;
@@ -33,8 +27,6 @@ class HumanResourceController extends Controller
 
     /**
      * Show All Users For Human Resource
-     *
-     * @return JsonResponse
      */
     public function index(): JsonResponse
     {
@@ -61,9 +53,6 @@ class HumanResourceController extends Controller
 
     /**
      * Show One User For Human Resource
-     *
-     * @param HumanResource $humanResource
-     * @return JsonResponse
      */
     public function show(HumanResource $humanResource): JsonResponse
     {
@@ -71,7 +60,7 @@ class HumanResourceController extends Controller
             ->where('human_resources.id', $humanResource->id)
             ->join('human_resources', 'human_resources.user_id', 'users.id')
             ->whereIn(
-                config('roles_table_name') . 'name',
+                config('roles_table_name').'name',
                 config('roles.human_resources_roles')
             )
             ->select(
@@ -88,7 +77,6 @@ class HumanResourceController extends Controller
             )
             ->first();
         if ($user) {
-
             return $this->resourceResponse(new HumanResourceResource($user));
         }
 
@@ -97,27 +85,21 @@ class HumanResourceController extends Controller
 
     /**
      * Store Or Update Human Resource
-     *
-     * @param HumanResourceRequest $request
-     * @param HumanResourceService $humanResourceService
-     * @return JsonResponse
      */
     public function storeOrUpdate(
         HumanResourceRequest $request,
         HumanResourceService $humanResourceService
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $humanResource = $humanResourceService->storeOrUpdate($request);
         if ($humanResource != null) {
-
             return $this->success(
                 new HumanResourceResource($humanResource),
-                $this->translateSuccessMessage('user' , 'created')
+                $this->translateSuccessMessage('user', 'created')
             );
         }
 
         return $this->notFoundResponse(
-            $this->translateErrorMessage('user' ,'not_found')
+            $this->translateErrorMessage('user', 'not_found')
         );
     }
 }

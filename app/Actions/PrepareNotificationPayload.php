@@ -11,9 +11,10 @@ class PrepareNotificationPayload
     public static function make(string $msg, string $fromDate)
     {
         $prepare = new PrepareNotificationPayload();
+
         return [
             'msg' => $msg,
-            'from' => $prepare->messageSentFrom($fromDate)
+            'from' => $prepare->messageSentFrom($fromDate),
         ];
     }
 }

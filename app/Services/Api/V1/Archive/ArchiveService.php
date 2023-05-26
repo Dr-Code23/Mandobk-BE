@@ -2,7 +2,6 @@
 
 namespace App\Services\Api\V1\Archive;
 
-use App\Http\Requests\Api\V1\Archive\MoveProductToArchiveRequest;
 use App\Models\V1\Archive;
 use App\Models\V1\VisitorRecipe;
 
@@ -10,7 +9,6 @@ class ArchiveService
 {
     public function moveProductsToArchive($request): bool|array
     {
-
         $random_number = $request->input('random_number');
         $errors = [];
 
@@ -20,8 +18,6 @@ class ArchiveService
 
         // return $visitor_recipe;
         if ($visitor_recipe) {
-
-
             // updateVisitorDetails
 
             // $visitor_details = $visitor_recipe->details;
@@ -39,7 +35,7 @@ class ArchiveService
             if ($archive) {
                 if ($visitorDetails) {
                     $archive->update([
-                        'details' => $visitorDetails
+                        'details' => $visitorDetails,
                     ]);
                 }
             } else {
@@ -55,6 +51,7 @@ class ArchiveService
             return true;
         }
         $errors['random_number'][] = 'Random Number Not Exists';
+
         return $errors;
     }
 }

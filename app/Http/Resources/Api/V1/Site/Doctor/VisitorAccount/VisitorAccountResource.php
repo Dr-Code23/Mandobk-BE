@@ -12,8 +12,7 @@ class VisitorAccountResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param Request $request
-     * @return array|Arrayable|JsonSerializable
+     * @param  Request  $request
      */
     public function toArray($request): array|JsonSerializable|Arrayable
     {
@@ -24,7 +23,7 @@ class VisitorAccountResource extends JsonResource
             'random_number_alias' => $this->alias,
             'random_number' => $this->random_number,
             'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at
+            'updated_at' => $this->updated_at,
         ];
     }
 }

@@ -27,6 +27,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $updated_at
  * @property-read Product $product
  * @property-read User $user
+ *
  * @method static Builder|Offer newModelQuery()
  * @method static Builder|Offer newQuery()
  * @method static Builder|Offer query()
@@ -40,6 +41,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Offer whereType($value)
  * @method static Builder|Offer whereUpdatedAt($value)
  * @method static Builder|Offer whereUserId($value)
+ *
  * @mixin Eloquent
  */
 class Offer extends Model
@@ -62,24 +64,23 @@ class Offer extends Model
     public function createdAt(): Attribute
     {
         return Attribute::make(
-            get: fn($val) => $this->changeDateFormat($val, 'Y-m-d'),
+            get: fn ($val) => $this->changeDateFormat($val, 'Y-m-d'),
         );
     }
 
     public function from(): Attribute
     {
         return Attribute::make(
-            get: fn($val) => $this->changeDateFormat($val, 'Y-m-d'),
+            get: fn ($val) => $this->changeDateFormat($val, 'Y-m-d'),
         );
     }
 
     public function to(): Attribute
     {
         return Attribute::make(
-            get: fn($val) => $this->changeDateFormat($val, 'Y-m-d'),
+            get: fn ($val) => $this->changeDateFormat($val, 'Y-m-d'),
         );
     }
-
 
     public function product(): BelongsTo
     {

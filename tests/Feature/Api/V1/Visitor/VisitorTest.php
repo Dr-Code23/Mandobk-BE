@@ -136,7 +136,6 @@
 //             'doctor_id' => '7'
 //         ]);
 
-
 //         $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
 //             ->getJson(route('visitor-all-recipes'));
 

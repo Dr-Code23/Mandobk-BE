@@ -16,8 +16,6 @@ class ProfileRequest extends FormRequest
 
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
     public function authorize(): bool
     {
@@ -32,7 +30,7 @@ class ProfileRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'full_name' => ['required' , 'max:255'],
+            'full_name' => ['required', 'max:255'],
             'password' => [
                 'sometimes',
                 RulesPassword::min(8)
@@ -44,19 +42,16 @@ class ProfileRequest extends FormRequest
                 'sometimes',
                 'image',
                 'mimes:png,jpg',
-                'max:2048'
+                'max:2048',
             ],
             'phone' => [
                 'required',
-                'unique:users,phone,' . auth()->id() . ',id',
-                'numeric'
-            ]
+                'unique:users,phone,'.auth()->id().',id',
+                'numeric',
+            ],
         ];
     }
 
-    /**
-     * @return array
-     */
     public function messages(): array
     {
         return [
@@ -66,13 +61,11 @@ class ProfileRequest extends FormRequest
             'avatar.mimes' => $this->translateErrorMessage('avatar', 'mimes'),
             'avatar.max' => $this->translateErrorMessage('avatar', 'max.file'),
             'phone.required' => $this->translateErrorMessage('phone', 'required'),
-            'phone.unique' => $this->translateErrorMessage('phone', 'unique')
+            'phone.unique' => $this->translateErrorMessage('phone', 'unique'),
         ];
     }
 
     /**
-     * @param Validator $validator
-     * @return void
      * @throws ValidationValidationException
      */
     public function failedValidation(Validator $validator): void

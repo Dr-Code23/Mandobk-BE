@@ -10,12 +10,10 @@ use Illuminate\Support\Collection;
 
 class UserService
 {
-
     use RoleTrait;
 
     /**
      * Get All Public Users To Manage In Dashboard
-     * @return Collection
      */
     public function getAllUsersToManage(): Collection
     {
@@ -33,23 +31,19 @@ class UserService
                 'roles.name as role',
                 'users.status as status',
                 'users.phone as phone',
-                'users.created_at as created_at'
+                'users.created_at as created_at',
             ]);
     }
 
     /**
      * Change User Status
-     *
-     * @param $request
-     * @param $user
-     * @return User|null|boolean
      */
     public function changeUserStatus($request, $user): User|null|bool
     {
         $status = $request->status;
         if (
             in_array($user->role_id, $this->getRolesIdsByName(config('roles.signup_roles')))
-            && !SubUser::where('sub_user_id', $user->id)->value('id')
+            && ! SubUser::where('sub_user_id', $user->id)->value('id')
         ) {
             // Delete User And Return Success Message
             if ($status == $this->isDeleted()) {
@@ -58,10 +52,9 @@ class UserService
                 return true;
             }
             if ($status != $user->status) {
-                $user->update(['status' => $status . '']);
-
+                $user->update(['status' => $status.'']);
             }
-            $user->role = $this->getRoleNameById($user->role_id);;
+            $user->role = $this->getRoleNameById($user->role_id);
 
             return $user;
         }
@@ -71,9 +64,6 @@ class UserService
 
     /**
      * Get Users For SelectBox
-     *
-     * @param $request
-     * @return null|Collection
      */
     public function getUsersForSelectBox($request): Collection|null
     {
@@ -86,6 +76,7 @@ class UserService
         if ($role_name) {
             // $role_id = Role::where('name', $role_name)->value('id');
             $role_id = $this->getRoleIdByName($role_name);
+
             return User::where('role_id', $role_id)->get(['id', 'full_name']);
         }
 
@@ -99,11 +90,10 @@ class UserService
 
     public function registerNewVisitor($request): \Illuminate\Database\Eloquent\Model|VisitorRecipe
     {
-
         $visitor = User::create($request->validated() + [
             'role_id' => $this->getRoleIdByName('visitor'),
             'full_name' => $request->name,
-            'status' => '1'
+            'status' => '1',
         ]);
 
         $visitorInfo = VisitorRecipe::create([
@@ -120,11 +110,8 @@ class UserService
         return $visitorInfo;
     }
 
-
     /**
      * Restore Visitor Random Numbers
-     * @param $request
-     * @return array|bool
      */
     public function forgotVisitorRandomNumber($request): array|bool
     {
@@ -139,7 +126,7 @@ class UserService
             foreach (VisitorRecipe::where('visitor_id', $visitor->id)->get(['random_number', 'alias']) as $recipe) {
                 $randomNumbers[$cnt]['random_number'] = $recipe->random_number;
                 $randomNumbers[$cnt]['alias'] = $recipe->alias;
-                ++$cnt;
+                $cnt++;
             }
 
             return $randomNumbers;
@@ -148,11 +135,6 @@ class UserService
         return false;
     }
 
-
-    /**
-     * @param $request
-     * @return array|VisitorRecipe
-     */
     public function addRandomNumberForVisitor($request): VisitorRecipe|array
     {
         $visitor = User::where('username', $request->username)
@@ -165,15 +147,19 @@ class UserService
 
             $recipe = VisitorRecipe::where('visitor_id', $visitor->id)
                 ->where('alias', $request->alias)->first(['id', 'alias']);
-            if (!$recipe) {
+            if (! $recipe) {
                 return VisitorRecipe::create([
                     'visitor_id' => $visitor->id,
                     'alias' => $request->alias,
                     'random_number' => $this->generateRandomNumberForVisitor(),
-                    'details' => []
+                    'details' => [],
                 ]);
-            } else $errors['alias'] = ['Alias Already Exists'];
-        } else $errors['username'] = ['Username Not Exists'];
+            } else {
+                $errors['alias'] = ['Alias Already Exists'];
+            }
+        } else {
+            $errors['username'] = ['Username Not Exists'];
+        }
 
         return $errors;
     }

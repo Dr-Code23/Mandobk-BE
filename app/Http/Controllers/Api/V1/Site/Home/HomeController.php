@@ -13,8 +13,6 @@ class HomeController extends Controller
 
     /**
      * Get Home Page Statistics To Show
-     * @param GetHomeInfoAction $homeInfoAction
-     * @return JsonResponse
      */
     public function index(GetHomeInfoAction $homeInfoAction): JsonResponse
     {

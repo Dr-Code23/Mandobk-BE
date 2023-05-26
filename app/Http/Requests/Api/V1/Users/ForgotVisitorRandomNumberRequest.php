@@ -12,10 +12,9 @@ class ForgotVisitorRandomNumberRequest extends FormRequest
 {
     use HttpResponse;
     use Translatable;
+
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
     public function authorize(): bool
     {
@@ -30,13 +29,10 @@ class ForgotVisitorRandomNumberRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'handle' => ['required' , 'max:255'],
+            'handle' => ['required', 'max:255'],
         ];
     }
 
-    /**
-     * @return array
-     */
     public function messages(): array
     {
         return [
@@ -45,14 +41,12 @@ class ForgotVisitorRandomNumberRequest extends FormRequest
     }
 
     /**
-     * @param Validator $validator
-     * @return void
      * @throws ValidationException
      */
     public function failedValidation(Validator $validator): void
     {
         throw new ValidationException(
-            $validator ,
+            $validator,
             $this->validationErrorsResponse($validator->errors())
         );
     }

@@ -9,12 +9,10 @@ class MarketingSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
     public function run(): void
     {
-        for ($i = 0; $i < 10; ++$i) {
+        for ($i = 0; $i < 10; $i++) {
             Marketing::create([
                 'medicine_name' => fake()->name(),
                 'company_name' => fake()->name(),

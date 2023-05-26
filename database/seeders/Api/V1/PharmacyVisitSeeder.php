@@ -9,12 +9,10 @@ class PharmacyVisitSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
     public function run(): void
     {
-        for ($i = 0; $i < 10; ++$i) {
+        for ($i = 0; $i < 10; $i++) {
             PharmacyVisit::create([
                 'doctor_id' => 7,
                 'pharmacy_id' => 9,

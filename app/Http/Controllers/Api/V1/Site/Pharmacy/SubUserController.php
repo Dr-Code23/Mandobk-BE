@@ -19,13 +19,11 @@ class SubUserController extends Controller
 
     public function __construct(
         private SubUserService $subUserService
-    )
-    {
+    ) {
     }
 
     /**
      * Show All Sub Users
-     * @return JsonResponse
      */
     public function showAllSubUsers(): JsonResponse
     {
@@ -34,15 +32,12 @@ class SubUserController extends Controller
 
     /**
      * Show One Sub User
-     * @param User $subUser
-     * @return JsonResponse
      */
     public function showOneSubUser(User $subUser): JsonResponse
     {
         $subUser = $this->subUserService->showOneSubUser($subUser);
 
         if ($subUser instanceof User) {
-
             return $this->resourceResponse(new SubUserResource($subUser));
         }
 
@@ -51,8 +46,6 @@ class SubUserController extends Controller
 
     /**
      * Store Sub User
-     * @param SubUserRequest $request
-     * @return JsonResponse
      */
     public function storeSubUser(SubUserRequest $request): JsonResponse
     {
@@ -62,9 +55,6 @@ class SubUserController extends Controller
 
     /**
      * Update SubUser
-     * @param SubUserRequest $request
-     * @param User $subUser
-     * @return JsonResponse
      */
     public function updateSubUser(SubUserRequest $request, User $subUser): JsonResponse
     {
@@ -80,8 +70,6 @@ class SubUserController extends Controller
 
     /**
      * Delete Sub User
-     * @param User $subUser
-     * @return JsonResponse
      */
     public function destroy(User $subUser): JsonResponse
     {

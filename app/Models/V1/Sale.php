@@ -21,6 +21,7 @@ use Illuminate\Support\Carbon;
  * @property string $type 1 => company_to_storehouse , 2=> storehouse_to_pharmacy , 3=> Pharmacy_to_visitor
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ *
  * @method static Builder|Sale newModelQuery()
  * @method static Builder|Sale newQuery()
  * @method static Builder|Sale query()
@@ -32,6 +33,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Sale whereTotal($value)
  * @method static Builder|Sale whereType($value)
  * @method static Builder|Sale whereUpdatedAt($value)
+ *
  * @mixin Eloquent
  */
 class Sale extends Model
@@ -50,22 +52,22 @@ class Sale extends Model
     protected function details(): Attribute
     {
         return Attribute::make(
-            get: fn($val) => json_decode($val),
-            set: fn($val) => json_encode($val)
+            get: fn ($val) => json_decode($val),
+            set: fn ($val) => json_encode($val)
         );
     }
 
     protected function createdAt(): Attribute
     {
         return Attribute::make(
-            get: fn($val) => $this->changeDateFormat($val, 'd M Y')
+            get: fn ($val) => $this->changeDateFormat($val, 'd M Y')
         );
     }
 
     protected function updatedAt(): Attribute
     {
         return Attribute::make(
-            get: fn($val) => $this->changeDateFormat($val, 'Y-m-d H:i')
+            get: fn ($val) => $this->changeDateFormat($val, 'Y-m-d H:i')
         );
     }
 }

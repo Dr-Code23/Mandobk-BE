@@ -3,7 +3,6 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
@@ -56,6 +55,7 @@ class OrderStatusNotification extends Notification
     public function toArray($notifiable)
     {
         $status = $this->order->status;
+
         return [
             'id' => $this->order->id,
             'status' => $status == 0 ? 'Rejected' : ($status == '1' ? 'Pending' : 'Approved'),

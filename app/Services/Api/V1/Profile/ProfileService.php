@@ -2,7 +2,6 @@
 
 namespace App\Services\Api\V1\Profile;
 
-use App\Models\User;
 use App\Traits\FileOperationTrait;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -10,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 class ProfileService
 {
     use FileOperationTrait;
+
     public function changeUserInfo($request)
     {
         // Store avatar
@@ -20,13 +20,13 @@ class ProfileService
         if ($request->has('avatar')) {
             // Delete The Old Avatar First
             if ($user->avatar) {
-                $this->deleteImage('users/' . $user->avatar);
+                $this->deleteImage('users/'.$user->avatar);
             }
             $imagePath = explode('/', $request->file('avatar')->store('public/users'))[2];
             $user->avatar = $imagePath;
             $anyChangeOccur = true;
         }
-        if ($user->full_name != $data['full_name'] . '') {
+        if ($user->full_name != $data['full_name'].'') {
             $user->full_name = $data['full_name'];
             $anyChangeOccur = true;
         }
@@ -35,7 +35,7 @@ class ProfileService
             $anyChangeOccur = true;
         }
         if ($request->has('password')) {
-            if (!Hash::check($data['password'], $user->password)) {
+            if (! Hash::check($data['password'], $user->password)) {
                 $user->password = $data['password'];
                 $anyChangeOccur = true;
                 $passwordChanged = true;
@@ -49,6 +49,7 @@ class ProfileService
             Auth::logout();
         }
         $user->password_changed = $passwordChanged;
+
         return $user;
     }
 }

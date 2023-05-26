@@ -20,10 +20,6 @@ class AuthController extends Controller
 
     /**
      * Login User.
-     *
-     * @param LoginRequest $request
-     * @param AuthService $authService
-     * @return JsonResponse
      */
     public function login(LoginRequest $request, AuthService $authService): JsonResponse
     {
@@ -35,25 +31,20 @@ class AuthController extends Controller
             return $this->success($response, __('standard.logged_in'));
         }
 
-        if($response == 'frozen'){
+        if ($response == 'frozen') {
             $msg = __('messages.detective');
-        }
-        else if (in_array($response , ['deleted' , 'wrong'])){
+        } elseif (in_array($response, ['deleted', 'wrong'])) {
             $msg = __('messages.wrong_credentials');
         }
 
         return $this->forbiddenResponse(
-            $msg ,
+            $msg,
             code:Response::HTTP_UNAUTHORIZED
         );
     }
 
     /**
      * Register New User.
-     *
-     * @param SignupRequest $req
-     * @param AuthService $authService
-     * @return JsonResponse
      */
     public function signup(SignupRequest $req, AuthService $authService): JsonResponse
     {
@@ -70,8 +61,6 @@ class AuthController extends Controller
 
     /**
      * Logout User.
-     *
-     * @return JsonResponse
      */
     public function logout(): JsonResponse
     {

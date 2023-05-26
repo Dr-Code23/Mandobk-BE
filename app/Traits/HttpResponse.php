@@ -11,11 +11,6 @@ trait HttpResponse
 {
     /**
      * Error Response
-     *
-     * @param $data
-     * @param int $code
-     * @param string $msg
-     * @return JsonResponse
      */
     public function error($data = null, int $code = Response::HTTP_NOT_FOUND, string $msg = 'Error Occurred'): JsonResponse
     {
@@ -43,8 +38,8 @@ trait HttpResponse
     /**
      * Response With Cookie.
      *
-     * @param mixed $data
-     * @param mixed $cookie
+     * @param  mixed  $data
+     * @param  mixed  $cookie
      */
     public function responseWithCookie($cookie, $data = null, string $msg = 'msg', string $type = 'success', int $code = 200): JsonResponse
     {
@@ -59,7 +54,7 @@ trait HttpResponse
     /**
      * Validation Errors Response.
      *
-     * @param mixed $data
+     * @param  mixed  $data
      */
     public function validationErrorsResponse($data = null, int $code = Response::HTTP_UNPROCESSABLE_ENTITY, string $msg = 'validation errors'): JsonResponse
     {
@@ -95,11 +90,6 @@ trait HttpResponse
 
     /**
      * Undocumented function
-     *
-     * @param $data
-     * @param string $msg
-     * @param integer $code
-     * @return JsonResponse
      */
     public function resourceResponse($data, string $msg = 'Data Fetched Successfully', int $code = 200): JsonResponse
     {
@@ -114,14 +104,13 @@ trait HttpResponse
     /**
      * Return Forbidden Response
      *
-     * @param string $msg
-     * @param null $data
-     * @param int $code
-     * @return JsonResponse
+     * @param  string  $msg
+     * @param  null  $data
      */
     public function forbiddenResponse(string $msg = null, $data = null, int $code = Response::HTTP_FORBIDDEN): JsonResponse
     {
-        $msg  = $msg ?: __('messages.forbidden');
+        $msg = $msg ?: __('messages.forbidden');
+
         return $this->error($data, $code, $msg);
     }
 

@@ -9,12 +9,10 @@ class DoctorVisitsSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
     public function run(): void
     {
-        for ($i = 0; $i < 10; ++$i) {
+        for ($i = 0; $i < 10; $i++) {
             DoctorVisit::create([
                 'visitor_recipe_id' => fake()->numberBetween(1, 40),
                 'doctor_id' => 7,

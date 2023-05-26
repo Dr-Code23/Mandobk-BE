@@ -9,12 +9,10 @@ class OfferOrderSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
     public function run(): void
     {
-        for ($i = 0; $i < 50; ++$i) {
+        for ($i = 0; $i < 50; $i++) {
             OfferOrder::create([
                 'offer_id' => fake()->numberBetween(1, 29),
                 'want_offer_id' => fake()->numberBetween(1, 11),

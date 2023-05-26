@@ -35,9 +35,6 @@ class RecipeController extends Controller
     use UserTrait, HttpResponse, Translatable,
         PaginationTrait, RoleTrait, Translatable;
 
-    /**
-     * @return JsonResponse
-     */
     public function getAllRecipes(): JsonResponse
     {
         $data = [];
@@ -77,13 +74,8 @@ class RecipeController extends Controller
         return $this->resourceResponse(new RecipeCollection($data));
     }
 
-    /**
-     * @param RecipeRequest $request
-     * @return JsonResponse
-     */
     public function addRecipe(RecipeRequest $request): JsonResponse
     {
-
         $errors = [];
 
         // Merge Repeated Products
@@ -97,7 +89,9 @@ class RecipeController extends Controller
                     break;
                 }
             }
-            if (!$productFound) $uniqueProducts[] = $product;
+            if (! $productFound) {
+                $uniqueProducts[] = $product;
+            }
         }
 
         $products = $uniqueProducts;
@@ -109,7 +103,7 @@ class RecipeController extends Controller
         // foreach ($products as $product) {
         // }
         $productsCount = count($products);
-        for ($i = 0; $i < $productsCount; ++$i) {
+        for ($i = 0; $i < $productsCount; $i++) {
             // Validate only coming product
 
             $productId = $products[$i]['product_id'];
@@ -122,7 +116,7 @@ class RecipeController extends Controller
             ) {
                 // Check If the product is limited or not
                 if ($originalProduct->limited) {
-                    if (!in_array($i, $limitedProducts)) {
+                    if (! in_array($i, $limitedProducts)) {
                         // Check if the product quantity is more than 1 in limited products
                         if ($products[$i]['quantity'] != 1) {
                             $errors['products'][$i]['limited_products_with_big_quantity'][] = $this->translateErrorMessage('product', 'limited_products_with_big_quantity');
@@ -152,7 +146,7 @@ class RecipeController extends Controller
             ) {
                 $details = [];
                 $productsCount = count($products);
-                for ($i = 0; $i < $productsCount; ++$i) {
+                for ($i = 0; $i < $productsCount; $i++) {
                     $product = $products[$i];
 
                     $product_info = Product::where('id', $product['product_id'])->first(
@@ -165,13 +159,13 @@ class RecipeController extends Controller
                     $details['products'][$i]['scientific_name'] = $product_info->sc_name;
                     $details['products'][$i]['commercial_name'] = $product_info->com_name;
                     $details['products'][$i]['concentrate'] = $product_info->con;
-                    $details['products'][$i]['quantity'] = $products[$i]['quantity'] . '';
+                    $details['products'][$i]['quantity'] = $products[$i]['quantity'].'';
                     $details['products'][$i]['taken'] = false;
                 }
                 $details['doctor_name'] = $this->getAuthenticatedUserInformation()->full_name;
 
                 // return $details;
-                if (!$recipe->details) {
+                if (! $recipe->details) {
                     $recipe->details = $details;
 
                     $recipe->update();
@@ -183,6 +177,7 @@ class RecipeController extends Controller
 
                     $doctorRecipe->alias = $recipe->alias;
                     $doctorRecipe->created_at = date('Y-m-d H:i');
+
                     return $this->success(new RecipeResource($doctorRecipe), 'Recipe Sent Successfully');
                 } else {
                     $errors['products'] = $this->translateErrorMessage('products', 'not_empty');
@@ -199,9 +194,6 @@ class RecipeController extends Controller
 
     /**
      * Summary of getProductsWithRandomNumber.
-     *
-     * @param Request $request
-     * @return JsonResponse|array
      */
     public function getProductsWithRandomNumber(Request $request): JsonResponse|array
     {
@@ -219,11 +211,13 @@ class RecipeController extends Controller
         $visitor_products = VisitorRecipe::where('random_number', $random_number)->first(['details']);
 
         if ($visitor_products) {
-            if (!$visitor_products->details)
+            if (! $visitor_products->details) {
                 // Everything is valid
                 return $this->resourceResponse($visitor_products->details);
+            }
+
             return $this->validationErrorsResponse([
-                'random_number' => ['Random Number Has Old Products Associated With it , move it to archive to continue']
+                'random_number' => ['Random Number Has Old Products Associated With it , move it to archive to continue'],
             ]);
         }
 
@@ -238,22 +232,16 @@ class RecipeController extends Controller
     public function getProductsAssociatedWithRandomNumberForPharmacy(RecipeService $recipeService): JsonResponse
     {
         $recipe = $recipeService->getProductsAssociatedWithRandomNumberForPharmacy();
-        if (is_bool($recipe) && !$recipe) {
+        if (is_bool($recipe) && ! $recipe) {
             return $this->notFoundResponse('Random Number Not Found');
         }
 
         return $this->resourceResponse(new VisitorRecipeResource($recipe));
     }
 
-    /**
-     * @param PharmacyRecipeRequest $request
-     * @param VisitorRecipe $recipe
-     * @return JsonResponse|Response
-     */
     public function acceptVisitorRecipeFromPharmacy(PharmacyRecipeRequest $request, VisitorRecipe $recipe): JsonResponse|Response
     {
         if (isset($recipe->details['products']) && isset($recipe->details['doctor_name'])) {
-
             $doctorName = $recipe->details['doctor_name'];
             $recipeId = $recipe->id;
             $randomNumber = $recipe->random_number;
@@ -270,8 +258,9 @@ class RecipeController extends Controller
                         break;
                     }
                 }
-                if (!$productExists) $uniqueRequestProducts[] = $product['commercial_name'];
-
+                if (! $productExists) {
+                    $uniqueRequestProducts[] = $product['commercial_name'];
+                }
             }
             // Getting Visitor Recipe Products
             $visitorProducts = $recipe->details['products'] ?? [];
@@ -284,15 +273,13 @@ class RecipeController extends Controller
 
             $cnt = 0;
             foreach ($uniqueRequestProducts as $uniqueProduct) {
-                if (!in_array($uniqueProduct, $visitorCommercialNames)) {
+                if (! in_array($uniqueProduct, $visitorCommercialNames)) {
                     $errors[$cnt]['products'] = 'Product Not Exists In Visitor Recipe';
                 }
                 $cnt++;
             }
 
-
-            if (!$errors) {
-
+            if (! $errors) {
                 //TODO Get The Products For Pharmacy
 
                 //Fetch All The Products To Validate
@@ -308,9 +295,8 @@ class RecipeController extends Controller
                     ->withSum(
                         [
                             'product_details' => function ($query) {
-
                                 $query->where('expire_date', '>', date('Y-m-d'));
-                            }
+                            },
                         ], 'qty'
                     )
                     //! Putting Selected Items In get() not working !
@@ -326,13 +312,13 @@ class RecipeController extends Controller
                 //TODO Loop Coming Products To Check If All Of It Have Been Fetched Or not
                 $cnt = 0;
                 foreach ($uniqueRequestProducts as $uniqueRequestProduct) {
-                    if (!in_array($uniqueRequestProduct, $existingPharmacyCommercialNames)) {
+                    if (! in_array($uniqueRequestProduct, $existingPharmacyCommercialNames)) {
                         $errors[$cnt]['product'] = 'Pharmacy Product not exists';
                     }
                     $cnt++;
                 }
 
-                if (!$errors) {
+                if (! $errors) {
                     // So All Products Exists With Enough Quantity
 
                     //TODO Continue Accepting The Recipe
@@ -340,11 +326,8 @@ class RecipeController extends Controller
                     $takenDetails = [];
                     $totalSales = 0;
                     for ($i = 0; $i < count($visitorProducts); $i++) {
-
                         $visitorCommercialName = $visitorProducts[$i]['commercial_name'];
                         if (in_array($visitorCommercialName, $existingPharmacyCommercialNames)) {
-
-
                             //TODO Validate If The Product Has Enough Quantity
 
                             for ($j = 0; $j < count($pharmacyProducts); $j++) {
@@ -354,11 +337,11 @@ class RecipeController extends Controller
                                         < $visitorProducts[$i]['quantity']
                                     ) {
                                         $errors[$j]['product'] =
-                                            'Product Has Quantity Less Visitor Quantity Which Is ' . $visitorProducts[$i]['quantity'];
+                                            'Product Has Quantity Less Visitor Quantity Which Is '.$visitorProducts[$i]['quantity'];
                                     }
                                 }
                             }
-                            if (!$errors) {
+                            if (! $errors) {
                                 // Check If We Can Accept All The Quantity
                                 //TODO Get The Current Product To Deal With
                                 $pharmacyProduct = null;
@@ -372,13 +355,11 @@ class RecipeController extends Controller
 
                                 // Decrease Details Only If It Has Enough Quantity
 
-
                                 //TODO Loop Over Product Details To Decrease The Quantity
                                 $tmpVisitorQuantity = $visitorProducts[$i]['quantity'];
                                 $pharmacyProductDetailsCount = count($pharmacyProduct->product_details);
 
                                 for ($j = 0; $j < $pharmacyProductDetailsCount && $tmpVisitorQuantity; $j++) {
-
                                     if ($pharmacyProduct->product_details[$j]->qty >= $tmpVisitorQuantity) {
                                         $pharmacyProduct->product_details[$j]->qty -= $tmpVisitorQuantity;
                                         $tmpVisitorQuantity = 0;
@@ -394,14 +375,14 @@ class RecipeController extends Controller
                         }
                     }
 
-                    if (!$errors) {
+                    if (! $errors) {
                         //TODO Start Removing The Products From Visitor Cart
                         $saleProducts = [];
                         $archiveDetails = ['products' => []];
                         $existingProducts = ['products' => []];
                         $takenProductsQuantities = [];
                         foreach ($visitorProducts as $visitorProduct) {
-                            if (!in_array($visitorProduct['commercial_name'], $takenDetails)) {
+                            if (! in_array($visitorProduct['commercial_name'], $takenDetails)) {
                                 $existingProducts['products'][] = $visitorProduct;
                             } else {
                                 $visitorProduct['taken'] = true;
@@ -426,7 +407,9 @@ class RecipeController extends Controller
                         $fromId = auth()->id();
                         if ($this->getRoleNameForAuthenticatedUser() != 'pharmacy') {
                             $parentId = SubUser::where('sub_user_id', $fromId)->value('parent_id');
-                            if ($parentId) $fromId = $parentId;
+                            if ($parentId) {
+                                $fromId = $parentId;
+                            }
                         }
 
                         //TODO Update The Recipe
@@ -439,15 +422,15 @@ class RecipeController extends Controller
                             'to_id' => User::where('username', 'customer')->value('id'),
                             'details' => $saleProducts,
                             'total' => $totalSales,
-                            'type' => '3'
+                            'type' => '3',
                         ]);
 
                         //TODO Add Purchased Products To Archive
                         $archiveDetails['doctor_name'] = $doctorName;
 
-                        Archive::updateOrCreate(['random_number' =>$randomNumber], [
+                        Archive::updateOrCreate(['random_number' => $randomNumber], [
                             'random_number' => $recipe->random_number,
-                            'details' => $archiveDetails
+                            'details' => $archiveDetails,
                         ]);
 
                         //TODO Create Pharmacy Visit For That Visit
@@ -469,7 +452,6 @@ class RecipeController extends Controller
         return $this->noContentResponse();
     }
 }
-
 
 /*
  - What We Want to Do :

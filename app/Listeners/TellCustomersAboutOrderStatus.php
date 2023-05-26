@@ -26,8 +26,7 @@ class TellCustomersAboutOrderStatus
     /**
      * Handle the event.
      *
-     * @param object $event
-     * @return void
+     * @param  object  $event
      */
     public function handle($event): void
     {

@@ -14,10 +14,9 @@ class ChangeUserStatusRequest extends FormRequest
     use Translatable;
     use HttpResponse;
     use UserTrait;
+
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
     public function authorize(): bool
     {
@@ -35,27 +34,22 @@ class ChangeUserStatusRequest extends FormRequest
             'status' => [
                 'required',
                 'in:'
-                . $this->isActive() . ','
-                . $this->isFrozen() . ','
-                . $this->isDeleted()
-            ]
+                .$this->isActive().','
+                .$this->isFrozen().','
+                .$this->isDeleted(),
+            ],
         ];
     }
 
-    /**
-     * @return array
-     */
     public function messages(): array
     {
         return [
             'status.required' => $this->translateErrorMessage('status', 'required'),
-            'status.in' => $this->translateErrorMessage('status', 'in')
+            'status.in' => $this->translateErrorMessage('status', 'in'),
         ];
     }
 
     /**
-     * @param Validator $validator
-     * @return void
      * @throws ValidationException
      */
     public function failedValidation(Validator $validator): void

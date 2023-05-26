@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $company_name
  * @property float $discount
  * @property string $img
+ *
  * @method static Builder|Marketing newModelQuery()
  * @method static Builder|Marketing newQuery()
  * @method static Builder|Marketing query()
@@ -23,6 +24,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static Builder|Marketing whereId($value)
  * @method static Builder|Marketing whereImg($value)
  * @method static Builder|Marketing whereMedicineName($value)
+ *
  * @mixin Eloquent
  */
 class Marketing extends Model
@@ -30,7 +32,9 @@ class Marketing extends Model
     use HasFactory;
 
     public $timestamps = false;
+
     protected $table = 'marketing';
+
     protected $fillable = [
         'medicine_name',
         'company_name',

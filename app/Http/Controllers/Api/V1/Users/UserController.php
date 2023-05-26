@@ -31,7 +31,6 @@ class UserController extends Controller
 
     /**
      * Get Public Users In Dashboard To Manage
-     * @return JsonResponse
      */
     public function getAllUsersToManage(): JsonResponse
     {
@@ -42,24 +41,17 @@ class UserController extends Controller
 
     /**
      * Approve User For Admin
-     *
-     * @param ChangeUserStatusRequest $request
-     * @param User $user
-     * @return JsonResponse
      */
-
     public function changeUserStatus(ChangeUserStatusRequest $request, User $user): JsonResponse
     {
         $user = $this->userService->changeUserStatus($request, $user);
 
         //! Asserting that $user == true not working
         if (is_bool($user) && $user) {
-
             return $this->success(null, __('standard.deleted'));
         }
 
         if ($user != null) {
-
             return $this->success(new UserResource($user));
         }
 
@@ -68,16 +60,12 @@ class UserController extends Controller
 
     /**
      * Get All Users For Select In Buying Process
-     *
-     * @param Request $request
-     * @return JsonResponse|array
      */
     public function getUsersForSelectBox(Request $request): JsonResponse|array
     {
         $users = $this->userService->getUsersForSelectBox($request);
 
         if ($users != null) {
-
             return $this->resourceResponse($users);
         }
 
@@ -86,8 +74,6 @@ class UserController extends Controller
 
     /**
      * Register new Visitor
-     * @param RegisterVisitorRequest $request
-     * @return JsonResponse
      */
     public function registerNewVisitor(RegisterVisitorRequest $request): JsonResponse
     {
@@ -98,15 +84,12 @@ class UserController extends Controller
 
     /**
      * Restore Visitor Random Numbers
-     * @param ForgotVisitorRandomNumberRequest $request
-     * @return JsonResponse
      */
     public function forgotVisitorRandomNumber(ForgotVisitorRandomNumberRequest $request): JsonResponse
     {
         $randomNumbers = $this->userService->forgotVisitorRandomNumber($request);
 
         if (is_array($randomNumbers)) {
-
             return $this->resourceResponse($randomNumbers);
         }
 
@@ -117,15 +100,12 @@ class UserController extends Controller
 
     /**
      * Add Random Number For Visitor
-     * @param AddRandomNumberForVisitor $request
-     * @return JsonResponse
      */
     public function addRandomNumberForVisitor(AddRandomNumberForVisitor $request): JsonResponse
     {
         $randomNumber = $this->userService->addRandomNumberForVisitor($request);
 
         if ($randomNumber instanceof VisitorRecipe) {
-
             return $this->resourceResponse(
                 new VisitorRecipeResource($randomNumber)
             );
@@ -136,7 +116,6 @@ class UserController extends Controller
 
     /**
      * Get Users For Human Resource
-     * @return JsonResponse
      */
     public function getHumanResourceUsers(): JsonResponse
     {

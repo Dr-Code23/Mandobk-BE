@@ -2,9 +2,7 @@
 
 namespace App\Services\Api\V1\Auth;
 
-use App\Http\Resources\Api\V1\Profile\ProfileResource;
 use App\Models\User;
-use App\Models\V1\Role;
 use App\Traits\RoleTrait;
 use App\Traits\StringTrait;
 use App\Traits\Translatable;
@@ -25,9 +23,6 @@ class AuthService
 
     /**
      * Make Account For New User.
-     *
-     * @param $request
-     * @return User|string|array
      */
     public function signup($request): User|string|array
     {
@@ -37,9 +32,8 @@ class AuthService
             $request->username
         )->orWhere('phone', $request->phone)
             ->first(['username', 'phone']);
-        if (!$exists) {
+        if (! $exists) {
             $roleName = $this->getRoleNameById($request->role);
-
 
             if (in_array($roleName, config('roles.signup_roles'))) {
                 // Valid Data
@@ -48,24 +42,25 @@ class AuthService
 
             $error['role'][] = $this->translateErrorMessage('role', 'not_found');
         } else {
-            if ($request->username == $exists->username) $error['username'][] = $this->translateErrorMessage('username', 'exists');
-            else $error['phone'][]  = $this->translateErrorMessage('phone', 'exists');
+            if ($request->username == $exists->username) {
+                $error['username'][] = $this->translateErrorMessage('username', 'exists');
+            } else {
+                $error['phone'][] = $this->translateErrorMessage('phone', 'exists');
+            }
         }
+
         return $error;
     }
 
     /**
      * Login User
      *
-     * @param $request
-     * @param boolean $isVisitor
      * @return array|null|bool
      */
     public function login($request, bool $isVisitor = false): string|array
     {
         // Check if the user exists
-        if ($token = Auth::attempt($request->validated()))
-        {
+        if ($token = Auth::attempt($request->validated())) {
             $user = Auth::user();
 
             // Frozen User
@@ -81,24 +76,22 @@ class AuthService
             }
             $roleChecked = false;
 
-            if(
+            if (
                 ($isVisitor && $this->roleNameIn(['visitor']))
-                || (!$isVisitor && !$this->roleNameIn(['visitor']))
-            ){
+                || (! $isVisitor && ! $this->roleNameIn(['visitor']))
+            ) {
                 $roleChecked = true;
             }
             if ($roleChecked) {
-
                 return [
                     'username' => $user->username,
                     'phone' => $user->phone,
                     'full_name' => $this->strLimit($user->full_name),
                     'role' => $this->getRoleNameById($user->role_id),
                     'token' => $token,
-                    'avatar' => asset('/storage/users/' . ($user->avatar ?: 'user.png'))
+                    'avatar' => asset('/storage/users/'.($user->avatar ?: 'user.png')),
                 ];
             }
-
         }
 
         return 'wrong';

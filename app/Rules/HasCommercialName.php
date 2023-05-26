@@ -11,6 +11,7 @@ class HasCommercialName implements InvokableRule
 {
     use RoleTrait;
     use Translatable;
+
     /**
      * Indicates whether the rule should be implicit.
      *
@@ -30,7 +31,7 @@ class HasCommercialName implements InvokableRule
     {
         // Check If The Product Exists
 
-        if (!Product::where('com_name', $value)->whereIn('user_id', $this->getSubUsersForUser())->first('id')) {
+        if (! Product::where('com_name', $value)->whereIn('user_id', $this->getSubUsersForUser())->first('id')) {
             $fail($this->translateErrorMessage('commercial_name', 'not_exists'));
         }
     }

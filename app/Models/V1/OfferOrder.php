@@ -21,6 +21,7 @@ use Illuminate\Support\Carbon;
  * @property string $status 0 => rejected , 1=> pending , 2=> approved
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ *
  * @method static Builder|OfferOrder newModelQuery()
  * @method static Builder|OfferOrder newQuery()
  * @method static Builder|OfferOrder query()
@@ -31,6 +32,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|OfferOrder whereStatus($value)
  * @method static Builder|OfferOrder whereUpdatedAt($value)
  * @method static Builder|OfferOrder whereWantOfferId($value)
+ *
  * @mixin Eloquent
  */
 class OfferOrder extends Model
@@ -48,14 +50,14 @@ class OfferOrder extends Model
     public function createdAt(): Attribute
     {
         return Attribute::make(
-            get: fn($val) => $this->changeDateFormat($val, 'Y-m-d H:i'),
+            get: fn ($val) => $this->changeDateFormat($val, 'Y-m-d H:i'),
         );
     }
 
     public function updatedAt(): Attribute
     {
         return Attribute::make(
-            get: fn($val) => $this->changeDateFormat($val, 'Y-m-d H:i'),
+            get: fn ($val) => $this->changeDateFormat($val, 'Y-m-d H:i'),
         );
     }
 

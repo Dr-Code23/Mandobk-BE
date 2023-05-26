@@ -5,9 +5,6 @@ namespace Tests\Feature\Api\V1\Dashboard;
 use App\Models\User;
 use App\Traits\FileOperationTrait;
 use App\Traits\TestingTrait;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Http\Response;
 use Tests\TestCase;
 
 class MonitorTest extends TestCase
@@ -16,12 +13,14 @@ class MonitorTest extends TestCase
     use FileOperationTrait;
 
     private string $path = 'Dashboard/Monitor/';
+
     public function testLogin(array $credentials = ['username' => 'monitor_and_evaluation', 'password' => 'monitor_and_evaluation'])
     {
         $response = $this->postJson(route('v1-login'), $credentials);
         $response->assertSuccessful();
         $this->setToken(json_decode($response->getContent())->data->token);
     }
+
     /**
      * A basic feature test example.
      *
@@ -29,7 +28,7 @@ class MonitorTest extends TestCase
      */
     public function testGetAllUsers()
     {
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
+        $response = $this->withHeader('Authorization', 'Bearer '.$this->getToken())
             ->getJson(route('monitor-all'));
         $this->writeAFileForTesting($this->path, 'AllUsers', $response->getContent());
         $response->assertSuccessful();
@@ -40,9 +39,9 @@ class MonitorTest extends TestCase
                     'full_name',
                     'username',
                     'role_id',
-                    'role_name'
-                ]
-            ]
+                    'role_name',
+                ],
+            ],
         ]);
     }
 
@@ -55,7 +54,7 @@ class MonitorTest extends TestCase
             'full_name' => fake()->name(),
             'status' => '1',
         ]);
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
+        $response = $this->withHeader('Authorization', 'Bearer '.$this->getToken())
             ->getJson(route('monitor-one', ['user' => $user->id]));
         $this->writeAFileForTesting($this->path, 'OneUser', $response->getContent());
         $response->assertSuccessful();
@@ -65,15 +64,15 @@ class MonitorTest extends TestCase
                 'full_name',
                 'username',
                 'role_id',
-                'role_name'
-            ]
+                'role_name',
+            ],
         ]);
     }
 
     public function testStoreUser()
     {
         User::where('username', 'Usernassmes')->delete();
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
+        $response = $this->withHeader('Authorization', 'Bearer '.$this->getToken())
             ->postJson(route('monitor-storeSubUser'), json_decode('{
                 "full_name" : "Ahmed Mohamed",
                 "username": "Usernassmes",
@@ -88,8 +87,8 @@ class MonitorTest extends TestCase
                 'full_name',
                 'username',
                 'role_id',
-                'role_name'
-            ]
+                'role_name',
+            ],
         ]);
         User::where('username', 'Usernassmes')->delete();
     }
@@ -103,8 +102,8 @@ class MonitorTest extends TestCase
             'full_name' => fake()->name(),
             'status' => '1',
         ]);
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
-            ->putJson(route('monitor-updateSubUser', ['user' =>  $user->id]), json_decode('{
+        $response = $this->withHeader('Authorization', 'Bearer '.$this->getToken())
+            ->putJson(route('monitor-updateSubUser', ['user' => $user->id]), json_decode('{
                 "full_name" : "Ahmed Mohamed",
                 "username": "Usernassmes",
                 "password" : "Password2302@",
@@ -118,8 +117,8 @@ class MonitorTest extends TestCase
                 'full_name',
                 'username',
                 'role_id',
-                'role_name'
-            ]
+                'role_name',
+            ],
         ]);
     }
 
@@ -132,7 +131,7 @@ class MonitorTest extends TestCase
             'full_name' => fake()->name(),
             'status' => '1',
         ]);
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
+        $response = $this->withHeader('Authorization', 'Bearer '.$this->getToken())
             ->deleteJson(route('monitor-delete', ['user' => $user->id]));
         $this->writeAFileForTesting($this->path, 'DeleteUser', $response->getContent());
         $response->assertSuccessful();

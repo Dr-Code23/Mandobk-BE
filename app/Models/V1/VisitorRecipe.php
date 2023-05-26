@@ -23,6 +23,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read User $visitor
+ *
  * @method static Builder|VisitorRecipe newModelQuery()
  * @method static Builder|VisitorRecipe newQuery()
  * @method static Builder|VisitorRecipe query()
@@ -33,6 +34,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|VisitorRecipe whereRandomNumber($value)
  * @method static Builder|VisitorRecipe whereUpdatedAt($value)
  * @method static Builder|VisitorRecipe whereVisitorId($value)
+ *
  * @mixin Eloquent
  */
 class VisitorRecipe extends Model
@@ -50,7 +52,7 @@ class VisitorRecipe extends Model
     public function createdAt(): Attribute
     {
         return Attribute::make(
-            get: fn($val) => $this->changeDateFormat($val, 'Y-m-d H:i'),
+            get: fn ($val) => $this->changeDateFormat($val, 'Y-m-d H:i'),
 
         );
     }
@@ -58,7 +60,7 @@ class VisitorRecipe extends Model
     public function updatedAt(): Attribute
     {
         return Attribute::make(
-            get: fn($val) => $this->changeDateFormat($val, 'Y-m-d H:i'),
+            get: fn ($val) => $this->changeDateFormat($val, 'Y-m-d H:i'),
         );
     }
 
@@ -70,8 +72,8 @@ class VisitorRecipe extends Model
     protected function details(): Attribute
     {
         return Attribute::make(
-            get: fn($val) => json_decode($val, true),
-            set: fn($val) => json_encode($val)
+            get: fn ($val) => json_decode($val, true),
+            set: fn ($val) => json_encode($val)
         );
     }
 }

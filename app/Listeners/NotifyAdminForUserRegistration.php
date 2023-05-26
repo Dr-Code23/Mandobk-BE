@@ -24,17 +24,15 @@ class NotifyAdminForUserRegistration
     /**
      * Handle the event.
      *
-     * @param object $event
-     * @return void
+     * @param  object  $event
      */
     public function handle($event): void
     {
-
         $admins = User::whereIn(
             'role_id',
             $this->getRolesIdsByName(
                 [
-                    'ceo'
+                    'ceo',
                 ]
             )
         )

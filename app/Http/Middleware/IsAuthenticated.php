@@ -18,15 +18,16 @@ class isAuthenticated
      * Handle an incoming request.
      *
      * @param Closure(Request): (Response|RedirectResponse) $next
-     *
      * @return Response|RedirectResponse
+     *
      * @throws AuthenticationException
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!Auth::check()) {
+        if (! Auth::check()) {
             $this->throwNotAuthenticated();
         }
+
         return $next($request);
     }
 }

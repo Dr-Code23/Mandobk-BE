@@ -12,8 +12,7 @@ class UserResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param Request $request
-     * @return array|Arrayable|JsonSerializable
+     * @param  Request  $request
      */
     public function toArray($request): array|JsonSerializable|Arrayable
     {
@@ -25,8 +24,11 @@ class UserResource extends JsonResource
             'status' => $this->status,
             'phone' => $this->phone,
         ];
-        if (isset($this->token)) $resource['token'] = $this->token;
+        if (isset($this->token)) {
+            $resource['token'] = $this->token;
+        }
         $resource['created_at'] = $this->created_at;
+
         return $resource;
     }
 }

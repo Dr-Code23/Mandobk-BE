@@ -13,14 +13,12 @@ class RoleController extends Controller
 
     /**
      * Signup Roles
-     *
-     * @return JsonResponse
      */
     public function getSignUpRoles(): JsonResponse
     {
         return $this->resourceResponse(
             $this->getRoleDetailsFromArrayByName(
-                config('roles.signup_roles') ,
+                config('roles.signup_roles'),
                 true
             )
         );
@@ -28,8 +26,6 @@ class RoleController extends Controller
 
     /**
      * Get All getHumanResourceRoles.
-     *
-     * @return JsonResponse
      */
     public function getHumanResourceRoles(): JsonResponse
     {
@@ -43,8 +39,6 @@ class RoleController extends Controller
 
     /**
      * Get All Monitor And Evaluation Roles
-     *
-     * @return JsonResponse
      */
     public function monitorAndEvaluationRoles(): JsonResponse
     {
@@ -55,5 +49,4 @@ class RoleController extends Controller
             )
         );
     }
-
 }

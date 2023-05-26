@@ -15,8 +15,6 @@ class OfferOrderRequest extends FormRequest
 
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
     public function authorize(): bool
     {
@@ -36,9 +34,6 @@ class OfferOrderRequest extends FormRequest
         ];
     }
 
-    /**
-     * @return array
-     */
     public function messages(): array
     {
         return [
@@ -51,8 +46,6 @@ class OfferOrderRequest extends FormRequest
     }
 
     /**
-     * @param Validator $validator
-     * @return void
      * @throws ValidationException
      */
     public function failedValidation(Validator $validator): void

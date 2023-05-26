@@ -12,10 +12,9 @@ class MoveProductToArchiveRequest extends FormRequest
 {
     use Translatable;
     use HttpResponse;
+
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
     public function authorize(): bool
     {
@@ -34,9 +33,6 @@ class MoveProductToArchiveRequest extends FormRequest
         ];
     }
 
-    /**
-     * @return array
-     */
     public function messages(): array
     {
         return [
@@ -46,8 +42,6 @@ class MoveProductToArchiveRequest extends FormRequest
     }
 
     /**
-     * @param Validator $validator
-     * @return void
      * @throws ValidationException
      */
     public function failedValidation(Validator $validator): void

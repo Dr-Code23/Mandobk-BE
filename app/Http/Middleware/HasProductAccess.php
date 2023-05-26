@@ -16,11 +16,6 @@ class HasProductAccess
 
     /**
      * Handle an incoming request.
-     *
-     * @param Request $request
-     * @param Closure $next
-     *
-     * @return Response|RedirectResponse|JsonResponse
      */
     public function handle(Request $request, Closure $next): Response|JsonResponse|RedirectResponse
     {
@@ -33,8 +28,7 @@ class HasProductAccess
             'pharmacy_sub_user',
         ];
 
-        if (!in_array($this->getRoleNameForAuthenticatedUser(), $array)) {
-
+        if (! in_array($this->getRoleNameForAuthenticatedUser(), $array)) {
             return $this->forbiddenResponse();
         }
 

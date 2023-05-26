@@ -12,5 +12,5 @@ return [
     'logged_out' => 'User Logged Out Successfully',
     'not_data_to_show' => 'There is not data to showOneSubUser',
     'deleted' => 'Deleted Successfully',
-    'detactive' => 'Your Account Is Detactive , Contanct With Admin'
+    'detactive' => 'Your Account Is Detactive , Contanct With Admin',
 ];

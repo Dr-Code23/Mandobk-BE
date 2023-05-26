@@ -85,5 +85,5 @@ return [
     'not_authenticated' => 'انت لست مسجل دخول',
     'detective' => 'تم الغاء تفعيل حسابك, برجاء التواصل مع المسئول',
     'forbidden' => 'You do not have permissions to access this resource',
-    'wrong_credentials' => 'بيانات خاطئه'
+    'wrong_credentials' => 'بيانات خاطئه',
 ];

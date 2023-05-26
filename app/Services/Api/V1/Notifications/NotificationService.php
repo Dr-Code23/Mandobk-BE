@@ -3,9 +3,6 @@
 namespace App\Services\Api\V1\Notifications;
 
 use App\Models\User;
-use App\Notifications\RegisterUserNotification;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Notification;
 
 class NotificationService
 {

@@ -16,23 +16,20 @@ use Illuminate\Support\Facades\Auth;
 
 class ProductService
 {
-
     use UserTrait;
     use Translatable;
     use RoleTrait;
     use GeneralTrait;
 
-
     /**
      * Undocumented function
-     *
-     * @return JsonResponse
      */
     public function fetchAllProducts(): JsonResponse
     {
         $products = Product::where(function ($query) {
-            if (!$this->roleNameIn(['ceo', 'data_entry']))
+            if (! $this->roleNameIn(['ceo', 'data_entry'])) {
                 $query->whereIn('products.user_id', $this->getSubUsersForUser());
+            }
         })
             ->with(['product_details' => function ($query) {
                 $query->select(
@@ -45,18 +42,14 @@ class ProductService
                     'created_at',
                 );
             }])
-            ->withSum('product_details' , 'qty')
+            ->withSum('product_details', 'qty')
             ->get();
         //return $products;
         return $this->resourceResponse(new ProductCollection($products));
     }
 
-
     /**
      * Fetch One Product With No Details
-     *
-     * @param $product
-     * @return Product|null
      */
     public function showOnProductWithoutDetails($product): Product|null
     {
@@ -67,8 +60,9 @@ class ProductService
             ->where(function ($query) {
                 if ($this->roleNameIn(['ceo', 'data_entry'])) {
                     $query->whereIn('role_id', $this->getRolesIdsByName(['ceo', 'data_entry']));
+                } else {
+                    $query->whereIn('user_id', $this->getSubUsersForUser());
                 }
-                else  $query->whereIn('user_id', $this->getSubUsersForUser());
             })
             ->withSum('product_details', 'qty')
             ->first();
@@ -76,6 +70,7 @@ class ProductService
         if ($product) {
             return $product;
         }
+
         return null;
     }
 
@@ -93,7 +88,6 @@ class ProductService
         $barcode_value = $request->barcode;
 
         if ($this->storeBarCodeSVG('products', $barcode_value, $barcode_value)) {
-
             $product = Product::where(function ($query) use ($commercial_name, $barcode_value) {
                 $query->where('com_name', $commercial_name)
                     ->orWhere('barcode', $barcode_value);
@@ -101,8 +95,7 @@ class ProductService
                 ->where(function ($query) {
                     if ($this->roleNameIn(['ceo', 'data_entry'])) {
                         $query->whereIn('role_id', $this->getRolesIdsByName(['ceo', 'data_entry']));
-                    }
-                    else {
+                    } else {
                         $query->whereIn('user_id', $this->getSubUsersForUser());
                     }
                 })
@@ -126,7 +119,7 @@ class ProductService
                 //TODO Determine If User Changed Limited Exchange
                 $limitedChanged = false;
 
-                if($product->limited != $limited){
+                if ($product->limited != $limited) {
                     $inputs['new_limited_value'] = $limited;
                     $limited = $product->limited;
                     $limitedChanged = true;
@@ -137,11 +130,9 @@ class ProductService
                 $product->update($inputs);
 
                 $product->limited_changed = $limitedChanged;
-
             } else {
                 $inputs['original_total'] = $originalTotal;
                 $product = Product::create($inputs);
-
             }
 
             // Update All Products To new Admin Values Only If Changed
@@ -156,7 +147,7 @@ class ProductService
                     ->update([
                         'com_name' => $commercial_name,
                         'sc_name' => $scientific_name,
-                        'limited' => $limited
+                        'limited' => $limited,
                     ]);
             }
             $productInfo = ProductInfo::where('product_id', $product->id)
@@ -169,16 +160,19 @@ class ProductService
             if ($productInfo) {
                 $productInfo->qty += $request->quantity;
                 $productInfo->update();
-            } else $productInfo = ProductInfo::create([
-                'role_id' => Auth::user()->role_id,
-                'product_id' => $product->id,
-                'qty' => $request->quantity,
-                'expire_date' => $request->expire_date,
-                'patch_number' => $request->patch_number
-            ]);
-            $product->loadSum('product_details' , 'qty');
+            } else {
+                $productInfo = ProductInfo::create([
+                    'role_id' => Auth::user()->role_id,
+                    'product_id' => $product->id,
+                    'qty' => $request->quantity,
+                    'expire_date' => $request->expire_date,
+                    'patch_number' => $request->patch_number,
+                ]);
+            }
+            $product->loadSum('product_details', 'qty');
             $product->detail = new ProductDetailsResource($productInfo);
             info($product);
+
             return $product;
         }
 
@@ -186,11 +180,8 @@ class ProductService
         return false;
     }
 
-
     /**
      * Delete Product For User
-     * @param $product
-     * @return bool
      */
     public function destroy($product): bool
     {
@@ -206,7 +197,6 @@ class ProductService
 
     /**
      * Scientific Names For Select Box
-     * @return Collection
      */
     public function ScientificNamesSelect(): Collection
     {
@@ -216,7 +206,6 @@ class ProductService
 
     /**
      * Commercial Names For Select Box
-     * @return Collection
      */
     public function CommercialNamesSelect(): Collection
     {
@@ -225,7 +214,6 @@ class ProductService
 
     /**
      * Fetch ALl Products For Doctor
-     * @return Collection
      */
     public function doctorProducts(): Collection
     {
@@ -237,30 +225,27 @@ class ProductService
 
     /**
      * Change Limited Exchange Status For Product
-     *
-     * @param int $productId
-     * @return Product|bool
      */
     public function updateLimitedExchange(int $productId): Product|bool
     {
-        $product = Product::where('id' , $productId)
-            ->first(['id' , 'limited' , 'new_limited_value' , 'user_id' , 'role_id']);
+        $product = Product::where('id', $productId)
+            ->first(['id', 'limited', 'new_limited_value', 'user_id', 'role_id']);
 
-        if($product){
-            if(
-                in_array($product->role_id,$this->getRolesIdsByName(['ceo' , 'data_entry']))
-                || in_array($product->user_id , $this->getSubUsersForUser($product->user_id))
-            ){
-
-                if (in_array($product->new_limited_value , ['0' , '1'])){
+        if ($product) {
+            if (
+                in_array($product->role_id, $this->getRolesIdsByName(['ceo', 'data_entry']))
+                || in_array($product->user_id, $this->getSubUsersForUser($product->user_id))
+            ) {
+                if (in_array($product->new_limited_value, ['0', '1'])) {
                     $confirmChanging = request('change');
                     info($confirmChanging);
-                    if($confirmChanging == 'true'){
+                    if ($confirmChanging == 'true') {
                         $product->limited = $product->new_limited_value;
                     }
                     $product->new_limited_value = null;
                     $product->save();
                 }
+
                 return $product;
             }
         }

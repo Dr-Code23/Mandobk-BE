@@ -16,8 +16,6 @@ class SaleRequest extends FormRequest
 
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
     public function authorize(): bool
     {
@@ -40,9 +38,6 @@ class SaleRequest extends FormRequest
         ];
     }
 
-    /**
-     * @return array
-     */
     public function messages(): array
     {
         return [
@@ -61,8 +56,6 @@ class SaleRequest extends FormRequest
     }
 
     /**
-     * @param Validator $validator
-     * @return void
      * @throws ValidationException
      */
     public function failedValidation(Validator $validator): void
@@ -70,7 +63,7 @@ class SaleRequest extends FormRequest
         $errors = $validator->errors()->toArray();
         $allErrors = [];
         foreach ($errors as $errorField => $errorContent) {
-            if (!in_array($errorField, ['data', 'buyer_id'])) {
+            if (! in_array($errorField, ['data', 'buyer_id'])) {
                 $errorFieldSeperated = explode('.', $errorField);
                 $allErrors['data'][$errorFieldSeperated[1]][$errorFieldSeperated[2]] = $errorContent;
                 unset($errors[$errorField]);

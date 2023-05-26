@@ -43,8 +43,7 @@ class DBSalesRepository implements SalesRepositoryInterface
     }
 
     /**
-     * @param mixed $request
-     *
+     * @param  mixed  $request
      * @return mixed
      */
     public function storeSale($request)
@@ -56,22 +55,22 @@ class DBSalesRepository implements SalesRepositoryInterface
         // ! Cannot Append Values in foreach
         $products_count = count($products);
 
-        for ($i = 0; $i < $products_count; ++$i) {
-            $products[$i]['product_exists'] = (bool)Product::where('id', $products[$i]['product_id'])
+        for ($i = 0; $i < $products_count; $i++) {
+            $products[$i]['product_exists'] = (bool) Product::where('id', $products[$i]['product_id'])
                 ->whereIn('user_id', $this->getSubUsersForUser())
                 ->first(['id']);
         }
 
-        for ($i = 0; $i <= $products_count; ++$i) {
+        for ($i = 0; $i <= $products_count; $i++) {
             // * Remove The Product from the cart if the product does not exists
-            if (isset($products[$i]['product_exists']) && !$products[$i]['product_exists']) {
+            if (isset($products[$i]['product_exists']) && ! $products[$i]['product_exists']) {
                 unset($products[$i]);
-                --$products_count;
+                $products_count--;
             }
             unset($products[$i]['product_exists']);
         }
 
-        for ($i = 0; $i < $products_count; ++$i) {
+        for ($i = 0; $i < $products_count; $i++) {
             $productInfo = Product::where('id', $products[$i]['product_id'])
                 ->withSum(['product_details' => function ($query) {
                     $query->where('expire_date', '>', date('Y-m-d'))
@@ -96,7 +95,7 @@ class DBSalesRepository implements SalesRepositoryInterface
                 $uniqueProducts[$productId]['selling_price'] = $products[$i]['selling_price'];
                 $uniqueProducts[$productId]['quantity'] = $products[$i]['quantity'];
             }
-            if (!isset($uniqueProducts[$productId]['commercial_name'])) {
+            if (! isset($uniqueProducts[$productId]['commercial_name'])) {
                 $uniqueProducts[$productId]['commercial_name'] = $productInfo->com_name;
                 $uniqueProducts[$productId]['scientific_name'] = $productInfo->sc_name;
                 $uniqueProducts[$productId]['purchase_price'] = $productInfo->pur_price;
@@ -107,9 +106,9 @@ class DBSalesRepository implements SalesRepositoryInterface
         $cnt = 0;
         foreach ($uniqueProducts as $productId => $productInfo) {
             if ($productInfo['original_qty'] < $productInfo['quantity']) {
-                $errors[$cnt]['quantity'][] = $this->translateErrorMessage('quantity', 'quantity.big') . $productInfo['original_qty'];
+                $errors[$cnt]['quantity'][] = $this->translateErrorMessage('quantity', 'quantity.big').$productInfo['original_qty'];
             }
-            ++$cnt;
+            $cnt++;
         }
 
         // ? Send To Who ?
@@ -126,10 +125,10 @@ class DBSalesRepository implements SalesRepositoryInterface
                 ->value('id');
         }
 
-        if (!$uniqueProducts) {
+        if (! $uniqueProducts) {
             $errors['product'] = 'Choose at least one existing product';
         }
-        if (!$buyerId) {
+        if (! $buyerId) {
             $errors['buyer_id'] = $this->translateErrorMessage('the_buyer', 'not_exists');
         }
         if ($errors) {
@@ -139,7 +138,7 @@ class DBSalesRepository implements SalesRepositoryInterface
         $totalSales = 0;
         $productsIds = array_keys($uniqueProducts);
         $sentProducts = [];
-        for ($i = 0; $i < count($productsIds); ++$i) {
+        for ($i = 0; $i < count($productsIds); $i++) {
             $productId = $productsIds[$i];
             $productInfo = $uniqueProducts[$productId];
 
@@ -162,7 +161,7 @@ class DBSalesRepository implements SalesRepositoryInterface
                     $detail->qty = 0;
                 }
                 $detail->update();
-                ++$index;
+                $index++;
             }
 
             $totalSales += ($productInfo['selling_price'] * $productInfo['quantity']);

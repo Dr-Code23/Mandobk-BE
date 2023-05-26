@@ -20,7 +20,6 @@ use App\Http\Controllers\Api\V1\Site\Pharmacy\SubUserController;
 use App\Http\Controllers\Api\V1\Site\Recipes\RecipeController;
 use App\Http\Controllers\Api\V1\Site\Sales\SaleController;
 use App\Http\Controllers\Api\V1\Users\UserController;
-use App\Models\V1\CustomNotification;
 use App\Models\V1\Role;
 use Illuminate\Support\Facades\Route;
 
@@ -45,7 +44,6 @@ Route::group(['prefix' => 'auth'], function () {
 });
 
 Route::group(['middleware' => ['auth:api']], function () {
-
     // Change Profile Info
     Route::post('profile', [ProfileController::class, 'changeProfileInfo']);
     // Marketing Offers
@@ -63,7 +61,6 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::group(
         ['prefix' => 'users', 'middleware' => ['auth:api']],
         function () {
-
             Route::get('/storehouse', [UserController::class, 'getUsersForSelectBox'])
                 ->middleware(['userHasPermissions:company,yes'])
                 ->name('roles-storehouse-all');
@@ -83,7 +80,6 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::group(
         ['middleware' => ['auth:api', 'hasProductPermissions'], 'prefix' => 'products'],
         function () {
-
             Route::get('doctor_products', [ProductController::class, 'doctorProducts'])
                 ->withoutMiddleware('hasProductPermissions')
                 ->middleware('userHasPermissions:doctor,yes')
@@ -100,7 +96,7 @@ Route::group(['middleware' => ['auth:api']], function () {
             Route::post('', [ProductController::class, 'storeOrUpdate'])
                     ->name('v1-products-storeSubUser');
 
-            Route::patch('update_limited/{id}' , [ProductController::class , 'updateLimitedExchange'])
+            Route::patch('update_limited/{id}', [ProductController::class, 'updateLimitedExchange'])
                 ->whereNumber(['id']);
 
             Route::get('{product}', [ProductController::class, 'showWithoutDetails'])
@@ -149,17 +145,16 @@ Route::group(['middleware' => ['auth:api']], function () {
         Route::delete('{notification}', [NotificationController::class, 'destroy']);
     });
 
-    Route::group(['prefix' => 'custom_notifications'] , function(){
-        Route::get('' , [CustomNotificationController::class , 'index']);
+    Route::group(['prefix' => 'custom_notifications'], function () {
+        Route::get('', [CustomNotificationController::class, 'index']);
     });
     // Public Site Routes
     Route::group(['prefix' => 'site'], function () {
-
         // Offer Orders
 
-        Route::group(['prefix' => 'offer_order'] , function(){
-            Route::get('' , [OfferOrderController::class , 'showAllOffers']);
-            Route::post('' , [OfferOrderController::class , 'order']);
+        Route::group(['prefix' => 'offer_order'], function () {
+            Route::get('', [OfferOrderController::class, 'showAllOffers']);
+            Route::post('', [OfferOrderController::class, 'order']);
         });
 
         // Company
@@ -300,13 +295,12 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::group(
         ['prefix' => 'dashboard'],
         function () {
-
             // Monitor And Evaluation
 
             Route::group(
                 [
                     'prefix' => 'monitor_and_evaluation',
-                    'middleware' => ['userHasPermissions:monitor_and_evaluation,no']
+                    'middleware' => ['userHasPermissions:monitor_and_evaluation,no'],
                 ],
                 function () {
                     Route::get('', [MonitorAndEvaluationController::class, 'index'])
@@ -365,7 +359,6 @@ Route::group(['middleware' => ['auth:api']], function () {
                 }
             );
 
-
             // User Management
 
             Route::group(['prefix' => 'user_management', 'middleware' => ['userHasPermissions:ceo,no']], function () {
@@ -382,8 +375,6 @@ Route::get('paginate', function () {
     return Role::paginate(2);
 });
 
-
 //Route::get('pusher_test', function () {
 //    return view('main');
 //});
-

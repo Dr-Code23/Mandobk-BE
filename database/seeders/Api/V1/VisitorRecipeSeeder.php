@@ -12,20 +12,18 @@ class VisitorRecipeSeeder extends Seeder
 
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
     public function run(): void
     {
-        for ($i = 1; $i <= 50; ++$i) {
+        for ($i = 1; $i <= 50; $i++) {
             VisitorRecipe::create([
                 'visitor_id' => 12,
                 'random_number' => $this->generateRandomNumberForVisitor(),
                 'details' => [[
-                'scientific_name' => fake()->name(),
-                'commercial_name' => fake()->name(),
-                'concentrate' => fake()->numberBetween(1, 100),
-                'taken' => fake()->boolean(),
+                    'scientific_name' => fake()->name(),
+                    'commercial_name' => fake()->name(),
+                    'concentrate' => fake()->numberBetween(1, 100),
+                    'taken' => fake()->boolean(),
                 ]],
                 'alias' => fake()->name(),
             ]);

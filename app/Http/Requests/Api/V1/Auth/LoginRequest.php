@@ -19,8 +19,6 @@ class LoginRequest extends FormRequest
 
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
     public function authorize(): bool
     {
@@ -35,14 +33,11 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'username' => ['required' , 'max:255'],
-            'password' => ['required' , 'max:255'],
+            'username' => ['required', 'max:255'],
+            'password' => ['required', 'max:255'],
         ];
     }
 
-    /**
-     * @return array
-     */
     public function messages(): array
     {
         return [
@@ -52,8 +47,6 @@ class LoginRequest extends FormRequest
     }
 
     /**
-     * @param Validator $validator
-     * @return void
      * @throws ValidationException
      */
     public function failedValidation(Validator $validator): void

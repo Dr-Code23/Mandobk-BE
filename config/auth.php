@@ -42,13 +42,13 @@ return [
         ],
         'sanctum' => [
             'driver' => 'sanctum',
-            'provider' => 'users'
+            'provider' => 'users',
         ],
 
         'api' => [
             'driver' => 'jwt',
-            'provider' => 'users'
-        ]
+            'provider' => 'users',
+        ],
     ],
 
     /*

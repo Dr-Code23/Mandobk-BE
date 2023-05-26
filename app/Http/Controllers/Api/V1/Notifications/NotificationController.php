@@ -17,40 +17,26 @@ class NotificationController extends Controller
 {
     use DateTrait, HttpResponse, Translatable;
 
-    /**
-     * @param NotificationService $notificationService
-     */
     public function __construct(
         private NotificationService $notificationService
-    )
-    {}
+    ) {
+    }
 
-    /**
-     * @param Request $request
-     * @return JsonResponse
-     */
     public function index(Request $request): JsonResponse
     {
         $notifications = $this->notificationService->index($request);
+
         return $this->resourceResponse(new NotificationCollection($notifications));
     }
 
-    /**
-     * @param DatabaseNotification $notification
-     * @return JsonResponse
-     */
     public function show(DatabaseNotification $notification): JsonResponse
     {
         return $this->resourceResponse(new NotificationResource($notification));
     }
 
-    /**
-     * @param DatabaseNotification $notification
-     * @return JsonResponse
-     */
     public function markAsRead(DatabaseNotification $notification): JsonResponse
     {
-        if (!$notification->read_at) {
+        if (! $notification->read_at) {
             auth()->user()->notifications()
                 ->where('id', $notification->id)
                 ->update(['read_at' => now()]);
@@ -59,9 +45,6 @@ class NotificationController extends Controller
         return $this->resourceResponse(null, 'Notification Marked Successfully');
     }
 
-    /**
-     * @return JsonResponse
-     */
     public function markAllAsRead(): JsonResponse
     {
         auth()->user()->unreadNotifications()->where('read_at', null)
@@ -70,10 +53,6 @@ class NotificationController extends Controller
         return $this->resourceResponse(null, 'Notifications Marked Successfully');
     }
 
-    /**
-     * @param DatabaseNotification $notification
-     * @return JsonResponse
-     */
     public function destroy(DatabaseNotification $notification): JsonResponse
     {
         $notification->delete();
@@ -81,9 +60,6 @@ class NotificationController extends Controller
         return $this->success(null, 'Notification Deleted successfully');
     }
 
-    /**
-     * @return JsonResponse
-     */
     public function destroyAll(): JsonResponse
     {
         auth()->user()->notifications()->delete();

@@ -2,11 +2,8 @@
 
 namespace App\Console\Commands;
 
-
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Command\Command as CommandAlias;
-use Touhidurabir\StubGenerator\Facades\StubGenerator;
-
 
 class MakeServiceClass extends Command
 {
@@ -26,8 +23,6 @@ class MakeServiceClass extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return int
      */
     public function handle(): int
     {
@@ -35,13 +30,14 @@ class MakeServiceClass extends Command
         $fileName = $path[count($path) - 1];
         unset($path[count($path) - 1]);
         $path = implode('\\', $path);
-        if (!is_dir(__DIR__ . '/../../Services/' . $path)) {
-            mkdir(__DIR__ . '/../../Services/' . $path, 0777, true);
+        if (! is_dir(__DIR__.'/../../Services/'.$path)) {
+            mkdir(__DIR__.'/../../Services/'.$path, 0777, true);
         }
-        if (is_file(__DIR__ . '/../../Services/' . $path . '/' . $fileName . '.php')) {
+        if (is_file(__DIR__.'/../../Services/'.$path.'/'.$fileName.'.php')) {
             $this->error(
                 "\n  Same service class is already exists in App\Http\Services\\$path\\$fileName.php\n"
             );
+
             return CommandAlias::FAILURE;
         }
         $stubContent = str_replace(
@@ -50,18 +46,19 @@ class MakeServiceClass extends Command
             str_replace(
                 '{{class}}',
                 $fileName,
-                file_get_contents(__DIR__ . '/../../../stubs/service.stub')
+                file_get_contents(__DIR__.'/../../../stubs/service.stub')
             )
         );
 
         // Make The Class
-        $handle = fopen(__DIR__ . '/../../Services/' . $path."/$fileName.php" , 'w');
-        fwrite($handle , $stubContent);
+        $handle = fopen(__DIR__.'/../../Services/'.$path."/$fileName.php", 'w');
+        fwrite($handle, $stubContent);
         fclose($handle);
 
         $this->info(
-            "\n Service Created Successfully in App\Http\Services\\" . $path . '\\' . $fileName . ".php\n"
+            "\n Service Created Successfully in App\Http\Services\\".$path.'\\'.$fileName.".php\n"
         );
+
         return CommandAlias::SUCCESS;
     }
 }

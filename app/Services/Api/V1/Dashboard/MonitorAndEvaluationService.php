@@ -2,33 +2,28 @@
 
 namespace App\Services\Api\V1\Dashboard;
 
-use App\Http\Resources\Api\V1\Dashboard\MonitorAndEvaluation\MonitorAndEvaluationCollection;
 use App\Models\User;
 use App\Models\V1\Role;
 use App\Traits\RoleTrait;
 use App\Traits\Translatable;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class MonitorAndEvaluationService
 {
-
     use RoleTrait;
     use Translatable;
 
     /**
      * Show All Users
-     *
-     * @return Collection
      */
     public function index(): Collection
     {
         return User::join('roles', 'roles.id', 'users.role_id')
             ->whereIn('roles.name', config('roles.monitor_roles'))
             ->where('users.id', '!=', Auth::id())
-            ->where('status' , $this->isActive())
+            ->where('status', $this->isActive())
             ->select(
                 [
                     'users.id',
@@ -45,9 +40,6 @@ class MonitorAndEvaluationService
 
     /**
      * Show One User For Monitor
-     *
-     * @param $user
-     * @return  User|array
      */
     public function show($user): User|array
     {
@@ -58,30 +50,28 @@ class MonitorAndEvaluationService
                 ->whereIn('name', config('roles.monitor_roles'))->first(['name'])
             ) {
                 $user->role_name = $role->name;
+
                 return $user;
             }
 
             $errors['role'][] = $this->translateErrorMessage('role', 'not_found');
-        } else $errors['user'][] = $this->translateErrorMessage('user', 'not_found');
+        } else {
+            $errors['user'][] = $this->translateErrorMessage('user', 'not_found');
+        }
 
         return $errors;
     }
 
     /**
      * Store User
-     *
-     * @param $request
-     * @return User|array
      */
     public function store($request): User|array
     {
-
         // Check if role belong to monitor
         if ($role = Role::where('id', $request->role)
             ->whereIn('name', config('roles.monitor_roles'))
             ->first(['name'])
-        )
-        {
+        ) {
             // Store Data
             $user = User::create(
                 $request->validated() +
@@ -93,15 +83,12 @@ class MonitorAndEvaluationService
         }
 
         $errors['role'][] = $this->translateErrorMessage('role', 'not_found');
+
         return $errors;
     }
 
     /**
      * Update User
-     *
-     * @param $request
-     * @param $user
-     * @return User|string|array
      */
     public function update($request, $user): User|string|array
     {
@@ -124,7 +111,7 @@ class MonitorAndEvaluationService
                     $anyChangeOccurred = true;
                 }
                 if ($request->has('password')) {
-                    if (!Hash::check($request->password, $user->password)) {
+                    if (! Hash::check($request->password, $user->password)) {
                         $user->password = $request->password;
                         $anyChangeOccurred = true;
                     }
@@ -142,29 +129,30 @@ class MonitorAndEvaluationService
             }
 
             $error['role'][] = $this->translateErrorMessage('role', 'not_found');
-        } else $error = $this->translateErrorMessage('user', 'not_found');
+        } else {
+            $error = $this->translateErrorMessage('user', 'not_found');
+        }
 
         return $error;
     }
 
     /**
      * Destroy User
-     *
-     * @param $user
-     * @return boolean|string
      */
     public function destroy($user): bool|string
     {
         if ($user->id != Auth::id() && $user->status == $this->isActive()) {
             $user->load('role');
-            if (in_array($user->role->name,  config('roles.monitor_roles'))) {
+            if (in_array($user->role->name, config('roles.monitor_roles'))) {
                 $user->status = $this->isDeleted();
                 $user->save();
 
                 return true;
             }
             $error = $this->translateErrorMessage('role', 'not_found');
-        } else $error = $this->translateErrorMessage('user', 'not_found');
+        } else {
+            $error = $this->translateErrorMessage('user', 'not_found');
+        }
 
         return $error;
     }

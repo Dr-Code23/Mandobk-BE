@@ -24,8 +24,6 @@ class DatabaseSeeder extends Seeder
 {
     /**
      * Seed the application's database.
-     *
-     * @return void
      */
     public function run(): void
     {
@@ -33,17 +31,17 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             UserSeeder::class,
             PayMethodSeeder::class,
-             SubUserSeeder::class,
-//            ProductSeeder::class,
-//            ProductInfoSeeder::class,
+            SubUserSeeder::class,
+            //            ProductSeeder::class,
+            //            ProductInfoSeeder::class,
             // HumanResourceSeeder::class,
             // SaleSeeder::class,
             // MarketingSeeder::class,
             // OfferSeeder::class,
             // OfferOrderSeeder::class,
-//             VisitorRecipeSeeder::class,
-//             DoctorVisitsSeeder::class,
-//             PharmacyVisitSeeder::class,
+            //             VisitorRecipeSeeder::class,
+            //             DoctorVisitsSeeder::class,
+            //             PharmacyVisitSeeder::class,
         ]);
     }
 }

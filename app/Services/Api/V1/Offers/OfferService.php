@@ -9,16 +9,17 @@ use App\Models\V1\Role;
 use App\Traits\RoleTrait;
 use App\Traits\Translatable;
 use App\Traits\UserTrait;
-use Illuminate\Support\Facades\Auth;
-
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Auth;
 
 class OfferService
 {
     use UserTrait;
     use RoleTrait;
     use Translatable;
+
     private string $productRelation = 'product:id,com_name,sc_name,con,sel_price,bonus';
+
     public function __construct(
         protected Offer $offerModel,
         protected Role $roleModel,
@@ -28,8 +29,6 @@ class OfferService
 
     /**
      * Fetch All Offers
-     *
-     * @return Collection
      */
     public function allOffers(): Collection
     {
@@ -42,22 +41,23 @@ class OfferService
     /**
      * Show One Offer
      *
-     * @param Offer $offer
+     * @param  Offer  $offer
      * @return mixed
      */
     public function show($offer)
     {
-        if ($offer->user_id == Auth::id() && $offer->type == ($this->roleNameIn(['company']) ? '1' : '2'))
+        if ($offer->user_id == Auth::id() && $offer->type == ($this->roleNameIn(['company']) ? '1' : '2')) {
             return $offer->load($this->productRelation);
-        else return null;
+        } else {
+            return null;
+        }
     }
 
     public function store($request)
     {
-
         $errors = [];
         if (
-            !$this->productModel->where('id', $request->product_id)
+            ! $this->productModel->where('id', $request->product_id)
                 ->where('user_id', Auth::id())
                 ->first(['id'])
         ) {
@@ -74,10 +74,11 @@ class OfferService
             $errors['offer'] = $this->translateErrorMessage('offer', 'exists');
         }
 
-        if (!PayMethod::where('id', $request->pay_method_id)->first('id'))
+        if (! PayMethod::where('id', $request->pay_method_id)->first('id')) {
             $errors['pay_method'] = $this->translateErrorMessage('pay_method', 'not_exists');
+        }
 
-        if (!$errors) {
+        if (! $errors) {
             $offer = $this->offerModel->create([
                 'product_id' => $request->product_id,
                 'pay_method' => $request->pay_method_id,
@@ -85,16 +86,17 @@ class OfferService
                 'user_id' => Auth::id(),
                 'from' => $request->start_date,
                 'to' => $request->end_date,
-                'status' => '1'
+                'status' => '1',
             ]);
             $offer->load($this->productRelation);
+
             return $offer;
         }
 
         $errors['error'] = true;
+
         return $errors;
     }
-
 
     public function changeOfferStatus($request, $offer)
     {
@@ -107,16 +109,18 @@ class OfferService
             $errors['offer'] = $this->translateErrorMessage('offer', 'not_exists');
         }
 
-        if (!$errors) {
+        if (! $errors) {
             if ($offer->status != $request->status) {
-                $offer->status = $request->status . '';
+                $offer->status = $request->status.'';
                 $offer->update();
             }
             $offer->load($this->productRelation);
+
             return $offer;
         }
 
         $errors['error'] = true;
+
         return $errors;
     }
 
@@ -124,8 +128,10 @@ class OfferService
     {
         if ($offer->user_id == Auth::id()) {
             $offer->delete();
+
             return true;
         }
+
         return false;
     }
 }

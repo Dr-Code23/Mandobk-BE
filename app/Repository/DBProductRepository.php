@@ -6,7 +6,6 @@ use App\Http\Requests\Api\V1\Product\ProductRequest;
 use App\Http\Resources\Api\V1\Product\ProductCollection;
 use App\Http\Resources\Api\V1\Product\ProductResource;
 use App\Models\V1\Product;
-use App\Models\V1\Role;
 use App\RepositoryInterface\ProductRepositoryInterface;
 use App\Traits\DateTrait;
 use App\Traits\HttpResponse;
@@ -27,8 +26,9 @@ class DBProductRepository implements ProductRepositoryInterface
     public function showAllProducts()
     {
         $products = Product::where(function ($query) {
-            if (!$this->roleNameIn(['ceo', 'data_entry']))
+            if (! $this->roleNameIn(['ceo', 'data_entry'])) {
                 $query->whereIn('products.user_id', $this->getSubUsersForUser());
+            }
         })
             ->with(['product_details' => function ($query) {
                 $query->select(
@@ -49,7 +49,6 @@ class DBProductRepository implements ProductRepositoryInterface
     /**
      * @return mixed
      */
-
     public function showOnProductWithoutDetails($product)
     {
         $product = Product::where('id', $product->id)
@@ -61,15 +60,17 @@ class DBProductRepository implements ProductRepositoryInterface
         if ($product) {
             return $this->resourceResponse(new ProductResource($product));
         }
+
         return $this->notFoundResponse($this->translateSuccessMessage('product', 'not_found'));
     }
+
     public function showOneProductWithDetails($product)
     {
-
         $product = Product::where('products.id', $product->id)
             ->where(function ($query) {
-                if (!$this->roleNameIn(['ceo', 'data_entry']))
+                if (! $this->roleNameIn(['ceo', 'data_entry'])) {
                     $query->whereIn('products.user_id', $this->getSubUsersForUser());
+                }
             })
             ->with(['product_details' => function ($query) {
                 $query->select(
@@ -81,14 +82,14 @@ class DBProductRepository implements ProductRepositoryInterface
                 );
             }])
             ->first();
+
         return $this->resourceResponse(new ProductResource($product));
     }
 
     /**
      * Store Product.
      *
-     * @param ProductRequest $request
-     *
+     * @param  ProductRequest  $request
      * @return JsonResponse
      */
     public function storeProduct($request)
@@ -113,7 +114,7 @@ class DBProductRepository implements ProductRepositoryInterface
             $product_exists = true;
         }
 
-        if (!$product_exists) {
+        if (! $product_exists) {
             // Check if the admin has already added the product
 
             // Check If Data Entry Has has product
@@ -146,6 +147,7 @@ class DBProductRepository implements ProductRepositoryInterface
                     'entry_date' => $request->entry_date,
                     'expire_date' => $request->expire_date,
                 ]);
+
                 return $this->success(new ProductResource($product), $this->translateSuccessMessage('product', 'created'));
             }
 
@@ -164,8 +166,7 @@ class DBProductRepository implements ProductRepositoryInterface
     }
 
     /**
-     * @param mixed $request
-     *
+     * @param  mixed  $request
      * @return mixed
      */
     public function updateProduct($request, $product)
@@ -196,7 +197,7 @@ class DBProductRepository implements ProductRepositoryInterface
             $product_exists = true;
         }
 
-        if (!$product_exists) {
+        if (! $product_exists) {
             $random_number = null;
             $barCodeStored = false;
             $barCodeValue = null;
@@ -247,7 +248,7 @@ class DBProductRepository implements ProductRepositoryInterface
                 $product->expire_date = $request->expire_date;
                 $anyChangeOccured = true;
             }
-            if (($random_number && $barCodeStored) || !$random_number) {
+            if (($random_number && $barCodeStored) || ! $random_number) {
                 if ($random_number) {
                     $product->barcode = $barCodeValue;
                     $anyChangeOccured = true;
@@ -277,8 +278,7 @@ class DBProductRepository implements ProductRepositoryInterface
     /**
      * Summary of deleteProduct.
      *
-     * @param mixed $product
-     *
+     * @param  mixed  $product
      * @return \Illuminate\Http\JsonResponse
      */
     public function deleteProduct($product)

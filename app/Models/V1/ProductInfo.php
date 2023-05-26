@@ -22,6 +22,7 @@ use Illuminate\Support\Carbon;
  * @property string $expire_date
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ *
  * @method static Builder|ProductInfo newModelQuery()
  * @method static Builder|ProductInfo newQuery()
  * @method static Builder|ProductInfo query()
@@ -33,6 +34,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|ProductInfo whereQty($value)
  * @method static Builder|ProductInfo whereRoleId($value)
  * @method static Builder|ProductInfo whereUpdatedAt($value)
+ *
  * @mixin Eloquent
  */
 class ProductInfo extends Model
@@ -48,9 +50,8 @@ class ProductInfo extends Model
         'product_id',
         'qty',
         'patch_number',
-        'expire_date'
+        'expire_date',
     ];
-
 
     public function patchNumber(): Attribute
     {
@@ -61,25 +62,24 @@ class ProductInfo extends Model
         );
     }
 
-
     public function expireDate(): Attribute
     {
         return Attribute::make(
-            set: fn($val) => $this->changeDateFormat($val, 'Y-m-d')
+            set: fn ($val) => $this->changeDateFormat($val, 'Y-m-d')
         );
     }
 
     public function createdAt(): Attribute
     {
         return Attribute::make(
-            get: fn($val) => $this->changeDateFormat($val, 'Y-m-d'),
+            get: fn ($val) => $this->changeDateFormat($val, 'Y-m-d'),
         );
     }
 
     public function updatedAt(): Attribute
     {
         return Attribute::make(
-            get: fn($val) => $this->changeDateFormat($val, 'Y-m-d'),
+            get: fn ($val) => $this->changeDateFormat($val, 'Y-m-d'),
         );
     }
 }

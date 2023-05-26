@@ -15,9 +15,7 @@ class OfferOrderResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param Request $request
-     *
-     * @return array|Arrayable|JsonSerializable
+     * @param  Request  $request
      */
     public function toArray($request): array|JsonSerializable|Arrayable
     {
@@ -26,7 +24,7 @@ class OfferOrderResource extends JsonResource
             'date_from' => $this->from,
             'date_to' => $this->to,
             'product' => new OfferOrderProductResource($this->whenLoaded('product', $this->product)),
-            'user' => new OfferOrderUserResource($this->whenLoaded('user'))
+            'user' => new OfferOrderUserResource($this->whenLoaded('user')),
         ];
     }
 }

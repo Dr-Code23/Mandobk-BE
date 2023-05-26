@@ -201,7 +201,7 @@ return [
     'expire_date' => [
         'date' => [
             'date_format' => 'Must Be In :format Format',
-            'after' => 'Must Be After ' . __(config('app.web_v1') . '/Dashboard/dataEntryTranslationFile.entry_date'),
+            'after' => 'Must Be After '.__(config('app.web_v1').'/Dashboard/dataEntryTranslationFile.entry_date'),
         ],
     ],
     'human_resource' => [

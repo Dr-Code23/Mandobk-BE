@@ -13,10 +13,9 @@ class RegisterVisitorRequest extends FormRequest
 {
     use Translatable;
     use HttpResponse;
+
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
     public function authorize(): bool
     {
@@ -34,20 +33,20 @@ class RegisterVisitorRequest extends FormRequest
             'name' => [
                 'bail',
                 'required',
-                'not_regex:' . config('regex.not_fully_numbers_symbols'),
-                'max:255'
+                'not_regex:'.config('regex.not_fully_numbers_symbols'),
+                'max:255',
             ],
             'username' => [
                 'bail',
                 'required',
-                'regex:' . config('regex.username'),
-                'unique:users,username'
+                'regex:'.config('regex.username'),
+                'unique:users,username',
             ],
             'phone' => [
                 'bail',
                 'required',
                 'numeric',
-                'unique:users,phone'
+                'unique:users,phone',
             ],
             'password' => [
                 'required',
@@ -59,14 +58,11 @@ class RegisterVisitorRequest extends FormRequest
             'alias' => [
                 'bail',
                 'required',
-                'not_regex:' . config('regex.not_fully_numbers_symbols')
+                'not_regex:'.config('regex.not_fully_numbers_symbols'),
             ],
         ];
     }
 
-    /**
-     * @return array
-     */
     public function messages(): array
     {
         return [
@@ -86,8 +82,6 @@ class RegisterVisitorRequest extends FormRequest
     }
 
     /**
-     * @param Validator $validator
-     * @return void
      * @throws ValidationException
      */
     public function failedValidation(Validator $validator): void

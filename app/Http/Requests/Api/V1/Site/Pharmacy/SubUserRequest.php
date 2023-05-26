@@ -16,8 +16,6 @@ class SubUserRequest extends FormRequest
 
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
     public function authorize(): bool
     {
@@ -37,13 +35,13 @@ class SubUserRequest extends FormRequest
         }
 
         return [
-            'name' => ['required' , 'max:255'],
+            'name' => ['required', 'max:255'],
             'username' => [
                 'required',
                 'regex:'.config('regex.username'),
                 // $exists,
                 $exists,
-                ],
+            ],
             'password' => [
                 $this->method() == 'PUT' ? 'sometimes' : 'required',
                 Password::min(8)->
@@ -55,9 +53,6 @@ class SubUserRequest extends FormRequest
         ];
     }
 
-    /**
-     * @return array
-     */
     public function messages(): array
     {
         return [
@@ -70,8 +65,6 @@ class SubUserRequest extends FormRequest
     }
 
     /**
-     * @param Validator $validator
-     * @return void
      * @throws ValidationException
      */
     public function failedValidation(Validator $validator): void

@@ -18,7 +18,6 @@ class hasSalesAccess
      * Handle an incoming request.
      *
      * @param Closure(Request): (Response|RedirectResponse) $next
-     *
      * @return Response|RedirectResponse|JsonResponse
      */
     public function handle(Request $request, Closure $next)
@@ -30,8 +29,7 @@ class hasSalesAccess
             'pharmacy_sub_user',
         ];
 
-        if (!in_array($this->getRoleNameForAuthenticatedUser(), $array)) {
-
+        if (! in_array($this->getRoleNameForAuthenticatedUser(), $array)) {
             return $this->forbiddenResponse('You do not have permissions to showOneSubUser sales');
         }
 

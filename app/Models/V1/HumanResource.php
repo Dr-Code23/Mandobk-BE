@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string|null $attendance
  * @property string|null $departure
  * @property-read User $user
+ *
  * @method static Builder|HumanResource newModelQuery()
  * @method static Builder|HumanResource newQuery()
  * @method static Builder|HumanResource query()
@@ -30,6 +31,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static Builder|HumanResource whereId($value)
  * @method static Builder|HumanResource whereStatus($value)
  * @method static Builder|HumanResource whereUserId($value)
+ *
  * @mixin Eloquent
  */
 class HumanResource extends Model
@@ -38,6 +40,7 @@ class HumanResource extends Model
     use DateTrait;
 
     public $timestamps = false;
+
     protected $fillable = [
         'user_id',
         'status',
@@ -54,14 +57,14 @@ class HumanResource extends Model
     public function departure(): Attribute
     {
         return Attribute::make(
-            get: fn($val) => $this->changeDateFormat($val, 'H:i'),
+            get: fn ($val) => $this->changeDateFormat($val, 'H:i'),
         );
     }
 
     public function attendance(): Attribute
     {
         return Attribute::make(
-            get: fn($val) => $this->changeDateFormat($val, 'H:i'),
+            get: fn ($val) => $this->changeDateFormat($val, 'H:i'),
         );
     }
 }

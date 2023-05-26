@@ -11,15 +11,14 @@ use Illuminate\Support\Facades\Hash;
 class UserSeeder extends Seeder
 {
     use UserTrait;
+
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
     public function run(): void
     {
         $roles = config('roles.all_roles');
-        for ($i = 1; $i <= count($roles); ++$i) {
+        for ($i = 1; $i <= count($roles); $i++) {
             User::create([
                 'username' => $roles[$i - 1],
                 'password' => $roles[$i - 1],

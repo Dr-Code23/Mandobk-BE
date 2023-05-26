@@ -8,7 +8,6 @@ use App\Http\Resources\Api\V1\Profile\ProfileResource;
 use App\Services\Api\V1\Profile\ProfileService;
 use App\Traits\HttpResponse;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class ProfileController extends Controller
 {
@@ -16,9 +15,6 @@ class ProfileController extends Controller
 
     /**
      * Change Profile Information
-     * @param ProfileRequest $request
-     * @param ProfileService $profileService
-     * @return JsonResponse
      */
     public function changeProfileInfo(ProfileRequest $request, ProfileService $profileService): JsonResponse
     {

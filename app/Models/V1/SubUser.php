@@ -15,12 +15,14 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property int $parent_id
  * @property int $sub_user_id
+ *
  * @method static Builder|SubUser newModelQuery()
  * @method static Builder|SubUser newQuery()
  * @method static Builder|SubUser query()
  * @method static Builder|SubUser whereId($value)
  * @method static Builder|SubUser whereParentId($value)
  * @method static Builder|SubUser whereSubUserId($value)
+ *
  * @mixin Eloquent
  */
 class SubUser extends Model
@@ -29,6 +31,7 @@ class SubUser extends Model
     use DateTrait;
 
     public $timestamps = false;
+
     protected $fillable = [
         'parent_id',
         'sub_user_id',
@@ -37,14 +40,14 @@ class SubUser extends Model
     protected function createdAt(): Attribute
     {
         return Attribute::make(
-            get: fn($val) => $this->changeDateFormat($val, 'Y-m-d')
+            get: fn ($val) => $this->changeDateFormat($val, 'Y-m-d')
         );
     }
 
     protected function updatedAt(): Attribute
     {
         return Attribute::make(
-            get: fn($val) => $this->changeDateFormat($val, 'Y-m-d')
+            get: fn ($val) => $this->changeDateFormat($val, 'Y-m-d')
         );
     }
 }

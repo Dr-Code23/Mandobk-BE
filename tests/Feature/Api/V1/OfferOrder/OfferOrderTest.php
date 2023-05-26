@@ -7,14 +7,13 @@ use App\Models\V1\Product;
 use App\Models\V1\ProductInfo;
 use App\Traits\FileOperationTrait;
 use App\Traits\TestingTrait;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class OfferOrderTest extends TestCase
 {
     use TestingTrait;
     use FileOperationTrait;
+
     private string $path = 'OfferOrder/';
 
     public function testLogin(array $credentials = ['username' => 'storehouse', 'password' => 'storehouse'])
@@ -26,7 +25,7 @@ class OfferOrderTest extends TestCase
 
     public function testGetAllOffersToOrder()
     {
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
+        $response = $this->withHeader('Authorization', 'Bearer '.$this->getToken())
             ->getJson(route('order-company-showOneSubUser'));
         $this->writeAFileForTesting($this->path, 'GetAllOffers', $response->getContent());
         $response->assertSuccessful();
@@ -39,10 +38,10 @@ class OfferOrderTest extends TestCase
                     'product' => [
                         'commercial_name',
                         'scientific_name',
-                        'concentrate'
-                    ]
-                ]
-            ]
+                        'concentrate',
+                    ],
+                ],
+            ],
         ]);
     }
 
@@ -77,14 +76,14 @@ class OfferOrderTest extends TestCase
             'date' => date('Y-m-d'),
             'type' => '1',
             'status' => '1',
-            'pay_method' => '1'
+            'pay_method' => '1',
         ]);
 
         info($offer);
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
+        $response = $this->withHeader('Authorization', 'Bearer '.$this->getToken())
             ->postJson(route('order-company-make', [
                 'offer_id' => $offer->id,
-                'quantity' => 50
+                'quantity' => 50,
             ]));
         $this->writeAFileForTesting($this->path, 'MakeOrder', $response->getContent());
         $response->assertSuccessful();

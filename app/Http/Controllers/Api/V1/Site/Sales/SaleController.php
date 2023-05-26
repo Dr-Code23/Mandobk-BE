@@ -10,26 +10,16 @@ class SaleController extends Controller
 {
     protected SalesRepositoryInterface $salesRepository;
 
-    /**
-     * @param SalesRepositoryInterface $salesRepository
-     */
     public function __construct(SalesRepositoryInterface $salesRepository)
     {
         $this->salesRepository = $salesRepository;
     }
 
-    /**
-     * @return mixed
-     */
     public function index(): mixed
     {
         return $this->salesRepository->getAllSales();
     }
 
-    /**
-     * @param SaleRequest $request
-     * @return mixed
-     */
     public function store(SaleRequest $request): mixed
     {
         return $this->salesRepository->storeSale($request);

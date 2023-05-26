@@ -13,39 +13,38 @@ use Illuminate\Http\JsonResponse;
 
 class OfferOrderController extends Controller
 {
-    use HttpResponse, Translatable, UserTrait;public function __construct(
-        private readonly OfferOrderService $offerOrderService
-    )
-    {}
+    use HttpResponse, Translatable, UserTrait;
 
-    /**
-     * Show All Offers
-     * @return JsonResponse
-     */
-    public function showAllOffers(): JsonResponse
-    {
-        return $this->resourceResponse(
-            new OfferOrderCollection($this->offerOrderService->showAllOffers())
-        );
+    public function __construct(
+        private readonly OfferOrderService $offerOrderService
+    ) {
     }
 
-    /**
-     * Make Order
-     * @param OfferOrderRequest $request
-     * @return JsonResponse
-     */
-    public function order(OfferOrderRequest $request): JsonResponse
-    {
-        $order = $this->offerOrderService->order($request);
-
-        if (is_string($order) && $order) {
-            return $this->success(null, $order);
-        } else if (isset($order['offer_not_found'])) {
-            return $this->notFoundResponse(
-                $this->translateErrorMessage('offer', 'not_found')
+        /**
+         * Show All Offers
+         */
+        public function showAllOffers(): JsonResponse
+        {
+            return $this->resourceResponse(
+                new OfferOrderCollection($this->offerOrderService->showAllOffers())
             );
         }
 
-        return $this->validationErrorsResponse($order);
-    }
+        /**
+         * Make Order
+         */
+        public function order(OfferOrderRequest $request): JsonResponse
+        {
+            $order = $this->offerOrderService->order($request);
+
+            if (is_string($order) && $order) {
+                return $this->success(null, $order);
+            } elseif (isset($order['offer_not_found'])) {
+                return $this->notFoundResponse(
+                    $this->translateErrorMessage('offer', 'not_found')
+                );
+            }
+
+            return $this->validationErrorsResponse($order);
+        }
 }

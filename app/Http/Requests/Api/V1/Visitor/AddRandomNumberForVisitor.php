@@ -12,10 +12,9 @@ class AddRandomNumberForVisitor extends FormRequest
 {
     use Translatable;
     use HttpResponse;
+
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
     public function authorize(): bool
     {
@@ -31,24 +30,19 @@ class AddRandomNumberForVisitor extends FormRequest
     {
         return [
             'username' => ['required'],
-            'alias' => ['required']
+            'alias' => ['required'],
         ];
     }
 
-    /**
-     * @return array
-     */
     public function messages(): array
     {
         return [
             'username.required' => $this->translateErrorMessage('username', 'required'),
-            'alias.required' => $this->translateErrorMessage('alias', 'required')
+            'alias.required' => $this->translateErrorMessage('alias', 'required'),
         ];
     }
 
     /**
-     * @param Validator $validator
-     * @return void
      * @throws ValidationException
      */
     public function failedValidation(Validator $validator): void

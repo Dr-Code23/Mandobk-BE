@@ -15,8 +15,6 @@ class MonitorAndEvaluationRequest extends FormRequest
 
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
     public function authorize(): bool
     {
@@ -34,16 +32,16 @@ class MonitorAndEvaluationRequest extends FormRequest
         $except = '';
 
         if ($this->method() == 'PUT') {
-            $except = ',' . $this->route('user')->id . ',id';
+            $except = ','.$this->route('user')->id.',id';
         }
 
         return [
-            'full_name' => ['required' , 'max:255'],
+            'full_name' => ['required', 'max:255'],
             'username' => [
                 'bail',
                 'required',
-                'regex:' . config('regex.username'),
-                'unique:users,username' . $except
+                'regex:'.config('regex.username'),
+                'unique:users,username'.$except,
             ],
             'role' => ['required'],
             'password' => [
@@ -51,14 +49,11 @@ class MonitorAndEvaluationRequest extends FormRequest
                 RulesPassword::min(8)
                     ->mixedCase()
                     ->numbers()
-                    ->symbols()
+                    ->symbols(),
             ],
         ];
     }
 
-    /**
-     * @return array
-     */
     public function messages(): array
     {
         return [
@@ -72,15 +67,13 @@ class MonitorAndEvaluationRequest extends FormRequest
     }
 
     /**
-     * @param Validator $validator
-     * @return void
      * @throws ValidationException
      */
     protected function failedValidation(Validator $validator): void
     {
         throw new ValidationException(
             $validator,
-            $this->validationErrorsResponse([$validator->errors()
+            $this->validationErrorsResponse([$validator->errors(),
             ])
         );
     }

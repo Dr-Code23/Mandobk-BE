@@ -20,8 +20,6 @@ class MarketingController extends Controller
 
     /**
      * Show All Ads
-     *
-     * @return JsonResponse
      */
     public function index(): JsonResponse
     {
@@ -30,9 +28,6 @@ class MarketingController extends Controller
 
     /**
      * Show One Ad
-     *
-     * @param Marketing $ad
-     * @return JsonResponse
      */
     public function show(Marketing $ad): JsonResponse
     {
@@ -41,20 +36,15 @@ class MarketingController extends Controller
 
     /**
      * Store Ad
-     *
-     * @param MarketingRequest $request
-     * @param MarktingService $marketingService
-     * @return JsonResponse
      */
     public function store(MarketingRequest $request, MarktingService $marketingService): JsonResponse
     {
         $ad = $marketingService->store($request);
 
         if ($ad instanceof Marketing) {
-
             return $this->createdResponse(
                 new MarktingResource($ad),
-                $this->translateSuccessMessage('ad' , 'created')
+                $this->translateSuccessMessage('ad', 'created')
             );
         }
 
@@ -63,21 +53,15 @@ class MarketingController extends Controller
 
     /**
      * Update Ad
-     *
-     * @param MarketingRequest $request
-     * @param Marketing $ad
-     * @param MarktingService $marketingService
-     * @return JsonResponse
      */
     public function update(MarketingRequest $request, Marketing $ad, MarktingService $marketingService): JsonResponse
     {
         $ad = $marketingService->update($request, $ad);
 
         if ($ad instanceof Marketing) {
-
             return $this->success(
                 new MarktingResource($ad),
-                $this->translateSuccessMessage('ad' , 'updated')
+                $this->translateSuccessMessage('ad', 'updated')
             );
         }
 
@@ -86,17 +70,14 @@ class MarketingController extends Controller
 
     /**
      * Delete Ad
-     *
-     * @param Marketing $ad
-     * @return JsonResponse
      */
     public function destroy(Marketing $ad): JsonResponse
     {
-        $this->deleteImage('markting/' . $ad->img);
+        $this->deleteImage('markting/'.$ad->img);
         $ad->delete();
 
         return $this->success(
-            msg: $this->translateSuccessMessage('ad' , 'deleted')
+            msg: $this->translateSuccessMessage('ad', 'deleted')
         );
     }
 }

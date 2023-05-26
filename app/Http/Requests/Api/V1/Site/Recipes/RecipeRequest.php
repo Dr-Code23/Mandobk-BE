@@ -15,8 +15,6 @@ class RecipeRequest extends FormRequest
 
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
     public function authorize(): bool
     {
@@ -38,9 +36,6 @@ class RecipeRequest extends FormRequest
         ];
     }
 
-    /**
-     * @return array
-     */
     public function messages(): array
     {
         return [
@@ -56,8 +51,6 @@ class RecipeRequest extends FormRequest
     }
 
     /**
-     * @param Validator $validator
-     * @return void
      * @throws ValidationException
      */
     public function failedValidation(Validator $validator): void
@@ -65,7 +58,7 @@ class RecipeRequest extends FormRequest
         $errors = $validator->errors()->toArray();
         $allErrors = [];
         foreach ($errors as $errorField => $errorContent) {
-            if (!in_array($errorField, ['products', 'random_number', 'move_products_to_archive_if_exists'])) {
+            if (! in_array($errorField, ['products', 'random_number', 'move_products_to_archive_if_exists'])) {
                 $errorFieldSeperated = explode('.', $errorField);
                 $allErrors['products'][$errorFieldSeperated[1]][$errorFieldSeperated[2]] = $errorContent;
                 unset($errors[$errorField]);

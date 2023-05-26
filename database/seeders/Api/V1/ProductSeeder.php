@@ -9,13 +9,11 @@ class ProductSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
     public function run(): void
     {
         // For Testing
-        for ($i = 0; $i < 50; ++$i) {
+        for ($i = 0; $i < 50; $i++) {
             Product::create([
                 'com_name' => fake()->name(),
                 'sc_name' => fake()->name(),

@@ -5,21 +5,20 @@ namespace App\Http\Middleware;
 use App\Traits\UserTrait;
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\UnauthorizedException;
 
 class Authenticate extends Middleware
 {
     use UserTrait;
+
     /**
      * Get the path the user should be redirected to when they are not authenticated.
      *
-     * @param \Illuminate\Http\Request $request
-     *
+     * @param  \Illuminate\Http\Request  $request
      * @return string|null
      */
     protected function redirectTo($request)
     {
-        if (!$request->expectsJson()) {
+        if (! $request->expectsJson()) {
             return route('login');
         }
     }
@@ -27,9 +26,8 @@ class Authenticate extends Middleware
     /**
      * Override The Authenticate Handle Method To Add JWT Cookie as a header to authenticate.
      *
-     * @param mixed $request
-     * @param array $guards
-     *
+     * @param  mixed  $request
+     * @param  array  $guards
      * @return mixed
      */
     public function handle($request, \Closure $next, ...$guards)
@@ -38,6 +36,7 @@ class Authenticate extends Middleware
 
         if (Auth::user()->status != $this->isActive()) {
             Auth::logout();
+
             return $this->unauthenticatedResponse();
         }
 

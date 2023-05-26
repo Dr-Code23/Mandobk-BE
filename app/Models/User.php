@@ -28,6 +28,7 @@ use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
  * App\Models\User
  *
  * @method create(array $array)
+ *
  * @property int $id
  * @property string $username
  * @property string $password
@@ -46,6 +47,7 @@ use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
  * @property-read Role|null $role
  * @property-read Collection<int, PersonalAccessToken> $tokens
  * @property-read int|null $tokens_count
+ *
  * @method static UserFactory factory($count = null, $state = [])
  * @method static Builder|User newModelQuery()
  * @method static Builder|User newQuery()
@@ -61,6 +63,7 @@ use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
  * @method static Builder|User whereStatus($value)
  * @method static Builder|User whereUpdatedAt($value)
  * @method static Builder|User whereUsername($value)
+ *
  * @property-read Collection<int, HumanResource> $HumanResources
  * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
  * @property-read Collection<int, PersonalAccessToken> $tokens
@@ -73,6 +76,7 @@ use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
  * @property-read Collection<int, HumanResource> $HumanResources
  * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
  * @property-read Collection<int, PersonalAccessToken> $tokens
+ *
  * @mixin Eloquent
  */
 class User extends Authenticatable implements JWTSubject
@@ -100,7 +104,7 @@ class User extends Authenticatable implements JWTSubject
         'role_id',
         'status',
         'password',
-        'avatar'
+        'avatar',
     ];
 
     /**
@@ -124,8 +128,6 @@ class User extends Authenticatable implements JWTSubject
 
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
-     *
-     * @return mixed
      */
     public function getJWTIdentifier(): mixed
     {
@@ -134,8 +136,6 @@ class User extends Authenticatable implements JWTSubject
 
     /**
      * Return a key value array, containing any custom claims to be added to the JWT.
-     *
-     * @return array
      */
     public function getJWTCustomClaims(): array
     {
@@ -144,8 +144,6 @@ class User extends Authenticatable implements JWTSubject
 
     /**
      * Fetch Role Through One-To-One Relationship.
-     *
-     * @return HasOne
      */
     public function role(): HasOne
     {
@@ -160,16 +158,14 @@ class User extends Authenticatable implements JWTSubject
     public function password(): CastsAttribute
     {
         return CastsAttribute::make(
-            set: fn($val) => Hash::check($val, $this->password) ? $val : Hash::make($val)
+            set: fn ($val) => Hash::check($val, $this->password) ? $val : Hash::make($val)
         );
     }
 
     /**
      * Return An Accessor For Created At.
      *
-     * @param mixed $value
-     *
-     * @return string
+     * @param  mixed  $value
      */
     protected function getCreatedAtAttribute($value): string
     {
@@ -179,9 +175,7 @@ class User extends Authenticatable implements JWTSubject
     /**
      * Return An Accessor For Updated At.
      *
-     * @param mixed $value
-     *
-     * @return string
+     * @param  mixed  $value
      */
     protected function getUpdatedAtAttribute($value): string
     {

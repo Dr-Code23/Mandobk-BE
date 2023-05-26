@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $doctor_id
  * @property int $pharmacy_id
  * @property string $created_at
+ *
  * @method static Builder|PharmacyVisit newModelQuery()
  * @method static Builder|PharmacyVisit newQuery()
  * @method static Builder|PharmacyVisit query()
@@ -25,6 +26,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static Builder|PharmacyVisit whereId($value)
  * @method static Builder|PharmacyVisit wherePharmacyId($value)
  * @method static Builder|PharmacyVisit whereVisitorRecipeId($value)
+ *
  * @mixin Eloquent
  */
 class PharmacyVisit extends Model
@@ -32,17 +34,18 @@ class PharmacyVisit extends Model
     use HasFactory, DateTrait;
 
     public $timestamps = false;
+
     protected $fillable = [
         'visitor_recipe_id',
         'doctor_id',
         'pharmacy_id',
-        'created_at'
+        'created_at',
     ];
 
     public function createdAt(): Attribute
     {
         return Attribute::make(
-            get: fn($val) => $this->changeDateFormat($val, 'Y-m-d H:i')
+            get: fn ($val) => $this->changeDateFormat($val, 'Y-m-d H:i')
         );
     }
 }

@@ -20,8 +20,11 @@ class DBOfferRepository implements OfferRepositoryInterface
     use HttpResponse;
     use Translatable;
     use DateTrait;
+
     private Offer $offerModel;
+
     private Role $roleModel;
+
     private Product $productModel;
 
     public function __construct(Offer $offer, Role $role, Product $product)
@@ -78,8 +81,7 @@ class DBOfferRepository implements OfferRepositoryInterface
     }
 
     /**
-     * @param mixed $offer
-     *
+     * @param  mixed  $offer
      * @return mixed
      */
     public function showOneOffer($offer)
@@ -111,8 +113,7 @@ class DBOfferRepository implements OfferRepositoryInterface
     }
 
     /**
-     * @param mixed $request
-     *
+     * @param  mixed  $request
      * @return mixed
      */
     public function storeOffer($request)
@@ -145,7 +146,7 @@ class DBOfferRepository implements OfferRepositoryInterface
         }
 
         $errors = [];
-        if (!$offer_exists) {
+        if (! $offer_exists) {
             if ($product_id_exists) {
                 $offer_duration = $request->offer_duration;
                 if (in_array($offer_duration, ['0', '1', '2'])) {
@@ -191,7 +192,7 @@ class DBOfferRepository implements OfferRepositoryInterface
         }
         if ($offer_exists) {
             $errors['offer'] = $this->translateErrorMessage('offer', 'exists');
-        } elseif (!$product_id_exists) {
+        } elseif (! $product_id_exists) {
             $errors['product_id'] = $this->translateErrorMessage('product', 'not_exists');
         }
 
@@ -199,9 +200,8 @@ class DBOfferRepository implements OfferRepositoryInterface
     }
 
     /**
-     * @param mixed $request
-     * @param mixed $offer
-     *
+     * @param  mixed  $request
+     * @param  mixed  $offer
      * @return mixed
      */
     public function updateOffer($request, $offer)
@@ -230,7 +230,7 @@ class DBOfferRepository implements OfferRepositoryInterface
                 $offer_exists = true;
             }
             $errors = [];
-            if (!$offer_exists) {
+            if (! $offer_exists) {
                 if ($product_id_exists) {
                     $offer_duration = $request->offer_duration;
                     if (in_array($offer_duration, ['0', '1', '2'])) {
@@ -288,7 +288,7 @@ class DBOfferRepository implements OfferRepositoryInterface
             }
             if ($offer_exists) {
                 $errors['offer'] = $this->translateErrorMessage('offer', 'exists');
-            } elseif (!$product_id_exists) {
+            } elseif (! $product_id_exists) {
                 $errors['product_id'] = $this->translateErrorMessage('product', 'not_exists');
             }
 
@@ -299,8 +299,7 @@ class DBOfferRepository implements OfferRepositoryInterface
     }
 
     /**
-     * @param mixed $offer
-     *
+     * @param  mixed  $offer
      * @return mixed
      */
     public function destroyOffer($offer)

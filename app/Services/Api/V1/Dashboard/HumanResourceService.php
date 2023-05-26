@@ -2,7 +2,6 @@
 
 namespace App\Services\Api\V1\Dashboard;
 
-use App\Http\Resources\Api\V1\Dashboard\HumanResource\HumanResourceResource;
 use App\Models\User;
 use App\Models\V1\HumanResource;
 use App\Traits\HttpResponse;
@@ -11,16 +10,11 @@ class HumanResourceService
 {
     use HttpResponse;
 
-
     /**
      * Store Or Update Human Resource
-     *
-     * @param $request
-     * @return HumanResource|null
      */
     public function storeOrUpdate($request): HumanResource|null
     {
-
         $departure = $request->departure;
         $attendance = $request->attendance;
         $status = $request->status;
@@ -64,7 +58,7 @@ class HumanResourceService
             } else {
                 $humanResource = HumanResource::create([
                     'user_id' => $request->user_id,
-                    'status' => (int)$status,
+                    'status' => (int) $status,
                     'departure' => $departure,
                     'attendance' => $attendance,
                     'date' => $request->date,

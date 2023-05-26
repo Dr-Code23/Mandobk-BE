@@ -6,9 +6,6 @@ use App\Models\V1\Product;
 use App\Models\V1\ProductInfo;
 use App\Traits\FileOperationTrait;
 use App\Traits\TestingTrait;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Http\Response;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Tests\TestCase;
 
@@ -16,6 +13,7 @@ class SaleTest extends TestCase
 {
     use TestingTrait;
     use FileOperationTrait;
+
     private string $path = 'Sales/';
 
     public function testLogin(array $credentials = ['username' => 'company', 'password' => 'company'])
@@ -27,7 +25,7 @@ class SaleTest extends TestCase
 
     public function testGetAllSales()
     {
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
+        $response = $this->withHeader('Authorization', 'Bearer '.$this->getToken())
             ->getJson(route('sales-all'));
         $this->writeAFileForTesting($this->path, 'GetAllSales', $response->content());
         $response->assertSuccessful();
@@ -41,13 +39,13 @@ class SaleTest extends TestCase
                             'commercial_name',
                             'scientific_name',
                             'purchase_price',
-                        ]
+                        ],
                     ],
-                    'created_at'
+                    'created_at',
                 ],
             ],
             'msg',
-            'type'
+            'type',
         ]);
     }
     // public function testStoreSale()

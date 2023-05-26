@@ -18,14 +18,8 @@ class MonitorAndEvaluationController extends Controller
 {
     use HttpResponse, StringTrait, HttpResponse, Translatable, UserTrait;
 
-    /**
-     * @var MonitorAndEvaluationService
-     */
     protected MonitorAndEvaluationService $monitorService;
 
-    /**
-     * @param MonitorAndEvaluationService $monitorService
-     */
     public function __construct(MonitorAndEvaluationService $monitorService)
     {
         $this->monitorService = $monitorService;
@@ -33,32 +27,24 @@ class MonitorAndEvaluationController extends Controller
 
     /**
      * Show All Users For Monitor
-     *
-     * @return JsonResponse
      */
     public function index(): JsonResponse
     {
         return $this->resourceResponse(
-                new MonitorAndEvaluationCollection($this->monitorService->index())
-            );
+            new MonitorAndEvaluationCollection($this->monitorService->index())
+        );
     }
 
     /**
      * Show One User.
-     *
-     * @param User $user
-     * @return JsonResponse
      */
     public function show(User $user): JsonResponse
     {
         $user = $this->monitorService->show($user);
 
         if ($user instanceof User) {
-
             return $this->resourceResponse(new MonitorAndEvaluationResrouce($user));
-
         } elseif (isset($user['role'])) {
-
             return $this->validationErrorsResponse($user);
         }
 
@@ -67,16 +53,12 @@ class MonitorAndEvaluationController extends Controller
 
     /**
      * Store User For Admin
-     *
-     * @param MonitorAndEvaluationRequest $request
-     * @return JsonResponse
      */
     public function store(MonitorAndEvaluationRequest $request): JsonResponse
     {
         $newUser = $this->monitorService->store($request);
 
         if ($newUser instanceof User) {
-
             return $this->createdResponse(
                 new MonitorAndEvaluationResrouce($newUser),
                 $this->translateSuccessMessage('user', 'created')
@@ -88,24 +70,17 @@ class MonitorAndEvaluationController extends Controller
 
     /**
      * Update User
-     *
-     * @param MonitorAndEvaluationRequest $req
-     * @param User $user
-     * @return JsonResponse
      */
     public function update(MonitorAndEvaluationRequest $req, User $user): JsonResponse
     {
         $user = $this->monitorService->update($req, $user);
 
         if ($user instanceof User) {
-
             return $this->success(
                 new MonitorAndEvaluationResrouce($user),
                 'User Updated Successfully'
             );
-        }
-        else if (is_array($user)) {
-
+        } elseif (is_array($user)) {
             return $this->validationErrorsResponse($user);
         }
 
@@ -114,16 +89,12 @@ class MonitorAndEvaluationController extends Controller
 
     /**
      * Delete User
-     *
-     * @param User $user
-     * @return JsonResponse
      */
     public function destroy(User $user): JsonResponse
     {
         $deleted = $this->monitorService->destroy($user);
 
         if (is_bool($deleted) && $deleted) {
-
             return $this->success(
                 msg: $this->translateSuccessMessage('user', 'deleted')
             );

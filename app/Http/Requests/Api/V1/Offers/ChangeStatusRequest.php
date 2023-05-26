@@ -14,8 +14,6 @@ class ChangeStatusRequest extends FormRequest
 
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
     public function authorize(): bool
     {
@@ -30,7 +28,7 @@ class ChangeStatusRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status' => ['required', 'boolean']
+            'status' => ['required', 'boolean'],
         ];
     }
 
@@ -38,7 +36,7 @@ class ChangeStatusRequest extends FormRequest
     {
         return [
             'status.required' => $this->translateErrorMessage('status', 'required'),
-            'status.boolean' => $this->translateErrorMessage('status', 'boolean')
+            'status.boolean' => $this->translateErrorMessage('status', 'boolean'),
         ];
     }
 

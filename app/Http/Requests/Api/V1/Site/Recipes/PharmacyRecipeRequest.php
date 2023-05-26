@@ -12,10 +12,9 @@ class PharmacyRecipeRequest extends FormRequest
 {
     use Translatable;
     use HttpResponse;
+
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
     public function authorize(): bool
     {
@@ -31,28 +30,20 @@ class PharmacyRecipeRequest extends FormRequest
     {
         return [
             'data' => ['required', 'array'],
-            'data.*.commercial_name' => ['required' , 'max:255'],
+            'data.*.commercial_name' => ['required', 'max:255'],
         ];
     }
 
-    /**
-     * @return array
-     */
     public function messages(): array
     {
         return [
-            'data.required' =>
-                $this->translateErrorMessage('data', 'required'),
-            'data.array' =>
-                $this->translateErrorMessage('data', 'array'),
-            'data.*.commercial_name.required' =>
-                $this->translateErrorMessage('commercial_name', 'required')
+            'data.required' => $this->translateErrorMessage('data', 'required'),
+            'data.array' => $this->translateErrorMessage('data', 'array'),
+            'data.*.commercial_name.required' => $this->translateErrorMessage('commercial_name', 'required'),
         ];
     }
 
     /**
-     * @param Validator $validator
-     * @return void
      * @throws ValidationException
      */
     public function failedValidation(Validator $validator): void

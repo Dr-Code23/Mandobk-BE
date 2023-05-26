@@ -195,7 +195,7 @@ return [
     'expire_date' => [
         'date' => [
             'date_format' => 'يجب ان يكون تنسيقه هو :format',
-            'after' => 'يجب ان يكون بعد ' . __(config('app.web_v1') . '/Dashboard/dataEntryTranslationFile.entry_date'),
+            'after' => 'يجب ان يكون بعد '.__(config('app.web_v1').'/Dashboard/dataEntryTranslationFile.entry_date'),
         ],
     ],
     'human_resource' => [

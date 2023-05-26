@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Illuminate\Support\Carbon|null $read_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|CustomNotification newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|CustomNotification newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|CustomNotification query()
@@ -30,6 +31,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|CustomNotification whereRoleId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CustomNotification whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CustomNotification whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 class CustomNotification extends Model
@@ -70,5 +72,4 @@ class CustomNotification extends Model
 //            get: fn($val) => $this->changeDateFormat($val , 'Y-m-d H:i')
 //        );
 //    }
-
 }

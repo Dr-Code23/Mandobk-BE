@@ -6,15 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Models\V1\OfferOrder;
 use App\Traits\HttpResponse;
 use App\Traits\UserTrait;
-use Illuminate\Http\Request;
 
 class OfferOrderManagementController extends Controller
 {
     use HttpResponse, UserTrait;
 
-    /**
-     * @return mixed
-     */
     public function index(): mixed
     {
         return OfferOrder::whereIn(
@@ -40,7 +36,7 @@ class OfferOrderManagementController extends Controller
                 'offers.to as to_date',
                 'offers_users.full_name as offer_from_name',
                 'want_offer_users.full_name as offer_to_name',
-                'want_offer_users.id as want_offer_id'
+                'want_offer_users.id as want_offer_id',
             ])
             ->get();
     }

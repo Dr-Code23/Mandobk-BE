@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Actions;
 
 use App\Http\Resources\Api\V1\Product\ProductCollection;
@@ -8,13 +9,12 @@ use App\Traits\RoleTrait;
 use App\Traits\StringTrait;
 use App\Traits\UserTrait;
 
-class GetHomeInfoAction{
-
+class GetHomeInfoAction
+{
     use UserTrait, StringTrait, RoleTrait;
 
     /**
      * Get Home Page Statistics To Show
-     * @return array
      */
     public function getInfo(): array
     {
@@ -56,9 +56,9 @@ class GetHomeInfoAction{
             }
         }
 
-        $dailyProfits = max($dailySales - $dailyPurchases , 0);
-        $monthlyProfits = max($monthlySales - $monthlyPurchases,0);
-        $totalProfits = max($totalSales - $totalPurchases,0);
+        $dailyProfits = max($dailySales - $dailyPurchases, 0);
+        $monthlyProfits = max($monthlySales - $monthlyPurchases, 0);
+        $totalProfits = max($totalSales - $totalPurchases, 0);
         $homeInfo = [
             'daily_purchases' => $this->setPercisionForFloatString($dailyPurchases, 2, '.', ','),
             'daily_sales' => $this->setPercisionForFloatString($dailySales, 2, '.', ','),
@@ -81,9 +81,10 @@ class GetHomeInfoAction{
                     $subUsers
                 )
                     ->with('product_details')
-                    ->withSum('product_details' , 'qty')
+                    ->withSum('product_details', 'qty')
                     ->limit(7)->get()
             );
+
         return $homeInfo;
     }
 }

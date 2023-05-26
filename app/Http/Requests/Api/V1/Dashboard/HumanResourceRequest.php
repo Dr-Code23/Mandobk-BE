@@ -14,8 +14,6 @@ class HumanResourceRequest extends FormRequest
 
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
     public function authorize(): bool
     {
@@ -33,15 +31,15 @@ class HumanResourceRequest extends FormRequest
 
         $departure = '';
 
-        if ((int)$this->status == 0) {
+        if ((int) $this->status == 0) {
             $attendance = $departure = 'required|date_format:H:i';
             $departure .= '|after:attendance';
         }
 
         $rules = [
             'user_id' => 'required',
-            'status'  => ['required', 'in:0,1,2'],
-            'date'    => ['required', 'date_format:Y-m-d', 'before_or_equal:today'],
+            'status' => ['required', 'in:0,1,2'],
+            'date' => ['required', 'date_format:Y-m-d', 'before_or_equal:today'],
         ];
 
         if ($attendance) {
@@ -54,8 +52,6 @@ class HumanResourceRequest extends FormRequest
 
     /**
      * Custom Validation Messages
-     *
-     * @return array
      */
     public function messages(): array
     {
@@ -69,14 +65,13 @@ class HumanResourceRequest extends FormRequest
             'departure.after' => $this->translateErrorMessage('departure', 'human_resource.after'),
             'date.required' => $this->translateErrorMessage('date', 'required'),
             'date.date_format' => $this->translateErrorMessage('date', 'date_format'),
-            'date.before_or_equal' => $this->translateErrorMessage('date' , 'before_or_equal')
+            'date.before_or_equal' => $this->translateErrorMessage('date', 'before_or_equal'),
         ];
     }
 
     /**
      * Custom Validation Response
      *
-     * @param Validator $validator
      * @throws ValidationException
      */
     public function failedValidation(Validator $validator): void

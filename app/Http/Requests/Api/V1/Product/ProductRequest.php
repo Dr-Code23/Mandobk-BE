@@ -19,8 +19,6 @@ class ProductRequest extends FormRequest
 
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
     public function authorize(): bool
     {
@@ -37,29 +35,29 @@ class ProductRequest extends FormRequest
         $double = ['required', 'numeric', 'min:0.1'];
         $rules = [
             'commercial_name' => [
-                'required' ,
-                'max:255'
+                'required',
+                'max:255',
             ],
             'scientific_name' => [
                 'sometimes',
-                'max:255'
+                'max:255',
             ],
             'quantity' => [
                 'required',
-                'regex:' . config('regex.integer')
+                'regex:'.config('regex.integer'),
             ],
             'concentrate' => $double,
             'bonus' => $double,
             'selling_price' => $double,
             'purchase_price' => $double,
             'patch_number' => [
-                'required' ,
-                'max:255'
+                'required',
+                'max:255',
             ],
             'expire_date' => [
                 'bail',
                 'required',
-                'date_format:Y-m-d', 'after:today'
+                'date_format:Y-m-d', 'after:today',
             ],
         ];
 
@@ -78,19 +76,15 @@ class ProductRequest extends FormRequest
         return $rules;
     }
 
-
     /**
      * Return Custom Error Messages.
-     * @return array
      */
     public function messages(): array
     {
         $messages = [
             'limited.boolean' => $this->translateErrorMessage('limited', 'limited.boolean'),
-            'entry_date.date_format' =>
-                $this->translateErrorMessage('entry_date', 'entry_date.date.date_format'),
-            'expire_date.date_format' =>
-                $this->translateErrorMessage('expire_date', 'expire_date.date.date_format'),
+            'entry_date.date_format' => $this->translateErrorMessage('entry_date', 'entry_date.date.date_format'),
+            'expire_date.date_format' => $this->translateErrorMessage('expire_date', 'expire_date.date.date_format'),
             'expire_date.after' => $this->translateErrorMessage('expire_date', 'after'),
             'generate_another_bar_code' => $this->translateErrorMessage('bar_code', 'boolean'),
             'quantity.regex' => $this->translateErrorMessage('quantity', 'quantity.regex'),
@@ -105,13 +99,13 @@ class ProductRequest extends FormRequest
         }
 
         // Numeric , between and regex validation messages
-        $regex_length_names = ['quantity', 'purchase_price', 'selling_price', 'bonus', 'patch_number', 'concentrate' , 'barcode'];
+        $regex_length_names = ['quantity', 'purchase_price', 'selling_price', 'bonus', 'patch_number', 'concentrate', 'barcode'];
         foreach ($regex_length_names as $key) {
             if ($key != 'patch_number') {
                 $messages["$key.numeric"] = $this->translateErrorMessage($key, 'numeric');
                 $messages["$key.min"] = $this->translateErrorMessage($key, 'min.numeric');
             } else {
-                $messages["$key.regex"] = $this->translateErrorMessage($key, $key . '.regex');
+                $messages["$key.regex"] = $this->translateErrorMessage($key, $key.'.regex');
             }
         }
 
@@ -124,10 +118,7 @@ class ProductRequest extends FormRequest
         return $messages;
     }
 
-
     /**
-     * @param Validator $validator
-     * @return void
      * @throws ValidationException
      */
     public function failedValidation(Validator $validator): void

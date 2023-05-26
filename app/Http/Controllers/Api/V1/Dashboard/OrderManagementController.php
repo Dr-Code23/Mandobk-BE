@@ -18,20 +18,13 @@ class OrderManagementController extends Controller
 {
     use HttpResponse, Translatable;
 
-    /**
-     * @param OrderManagementService $orderManagementService
-     */
     public function __construct(
         private OrderManagementService $orderManagementService
-    )
-    {
+    ) {
     }
 
     /**
      * Show All Orders
-     *
-     * @param Request $request
-     * @return JsonResponse
      */
     public function index(Request $request): JsonResponse
     {
@@ -44,9 +37,6 @@ class OrderManagementController extends Controller
 
     /**
      * Manage Pending Orders
-     * @param OrderManagementRequest $request
-     * @param OfferOrder $order
-     * @return JsonResponse
      */
     public function managePendingOrders(OrderManagementRequest $request, OfferOrder $order): JsonResponse
     {

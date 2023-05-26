@@ -9,12 +9,10 @@ class HumanResourceSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
     public function run(): void
     {
-        for ($i = 1; $i <= count(config('roles.all_roles')); ++$i) {
+        for ($i = 1; $i <= count(config('roles.all_roles')); $i++) {
             HumanResource::create([
                 'user_id' => $i,
                 'date' => fake()->date(),

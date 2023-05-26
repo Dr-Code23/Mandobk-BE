@@ -7,9 +7,6 @@ use App\Models\V1\Role;
 use App\Traits\FileOperationTrait;
 use App\Traits\TestingTrait;
 use App\Traits\UserTrait;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Http\Response;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Tests\TestCase;
 
@@ -20,6 +17,7 @@ class UserTest extends TestCase
     use UserTrait;
 
     private string $path = 'Users/';
+
     public function testLogin(array $credentials = ['username' => 'ceo', 'password' => 'ceo'])
     {
         $response = $this->postJson(route('v1-login'), $credentials);
@@ -30,7 +28,7 @@ class UserTest extends TestCase
     public function testGetAllUsersInDashboardToApprove()
     {
         $response = $this
-            ->withHeader('Authorization', 'Bearer ' . $this->getToken())
+            ->withHeader('Authorization', 'Bearer '.$this->getToken())
             ->getJson(route('dashboard-user-all'));
         $response->assertSuccessful();
         $this->writeAFileForTesting($this->path, 'GetAllUsersInDashboardToApprove', $response->getContent());
@@ -38,7 +36,7 @@ class UserTest extends TestCase
 
     public function testchangeUserStatusWithWrongValue()
     {
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
+        $response = $this->withHeader('Authorization', 'Bearer '.$this->getToken())
             ->putJson(route('dashboard-user-updateSubUser', ['user' => '1']), ['status' => '3']);
         $response->assertStatus(ResponseAlias::HTTP_UNPROCESSABLE_ENTITY);
         $this->writeAFileForTesting($this->path, 'changeUserStatusWithWrongValue', $response->getContent());
@@ -52,17 +50,18 @@ class UserTest extends TestCase
                 'username' => fake()->name(),
                 'password' => fake()->password(),
                 'phone' => 'Google',
-                'role_id' => Role::where('name', 'company')->value('id')
+                'role_id' => Role::where('name', 'company')->value('id'),
             ]);
-            $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
+            $response = $this->withHeader('Authorization', 'Bearer '.$this->getToken())
                 ->putJson(route('dashboard-user-updateSubUser', ['user' => $user->id]), ['status' => $status]);
             $response->assertStatus(ResponseAlias::HTTP_OK);
-            if ($status == $this->isDeleted()) $response->assertJsonFragment([
-                'msg' => __('standard.deleted')
-            ]);
-            else {
+            if ($status == $this->isDeleted()) {
                 $response->assertJsonFragment([
-                    'status' => $status
+                    'msg' => __('standard.deleted'),
+                ]);
+            } else {
+                $response->assertJsonFragment([
+                    'status' => $status,
                 ]);
                 $user->delete();
             }
@@ -72,18 +71,17 @@ class UserTest extends TestCase
     public function testGetAllUsersForSelect()
     {
         $this->login();
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
+        $response = $this->withHeader('Authorization', 'Bearer '.$this->getToken())
             ->getJson(route('roles-storehouse-all'));
         $response->assertSuccessful();
 
-
         $this->login(['username' => 'storehouse', 'password' => 'storehouse']);
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
+        $response = $this->withHeader('Authorization', 'Bearer '.$this->getToken())
             ->getJson(route('roles-pharmacy-all'));
         $response->assertSuccessful();
 
         $this->login(['username' => 'human_resource', 'password' => 'human_resource']);
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
+        $response = $this->withHeader('Authorization', 'Bearer '.$this->getToken())
             ->getJson(route('roles-human_resource-all'));
         $response->assertSuccessful();
     }

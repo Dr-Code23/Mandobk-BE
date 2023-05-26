@@ -14,8 +14,6 @@ class MarketingRequest extends FormRequest
 
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
     public function authorize(): bool
     {
@@ -32,73 +30,62 @@ class MarketingRequest extends FormRequest
         return [
             'medicine_name' => [
                 'required',
-                'not_regex:' . config('regex.not_fully_numbers_symbols'),
-                'max:255'
+                'not_regex:'.config('regex.not_fully_numbers_symbols'),
+                'max:255',
             ],
             'company_name' => [
                 'required',
-                'not_regex:' . config('regex.not_fully_numbers_symbols'),
-                'max:255'
+                'not_regex:'.config('regex.not_fully_numbers_symbols'),
+                'max:255',
             ],
             'discount' => ['bail', 'required', 'numeric', 'between:0,100'],
             'img' => [
                 $this->routeIs('markting_store') ? 'required' : 'sometimes',
                 'mimes:png,svg,jpg,jpeg',
-                'max:2048'
+                'max:2048',
             ],
         ];
     }
 
     /**
      * Custom Messages
-     *
-     * @return array
      */
     public function messages(): array
     {
         return [
-            'medicine_name.required' =>
-                $this->translateErrorMessage(
+            'medicine_name.required' => $this->translateErrorMessage(
                     'medicine_name',
                     'required'
                 ),
-            'medicine_name.not_regex' =>
-                $this->translateErrorMessage(
-                'medicine_name',
-                'not_fully_numbers_symbols'
+            'medicine_name.not_regex' => $this->translateErrorMessage(
+                    'medicine_name',
+                    'not_fully_numbers_symbols'
                 ),
-            'company_name.required' =>
-                $this->translateErrorMessage(
+            'company_name.required' => $this->translateErrorMessage(
                     'company_name',
                     'required'
                 ),
-            'company_name.not_regex' =>
-                $this->translateErrorMessage(
-                'company_name',
-                'not_fully_numbers_symbols'
+            'company_name.not_regex' => $this->translateErrorMessage(
+                    'company_name',
+                    'not_fully_numbers_symbols'
                 ),
-            'discount.required' =>
-                $this->translateErrorMessage(
+            'discount.required' => $this->translateErrorMessage(
                     'discount',
                     'required'
                 ),
-            'discount.numeric' =>
-                $this->translateErrorMessage(
+            'discount.numeric' => $this->translateErrorMessage(
                     'discount',
                     'numeric'
                 ),
-            'discount.between' =>
-                $this->translateErrorMessage(
+            'discount.between' => $this->translateErrorMessage(
                     'discount',
                     'between.numeric'
                 ),
-            'img.required' =>
-                $this->translateErrorMessage(
+            'img.required' => $this->translateErrorMessage(
                     'img',
                     'required'
                 ),
-            'img.mimes' =>
-                $this->translateErrorMessage(
+            'img.mimes' => $this->translateErrorMessage(
                     'img',
                     'mimes'
                 ),
@@ -108,7 +95,6 @@ class MarketingRequest extends FormRequest
     /**
      * Custom Validation Response
      *
-     * @param Validator $validator
      * @throws ValidationException
      */
     public function failedValidation(Validator $validator): void

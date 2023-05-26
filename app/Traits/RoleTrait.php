@@ -10,13 +10,14 @@ use Illuminate\Support\Facades\Cache;
 trait RoleTrait
 {
     use UserTrait;
+
     /**
      * Summary of getRoleName.
      */
-
     public function getRoleNameForAuthenticatedUser(): string
     {
         $cachedRoles = $this->getCachedRoles();
+
         return $cachedRoles[auth()->user()->role_id];
     }
 
@@ -37,22 +38,25 @@ trait RoleTrait
         $cachedRoles = $this->getCachedRoles();
         foreach ($cachedRoles as $roleId => $roleName) {
             foreach ($roles as $role) {
-                if ($role == $roleName) $res[] = $roleId;
+                if ($role == $roleName) {
+                    $res[] = $roleId;
+                }
             }
         }
+
         return $res;
     }
 
     /**
      * Get Role Ids By Name
-     * @param string $name
-     * @return int
      */
     public function getRoleIdByName(string $name): int
     {
         $roles = $this->getCachedRoles();
         foreach ($roles as $id => $roleName) {
-            if ($name == $roleName) return $id;
+            if ($name == $roleName) {
+                return $id;
+            }
         }
         // Customer That Has No Usage
         return 13;
@@ -65,22 +69,18 @@ trait RoleTrait
 
     /**
      * Get Role Name By ID
-     * @param int $id
-     * @return string|null
      */
     public function getRoleNameById(int $id): string|null
     {
         $roles = $this->getCachedRoles();
+
         return $roles[$id] ?? null;
     }
 
     /**
      * Get Role Details From Array By Name
-     * @param array $roles
-     * @param bool $translateRoleName
-     * @return Collection
      */
-    public function getRoleDetailsFromArrayByName(array $roles , bool $translateRoleName = false): Collection
+    public function getRoleDetailsFromArrayByName(array $roles, bool $translateRoleName = false): Collection
     {
         $allRoles = $this->getCachedRoles();
         $res = [];
@@ -100,37 +100,35 @@ trait RoleTrait
 
     /**
      * Get Role Name For User
-     * @param $userId
-     * @return string
      */
     public function getRoleNameForUser($userId = null): string
     {
-        if (!$userId) {
+        if (! $userId) {
             $roleName = $this->getRoleNameForAuthenticatedUser();
-        }
-        else {
+        } else {
             $cachedRoles = $this->getCachedRoles();
             $roleName = $cachedRoles[
-                User::where('id' , $userId)
+                User::where('id', $userId)
                     ->value('role_id')
             ];
         }
+
         return $roleName;
     }
 
     /**
      * Get Roles From Cache
-     * @return array
      */
     public function getCachedRoles(): array
     {
-        if (!Cache::has('roles')) {
+        if (! Cache::has('roles')) {
             $roles = [];
             foreach (Role::all(['id', 'name']) as $role) {
                 $roles[$role->id] = $role->name;
             }
             Cache::set('roles', $roles);
         }
+
         return Cache::get('roles');
     }
 }

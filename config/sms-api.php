@@ -4,7 +4,7 @@ return [
     'country_code' => '962', // Country code to be added
     'default' => env('SMS_API_DEFAULT_GATEWAY', 'gateway_name_basic'), // Choose default gateway
 
-//    Basic Gateway Sample Configuration
+    //    Basic Gateway Sample Configuration
     'gateway_name_basic' => [
         'method' => 'GET', // Choose Request Method (GET/POST) Default:GET
         'url' => env('APP_URL'), // Base URL
@@ -26,7 +26,7 @@ return [
         'add_code' => true, // Include Country Code (true/false)
     ],
 
-//    Advanced Gateway Sample Configuration
+    //    Advanced Gateway Sample Configuration
     'gateway_name_advanced' => [
         'method' => 'POST', // Choose Request Method (GET/POST) Default:GET
         'url' => 'BaseUrl', // Base URL
@@ -46,12 +46,12 @@ return [
             // More headers can be added
         ],
         'json' => true, // OPTIONAL: Use if you want the params to be sent in JSON format instead of query params (accepts true/false)
-//        'jsonToArray' => false, // OPTIONAL, use only if you want "to" param as text instead of array in JSON payload.
+        //        'jsonToArray' => false, // OPTIONAL, use only if you want "to" param as text instead of array in JSON payload.
 
-//        'wrapper' => 'wrapper_name', // OPTIONAL: Use only if you want the JSON request to be wrapped (accepts wrapper name)
-//        'wrapperParams' => [
-//            'wrapperParam1' => '', //Wrapper Param
-//        ],
+        //        'wrapper' => 'wrapper_name', // OPTIONAL: Use only if you want the JSON request to be wrapped (accepts wrapper name)
+        //        'wrapperParams' => [
+        //            'wrapperParam1' => '', //Wrapper Param
+        //        ],
         /* Learn more about wrapper here: https://github.com/gr8shivam/laravel-sms-api#wrapper-parameter * */
 
         'add_code' => true, // Include Country Code (true/false)
@@ -63,7 +63,7 @@ return [
     *
     */
 
-//    SMSNIX Sample Config
+    //    SMSNIX Sample Config
     'smsnix' => [
         'url' => 'http://bulk.smsnix.in/vendorsms/pushsms.aspx?',
         'params' => [
@@ -80,7 +80,7 @@ return [
         'add_code' => true, // Include Country Code
     ],
 
-//    MSG91 Sample Config
+    //    MSG91 Sample Config
     'msg91' => [
         'method' => 'POST', // Choose Request Method (GET/POST)
         'url' => 'https://control.msg91.com/api/v2/sendsms?', // Base URL

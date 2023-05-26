@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Cache;
 trait GeneralTrait
 {
     use RoleTrait;
+
     public function formatPatchNumber(string $val, int $roleId)
     {
         // Cache All Roles Ids
@@ -25,10 +26,11 @@ trait GeneralTrait
         if ($this->roleNameIn(['ceo', 'data_entry'])) {
             foreach ($all_roles as $loopRoleId => $loopRoleName) {
                 if ($loopRoleId == $roleId) {
-                    return config('roles.role_patch_number_symbol.' . $loopRoleName) . '-' . $val;
+                    return config('roles.role_patch_number_symbol.'.$loopRoleName).'-'.$val;
                 }
             }
         }
+
         return $val;
     }
 }

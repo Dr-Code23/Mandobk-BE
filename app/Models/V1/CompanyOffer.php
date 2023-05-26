@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|CompanyOffer newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|CompanyOffer newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|CompanyOffer query()
+ *
  * @mixin \Eloquent
  */
 class CompanyOffer extends Model

@@ -9,15 +9,13 @@ use App\Models\V1\Role;
 use App\Models\V1\VisitorRecipe;
 use App\Traits\FileOperationTrait;
 use App\Traits\TestingTrait;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Http\Response;
 use Tests\TestCase;
 
 class DoctorTest extends TestCase
 {
     use TestingTrait;
     use FileOperationTrait;
+
     private string $path = 'Doctor/';
 
     public function testLogin(array $credentials = ['username' => 'doctor', 'password' => 'doctor'])
@@ -29,12 +27,11 @@ class DoctorTest extends TestCase
 
     public function testGetAllRecipes()
     {
-
         $visitor = User::create([
             'full_name' => fake()->name(),
             'username' => fake()->userName(),
             'password' => fake()->name(),
-            'role_id' => Role::where('name', 'visitor')->value('id')
+            'role_id' => Role::where('name', 'visitor')->value('id'),
         ]);
 
         Product::create(json_decode('{
@@ -53,14 +50,14 @@ class DoctorTest extends TestCase
             'visitor_id' => $visitor->id,
             'random_number' => $visitor->id,
             'alias' => fake()->name(),
-            'details' => []
+            'details' => [],
         ]);
 
         DoctorVisit::create([
             'visitor_recipe_id' => $visitorRecipe->id,
-            'doctor_id' => '7'
+            'doctor_id' => '7',
         ]);
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
+        $response = $this->withHeader('Authorization', 'Bearer '.$this->getToken())
             ->getJson(route('doctor-recipe-all'));
 
         $this->writeAFileForTesting($this->path, 'GetAllDoctorRecipes', $response->getContent());
@@ -69,9 +66,9 @@ class DoctorTest extends TestCase
             'data' => [
                 '*' => [
                     'visitor_name',
-                    'created_at'
-                ]
-            ]
+                    'created_at',
+                ],
+            ],
         ]);
     }
 
@@ -94,24 +91,23 @@ class DoctorTest extends TestCase
             'full_name' => fake()->name(),
             'username' => fake()->userName(),
             'password' => fake()->name(),
-            'role_id' => Role::where('name', 'visitor')->value('id')
+            'role_id' => Role::where('name', 'visitor')->value('id'),
         ]);
 
         $visitorRecipe = VisitorRecipe::create([
             'visitor_id' => $visitor->id,
             'random_number' => $visitor->id,
             'alias' => fake()->name(),
-            'details' => []
+            'details' => [],
         ]);
 
-
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
+        $response = $this->withHeader('Authorization', 'Bearer '.$this->getToken())
             ->postJson(route('doctor-recipe-add', [
                 'products' => [
                     [
                         'product_id' => $product->id,
                         'quantity' => 1,
-                    ]
+                    ],
                 ],
                 'random_number' => $visitorRecipe->random_number,
             ]));
@@ -119,17 +115,15 @@ class DoctorTest extends TestCase
         $response->assertSuccessful();
     }
 
-
     public function testRegisterNewVisitor()
     {
-
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
+        $response = $this->withHeader('Authorization', 'Bearer '.$this->getToken())
             ->postJson(route('doctor-visitor-register', [
                 'name' => fake()->name(),
-                'username' => 'Google' . rand(1, 10000),
+                'username' => 'Google'.rand(1, 10000),
                 'password' => 'Aa13123!#!',
                 'phone' => fake()->numberBetween(1, 100000000),
-                'alias' => fake()->name()
+                'alias' => fake()->name(),
             ]));
         $this->writeAFileForTesting($this->path, 'RegisterNewVisitor', $response->getContent());
         $response->assertSuccessful();
@@ -154,31 +148,30 @@ class DoctorTest extends TestCase
             'full_name' => fake()->name(),
             'username' => fake()->userName(),
             'password' => fake()->name(),
-            'role_id' => Role::where('name', 'visitor')->value('id')
+            'role_id' => Role::where('name', 'visitor')->value('id'),
         ]);
 
         $visitorRecipe = VisitorRecipe::create([
             'visitor_id' => $visitor->id,
             'random_number' => $visitor->id,
             'alias' => fake()->name(),
-            'details' => []
+            'details' => [],
         ]);
 
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
+        $response = $this->withHeader('Authorization', 'Bearer '.$this->getToken())
             ->getJson(route('doctor-visitor-products', ['random_number' => $visitorRecipe->random_number]));
         $this->writeAFileForTesting($this->path, 'GetAllProductsWithRandomNumber', $response->getContent());
         $response->assertSuccessful();
 
         $response->assertJsonFragment([
-            'data' => []
+            'data' => [],
         ]);
 
         DoctorVisit::create([
             'visitor_recipe_id' => $visitorRecipe->id,
-            'doctor_id' => '7'
+            'doctor_id' => '7',
         ]);
     }
-
 
     public function testRestoreRandomNumberForUser()
     {
@@ -187,17 +180,17 @@ class DoctorTest extends TestCase
             'username' => fake()->userName(),
             'password' => fake()->name(),
             'role_id' => Role::where('name', 'visitor')->value('id'),
-            'phone' => '23021977777'
+            'phone' => '23021977777',
         ]);
 
         $visitorRecipe = VisitorRecipe::create([
             'visitor_id' => $visitor->id,
             'random_number' => $visitor->id,
             'alias' => fake()->name(),
-            'details' => []
+            'details' => [],
         ]);
 
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
+        $response = $this->withHeader('Authorization', 'Bearer '.$this->getToken())
             ->postJson(route('doctor-visitor-forgot-random-number', ['handle' => $visitor->phone]));
         $this->writeAFileForTesting($this->path, 'RestoreRandomNumbersForVisitor', $response->getContent());
         $response->assertSuccessful();
@@ -206,9 +199,9 @@ class DoctorTest extends TestCase
             'data' => [
                 '*' => [
                     'random_number',
-                    'alias'
-                ]
-            ]
+                    'alias',
+                ],
+            ],
         ]);
         // $response->dd();
     }

@@ -18,8 +18,8 @@ class OfferProductResource extends JsonResource
             'commercial_name' => $this->com_name,
             'scientific_name' => $this->sc_name,
             'concentrate' => $this->con,
-            'bonus' => $this->bonus . '%',
-            'selling_price' => $this->sel_price
+            'bonus' => $this->bonus.'%',
+            'selling_price' => $this->sel_price,
         ];
     }
 }

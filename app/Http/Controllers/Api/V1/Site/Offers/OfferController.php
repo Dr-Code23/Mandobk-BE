@@ -20,27 +20,22 @@ class OfferController extends Controller
 
     public function __construct(
         protected OfferService $offerService,
-    )
-    {
+    ) {
     }
 
-    /**
-     * @return JsonResponse
-     */
     public function index(): JsonResponse
     {
         return $this->resourceResponse(new OfferCollection($this->offerService->allOffers()));
     }
 
     /**
-     * @param Offer $offer
      * @return JsonResponse
      */
     public function show(Offer $offer)
     {
         $offer = $this->offerService->show($offer);
 
-        if ($offer != null){
+        if ($offer != null) {
             return $this->resourceResponse(new OfferResource($offer));
         }
 
@@ -48,7 +43,6 @@ class OfferController extends Controller
     }
 
     /**
-     * @param OfferRequest $request
      * @return JsonResponse
      */
     public function store(OfferRequest $request)
@@ -57,32 +51,26 @@ class OfferController extends Controller
 
         if (isset($offer['error'])) {
             unset($offer['error']);
+
             return $this->validationErrorsResponse($offer);
         }
 
         return $this->createdResponse(new OfferResource($offer));
     }
 
-    /**
-     * @param ChangeStatusRequest $request
-     * @param Offer $offer
-     * @return JsonResponse
-     */
     public function changeOfferStatus(ChangeStatusRequest $request, Offer $offer): JsonResponse
     {
         $offer = $this->offerService->changeOfferStatus($request, $offer);
 
         if (isset($offer['error'])) {
             unset($offer['error']);
+
             return $this->notFoundResponse($this->translateErrorMessage('offer', 'not_exists'));
         }
+
         return $this->success(new OfferResource($offer), 'Offer Updated Successfully');
     }
 
-    /**
-     * @param Offer $offer
-     * @return JsonResponse
-     */
     public function destroy(Offer $offer): JsonResponse
     {
         $offer = $this->offerService->destroy($offer);

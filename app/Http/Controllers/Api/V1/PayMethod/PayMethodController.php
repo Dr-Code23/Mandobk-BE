@@ -14,8 +14,6 @@ class PayMethodController extends Controller
 
     /**
      * Show All Payment Methods
-     *
-     * @return JsonResponse
      */
     public function getAllPayMethods(): JsonResponse
     {

@@ -2,14 +2,10 @@
 
 namespace App\Traits;
 
-use App\Models\V1\PayMethod;
-use Illuminate\Http\Response as HttpResponse;
-use Response;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 trait TestingTrait
 {
-
     public function login(array $credentials = ['username' => 'company', 'password' => 'company'])
     {
         $response = $this->postJson(route('v1-login'), $credentials);
@@ -33,13 +29,13 @@ trait TestingTrait
 
         return $data;
     }
+
     public function getOfferData(string $WantToTest = null, string $Against = ''): array
     {
-
         $data = [
             'product_id' => null,
             'start_date' => date('Y-m-d'),
-            'end_date' => date('Y-m-d', strtotime('+' . rand(1, 100) . 'Days')),
+            'end_date' => date('Y-m-d', strtotime('+'.rand(1, 100).'Days')),
             'pay_method_id' => '1',
         ];
         if ($WantToTest) {
@@ -81,10 +77,10 @@ trait TestingTrait
     public function setToken(string $token)
     {
         if (config('test.store_response')) {
-            if (!is_dir(__DIR__ . '/../../tests/responsesExamples/Auth')) {
-                mkdir(__DIR__ . '/../../tests/responsesExamples/Auth', recursive: true);
+            if (! is_dir(__DIR__.'/../../tests/responsesExamples/Auth')) {
+                mkdir(__DIR__.'/../../tests/responsesExamples/Auth', recursive: true);
             }
-            $handle = fopen(__DIR__ . '/../../tests/responsesExamples/Auth/token.txt', 'w');
+            $handle = fopen(__DIR__.'/../../tests/responsesExamples/Auth/token.txt', 'w');
             fwrite($handle, $token);
             fclose($handle);
         }
@@ -97,6 +93,6 @@ trait TestingTrait
      */
     public function getToken()
     {
-        return file_get_contents(__DIR__ . '/../../tests/responsesExamples/Auth/token.txt');
+        return file_get_contents(__DIR__.'/../../tests/responsesExamples/Auth/token.txt');
     }
 }

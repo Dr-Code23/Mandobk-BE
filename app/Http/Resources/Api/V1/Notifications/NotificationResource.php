@@ -9,6 +9,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class NotificationResource extends JsonResource
 {
     use DateTrait;
+
     /**
      * Transform the resource into an array.
      *
@@ -23,7 +24,7 @@ class NotificationResource extends JsonResource
             'msg' => config('notifications.messages')[$this->type] ?? null,
             'read' => $this->read_at != null,
             'type' => config('notifications.types')[$this->type] ?? null,
-            'since' => $this->messageSentFrom($this->created_at)
+            'since' => $this->messageSentFrom($this->created_at),
         ];
     }
 }

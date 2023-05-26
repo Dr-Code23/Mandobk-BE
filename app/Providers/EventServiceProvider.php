@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use App\Events\CustomerStatusEvent;
 use App\Events\RegisterUserEvent;
-use App\Events\TestingEvent;
 use App\Listeners\NotifyAdminForUserRegistration;
 use App\Listeners\TellCustomersAboutOrderStatus;
 use Illuminate\Auth\Events\Registered;
@@ -25,11 +24,11 @@ class EventServiceProvider extends ServiceProvider
         ],
 
         RegisterUserEvent::class => [
-            NotifyAdminForUserRegistration::class
+            NotifyAdminForUserRegistration::class,
         ],
         CustomerStatusEvent::class => [
-            TellCustomersAboutOrderStatus::class
-        ]
+            TellCustomersAboutOrderStatus::class,
+        ],
     ];
 
     /**

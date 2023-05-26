@@ -9,7 +9,7 @@ trait PaginationTrait
     /**
      * Return The Pagination count if exists and valid or return 15.
      *
-     * @param Request $request
+     * @param  Request  $request
      */
     public function paginateCount($request): int
     {

@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static Builder|PharmacyEmployee newModelQuery()
  * @method static Builder|PharmacyEmployee newQuery()
  * @method static Builder|PharmacyEmployee query()
+ *
  * @mixin Eloquent
  */
 class PharmacyEmployee extends Model

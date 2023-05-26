@@ -17,8 +17,6 @@ class SignupRequest extends FormRequest
 
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
     public function authorize(): bool
     {
@@ -33,33 +31,30 @@ class SignupRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'full_name' => ['required','max:255'],
-            'username' => ['required', 'regex:' . config('regex.username')],
-            'phone' => ['required' , 'numeric'],
+            'full_name' => ['required', 'max:255'],
+            'username' => ['required', 'regex:'.config('regex.username')],
+            'phone' => ['required', 'numeric'],
             'role' => ['required'],
             'password' => [
                 'required',
                 RulesPassword::min(8)->mixedCase()
                     ->numbers()
                     ->symbols(),
-                'confirmed'
+                'confirmed',
             ],
         ];
     }
 
-    /**
-     * @return array
-     */
     public function messages(): array
     {
         return [
             'full_name.required' => $this->translateErrorMessage('full_name', 'required'),
             'phone.required' => $this->translateErrorMessage('phone', 'required'),
-            'phone.numeric' => $this->translateErrorMessage('phone' , 'numeric'),
+            'phone.numeric' => $this->translateErrorMessage('phone', 'numeric'),
             'role.required' => $this->translateErrorMessage('role', 'required'),
             'username.required' => $this->translateErrorMessage('username', 'required'),
             'password.required' => $this->translateErrorMessage('password', 'required'),
-            'password.confirmed' => $this->translateErrorMessage('password' , 'confirmed'),
+            'password.confirmed' => $this->translateErrorMessage('password', 'confirmed'),
             'full_name.max' => $this->translateErrorMessage('full_name', 'max.string'),
             'username.regex' => $this->translateErrorMessage('username', 'username.regex'),
             'username.unique' => $this->translateErrorMessage('username', 'unique'),
@@ -67,8 +62,6 @@ class SignupRequest extends FormRequest
     }
 
     /**
-     * @param Validator $validator
-     * @return void
      * @throws ValidationException
      */
     protected function failedValidation(Validator $validator): void

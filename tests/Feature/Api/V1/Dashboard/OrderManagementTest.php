@@ -8,8 +8,6 @@ use App\Models\V1\Product;
 use App\Models\V1\ProductInfo;
 use App\Traits\FileOperationTrait;
 use App\Traits\TestingTrait;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class OrderManagementTest extends TestCase
@@ -18,6 +16,7 @@ class OrderManagementTest extends TestCase
     use FileOperationTrait;
 
     private string $path = 'Dashboard/OrderManagement/';
+
     public function testLogin(array $credentials = ['username' => 'order_management', 'password' => 'order_management'])
     {
         $response = $this->postJson(route('v1-login'), $credentials);
@@ -27,7 +26,7 @@ class OrderManagementTest extends TestCase
 
     public function testGetAllOrders()
     {
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
+        $response = $this->withHeader('Authorization', 'Bearer '.$this->getToken())
             ->getJson(route('management-all'));
         $this->writeAFileForTesting($this->path, 'AllOrders', $response->getContent());
         $response->assertSuccessful();
@@ -42,15 +41,14 @@ class OrderManagementTest extends TestCase
                     'quantity',
                     'status',
                     'status_code',
-                    'created_at'
-                ]
-            ]
+                    'created_at',
+                ],
+            ],
         ]);
     }
 
     public function testChangeOrderStatus()
     {
-
         $product = Product::create(json_decode('{
             "com_name" : "GoossgsssleGoogsles",
             "sc_name" : "Googssssdssfassdfssssles",
@@ -80,18 +78,17 @@ class OrderManagementTest extends TestCase
             'date' => date('Y-m-d'),
             'type' => '1',
             'status' => '1',
-            'pay_method' => '1'
+            'pay_method' => '1',
         ]);
-
 
         // # Make Order
         $order = OfferOrder::create([
             'offer_id' => $offer->id,
             'want_offer_id' => '11',
             'qty' => 1,
-            'status' => '1'
+            'status' => '1',
         ]);
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
+        $response = $this->withHeader('Authorization', 'Bearer '.$this->getToken())
             ->postJson(route('management-accept', ['order' => $order->id]), ['approve' => '1']);
         $this->writeAFileForTesting($this->path, 'ChangeOrderStatus', $response->getContent());
         $response->assertSuccessful();

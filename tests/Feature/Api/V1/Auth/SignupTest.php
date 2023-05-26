@@ -5,7 +5,6 @@ namespace Api\V1\Auth;
 use App\Models\User;
 use App\Traits\TestingTrait;
 use App\Traits\Translatable;
-use Illuminate\Http\Response;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Tests\TestCase;
 
@@ -13,6 +12,7 @@ class SignupTest extends TestCase
 {
     use Translatable;
     use TestingTrait;
+
     private string $signupPath = 'Auth/Signup';
 
     public function testSignupWithNoPayload()
@@ -25,7 +25,7 @@ class SignupTest extends TestCase
                 'password',
                 'role',
                 'phone',
-            ]
+            ],
         ]);
         $this->writeAFileForTesting($this->signupPath, 'All Values Required', $response->content());
     }
@@ -38,8 +38,8 @@ class SignupTest extends TestCase
         // ]);
         $response->assertJsonStructure([
             'data' => [
-                'username'
-            ]
+                'username',
+            ],
         ]);
         $response->assertStatus(ResponseAlias::HTTP_UNPROCESSABLE_ENTITY);
         $this->writeAFileForTesting($this->signupPath, 'UsernameCannotBeNumbersOnly', $response->content());
@@ -50,8 +50,8 @@ class SignupTest extends TestCase
         $response = $this->postJson(route('v1-signup'), $this->getSignUpData('username', 'Aasd(*&*^#@$'));
         $response->assertJsonStructure([
             'data' => [
-                'username'
-            ]
+                'username',
+            ],
         ]);
         $response->assertStatus(ResponseAlias::HTTP_UNPROCESSABLE_ENTITY);
         $this->writeAFileForTesting($this->signupPath, 'PassingCharactersAndSymbolsForUsername', $response->content());

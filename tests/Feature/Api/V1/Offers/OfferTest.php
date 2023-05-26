@@ -6,8 +6,6 @@ use App\Models\V1\Offer;
 use App\Models\V1\Product;
 use App\Traits\FileOperationTrait;
 use App\Traits\TestingTrait;
-use Illuminate\Http\Response as HttpResponse;
-use Response;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Tests\TestCase;
 
@@ -15,6 +13,7 @@ class OfferTest extends TestCase
 {
     use TestingTrait;
     use FileOperationTrait;
+
     private string $path = 'Offers';
 
     public function testLogin(array $credentials = ['username' => 'company', 'password' => 'company'])
@@ -23,11 +22,12 @@ class OfferTest extends TestCase
         $response->assertStatus(ResponseAlias::HTTP_OK);
         $this->setToken(json_decode($response->getContent())->data->token);
     }
+
     public function testGetAllOffers()
     {
         $this->login();
 
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
+        $response = $this->withHeader('Authorization', 'Bearer '.$this->getToken())
             ->getJson(route('offer-all'));
         $response->assertSuccessful();
         $response->assertJsonStructure([
@@ -39,10 +39,10 @@ class OfferTest extends TestCase
                     'end_date',
                     'pay_method_id',
                     'status',
-                ]
+                ],
             ],
             'msg',
-            'code'
+            'code',
         ]);
     }
 
@@ -70,9 +70,9 @@ class OfferTest extends TestCase
             'date' => date('Y-m-d'),
             'type' => '1',
             'status' => '1',
-            'pay_method' => '1'
+            'pay_method' => '1',
         ]);
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
+        $response = $this->withHeader('Authorization', 'Bearer '.$this->getToken())
             ->getJson(route('offer-one', ['offer' => $offer->id]));
 
         $this->writeAFileForTesting($this->path, 'GetOneOffer', $response->getContent());
@@ -87,7 +87,7 @@ class OfferTest extends TestCase
                 'status',
             ],
             'msg',
-            'code'
+            'code',
         ]);
     }
 
@@ -95,7 +95,7 @@ class OfferTest extends TestCase
     {
         $this->testLogin();
 
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
+        $response = $this->withHeader('Authorization', 'Bearer '.$this->getToken())
             ->postJson(route('offer-storeSubUser'), $this->getOfferData('product_id', Product::where('user_id', '8')->value('id')));
         $this->writeAFileForTesting($this->path, 'StoreOffer', $response->getContent());
         $response->assertCreated();
@@ -105,7 +105,7 @@ class OfferTest extends TestCase
     {
         $offer = Offer::where('user_id', '8')->first();
         info($offer);
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
+        $response = $this->withHeader('Authorization', 'Bearer '.$this->getToken())
             ->putJson(route('offer-status', ['offer' => $offer->id]), ['status' => '1']);
         $this->writeAFileForTesting($this->path, 'UpdateOffer', $response->getContent());
         $response->assertSuccessful();
@@ -120,7 +120,7 @@ class OfferTest extends TestCase
                 'status',
             ],
             'msg',
-            'code'
+            'code',
         ]);
     }
 
@@ -129,7 +129,7 @@ class OfferTest extends TestCase
         $this->testLogin();
         $offer = Offer::where('user_id', '8')->first();
         info($offer);
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
+        $response = $this->withHeader('Authorization', 'Bearer '.$this->getToken())
             ->deleteJson(route('offer-delete', ['offer' => $offer->id]));
         $this->writeAFileForTesting($this->path, 'DeleteOffer', $response->getContent());
         $response->assertSuccessful();

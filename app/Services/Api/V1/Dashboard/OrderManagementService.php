@@ -7,12 +7,8 @@ use Illuminate\Support\Collection;
 
 class OrderManagementService
 {
-
     /**
      * Show All Orders
-     *
-     * @param $request
-     * @return Collection
      */
     public function index($request): Collection
     {
@@ -48,10 +44,6 @@ class OrderManagementService
 
     /**
      * Manage Pending Orders
-     *
-     * @param $request
-     * @param $order
-     * @return OfferOrder|null
      */
     public function managePendingOrders($request, $order): OfferOrder|null
     {
@@ -79,7 +71,7 @@ class OrderManagementService
                     'offers.to as to_date',
                     'offers_users.full_name as offer_from_name',
                     'want_offer_users.full_name as offer_to_name',
-                    'want_offer_users.id as want_offer_id'
+                    'want_offer_users.id as want_offer_id',
                 ])->first();
         }
 

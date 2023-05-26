@@ -12,8 +12,7 @@ class dataEntryResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param \Illuminate\Http\Request $request
-     *
+     * @param  \Illuminate\Http\Request  $request
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
     public function toArray($request)
@@ -27,7 +26,7 @@ class dataEntryResource extends JsonResource
             'selling_price' => $this->sel_price,
             'bonus' => $this->bonus,
             'concentrate' => $this->con,
-            'limited' => (bool)$this->limited,
+            'limited' => (bool) $this->limited,
             'patch_number' => $this->patch_number,
             'provider' => $this->provider,
             'barcode' => asset('storage/data_entry/'.$this->barcode).'.svg',

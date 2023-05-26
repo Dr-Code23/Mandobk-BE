@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Services\Api\V1\Site\SubUsers;
 
 use App\Models\User;
@@ -12,9 +13,9 @@ use Illuminate\Support\Facades\Hash;
 class SubUserService
 {
     use UserTrait , RoleTrait;
+
     /**
      * Show All Sub Users
-     * @return Collection
      */
     public function showAllSubUsers(): Collection
     {
@@ -32,8 +33,6 @@ class SubUserService
 
     /**
      * Show One Sub User
-     * @param $subUser
-     * @return User|null
      */
     public function showOneSubUser($subUser): User|null
     {
@@ -65,7 +64,7 @@ class SubUserService
         return $user;
     }
 
-    public function updateSubUser($request , $subUser): User|null
+    public function updateSubUser($request, $subUser): User|null
     {
         if (SubUser::where('parent_id', auth()->id())->where('sub_user_id', $subUser->id)->value('id') && $subUser->status == '1') {
             // Create The User
@@ -78,32 +77,32 @@ class SubUserService
                 $subUser->username = $request->username;
                 $anyChangeOccur = true;
             }
-            if ($request->password && !Hash::check($request->password, $subUser->password)) {
+            if ($request->password && ! Hash::check($request->password, $subUser->password)) {
                 $subUser->password = $request->password;
                 $anyChangeOccur = true;
             }
             if ($anyChangeOccur) {
                 $subUser->update();
             }
+
             return $subUser;
         }
 
         return null;
     }
 
-
     /**
      * Delete Sub User
-     * @param $subUser
-     * @return bool
      */
     public function deleteSubUser($subUser): bool
     {
         if (SubUser::where('parent_id', auth()->id())->where('sub_user_id', $subUser->id)->value('id') && $subUser->status == '1') {
             $subUser->status = '0';
             $subUser->update();
+
             return true;
         }
+
         return false;
     }
 }

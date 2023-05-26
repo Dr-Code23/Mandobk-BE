@@ -18,20 +18,10 @@ class ArchiveController extends Controller
 {
     use HttpResponse, Translatable;
 
-    /**
-     * @var Archive
-     */
     protected Archive $archiveModel;
 
-    /**
-     * @var VisitorRecipe
-     */
     protected VisitorRecipe $visitorRecipeModel;
 
-    /**
-     * @param Archive $archive
-     * @param VisitorRecipe $visitorRecipe
-     */
     public function __construct(Archive $archive, VisitorRecipe $visitorRecipe)
     {
         $this->archiveModel = $archive;
@@ -40,8 +30,6 @@ class ArchiveController extends Controller
 
     /**
      * Fetch All Products In Archive
-     *
-     * @return JsonResponse
      */
     public function index(): JsonResponse
     {
@@ -54,8 +42,8 @@ class ArchiveController extends Controller
                 })
                     ->latest('archives.updated_at')
                     ->join(
-                        'visitor_recipes' ,
-                        'visitor_recipes.random_number' ,
+                        'visitor_recipes',
+                        'visitor_recipes.random_number',
                         'archives.random_number'
                     )
                     ->get([
@@ -72,9 +60,6 @@ class ArchiveController extends Controller
 
     /**
      * Show one archive history for one user.
-     *
-     * @param Archive $archive
-     * @return JsonResponse
      */
     public function show(Archive $archive): JsonResponse
     {
@@ -88,10 +73,6 @@ class ArchiveController extends Controller
 
     /**
      *  Move Products Associated With Random Number To Archive To Archive
-     *
-     * @param MoveProductToArchiveRequest $request
-     * @param ArchiveService $archiveService
-     * @return JsonResponse
      */
     public function moveProductsToArchive(MoveProductToArchiveRequest $request, ArchiveService $archiveService): JsonResponse
     {
@@ -106,14 +87,10 @@ class ArchiveController extends Controller
 
     /**
      * Remove All Details Associated With Random Number From Archive
-     *
-     * @param Archive $archive
-     * @return JsonResponse
      */
     public function destroy(Archive $archive): JsonResponse
     {
         if ($this->visitorRecipeModel->where('visitor_id', Auth::id())->where('random_number', $archive->random_number)->first(['id'])) {
-
             $archive->delete();
 
             return $this->success(null, 'Archive Deleted Successfully');

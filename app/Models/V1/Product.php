@@ -29,6 +29,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $created_at
  * @property-read Collection<int, ProductInfo> $product_details
  * @property-read int|null $product_details_count
+ *
  * @method static Builder|Product newModelQuery()
  * @method static Builder|Product newQuery()
  * @method static Builder|Product query()
@@ -45,8 +46,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static Builder|Product whereScName($value)
  * @method static Builder|Product whereSelPrice($value)
  * @method static Builder|Product whereUserId($value)
+ *
  * @property int|null $new_limited_value
+ *
  * @method static Builder|Product whereNewLimitedValue($value)
+ *
  * @mixin Eloquent
  */
 class Product extends Model
@@ -56,6 +60,7 @@ class Product extends Model
     use RoleTrait;
 
     public $timestamps = false;
+
     protected $fillable = [
         'com_name',
         'sc_name',
@@ -69,9 +74,8 @@ class Product extends Model
         'original_total',
         'new_limited_value',
         'role_id',
-        'created_at'
+        'created_at',
     ];
-
 
     public function product_details(): HasMany
     {

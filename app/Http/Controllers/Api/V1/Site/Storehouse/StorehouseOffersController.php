@@ -30,9 +30,9 @@ class StorehouseOffersController extends Controller
     public function show(Offer $offer)
     {
         $offer = $this->offerService->show($offer);
-        if ($offer != null)
-
+        if ($offer != null) {
             return $this->resourceResponse(new OfferResource($offer));
+        }
 
         return $this->notFoundResponse($this->translateErrorMessage('offer', 'not_exists'));
     }
@@ -43,6 +43,7 @@ class StorehouseOffersController extends Controller
 
         if (isset($offer['error'])) {
             unset($offer['error']);
+
             return $this->validationErrorsResponse($offer);
         }
 
@@ -55,16 +56,20 @@ class StorehouseOffersController extends Controller
 
         if (isset($offer['error'])) {
             unset($offer['error']);
+
             return $this->notFoundResponse($this->translateErrorMessage('offer', 'not_exists'));
         }
+
         return $this->success(new OfferResource($offer), 'Offer Updated Successfully');
     }
-
 
     public function destroy(Offer $offer)
     {
         $offer = $this->offerService->destroy($offer);
-        if ($offer) return $this->success(null, 'Offer Deleted Successfully');
+        if ($offer) {
+            return $this->success(null, 'Offer Deleted Successfully');
+        }
+
         return $this->notFoundResponse('Offer Not Found');
     }
 }

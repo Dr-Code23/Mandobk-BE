@@ -5,20 +5,14 @@ namespace App\Services\Api\V1\Site\Recipe;
 use App\Models\V1\PharmacyVisit;
 use App\Models\V1\VisitorRecipe;
 use App\Traits\HttpResponse;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
 class RecipeService
 {
     use HttpResponse;
 
-    /**
-     * @return Collection
-     */
     public function getAllPharmacyRecipes(): Collection
     {
-
         return PharmacyVisit::join(
             'visitor_recipes',
             'visitor_recipes.id',
@@ -46,6 +40,7 @@ class RecipeService
         if ($visitorRecipe = VisitorRecipe::where('random_number', request('random_number'))->first()) {
             return $visitorRecipe;
         }
+
         return false;
     }
 }

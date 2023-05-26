@@ -4,7 +4,6 @@ namespace Api\V1\Auth;
 
 use App\Traits\FileOperationTrait;
 use App\Traits\TestingTrait;
-use Illuminate\Http\Response;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Tests\TestCase;
 
@@ -12,6 +11,7 @@ class LoginTest extends TestCase
 {
     use FileOperationTrait;
     use TestingTrait;
+
     private string $authPath = 'Auth/Login/';
 
     public function testLoginWithEmptyCredentials()
@@ -22,7 +22,7 @@ class LoginTest extends TestCase
         }
         $response->assertStatus(ResponseAlias::HTTP_UNPROCESSABLE_ENTITY);
         $response->assertJsonStructure([
-            'data' => ['username', 'password']
+            'data' => ['username', 'password'],
         ]);
     }
 

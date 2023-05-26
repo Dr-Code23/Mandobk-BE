@@ -12,9 +12,7 @@ class MarktingResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param Request $request
-     *
-     * @return array|Arrayable|JsonSerializable
+     * @param  Request  $request
      */
     public function toArray($request): array|JsonSerializable|Arrayable
     {
@@ -22,12 +20,12 @@ class MarktingResource extends JsonResource
             'id' => $this->id,
             'medicine_name' => $this->medicine_name,
             'company_name' => $this->company_name,
-            'discount' => $this->discount . (
-               $request->route('ad') && $request->method() == 'GET'
-                    ? ''
-                    : '%'
-                ),
-            'img' => asset('/storage/markting/' . $this->img),
+            'discount' => $this->discount.(
+                $request->route('ad') && $request->method() == 'GET'
+                     ? ''
+                     : '%'
+            ),
+            'img' => asset('/storage/markting/'.$this->img),
         ];
     }
 }

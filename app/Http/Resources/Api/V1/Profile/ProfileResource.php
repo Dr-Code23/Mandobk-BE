@@ -15,8 +15,7 @@ class ProfileResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param Request $request
-     * @return array|Arrayable|JsonSerializable
+     * @param  Request  $request
      */
     public function toArray($request): array|JsonSerializable|Arrayable
     {
@@ -25,10 +24,13 @@ class ProfileResource extends JsonResource
             'username' => $this->username,
             'phone' => $this->phone,
             'role' => $this->whenLoaded('role', $this->getRoleNameById($this->role_id)),
-            'avatar' => asset('storage/users/' . ($this->avatar ?? 'user.png')),
-            'password_changed' => $this->password_changed
+            'avatar' => asset('storage/users/'.($this->avatar ?? 'user.png')),
+            'password_changed' => $this->password_changed,
         ];
-        if (isset($this->token)) $resource['token'] = $this->token;
+        if (isset($this->token)) {
+            $resource['token'] = $this->token;
+        }
+
         return $resource;
     }
 }

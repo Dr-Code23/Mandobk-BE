@@ -2,18 +2,13 @@
 
 namespace Database\Seeders\Api\V1;
 
-use App\Models\User;
-use App\Models\V1\Role;
 use App\Models\V1\SubUser;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 
 class SubUserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
     public function run(): void
     {

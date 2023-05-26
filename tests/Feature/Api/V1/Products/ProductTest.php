@@ -14,6 +14,7 @@ class ProductTest extends TestCase
     use TestingTrait;
     use FileOperationTrait;
     use Translatable;
+
     private string $path = 'Products/';
 
     public function testLogin(array $credentials = ['username' => 'company', 'password' => 'company'])
@@ -25,7 +26,7 @@ class ProductTest extends TestCase
 
     public function testStoreProduct()
     {
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
+        $response = $this->withHeader('Authorization', 'Bearer '.$this->getToken())
             ->postJson(route('v1-products-storeSubUser'));
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
         $response->assertJsonFragment([
@@ -45,7 +46,7 @@ class ProductTest extends TestCase
 
     public function testQuantity()
     {
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
+        $response = $this->withHeader('Authorization', 'Bearer '.$this->getToken())
             ->postJson(route('v1-products-storeSubUser'), $this->getProductsData('quantity', 'Google'));
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
         $response->assertJsonFragment([
@@ -59,7 +60,7 @@ class ProductTest extends TestCase
         if ($product = Product::where('com_name', 'TestCommercialName')->first('id')) {
             $product->delete();
         }
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
+        $response = $this->withHeader('Authorization', 'Bearer '.$this->getToken())
             ->postJson(route('v1-products-storeSubUser'), $this->getProductsData());
         $this->writeAFileForTesting($this->path, 'StoreProductSuccessfully', $response->getContent());
         $response->assertStatus(Response::HTTP_OK);
@@ -68,7 +69,7 @@ class ProductTest extends TestCase
 
     public function testGetAllProducts()
     {
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
+        $response = $this->withHeader('Authorization', 'Bearer '.$this->getToken())
             ->getJson(route('v1-products-all'));
         $response->assertStatus(Response::HTTP_OK);
 
@@ -77,7 +78,7 @@ class ProductTest extends TestCase
 
     public function testGetAllScientificNames()
     {
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
+        $response = $this->withHeader('Authorization', 'Bearer '.$this->getToken())
             ->getJson(route('v1-products-scientific'));
         $this->writeAFileForTesting($this->path, 'GetAllScientificNames', $response->getContent());
         $response->assertSuccessful();
@@ -90,9 +91,10 @@ class ProductTest extends TestCase
             ],
         ]);
     }
+
     public function testGetAllCommercialNames()
     {
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
+        $response = $this->withHeader('Authorization', 'Bearer '.$this->getToken())
             ->getJson(route('v1-products-commercial'));
         $this->writeAFileForTesting($this->path, 'GetAllCommercialNames', $response->getContent());
         $response->assertSuccessful();
@@ -120,7 +122,7 @@ class ProductTest extends TestCase
             "limited" : "1",
             "role_id" : "8"
         }', true));
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
+        $response = $this->withHeader('Authorization', 'Bearer '.$this->getToken())
             ->getJson(route('v1-products-one', ['product' => $product->id]));
         $this->writeAFileForTesting($this->path, 'GetOneProductWithNoDetails', $response->getContent());
         $response->assertSuccessful();
@@ -156,16 +158,15 @@ class ProductTest extends TestCase
             "role_id" : "1"
         }', true));
 
-
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->getToken())
+        $response = $this->withHeader('Authorization', 'Bearer '.$this->getToken())
             ->getJson(route('v1-products-doctor'));
         $this->writeAFileForTesting($this->path, 'GetProductsForDoctor', $response->getContent());
         $response->assertSuccessful();
 
         $response->assertJsonStructure([
             'data' => [
-                '*' => ['id', 'commercial_name', 'limited']
-            ]
+                '*' => ['id', 'commercial_name', 'limited'],
+            ],
         ]);
     }
 }
